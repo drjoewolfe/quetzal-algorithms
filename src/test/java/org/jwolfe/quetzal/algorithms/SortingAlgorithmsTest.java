@@ -1,6 +1,7 @@
 package org.jwolfe.quetzal.algorithms;
 
 import org.junit.jupiter.api.Test;
+import org.jwolfe.quetzal.library.utilities.Utilities;
 
 import java.util.Arrays;
 
@@ -25,54 +26,54 @@ class SortingAlgorithmsTest {
 
     @org.junit.jupiter.api.Test
     void quickSort() {
-        System.out.println(Arrays.toString(itemList1));
+        Utilities.printArray(itemList1);
         SortingAlgorithms.quickSort(itemList1);
-        System.out.println(Arrays.toString(itemList1));
+        Utilities.printArray(itemList1);
 
         assertArrayEquals(sortedItemList1, itemList1);
     }
 
     @org.junit.jupiter.api.Test
     void mergeSort() {
-        System.out.println(Arrays.toString(itemList1));
+        Utilities.printArray(itemList1);
         SortingAlgorithms.mergeSort(itemList1);
-        System.out.println(Arrays.toString(itemList1));
+        Utilities.printArray(itemList1);
 
         assertArrayEquals(sortedItemList1, itemList1);
     }
 
     @org.junit.jupiter.api.Test
     void heapSort() {
-        System.out.println(Arrays.toString(itemList1));
+        Utilities.printArray(itemList1);
         SortingAlgorithms.heapSort(itemList1);
-        System.out.println(Arrays.toString(itemList1));
+        Utilities.printArray(itemList1);
 
         assertArrayEquals(sortedItemList1, itemList1);
     }
 
     @org.junit.jupiter.api.Test
     void insertionSort() {
-        System.out.println(Arrays.toString(itemList1));
+        Utilities.printArray(itemList1);
         SortingAlgorithms.insertionSort(itemList1);
-        System.out.println(Arrays.toString(itemList1));
+        Utilities.printArray(itemList1);
 
         assertArrayEquals(sortedItemList1, itemList1);
     }
 
     @org.junit.jupiter.api.Test
     void selectionSort() {
-        System.out.println(Arrays.toString(itemList1));
+        Utilities.printArray(itemList1);
         SortingAlgorithms.selectionSort(itemList1);
-        System.out.println(Arrays.toString(itemList1));
+        Utilities.printArray(itemList1);
 
         assertArrayEquals(sortedItemList1, itemList1);
     }
 
     @Test
     void bubbleSort() {
-        System.out.println(Arrays.toString(itemList1));
+        Utilities.printArray(itemList1);
         SortingAlgorithms.bubbleSort(itemList1);
-        System.out.println(Arrays.toString(itemList1));
+        Utilities.printArray(itemList1);
 
         assertArrayEquals(sortedItemList1, itemList1);
     }
@@ -84,17 +85,17 @@ class SortingAlgorithmsTest {
         SortingAlgorithms.countingSort(arr);
         System.out.println(Arrays.toString(arr));
 
-        System.out.println(Arrays.toString(itemList1));
+        Utilities.printArray(itemList1);
         SortingAlgorithms.countingSort(itemList1);
-        System.out.println(Arrays.toString(itemList1));
+        Utilities.printArray(itemList1);
         assertArrayEquals(sortedItemList1, itemList1);
     }
 
     @Test
     void radixSort() {
-        System.out.println(Arrays.toString(itemList1));
+        Utilities.printArray(itemList1);
         SortingAlgorithms.radixSort(itemList1);
-        System.out.println(Arrays.toString(itemList1));
+        Utilities.printArray(itemList1);
 
         assertArrayEquals(sortedItemList1, itemList1);
     }
@@ -110,9 +111,18 @@ class SortingAlgorithmsTest {
 
     @Test
     void shellSort() {
-        System.out.println(Arrays.toString(itemList1));
+        Utilities.printArray(itemList1);
         SortingAlgorithms.shellSort(itemList1);
-        System.out.println(Arrays.toString(itemList1));
+        Utilities.printArray(itemList1);
+
+        assertArrayEquals(sortedItemList1, itemList1);
+    }
+
+    @Test
+    void pigeonholeSort() {
+        Utilities.printArray(itemList1);
+        SortingAlgorithms.pigeonholeSort(itemList1);
+        Utilities.printArray(itemList1);
 
         assertArrayEquals(sortedItemList1, itemList1);
     }

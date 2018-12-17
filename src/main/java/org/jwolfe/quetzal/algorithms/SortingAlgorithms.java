@@ -312,4 +312,35 @@ public class SortingAlgorithms {
 
         return max;
     }
+
+    public static void pigeonholeSort(int[] arr) {
+        // Note: This implementation is for positive integers only
+
+        if(arr == null
+            || arr.length == 1) {
+            return;
+        }
+
+        int min = arr[0];
+        int max = arr[0];
+
+        for (int i = 1; i < arr.length; i++) {
+            min = Math.min(min, arr[i]);
+            max = Math.max(max, arr[i]);
+        }
+
+        int range = max - min + 1;
+        int[] pigeonholes = new int[range];
+        Arrays.fill(pigeonholes, -1);
+        for (int i = 0; i < arr.length; i++) {
+            pigeonholes[arr[i] - min] = arr[i];
+        }
+
+        int index = 0;
+        for (int i = 0; i < range; i++) {
+            if(pigeonholes[i] != -1) {
+                arr[index++] = pigeonholes[i];
+            }
+        }
+    }
 }
