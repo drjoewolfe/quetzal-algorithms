@@ -1760,6 +1760,36 @@ public class TreeAlgorithms {
         }
 
         return diagonalTraversal;
+    }
 
+    public static Map<Integer, Integer> getSmallestValuesAtEachLevel(BinaryTreeNode root) {
+        Map<Integer, Integer> map = new HashMap<>();
+
+        Queue<BinaryTreeNode> queue = new LinkedList<>();
+        queue.offer(root);
+
+        int level = 0;
+
+        while(!queue.isEmpty()) {
+            int n = queue.size();
+            int min = Integer.MAX_VALUE;
+            for (int i = 0; i < n; i++) {
+                var node = queue.poll();
+                min = Math.min(min, node.getData());
+
+                if(node.getLeft() != null) {
+                    queue.offer(node.getLeft());
+                }
+
+                if(node.getRight() != null) {
+                    queue.offer(node.getRight());
+                }
+            }
+
+            map.put(level, min);
+            level++;
+        }
+
+        return map;
     }
 }

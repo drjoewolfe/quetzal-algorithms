@@ -862,4 +862,24 @@ class TreeAlgorithmsTest {
         assertArrayEquals(new int[] { 3, 6, 7, 13}, diagonalTraversal.get(1).stream().mapToInt(i->i).toArray());
         assertArrayEquals(new int[] { 1, 4}, diagonalTraversal.get(2).stream().mapToInt(i->i).toArray());
     }
+
+    @Test
+    void getSmallestValuesAtEachLevel() {
+        BinaryTreeNode tree;
+        Map<Integer, Integer> smallestValuesByLevel;
+
+        tree = Utilities.constructBinaryTree(7, 6, 5, 4, 3, 2, 1);
+        smallestValuesByLevel = TreeAlgorithms.getSmallestValuesAtEachLevel(tree);
+        assertEquals(3, smallestValuesByLevel.size());
+        assertEquals(7, (int) smallestValuesByLevel.get(0));
+        assertEquals(5, (int) smallestValuesByLevel.get(1));
+        assertEquals(1, (int) smallestValuesByLevel.get(2));
+
+        tree = Utilities.constructBinaryTree(7, 16, 1, 4, 13);
+        smallestValuesByLevel = TreeAlgorithms.getSmallestValuesAtEachLevel(tree);
+        assertEquals(3, smallestValuesByLevel.size());
+        assertEquals(7, (int) smallestValuesByLevel.get(0));
+        assertEquals(1, (int) smallestValuesByLevel.get(1));
+        assertEquals(4, (int) smallestValuesByLevel.get(2));
+    }
 }
