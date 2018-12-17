@@ -1723,4 +1723,43 @@ public class TreeAlgorithms {
         constructDiagonalTraversal(root.getLeft(), diagonal + 1, diagonalTraversal);
         constructDiagonalTraversal(root.getRight(), diagonal, diagonalTraversal);
     }
+
+    public static Map<Integer, List<Integer>> getDiagonalTraversalIterative(BinaryTreeNode root) {
+        Map<Integer, List<Integer>> diagonalTraversal = new HashMap<>();
+
+        Queue<BinaryTreeNode> queue = new LinkedList<>();
+        queue.offer(root);
+        queue.offer(null);
+
+        int diagonal = 0;
+
+        while(!queue.isEmpty()) {
+            if(!diagonalTraversal.containsKey(diagonal)) {
+                diagonalTraversal.put(diagonal, new ArrayList<>());
+            }
+
+            var node = queue.poll();
+            if(node == null) {
+                if(queue.isEmpty()) {
+                    break;
+                }
+
+                queue.offer(null);
+                diagonal++;
+                continue;
+            }
+
+            while(node != null) {
+                if (node.getLeft() != null) {
+                    queue.offer(node.getLeft());
+                }
+
+                diagonalTraversal.get(diagonal).add(node.getData());
+                node = node.getRight();
+            }
+        }
+
+        return diagonalTraversal;
+
+    }
 }
