@@ -13,6 +13,7 @@ import org.jwolfe.quetzal.library.utilities.Utilities;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Consumer;
 
@@ -834,5 +835,18 @@ class TreeAlgorithmsTest {
         TreeAlgorithms.visitLevelOrder(tree);
         levelOrder = TreeAlgorithms.getLevelOrder(tree);
         assertArrayEquals(expectedLevelOrder, levelOrder);
+    }
+
+    @Test
+    void getDiagonalTraversal() {
+        BinaryTreeNode tree;
+        Map<Integer, List<Integer>> diagonalTraversal;
+
+        tree = Utilities.constructBinaryTree(8, 3, 10, 1, 6, null, 14, null, null, 4, 7, null, null, 13);
+        diagonalTraversal = TreeAlgorithms.getDiagonalTraversal(tree);
+        assertEquals(3, diagonalTraversal.size());
+        assertArrayEquals(new int[] { 8, 10, 14}, diagonalTraversal.get(0).stream().mapToInt(i->i).toArray());
+        assertArrayEquals(new int[] { 3, 6, 7, 13}, diagonalTraversal.get(1).stream().mapToInt(i->i).toArray());
+        assertArrayEquals(new int[] { 1, 4}, diagonalTraversal.get(2).stream().mapToInt(i->i).toArray());
     }
 }

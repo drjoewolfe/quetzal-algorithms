@@ -1701,4 +1701,26 @@ public class TreeAlgorithms {
 
         return collector.stream().mapToInt(i -> i).toArray();
     }
+
+    public static Map<Integer, List<Integer>> getDiagonalTraversal(BinaryTreeNode root) {
+        Map<Integer, List<Integer>> diagonalTraversal = new HashMap<>();
+        constructDiagonalTraversal(root, 0, diagonalTraversal);
+
+        return diagonalTraversal;
+    }
+
+    private static void constructDiagonalTraversal(BinaryTreeNode root, int diagonal, Map<Integer,List<Integer>> diagonalTraversal) {
+        if(root == null) {
+            return;
+        }
+
+        if(!diagonalTraversal.containsKey(diagonal)) {
+            diagonalTraversal.put(diagonal, new ArrayList<>());
+        }
+
+        diagonalTraversal.get(diagonal).add(root.getData());
+
+        constructDiagonalTraversal(root.getLeft(), diagonal + 1, diagonalTraversal);
+        constructDiagonalTraversal(root.getRight(), diagonal, diagonalTraversal);
+    }
 }
