@@ -15,12 +15,7 @@ import java.util.function.Consumer;
 public class TreeAlgorithms {
 
     public static void visitPreOrder(BinaryTreeNode node) {
-        Consumer<BinaryTreeNode> visit = new Consumer<BinaryTreeNode>() {
-            @Override
-            public void accept(BinaryTreeNode node) {
-                System.out.print(node.getData() + " ");
-            }
-        };
+        Consumer<BinaryTreeNode> visit = n -> System.out.print(n.getData() + " ");
 
         visitPreOrder(node, visit);
     }
@@ -54,38 +49,31 @@ public class TreeAlgorithms {
         }
     }
 
-    public static void visitPreOrderMorris(BinaryTreeNode node){
-        Consumer<BinaryTreeNode> visit = new Consumer<BinaryTreeNode>() {
-            @Override
-            public void accept(BinaryTreeNode node) {
-                System.out.print(node.getData() + " ");
-            }
-        };
+    public static void visitPreOrderMorris(BinaryTreeNode node) {
+        Consumer<BinaryTreeNode> visit = n -> System.out.print(n.getData() + " ");
 
         visitPreOrderMorris(node, visit);
     }
 
     public static void visitPreOrderMorris(BinaryTreeNode node, Consumer<BinaryTreeNode> visit) {
-        while(node != null) {
-            if(node.getLeft() == null) {
-                if(visit != null) {
+        while (node != null) {
+            if (node.getLeft() == null) {
+                if (visit != null) {
                     visit.accept(node);
                 }
 
                 node = node.getRight();
-            }
-            else {
+            } else {
                 BinaryTreeNode inOrderPredecessor = node.getLeft();
                 while (inOrderPredecessor.getRight() != null && inOrderPredecessor.getRight() != node) {
                     inOrderPredecessor = inOrderPredecessor.getRight();
                 }
 
-                if(inOrderPredecessor.getRight() == node) {
+                if (inOrderPredecessor.getRight() == node) {
                     inOrderPredecessor.setRight(null);
                     node = node.getRight();
-                }
-                else {
-                    if(visit != null) {
+                } else {
+                    if (visit != null) {
                         visit.accept(node);
                     }
 
@@ -97,12 +85,7 @@ public class TreeAlgorithms {
     }
 
     public static void visitInOrder(BinaryTreeNode node) {
-        Consumer<BinaryTreeNode> visit = new Consumer<BinaryTreeNode>() {
-            @Override
-            public void accept(BinaryTreeNode node) {
-                System.out.print(node.getData() + " ");
-            }
-        };
+        Consumer<BinaryTreeNode> visit = n -> System.out.print(n.getData() + " ");
 
         visitInOrder(node, visit);
     }
@@ -119,12 +102,7 @@ public class TreeAlgorithms {
     }
 
     public static void visitInOrder(BTNode<Character> node) {
-        Consumer<BTNode<Character>> visit = new Consumer<BTNode<Character>>() {
-            @Override
-            public void accept(BTNode<Character> node) {
-                System.out.print(node.getData() + " ");
-            }
-        };
+        Consumer<BTNode<Character>> visit = n -> System.out.print(n.getData() + " ");
 
         visitInOrder(node, visit);
     }
@@ -157,41 +135,34 @@ public class TreeAlgorithms {
         }
     }
 
-    public static void visitInOrderMorris(BinaryTreeNode node){
-        Consumer<BinaryTreeNode> visit = new Consumer<BinaryTreeNode>() {
-            @Override
-            public void accept(BinaryTreeNode node) {
-                System.out.print(node.getData() + " ");
-            }
-        };
+    public static void visitInOrderMorris(BinaryTreeNode node) {
+        Consumer<BinaryTreeNode> visit = node1 -> System.out.print(node1.getData() + " ");
 
         visitInOrderMorris(node, visit);
     }
 
     public static void visitInOrderMorris(BinaryTreeNode node, Consumer<BinaryTreeNode> visit) {
-        while(node != null) {
-            if(node.getLeft() == null) {
-                if(visit != null) {
+        while (node != null) {
+            if (node.getLeft() == null) {
+                if (visit != null) {
                     visit.accept(node);
                 }
 
                 node = node.getRight();
-            }
-            else {
+            } else {
                 BinaryTreeNode inOrderSuccessor = node.getLeft();
-                while(inOrderSuccessor.getRight() != null && inOrderSuccessor.getRight() != node) {
+                while (inOrderSuccessor.getRight() != null && inOrderSuccessor.getRight() != node) {
                     inOrderSuccessor = inOrderSuccessor.getRight();
                 }
 
-                if(inOrderSuccessor.getRight() == node) {
-                    if(visit != null) {
+                if (inOrderSuccessor.getRight() == node) {
+                    if (visit != null) {
                         visit.accept(node);
                     }
 
                     inOrderSuccessor.setRight(null);
                     node = node.getRight();
-                }
-                else {
+                } else {
                     inOrderSuccessor.setRight(node);
                     node = node.getLeft();
                 }
@@ -200,12 +171,7 @@ public class TreeAlgorithms {
     }
 
     public static void visitPostOrder(BinaryTreeNode node) {
-        Consumer<BinaryTreeNode> visit = new Consumer<BinaryTreeNode>() {
-            @Override
-            public void accept(BinaryTreeNode node) {
-                System.out.print(node.getData() + " ");
-            }
-        };
+        Consumer<BinaryTreeNode> visit = n -> System.out.print(n.getData() + " ");
 
         visitPostOrder(node, visit);
     }
@@ -246,12 +212,7 @@ public class TreeAlgorithms {
     }
 
     public static void visitLevelOrder(BinaryTreeNode node) {
-        Consumer<BinaryTreeNode> visit = new Consumer<BinaryTreeNode>() {
-            @Override
-            public void accept(BinaryTreeNode node) {
-                System.out.print(node.getData() + " ");
-            }
-        };
+        Consumer<BinaryTreeNode> visit = n -> System.out.print(n.getData() + " ");
 
         visitLevelOrder(node, visit);
     }
@@ -265,7 +226,7 @@ public class TreeAlgorithms {
 
         while (!queue.isEmpty()) {
             var temp = queue.poll();
-            if(visit != null) {
+            if (visit != null) {
                 visit.accept(temp);
             }
 
@@ -763,12 +724,7 @@ public class TreeAlgorithms {
 
     private static List<Integer> getInorderList(BinaryTreeNode node) {
         ArrayList<Integer> inOrderList = new ArrayList<>();
-        Consumer<BinaryTreeNode> inOrderVisitor = new Consumer<BinaryTreeNode>() {
-            @Override
-            public void accept(BinaryTreeNode node) {
-                inOrderList.add(node.getData());
-            }
-        };
+        Consumer<BinaryTreeNode> inOrderVisitor = n -> inOrderList.add(n.getData());
 
         visitInOrder(node, inOrderVisitor);
         return inOrderList;
@@ -776,12 +732,7 @@ public class TreeAlgorithms {
 
     private static List<Integer> getPreOrderList(BinaryTreeNode node) {
         ArrayList<Integer> preOrderList = new ArrayList<>();
-        Consumer<BinaryTreeNode> preOrderVisitor = new Consumer<BinaryTreeNode>() {
-            @Override
-            public void accept(BinaryTreeNode node) {
-                preOrderList.add(node.getData());
-            }
-        };
+        Consumer<BinaryTreeNode> preOrderVisitor = n -> preOrderList.add(n.getData());
 
         visitPreOrder(node, preOrderVisitor);
         return preOrderList;
@@ -1586,7 +1537,7 @@ public class TreeAlgorithms {
     }
 
     public static BinaryTreeNode constructPerfectBinaryTreeFromLinkedListOfLevelOrder(LinkedListNode head) {
-        if(head == null) {
+        if (head == null) {
             return null;
         }
 
@@ -1596,12 +1547,12 @@ public class TreeAlgorithms {
 
         LinkedListNode current = head.getNext();
 
-        while(!queue.isEmpty()
+        while (!queue.isEmpty()
                 && current != null) {
             var node = queue.poll();
 
             // Left Node
-            if(current != null) {
+            if (current != null) {
                 BinaryTreeNode left = new BinaryTreeNode(current.getData());
                 node.setLeft(left);
                 queue.offer(left);
@@ -1609,7 +1560,7 @@ public class TreeAlgorithms {
             }
 
             // Right Node
-            if(current != null) {
+            if (current != null) {
                 BinaryTreeNode right = new BinaryTreeNode(current.getData());
                 node.setRight(right);
                 queue.offer(right);
@@ -1621,11 +1572,11 @@ public class TreeAlgorithms {
     }
 
     public static BinaryTreeNode flipTree(BinaryTreeNode root) {
-        if(root == null) {
+        if (root == null) {
             return null;
         }
 
-        if(isLeaf(root)) {
+        if (isLeaf(root)) {
             return root;
         }
 
@@ -1645,12 +1596,7 @@ public class TreeAlgorithms {
     public static int[] getLevelOrder(BinaryTreeNode root) {
         ArrayList<Integer> collector = new ArrayList<>();
 
-        Consumer<BinaryTreeNode> visit = new Consumer<BinaryTreeNode>() {
-            @Override
-            public void accept(BinaryTreeNode node) {
-                collector.add(node.getData());
-            }
-        };
+        Consumer<BinaryTreeNode> visit = n -> collector.add(n.getData());
 
         visitLevelOrder(root, visit);
 
@@ -1660,12 +1606,7 @@ public class TreeAlgorithms {
     public static int[] getPreOrder(BinaryTreeNode root) {
         ArrayList<Integer> collector = new ArrayList<>();
 
-        Consumer<BinaryTreeNode> visit = new Consumer<BinaryTreeNode>() {
-            @Override
-            public void accept(BinaryTreeNode node) {
-                collector.add(node.getData());
-            }
-        };
+        Consumer<BinaryTreeNode> visit = n -> collector.add(n.getData());
 
         visitPreOrder(root, visit);
 
@@ -1675,12 +1616,7 @@ public class TreeAlgorithms {
     public static int[] getInOrder(BinaryTreeNode root) {
         ArrayList<Integer> collector = new ArrayList<>();
 
-        Consumer<BinaryTreeNode> visit = new Consumer<BinaryTreeNode>() {
-            @Override
-            public void accept(BinaryTreeNode node) {
-                collector.add(node.getData());
-            }
-        };
+        Consumer<BinaryTreeNode> visit = n -> collector.add(n.getData());
 
         visitInOrder(root, visit);
 
@@ -1690,12 +1626,7 @@ public class TreeAlgorithms {
     public static int[] getPostOrder(BinaryTreeNode root) {
         ArrayList<Integer> collector = new ArrayList<>();
 
-        Consumer<BinaryTreeNode> visit = new Consumer<BinaryTreeNode>() {
-            @Override
-            public void accept(BinaryTreeNode node) {
-                collector.add(node.getData());
-            }
-        };
+        Consumer<BinaryTreeNode> visit = n -> collector.add(n.getData());
 
         visitPostOrder(root, visit);
 
@@ -1709,12 +1640,12 @@ public class TreeAlgorithms {
         return diagonalTraversal;
     }
 
-    private static void constructDiagonalTraversal(BinaryTreeNode root, int diagonal, Map<Integer,List<Integer>> diagonalTraversal) {
-        if(root == null) {
+    private static void constructDiagonalTraversal(BinaryTreeNode root, int diagonal, Map<Integer, List<Integer>> diagonalTraversal) {
+        if (root == null) {
             return;
         }
 
-        if(!diagonalTraversal.containsKey(diagonal)) {
+        if (!diagonalTraversal.containsKey(diagonal)) {
             diagonalTraversal.put(diagonal, new ArrayList<>());
         }
 
@@ -1733,14 +1664,14 @@ public class TreeAlgorithms {
 
         int diagonal = 0;
 
-        while(!queue.isEmpty()) {
-            if(!diagonalTraversal.containsKey(diagonal)) {
+        while (!queue.isEmpty()) {
+            if (!diagonalTraversal.containsKey(diagonal)) {
                 diagonalTraversal.put(diagonal, new ArrayList<>());
             }
 
             var node = queue.poll();
-            if(node == null) {
-                if(queue.isEmpty()) {
+            if (node == null) {
+                if (queue.isEmpty()) {
                     break;
                 }
 
@@ -1749,7 +1680,7 @@ public class TreeAlgorithms {
                 continue;
             }
 
-            while(node != null) {
+            while (node != null) {
                 if (node.getLeft() != null) {
                     queue.offer(node.getLeft());
                 }
@@ -1770,18 +1701,18 @@ public class TreeAlgorithms {
 
         int level = 0;
 
-        while(!queue.isEmpty()) {
+        while (!queue.isEmpty()) {
             int n = queue.size();
             int min = Integer.MAX_VALUE;
             for (int i = 0; i < n; i++) {
                 var node = queue.poll();
                 min = Math.min(min, node.getData());
 
-                if(node.getLeft() != null) {
+                if (node.getLeft() != null) {
                     queue.offer(node.getLeft());
                 }
 
-                if(node.getRight() != null) {
+                if (node.getRight() != null) {
                     queue.offer(node.getRight());
                 }
             }
@@ -1798,7 +1729,7 @@ public class TreeAlgorithms {
     }
 
     public static boolean isBalanced(BinaryTreeNode root, AtomicInteger height) {
-        if(root == null) {
+        if (root == null) {
             height.set(0);
             return true;
         }
@@ -1810,29 +1741,23 @@ public class TreeAlgorithms {
         boolean rightBalanced = isBalanced(root.getRight(), rightHeight);
         height.set(Math.max(leftHeight.intValue(), rightHeight.intValue()) + 1);
 
-        if(Math.abs(leftHeight.intValue() - rightHeight.intValue()) <= 1
-            && leftBalanced
-            && rightBalanced) {
-            return true;
-        }
+        return Math.abs(leftHeight.intValue() - rightHeight.intValue()) <= 1
+                && leftBalanced
+                && rightBalanced;
 
-        return false;
     }
 
     public static boolean isBalancedA2(BinaryTreeNode root) {
-        if(root == null) {
+        if (root == null) {
             return true;
         }
 
         int leftHeight = getTreeHeight(root.getLeft());
         int rightHeight = getTreeHeight(root.getRight());
 
-        if(Math.abs(leftHeight - rightHeight) <= 1
-            && isBalancedA2(root.getLeft())
-            && isBalancedA2(root.getRight())) {
-            return true;
-        }
+        return Math.abs(leftHeight - rightHeight) <= 1
+                && isBalancedA2(root.getLeft())
+                && isBalancedA2(root.getRight());
 
-        return false;
     }
 }
