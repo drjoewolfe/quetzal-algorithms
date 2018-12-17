@@ -1,6 +1,5 @@
 package org.jwolfe.quetzal.algorithms;
 
-import com.sun.source.tree.Tree;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -881,5 +880,41 @@ class TreeAlgorithmsTest {
         assertEquals(7, (int) smallestValuesByLevel.get(0));
         assertEquals(1, (int) smallestValuesByLevel.get(1));
         assertEquals(4, (int) smallestValuesByLevel.get(2));
+    }
+
+    @Test
+    void isBalanced() {
+        BinaryTreeNode tree;
+        boolean isBalanced;
+
+        tree = Utilities.constructBinaryTree(1, 2, 3, 4, 5, 6, 7);
+        isBalanced = TreeAlgorithms.isBalanced(tree);
+        assertTrue(isBalanced);
+
+        tree = Utilities.constructBinaryTree(1, 2, 3, 4,null, null, null, null, 5);
+        isBalanced = TreeAlgorithms.isBalanced(tree);
+        assertFalse(isBalanced);
+
+        tree = Utilities.constructBinaryTree(1, 2, 3, 4);
+        isBalanced = TreeAlgorithms.isBalanced(tree);
+        assertTrue(isBalanced);
+    }
+
+    @Test
+    void isBalancedA2() {
+        BinaryTreeNode tree;
+        boolean isBalanced;
+
+        tree = Utilities.constructBinaryTree(1, 2, 3, 4, 5, 6, 7);
+        isBalanced = TreeAlgorithms.isBalancedA2(tree);
+        assertTrue(isBalanced);
+
+        tree = Utilities.constructBinaryTree(1, 2, 3, 4,null, null, null, null, 5);
+        isBalanced = TreeAlgorithms.isBalancedA2(tree);
+        assertFalse(isBalanced);
+
+        tree = Utilities.constructBinaryTree(1, 2, 3, 4);
+        isBalanced = TreeAlgorithms.isBalancedA2(tree);
+        assertTrue(isBalanced);
     }
 }

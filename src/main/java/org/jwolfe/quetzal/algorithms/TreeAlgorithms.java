@@ -1792,4 +1792,47 @@ public class TreeAlgorithms {
 
         return map;
     }
+
+    public static boolean isBalanced(BinaryTreeNode root) {
+        return isBalanced(root, new AtomicInteger(0));
+    }
+
+    public static boolean isBalanced(BinaryTreeNode root, AtomicInteger height) {
+        if(root == null) {
+            height.set(0);
+            return true;
+        }
+
+        AtomicInteger leftHeight = new AtomicInteger(0);
+        AtomicInteger rightHeight = new AtomicInteger(0);
+
+        boolean leftBalanced = isBalanced(root.getLeft(), leftHeight);
+        boolean rightBalanced = isBalanced(root.getRight(), rightHeight);
+        height.set(Math.max(leftHeight.intValue(), rightHeight.intValue()) + 1);
+
+        if(Math.abs(leftHeight.intValue() - rightHeight.intValue()) <= 1
+            && leftBalanced
+            && rightBalanced) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public static boolean isBalancedA2(BinaryTreeNode root) {
+        if(root == null) {
+            return true;
+        }
+
+        int leftHeight = getTreeHeight(root.getLeft());
+        int rightHeight = getTreeHeight(root.getRight());
+
+        if(Math.abs(leftHeight - rightHeight) <= 1
+            && isBalancedA2(root.getLeft())
+            && isBalancedA2(root.getRight())) {
+            return true;
+        }
+
+        return false;
+    }
 }
