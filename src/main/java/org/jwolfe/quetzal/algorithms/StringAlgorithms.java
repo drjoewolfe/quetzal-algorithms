@@ -37,4 +37,36 @@ public class StringAlgorithms {
             }
         }
     }
+
+    public static Set<String> getAllSubsequencesIterative(String str) {
+        // Note: If all elements of the string are unique, there are 2^n -1 subsequences
+        if(str == null
+            || str.length() == 0) {
+            return null;
+        }
+
+        Set<String> allSubsequences = new HashSet<>();
+        int maxSubsequences = (int) Math.pow(2, str.length());
+        for (int i = 1; i < maxSubsequences; i++) {
+            String subsequence = getSubsequenceForMask(str, i);
+            if(!allSubsequences.contains(subsequence)) {
+                allSubsequences.add(subsequence);
+            }
+        }
+
+        return allSubsequences;
+    }
+
+    private static String getSubsequenceForMask(String str, int mask) {
+        // Mask is in binary
+        StringBuilder subsequence = new StringBuilder();
+        int length = str.length();
+        for (int i = 0; i < length; i++) {
+            if((mask & (1 << i)) > 0) {
+                subsequence.append(str.charAt(i));
+            }
+        }
+
+        return subsequence.toString();
+    }
 }

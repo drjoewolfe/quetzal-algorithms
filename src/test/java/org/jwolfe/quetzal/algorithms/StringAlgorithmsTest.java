@@ -34,4 +34,29 @@ class StringAlgorithmsTest {
         expectedSequences = Utilities.constructSet("aa", "a", "ab", "bc", "ac", "b", "aac", "abc", "c", "aab", "aabc");
         assertSetEquals(expectedSequences, subsequences);
     }
+
+    @Test
+    void getAllSubsequencesIterative() {
+        String str;
+        Set<String> subsequences;
+        Set<String> expectedSequences;
+
+        str = "abc";
+        subsequences = StringAlgorithms.getAllSubsequencesIterative(str);
+        assertEquals(7, subsequences.size());
+        expectedSequences = Utilities.constructSet("a", "b", "c", "ab", "bc", "ac", "abc");
+        assertSetEquals(expectedSequences, subsequences);
+
+        str = "aaa";
+        subsequences = StringAlgorithms.getAllSubsequencesIterative(str);
+        assertEquals(3, subsequences.size());
+        expectedSequences = Utilities.constructSet("a", "aa", "aaa");
+        assertSetEquals(expectedSequences, subsequences);
+
+        str = "aabc";
+        subsequences = StringAlgorithms.getAllSubsequencesIterative(str);
+        assertEquals(11, subsequences.size());
+        expectedSequences = Utilities.constructSet("aa", "a", "ab", "bc", "ac", "b", "aac", "abc", "c", "aab", "aabc");
+        assertSetEquals(expectedSequences, subsequences);
+    }
 }
