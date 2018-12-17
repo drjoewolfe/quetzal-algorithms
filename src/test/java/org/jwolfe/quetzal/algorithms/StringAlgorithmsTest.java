@@ -59,4 +59,17 @@ class StringAlgorithmsTest {
         expectedSequences = Utilities.constructSet("aa", "a", "ab", "bc", "ac", "b", "aac", "abc", "c", "aab", "aabc");
         assertSetEquals(expectedSequences, subsequences);
     }
+
+    @Test
+    void getAllSubstrings() {
+        String str;
+        Set<String> subStrings;
+        Set<String> expectedSubstrings;
+
+        str = "abcd";
+        subStrings = StringAlgorithms.getAllSubstrings(str);
+        assertEquals(10, subStrings.size());
+        expectedSubstrings = Utilities.constructSet("a", "b", "c", "d", "ab", "bc", "cd", "abc", "bcd", "abcd");
+        assertSetEquals(expectedSubstrings, subStrings);
+    }
 }

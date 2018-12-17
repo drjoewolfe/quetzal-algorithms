@@ -69,4 +69,19 @@ public class StringAlgorithms {
 
         return subsequence.toString();
     }
+
+    public static Set<String> getAllSubstrings(String str) {
+        // Note: If all elements of the string are unique, there are n * (n+1) / 2 substrings
+        Set<String> allSubStrings = new HashSet<>();
+        for (int i = 0; i < str.length(); i++) {
+            for (int j = i; j < str.length(); j++) {
+                var subString = str.substring(i, j + 1);
+                if(!allSubStrings.contains(subString)) {
+                    allSubStrings.add(subString);
+                }
+            }
+        }
+
+        return allSubStrings;
+    }
 }
