@@ -1,6 +1,8 @@
 package org.jwolfe.quetzal.algorithms;
 
 import org.junit.jupiter.api.Test;
+import org.jwolfe.quetzal.library.graph.AdjacencyGraph;
+import org.jwolfe.quetzal.library.utilities.Utilities;
 
 import java.util.Arrays;
 
@@ -36,5 +38,24 @@ class GraphAlgorithmsTest {
 
         // Print the solution
         GraphAlgorithms.primMST(graph);
+    }
+
+    @Test
+    void topologicalSort() {
+        AdjacencyGraph graph;
+        int[] topologicalSort;
+        int[] expectedTopologicalSort;
+
+        graph = new AdjacencyGraph(6);
+        graph.addEdge(5, 2);
+        graph.addEdge(5, 0);
+        graph.addEdge(4, 0);
+        graph.addEdge(4, 1);
+        graph.addEdge(2, 3);
+        graph.addEdge(3, 1);
+        expectedTopologicalSort = Utilities.constructArray(5, 4, 2, 3, 1, 0);
+        topologicalSort = GraphAlgorithms.topologicalSort(graph);
+        Utilities.printArray(topologicalSort);
+        assertArrayEquals(expectedTopologicalSort, topologicalSort);
     }
 }

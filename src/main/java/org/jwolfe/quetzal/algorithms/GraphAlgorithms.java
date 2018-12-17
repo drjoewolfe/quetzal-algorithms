@@ -1,6 +1,9 @@
 package org.jwolfe.quetzal.algorithms;
 
+import org.jwolfe.quetzal.library.graph.AdjacencyGraph;
+
 import java.util.Arrays;
+import java.util.Stack;
 
 public class GraphAlgorithms {
     public static int[] dijkstrasShortestPaths(int[][] graph, int numVertices, int startVertex) {
@@ -88,6 +91,45 @@ public class GraphAlgorithms {
         }
 
         return minIndex;
+    }
+
+    public static int[] topologicalSort(AdjacencyGraph graph) {
+        // Works only for a Directed Acyclic Graph
+
+        if(graph == null) {
+            return null;
+        }
+
+        boolean[] visited = new boolean[graph.getVertexCount()];
+        Arrays.fill(visited, false);
+
+        Stack<Integer> stack = new Stack<>();
+
+        for (int u = 0; u < graph.getVertexCount(); u++) {
+            if(!visited[u]) {
+                topologicalSort(graph, u, visited, stack);
+            }
+        }
+
+        int[] sortedTopology = new int[graph.getVertexCount()];
+        int index = 0;
+        while(!stack.isEmpty()) {
+            sortedTopology[index++] = stack.pop();
+        }
+
+        return sortedTopology;
+    }
+
+    private static void topologicalSort(AdjacencyGraph graph, int u, boolean[] visited, Stack<Integer> stack) {
+        visited[u] = true;
+
+        for(var v : graph.getAdjacencyList()[u]) {
+            if(!visited[v]) {
+                topologicalSort(graph, v, visited, stack);
+            }
+        }
+
+        stack.push(u);
     }
 }
 
