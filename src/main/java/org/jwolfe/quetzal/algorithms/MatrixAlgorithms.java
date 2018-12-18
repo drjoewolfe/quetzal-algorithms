@@ -1,5 +1,6 @@
 package org.jwolfe.quetzal.algorithms;
 
+import org.jwolfe.quetzal.library.matrix.Matrix;
 import org.jwolfe.quetzal.library.trie.BinaryTrieNode;
 import org.jwolfe.quetzal.library.utilities.Utilities;
 
@@ -283,6 +284,27 @@ public class MatrixAlgorithms {
         }
 
         return false;
+    }
+
+    public static boolean isOrthogonal(int[][] matrix) {
+        // Orthogonal => A * At = I
+        // Only applicable for square matrixes
+
+        if(matrix == null
+                || matrix.length == 0) {
+            return false;
+        }
+
+        int length = matrix.length;
+        for (int i = 0; i < length; i++) {
+            if(length != matrix[i].length) {
+                return false;
+            }
+        }
+
+        int[][] transpose = Matrix.getTranspose(matrix);
+        int[][] product = Matrix.multiply(matrix, transpose);
+        return Matrix.isIdentity(product);
     }
 
     private static void printMatrix(int[][] matrix) {

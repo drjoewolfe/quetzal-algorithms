@@ -71,10 +71,8 @@ class MatrixAlgorithmsTest {
                 { 1, 0, 1, 0, 1 }
         };
 
-        if (MatrixAlgorithms.checkRectangeWithCorners1(matrix))
-            System.out.println("Yes");
-        else
-            System.out.println("No");
+        boolean result = MatrixAlgorithms.checkRectangeWithCorners1(matrix);
+        assertTrue(result);
     }
 
     @Test
@@ -86,9 +84,28 @@ class MatrixAlgorithmsTest {
                 { 1, 0, 1, 0, 1 }
         };
 
-        if (MatrixAlgorithms.checkRectangeWithCorners1Brute(matrix))
-            System.out.println("Yes");
-        else
-            System.out.println("No");
+        boolean result = MatrixAlgorithms.checkRectangeWithCorners1Brute(matrix);
+        assertTrue(result);
+    }
+
+    @Test
+    void isOrthogonal() {
+        int[][] matrix1 = {
+                { 1, 0, 0},
+                { 0, 1, 0},
+                { 0, 0, 1}
+        };
+
+        boolean result = MatrixAlgorithms.isOrthogonal(matrix1);
+        assertTrue(result);
+
+        int[][] matrix2 = {
+                { 1, 2, 3},
+                { 4, 5, 6},
+                { 7, 8, 9}
+        };
+
+        result = MatrixAlgorithms.isOrthogonal(matrix2);
+        assertFalse(result);
     }
 }
