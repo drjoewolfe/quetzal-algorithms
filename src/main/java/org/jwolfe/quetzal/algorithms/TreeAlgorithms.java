@@ -1782,4 +1782,26 @@ public class TreeAlgorithms {
         getDeepestNode(root.getLeft(), level + 1, deepestLevel, deepestNode);
         getDeepestNode(root.getRight(), level + 1, deepestLevel, deepestNode);
     }
+
+    public static boolean isPerfect(BinaryTreeNode root) {
+        int height = getTreeHeight(root);
+        return isPerfect(root, 1, height);
+    }
+
+    private static boolean isPerfect(BinaryTreeNode root, int level, int height) {
+        if(root == null) {
+            return true;
+        }
+
+        if(isLeaf(root) && level == height) {
+            return true;
+        }
+
+        if(root.getLeft() == null || root.getRight() == null) {
+            return false;
+        }
+
+        return isPerfect(root.getLeft(), level + 1, height)
+            && isPerfect(root.getRight(), level + 1, height);
+    }
 }

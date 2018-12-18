@@ -931,4 +931,31 @@ class TreeAlgorithmsTest {
         deepestNode = TreeAlgorithms.getDeepestNode(tree);
         assertEquals(6, deepestNode);
     }
+
+    @Test
+    void isPerfect() {
+        BinaryTreeNode tree;
+        boolean isPerfect;
+
+        tree = Utilities.constructBinaryTree(1, 2, 3, 4, 5, 6, 7, null, null, null, null, null, null, null, 8);
+        isPerfect = TreeAlgorithms.isPerfect(tree);
+        assertFalse(isPerfect);
+
+        tree = Utilities.constructBinaryTree(1, 2, 3, null, null, 6);
+        isPerfect = TreeAlgorithms.isPerfect(tree);
+        assertFalse(isPerfect);
+
+        tree = Utilities.constructBinaryTree(10, 20, 30, 40, 50, 60, 70);
+        isPerfect = TreeAlgorithms.isPerfect(tree);
+        assertTrue(isPerfect);
+
+        tree = Utilities.constructBinaryTree(18, 15, 30);
+        isPerfect = TreeAlgorithms.isPerfect(tree);
+        assertTrue(isPerfect);
+
+        tree = Utilities.constructBinaryTree(1, 2, 3, null, 4, 5, 6);
+        isPerfect = TreeAlgorithms.isPerfect(tree);
+        assertFalse(isPerfect);
+
+    }
 }
