@@ -1760,4 +1760,26 @@ public class TreeAlgorithms {
                 && isBalancedA2(root.getRight());
 
     }
+
+    public static int getDeepestNode(BinaryTreeNode root) {
+        AtomicInteger deepestLevel = new AtomicInteger(0);
+        AtomicInteger deepestNode = new AtomicInteger(0);
+        getDeepestNode(root, 1, deepestLevel, deepestNode);
+
+        return deepestNode.intValue();
+    }
+
+    public static void getDeepestNode(BinaryTreeNode root, int level, AtomicInteger deepestLevel, AtomicInteger deepestNode) {
+        if(root == null) {
+            return;
+        }
+
+        if(level > deepestLevel.intValue()) {
+            deepestLevel.set(level);
+            deepestNode.set(root.getData());
+        }
+
+        getDeepestNode(root.getLeft(), level + 1, deepestLevel, deepestNode);
+        getDeepestNode(root.getRight(), level + 1, deepestLevel, deepestNode);
+    }
 }

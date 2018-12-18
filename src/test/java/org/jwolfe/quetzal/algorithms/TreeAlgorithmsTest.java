@@ -917,4 +917,18 @@ class TreeAlgorithmsTest {
         isBalanced = TreeAlgorithms.isBalancedA2(tree);
         assertTrue(isBalanced);
     }
+
+    @Test
+    void getDeepestNode() {
+        BinaryTreeNode tree;
+        int deepestNode;
+
+        tree = Utilities.constructBinaryTree(1, 2, 3, 4, 5, 6, 7, null, null, null, null, null, null, null, 8);
+        deepestNode = TreeAlgorithms.getDeepestNode(tree);
+        assertEquals(8, deepestNode);
+
+        tree = Utilities.constructBinaryTree(1, 2, 3, null, null, 6);
+        deepestNode = TreeAlgorithms.getDeepestNode(tree);
+        assertEquals(6, deepestNode);
+    }
 }
