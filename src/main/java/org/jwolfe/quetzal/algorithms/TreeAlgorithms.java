@@ -855,7 +855,7 @@ public class TreeAlgorithms {
         return true;
     }
 
-    private static boolean isLeaf(BinaryTreeNode node) {
+    public static boolean isLeaf(BinaryTreeNode node) {
         return (node.getLeft() == null
                 && node.getRight() == null);
     }

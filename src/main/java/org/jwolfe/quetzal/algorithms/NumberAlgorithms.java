@@ -26,7 +26,7 @@ public class NumberAlgorithms {
     public static int countSetBits(int n) {
         int count = 0;
 
-        while(n > 0) {
+        while (n > 0) {
             count += (n & 1);
             n >>= 1;
         }
@@ -35,11 +35,11 @@ public class NumberAlgorithms {
     }
 
     public static void getBinaryRepresentation(int n) {
-        if( n > 1) {
-            getBinaryRepresentation(n/2);
+        if (n > 1) {
+            getBinaryRepresentation(n / 2);
         }
 
-        System.out.print(n%2);
+        System.out.print(n % 2);
     }
 
     public static int maxNumberFromDigitsOfNumber(int number) {
@@ -65,24 +65,24 @@ public class NumberAlgorithms {
     }
 
     public static int turnOffBit(int n, int k) {
-        return (n & ~(1 << (k-1)));
+        return (n & ~(1 << (k - 1)));
     }
 
     public static int convert0To5(int number) {
-        if(number == 0) {
-            return  5;
+        if (number == 0) {
+            return 5;
         }
 
         return convert0To5Helper(number);
     }
 
     private static int convert0To5Helper(int number) {
-        if(number == 0) {
+        if (number == 0) {
             return 0;
         }
 
         int lastDigit = number % 10;
-        if(lastDigit == 0) {
+        if (lastDigit == 0) {
             lastDigit = 5;
         }
 
@@ -113,8 +113,8 @@ public class NumberAlgorithms {
 
         // Approach 2: Flip all digits after the rightmost 0. Then flip the rightmost 0.
         int m = 1;
-        while((number & m) >= 1) {
-            number ^=  m;
+        while ((number & m) >= 1) {
+            number ^= m;
             m <<= 1;
         }
 
@@ -137,12 +137,12 @@ public class NumberAlgorithms {
 
         int lastSet = 0;
         for (int i = 1; i < binary.size(); i++) {
-            if(binary.get(i-1) == true
+            if (binary.get(i - 1) == true
                     && binary.get(i) == true
-                    && binary.get(i+1) == false) {
+                    && binary.get(i + 1) == false) {
 
-                binary.set(i+1, true);
-                for(int j = i; j >= lastSet; j--) {
+                binary.set(i + 1, true);
+                for (int j = i; j >= lastSet; j--) {
                     binary.set(j, false);
                 }
 
