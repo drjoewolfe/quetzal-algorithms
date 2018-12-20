@@ -10,26 +10,56 @@ import java.util.function.Consumer;
 public class ThreadedTreeAlgorithms {
     public static ThreadedTreeNode convertToThreadedTree(BinaryTreeNode root) {
         ThreadedTreeNode threadedRoot = cloneBinaryTree(root);
+        convertToThreadedNode(threadedRoot);
 
-        Queue<ThreadedTreeNode> queue = new LinkedList<>();
-        visitInOrderAsBinaryTree(threadedRoot, n -> queue.offer(n));
-        convertToThreadedNode(threadedRoot, queue);
         return threadedRoot;
     }
 
-    private static void convertToThreadedNode(ThreadedTreeNode node, Queue<ThreadedTreeNode> inOrderQueue) {
+    private static ThreadedTreeNode convertToThreadedNode(ThreadedTreeNode root) {
+        if(root == null) {
+            return null;
+        }
+
+        if(isLeaf(root)) {
+            return root;
+        }
+
+        if(root.getLeft() != null) {
+            var inOrderPredecessor = convertToThreadedNode(root.getLeft());
+
+            inOrderPredecessor.setRight(root);
+            inOrderPredecessor.setThreaded(true);
+        }
+
+        if(root.getRight() == null) {
+            return root;
+        }
+
+        return convertToThreadedNode(root.getRight());
+    }
+
+    public static ThreadedTreeNode convertToThreadedTreeA2(BinaryTreeNode root) {
+        ThreadedTreeNode threadedRoot = cloneBinaryTree(root);
+
+        Queue<ThreadedTreeNode> queue = new LinkedList<>();
+        visitInOrderAsBinaryTree(threadedRoot, n -> queue.offer(n));
+        convertToThreadedNodeA2(threadedRoot, queue);
+        return threadedRoot;
+    }
+
+    private static void convertToThreadedNodeA2(ThreadedTreeNode node, Queue<ThreadedTreeNode> inOrderQueue) {
         if(node == null) {
             return;
         }
 
         if(node.getLeft() != null) {
-            convertToThreadedNode(node.getLeft(), inOrderQueue);
+            convertToThreadedNodeA2(node.getLeft(), inOrderQueue);
         }
 
         inOrderQueue.poll();
 
         if(node.getRight() != null) {
-            convertToThreadedNode(node.getRight(), inOrderQueue);
+            convertToThreadedNodeA2(node.getRight(), inOrderQueue);
         }
         else {
             node.setRight(inOrderQueue.peek());
@@ -95,5 +125,10 @@ public class ThreadedTreeAlgorithms {
         }
 
         visitInOrderAsBinaryTree(threadedNode.getRight(), visit);
+    }
+
+    public static boolean isLeaf(ThreadedTreeNode node) {
+        return node.getLeft() == null
+                && node.getRight() == null;
     }
 }
