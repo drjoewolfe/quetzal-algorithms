@@ -977,4 +977,20 @@ class TreeAlgorithmsTest {
         maxWidth = TreeAlgorithms.getMaxWidthIterative(tree);
         assertEquals(3, maxWidth);
     }
+
+    @Test
+    void visitZigZag() {
+        BinaryTreeNode tree;
+        List<Integer> zigZagTraversal;
+        int[] expectedZigZagTraversal;
+
+        tree = Utilities.constructBinaryTree(1, 2, 3, 7, 6, 5, 4);
+        expectedZigZagTraversal = Utilities.constructArray(1, 3, 2, 7, 6, 5, 4);
+        zigZagTraversal = new ArrayList<>();
+        TreeAlgorithms.visitZigZag(tree, n -> {
+            zigZagTraversal.add(n.getData());
+            System.out.print(n.getData() + " ");
+        });
+        assertArrayEquals(expectedZigZagTraversal, zigZagTraversal.stream().mapToInt(i->i).toArray());
+    }
 }

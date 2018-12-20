@@ -1863,4 +1863,54 @@ public class TreeAlgorithms {
 
         return maxWidth;
     }
+
+    public static void visitZigZag(BinaryTreeNode root) {
+        visitZigZag(root, n -> System.out.print(n.getData() + " "));
+    }
+
+    public static void visitZigZag(BinaryTreeNode root, Consumer<BinaryTreeNode> visit) {
+        if(root == null) {
+            return;
+        }
+
+
+        Stack<BinaryTreeNode> currentStack = new Stack<>();
+        Stack<BinaryTreeNode> nextStack = new Stack<>();
+
+        currentStack.push(root);
+        boolean leftToRight = true;
+
+        while(!currentStack.isEmpty()) {
+            var node = currentStack.pop();
+
+            if(visit != null) {
+                visit.accept(node);
+            }
+
+            if(leftToRight) {
+                if(node.getLeft() != null) {
+                    nextStack.push(node.getLeft());
+                }
+                if(node.getRight() != null) {
+                    nextStack.push(node.getRight());
+                }
+            }
+            else {
+                if(node.getRight() != null) {
+                    nextStack.push(node.getRight());
+                }
+                if(node.getLeft() != null) {
+                    nextStack.push(node.getLeft());
+                }
+            }
+
+            if(currentStack.isEmpty()) {
+                leftToRight = !leftToRight;
+
+                var tempStack = currentStack;
+                currentStack = nextStack;
+                nextStack = tempStack;
+            }
+        }
+    }
 }
