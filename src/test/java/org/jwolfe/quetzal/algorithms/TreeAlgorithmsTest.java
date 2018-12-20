@@ -956,6 +956,25 @@ class TreeAlgorithmsTest {
         tree = Utilities.constructBinaryTree(1, 2, 3, null, 4, 5, 6);
         isPerfect = TreeAlgorithms.isPerfect(tree);
         assertFalse(isPerfect);
+    }
 
+    @Test
+    void getMaxWidth() {
+        BinaryTreeNode tree;
+        int maxWidth;
+
+        tree = Utilities.constructBinaryTree(1, 2, 3, 4, 5, null, 8, null, null, null, null, null, null, 6, 7);
+        maxWidth = TreeAlgorithms.getMaxWidth(tree);
+        assertEquals(3, maxWidth);
+    }
+
+    @Test
+    void getMaxWidthIterative() {
+        BinaryTreeNode tree;
+        int maxWidth;
+
+        tree = Utilities.constructBinaryTree(1, 2, 3, 4, 5, null, 8, null, null, null, null, null, null, 6, 7);
+        maxWidth = TreeAlgorithms.getMaxWidthIterative(tree);
+        assertEquals(3, maxWidth);
     }
 }

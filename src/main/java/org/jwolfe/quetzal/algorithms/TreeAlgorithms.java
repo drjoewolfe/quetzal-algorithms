@@ -1,7 +1,9 @@
 package org.jwolfe.quetzal.algorithms;
 
 
+import jdk.nashorn.api.tree.Tree;
 import org.jwolfe.quetzal.library.list.LinkedListNode;
+import org.jwolfe.quetzal.library.matrix.Matrix;
 import org.jwolfe.quetzal.library.tree.BTNode;
 import org.jwolfe.quetzal.library.tree.BinaryTreeNode;
 import org.jwolfe.quetzal.library.general.Pair;
@@ -1803,5 +1805,62 @@ public class TreeAlgorithms {
 
         return isPerfect(root.getLeft(), level + 1, height)
             && isPerfect(root.getRight(), level + 1, height);
+    }
+
+    public static int getMaxWidth(BinaryTreeNode root) {
+        if (root == null) {
+            return 0;
+        }
+
+        int h = getTreeHeight(root);
+        int[] levelWidths = new int[h];
+        setTreeWidths(root, 0, levelWidths);
+
+
+        int maxWidth = 0;
+        for (int i = 0; i < h; i++) {
+            maxWidth = Math.max(maxWidth, levelWidths[i]);
+        }
+
+        return maxWidth;
+    }
+
+    public static void setTreeWidths(BinaryTreeNode root, int level, int[] levelWidths) {
+        if(root == null) {
+            return;
+        }
+
+        levelWidths[level]++;
+        setTreeWidths(root.getLeft(), level + 1, levelWidths);
+        setTreeWidths(root.getRight(), level + 1, levelWidths);
+    }
+
+    public static int getMaxWidthIterative(BinaryTreeNode root) {
+        if(root == null) {
+            return 0;
+        }
+
+        Queue<BinaryTreeNode> queue = new LinkedList<>();
+        queue.offer(root);
+
+        int maxWidth = 0;
+        while(!queue.isEmpty()) {
+            int size = queue.size();
+            maxWidth = Math.max(maxWidth, size);
+
+            for (int i = 0; i < size; i++) {
+                var node = queue.poll();
+
+                if(node.getLeft() != null) {
+                    queue.offer(node.getLeft());
+                }
+
+                if(node.getRight() != null) {
+                    queue.offer(node.getRight());
+                }
+            }
+        }
+
+        return maxWidth;
     }
 }
