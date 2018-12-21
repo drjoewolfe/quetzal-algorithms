@@ -1913,4 +1913,52 @@ public class TreeAlgorithms {
             }
         }
     }
+    
+    public static void convertToTreeWithChildrenSumProperty(BinaryTreeNode root) {
+		if(root == null
+			|| isLeaf(root)) {
+			return;
+		}
+		
+		convertToTreeWithChildrenSumProperty(root.getLeft());
+		convertToTreeWithChildrenSumProperty(root.getRight());
+		
+		int childSum = 0;
+		if(root.getLeft() != null) {
+			childSum += root.getLeft().getData();
+		}
+		
+		if(root.getRight() != null) {
+			childSum += root.getRight().getData();
+		}
+		
+		int diff = root.getData() - childSum;
+		if(diff == 0) {
+			// Root has children sum already.
+		}
+		else if(diff < 0) {
+			// Root data is lesser than children sum. Update root.
+			root.setData(root.getData() + diff * -1);
+		}
+		else {
+			// Root data is greater than children sum. Update one of the children.
+			if(root.getLeft() != null) {
+				incrementDataForChildrenSumProperty(root.getLeft(), diff);
+			}
+			else {
+				incrementDataForChildrenSumProperty(root.getRight(), diff);
+			}
+		}
+	}
+
+	private static void incrementDataForChildrenSumProperty(BinaryTreeNode node, int diff) {
+		node.setData(node.getData() + diff);
+		
+		if(node.getLeft() != null) {
+			incrementDataForChildrenSumProperty(node.getLeft(), diff);
+		}
+		else if(node.getRight() != null) {
+			incrementDataForChildrenSumProperty(node.getRight(), diff);
+		}
+	}
 }

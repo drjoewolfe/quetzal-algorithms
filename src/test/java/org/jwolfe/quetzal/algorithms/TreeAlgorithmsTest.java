@@ -993,4 +993,19 @@ class TreeAlgorithmsTest {
         });
         assertArrayEquals(expectedZigZagTraversal, zigZagTraversal.stream().mapToInt(i->i).toArray());
     }
+    
+    @Test
+    void convertToTreeWithChildrenSumProperty() {
+        BinaryTreeNode tree;
+        
+        tree = Utilities.constructBinaryTree(50, 7, 2, 3, 5, 1, 30);
+        TreeAlgorithms.convertToTreeWithChildrenSumProperty(tree);
+        assertEquals(50, tree.getData());
+        assertEquals(19, tree.getLeft().getData());
+        assertEquals(31, tree.getRight().getData());
+        assertEquals(14, tree.getLeft().getLeft().getData());
+        assertEquals(5, tree.getLeft().getRight().getData());
+        assertEquals(1, tree.getRight().getLeft().getData());
+        assertEquals(30, tree.getRight().getRight().getData());
+    }
 }
