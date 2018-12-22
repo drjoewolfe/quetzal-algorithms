@@ -1961,4 +1961,35 @@ public class TreeAlgorithms {
 			incrementDataForChildrenSumProperty(node.getRight(), diff);
 		}
 	}
+	
+	public static int longestConsecutiveIncreasingPath(BinaryTreeNode root) {
+		if(root == null) {
+			return 0;
+		}
+		
+		return longestConsecutiveIncreasingPath(root, root.getData() - 1, 0);
+	}
+	
+	private static int longestConsecutiveIncreasingPath(BinaryTreeNode root, int previousValue, int previousLength) {
+		if(root == null) {
+			return previousLength;
+		}
+	
+		int currentLength = 1;
+		int currentValue = root.getData();
+		
+		if(currentValue == previousValue + 1) {
+			// Consecutive, increasing. Continue existing path.
+			currentLength = previousLength + 1;
+			
+		}
+		else {
+			// Either not consecutive, or increasing, or both. Start a new path.
+			
+		}
+		
+		return Utilities.max(longestConsecutiveIncreasingPath(root.getLeft(), currentValue, currentLength),
+				longestConsecutiveIncreasingPath(root.getRight(), currentValue, currentLength),
+				previousLength);
+	}
 }

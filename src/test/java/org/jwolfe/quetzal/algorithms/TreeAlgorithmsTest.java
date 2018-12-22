@@ -1008,4 +1008,18 @@ class TreeAlgorithmsTest {
         assertEquals(1, tree.getRight().getLeft().getData());
         assertEquals(30, tree.getRight().getRight().getData());
     }
+    
+    @Test
+    void longestConsecutiveIncreasingPath() {
+        BinaryTreeNode tree;
+        int longestPath;
+        
+        tree = Utilities.constructBinaryTree(10, 11, 9, 13, 12, 13, 8);
+        longestPath = TreeAlgorithms.longestConsecutiveIncreasingPath(tree);
+        assertEquals(3, longestPath);
+        
+        tree = Utilities.constructBinaryTree(5, 8, 11, 9, null, null, 10, 6, null, null, null, null, null, 15, null);
+        longestPath = TreeAlgorithms.longestConsecutiveIncreasingPath(tree);
+        assertEquals(2, longestPath);
+    }
 }
