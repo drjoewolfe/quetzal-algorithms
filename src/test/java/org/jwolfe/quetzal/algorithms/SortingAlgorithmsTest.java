@@ -126,4 +126,13 @@ class SortingAlgorithmsTest {
 
         assertArrayEquals(sortedItemList1, itemList1);
     }
+    
+    @Test
+    void combSort() {
+        Utilities.printArray(itemList1);
+        SortingAlgorithms.combSort(itemList1);
+        Utilities.printArray(itemList1);
+
+        assertArrayEquals(sortedItemList1, itemList1);
+    }
 }
