@@ -1022,4 +1022,29 @@ class TreeAlgorithmsTest {
         longestPath = TreeAlgorithms.longestConsecutiveIncreasingPath(tree);
         assertEquals(2, longestPath);
     }
+    
+    @Test
+    void visitInOrderWithoutRecursionOrStack() {
+        BinaryTreeNode tree;
+        ArrayList<Integer> inOrder = new ArrayList<>();;
+        int[] expectedInOrder;
+
+        tree = Utilities.constructBinaryTree(1, 2, 3, 4, 5);
+        expectedInOrder = Utilities.constructArray(4, 2, 5, 1, 3);
+        inOrder.clear();
+        TreeAlgorithms.visitInOrderWithoutRecursionOrStack(tree, n -> inOrder.add(n.getData()));
+        assertArrayEquals(expectedInOrder, inOrder.stream().mapToInt(i->i).toArray());
+
+        tree = Utilities.constructBinaryTree(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11);
+        expectedInOrder = Utilities.constructArray(8, 4, 9, 2, 10, 5, 11, 1, 6, 3, 7);
+        inOrder.clear();
+        TreeAlgorithms.visitInOrderWithoutRecursionOrStack(tree, n -> inOrder.add(n.getData()));
+        assertArrayEquals(expectedInOrder, inOrder.stream().mapToInt(i->i).toArray());
+        
+        tree = Utilities.constructBinaryTree(10, 5, 100, null, null, 80, 120);
+        expectedInOrder = Utilities.constructArray(5, 10, 80, 100, 120);
+        inOrder.clear();
+        TreeAlgorithms.visitInOrderWithoutRecursionOrStack(tree, n -> inOrder.add(n.getData()));
+        assertArrayEquals(expectedInOrder, inOrder.stream().mapToInt(i->i).toArray());
+    }
 }
