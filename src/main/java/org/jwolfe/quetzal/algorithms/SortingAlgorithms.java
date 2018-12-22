@@ -124,6 +124,33 @@ public class SortingAlgorithms {
 		}
 	}
 
+	public static void insertionSortRecursive(int[] items) {
+		if (items == null || items.length < 2) {
+			return;
+		}
+
+		insertionSortRecursive(items, items.length);
+	}
+
+	public static void insertionSortRecursive(int[] items, int n) {
+		if (n <= 1) {
+			return;
+		}
+
+		// Sort the first n-1 items
+		insertionSortRecursive(items, n - 1);
+
+		// Place the nth item in the right slot
+		int j = n - 1;
+		int last = items[j];
+		while (j > 0 && items[j-1] > last) {
+			Utilities.swap(items, j, j - 1);
+			j--;
+		}
+		
+		items[j]= last; 
+	}
+
 	public static void selectionSort(int[] items) {
 		selectionSort(items, 0, items.length - 1);
 	}
@@ -354,7 +381,7 @@ public class SortingAlgorithms {
 
 			for (int j = 0; j < n - gap; j++) {
 				if (arr[j] > arr[j + gap]) {
-					Utilities.swap(arr, j, j+gap);
+					Utilities.swap(arr, j, j + gap);
 					swapped = true;
 				}
 			}

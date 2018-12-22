@@ -51,7 +51,7 @@ class SortingAlgorithmsTest {
         assertArrayEquals(sortedItemList1, itemList1);
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     void insertionSort() {
         Utilities.printArray(itemList1);
         SortingAlgorithms.insertionSort(itemList1);
@@ -59,8 +59,17 @@ class SortingAlgorithmsTest {
 
         assertArrayEquals(sortedItemList1, itemList1);
     }
+    
+    @Test
+    void insertionSortRecursive() {
+        Utilities.printArray(itemList1);
+        SortingAlgorithms.insertionSortRecursive(itemList1);
+        Utilities.printArray(itemList1);
 
-    @org.junit.jupiter.api.Test
+        assertArrayEquals(sortedItemList1, itemList1);
+    }
+
+    @Test
     void selectionSort() {
         Utilities.printArray(itemList1);
         SortingAlgorithms.selectionSort(itemList1);
