@@ -2,6 +2,7 @@ package org.jwolfe.quetzal.algorithms;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Collections;
 
 import org.jwolfe.quetzal.library.utilities.Utilities;
 
@@ -28,5 +29,34 @@ public class ListAlgorithms {
 				Utilities.swap(list, start, i);
 			}
 		}
+	}
+
+	public static <T> List<List<T>> getAllSubsets(List<T> list) {
+		if (list == null) {
+			return null;
+		}
+
+		int length = list.size();
+		int subSetCount = (int) Math.pow(2, length);
+		List<List<T>> allSubsets = new ArrayList<>();
+		for (int i = 0; i < subSetCount; i++) {
+			List<T> subSet = new ArrayList<>();
+			for (int j = 0; j < length; j++) {
+				if ((i & (1 << j)) > 0) {
+					subSet.add(list.get(j));
+				}
+			}
+
+			allSubsets.add(subSet);
+		}
+
+		return allSubsets;
+	}
+
+	public static <T> List<List<T>> getAllSubsetsSorted(List<T> list) {
+		var allSubsets = getAllSubsets(list);
+		Collections.sort(allSubsets, (x, y) -> x.size() - y.size());
+		
+		return allSubsets;
 	}
 }
