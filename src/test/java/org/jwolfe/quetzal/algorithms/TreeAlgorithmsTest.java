@@ -1047,4 +1047,18 @@ class TreeAlgorithmsTest {
         TreeAlgorithms.visitInOrderWithoutRecursionOrStack(tree, n -> inOrder.add(n.getData()));
         assertArrayEquals(expectedInOrder, inOrder.stream().mapToInt(i->i).toArray());
     }
+    
+    @Test
+    void isBinarySearchTree() {
+        BinaryTreeNode tree;
+
+        tree = Utilities.constructBinaryTree(3, 2, 5, 1, 4);
+        assertFalse(TreeAlgorithms.isBinarySearchTree(tree));
+        
+        tree = Utilities.constructBinaryTree(4, 2, 5, 1, 3);
+        assertTrue(TreeAlgorithms.isBinarySearchTree(tree));
+        
+        tree = Utilities.constructBinaryTree(10, 7, 15, 3, 8, 9, 17);
+        assertFalse(TreeAlgorithms.isBinarySearchTree(tree));
+    }    
 }

@@ -2013,4 +2013,19 @@ public class TreeAlgorithms {
 			}
 		}
 	}
+	
+	public static boolean isBinarySearchTree(BinaryTreeNode root) {		
+		return isBinarySearchTree(root, Integer.MIN_VALUE, Integer.MAX_VALUE);
+	}
+	
+	private static boolean isBinarySearchTree(BinaryTreeNode node, int min, int max) {
+		if(node == null) {
+			return true;
+		}
+		
+		int data = node.getData();
+		return (data > min) && (data < max)
+				&& isBinarySearchTree(node.getLeft(), min, data)
+				&& isBinarySearchTree(node.getRight(), data, max);
+	}
 }
