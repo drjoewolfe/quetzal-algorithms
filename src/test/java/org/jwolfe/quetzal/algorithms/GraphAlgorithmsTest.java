@@ -7,6 +7,7 @@ import org.jwolfe.quetzal.library.utilities.Utilities;
 import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.jwolfe.quetzal.test.QuetzalAssertions.*;
 
 class GraphAlgorithmsTest {
     @Test
@@ -47,6 +48,24 @@ class GraphAlgorithmsTest {
         var expectedDistances = Utilities.constructArray(0, 4, 12, 19, 21, 11, 9, 8, 14);
         Utilities.printArray(distances);
         assertArrayEquals(expectedDistances, distances);
+    }
+    
+    @Test
+    void floydWarshall() {
+        int[][] graph = { {0, 5, 0, 10}, 
+			            {0, 0, 3, 0}, 
+			            {0, 0, 0, 1}, 
+			            {0, 0, 0, 0}}; 
+        int[][] shortestPaths;
+        int INF = Integer.MAX_VALUE;
+        int[][] expectedShortestPaths = {
+        	      {0, 5, 8, 9},
+        	      {INF, 0, 3, 4},
+        	      {INF, INF, 0, 1},
+        	      {INF, INF, INF, 0}};
+
+        shortestPaths = GraphAlgorithms.floydWarshall(graph, 4, 0);
+        assertTwoDimensionalArrayEquals(expectedShortestPaths, shortestPaths);
     }
 
     @Test

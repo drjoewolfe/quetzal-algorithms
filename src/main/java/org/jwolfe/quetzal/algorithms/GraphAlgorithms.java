@@ -96,6 +96,40 @@ public class GraphAlgorithms {
 
 		return distances;
 	}
+	
+	public static int[][] floydWarshall(int[][] graph, int numVertices, int startVertex) {
+		// Shortest paths from every vertex to every other vertex. O(V^3) 
+		
+		int[][] shortestPaths = new int[numVertices][numVertices];
+		
+		for (int i = 0; i < numVertices; i++) {
+			for (int j = 0; j < numVertices; j++) {
+				if(i == j) {
+					shortestPaths[i][i] = 0;
+				}
+				else if(graph[i][j] != 0) {
+					shortestPaths[i][j] = graph[i][j];
+				}
+				else {
+					shortestPaths[i][j]= Integer.MAX_VALUE;
+				}
+			}
+		}
+		
+		for (int k = 0; k < numVertices; k++) {
+			for (int i = 0; i < numVertices; i++) {
+				for (int j = 0; j < numVertices; j++) {
+					if(shortestPaths[i][k] != Integer.MAX_VALUE 
+						&& shortestPaths[k][j] != Integer.MAX_VALUE
+						&& shortestPaths[i][k] + shortestPaths[k][j] < shortestPaths[i][j]) {
+						shortestPaths[i][j] = shortestPaths[i][k] + shortestPaths[k][j];
+					}
+				}
+			}
+		}
+		
+		return shortestPaths;
+	}
 
 	private static int getShortestDistanceVertexForSPTSet(int[] distances, boolean[] sptSet) {
 		int minValue = Integer.MAX_VALUE;
