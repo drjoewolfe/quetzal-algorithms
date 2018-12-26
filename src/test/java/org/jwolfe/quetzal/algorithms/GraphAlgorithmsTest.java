@@ -99,4 +99,29 @@ class GraphAlgorithmsTest {
         Utilities.printArray(topologicalSort);
         assertArrayEquals(expectedTopologicalSort, topologicalSort);
     }
+
+    @Test
+    void getHamiltonianCycle() {
+        int[][] graph;
+        int[] hamiltonianCycle;
+        int[] expectedHamiltonianCycle;
+
+        graph = new int[][] {{0, 1, 0, 1, 0},
+                {1, 0, 1, 1, 1},
+                {0, 1, 0, 0, 1},
+                {1, 1, 0, 0, 1},
+                {0, 1, 1, 1, 0}};
+        expectedHamiltonianCycle = Utilities.constructArray(0,  1,  2,  4,  3,  0);
+        hamiltonianCycle = GraphAlgorithms.getHamiltonianCycle(graph, 0);
+        assertArrayEquals(expectedHamiltonianCycle, hamiltonianCycle);
+
+
+        graph = new int[][] {{0, 1, 0, 1, 0},
+                {1, 0, 1, 1, 1},
+                {0, 1, 0, 0, 1},
+                {1, 1, 0, 0, 0},
+                {0, 1, 1, 0, 0}};
+        hamiltonianCycle = GraphAlgorithms.getHamiltonianCycle(graph, 0);
+        assertNull(hamiltonianCycle);
+    }
 }

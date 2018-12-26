@@ -227,4 +227,71 @@ public class GraphAlgorithms {
 
 		stack.push(u);
 	}
+
+	public static int[] getHamiltonianCycle(int[][] graph, int startVertex) {
+		if(graph == null || graph.length == 0) {
+			return null;
+		}
+
+		int numVertices = graph.length;
+		for (var list : graph) {
+			if(list == null || list.length != numVertices) {
+				return null;
+			}
+		}
+
+		if(startVertex >= numVertices) {
+			return null;
+		}
+
+		int[] path = new int[numVertices + 1];
+		Arrays.fill(path, -1);
+		path[0] = startVertex;
+
+		boolean hamiltonianCycleFound = constructHamiltonianCycle(graph, startVertex, numVertices, path, 1);
+		if(!hamiltonianCycleFound) {
+			return null;
+		}
+
+		return path;
+	}
+
+	private static boolean constructHamiltonianCycle(int[][] graph, int startVertex, int numVertices, int[] path, int pathIndex) {
+		if (pathIndex == numVertices
+				&& graph[path[pathIndex - 1]][path[startVertex]] != 0) {
+			path[pathIndex] = startVertex;
+			return true;
+		}
+
+
+		for (int vertex = 0; vertex < numVertices; vertex++) {
+			if (isValildForHamiltonianPath(graph, path, pathIndex, vertex)) {
+				path[pathIndex] = vertex;
+				if(constructHamiltonianCycle(graph, startVertex, numVertices, path, pathIndex + 1)) {
+					return true;
+				}
+
+				// Didn't work out. Backtrack
+				path[pathIndex] = -1;
+			}
+		}
+
+		return false;
+	}
+
+	private static boolean isValildForHamiltonianPath(int[][] graph, int[] path, int pathIndex, int vertex) {
+		// Ensure vertex not seen in path till now.
+		for (int i = 0; i < pathIndex; i++) {
+			if(path[i] == vertex) {
+				return false;
+			}
+		}
+
+		// Ensure there is a path from the last vertex in the path to this vertex
+		if(graph[path[pathIndex - 1]][vertex] == 0) {
+			return  false;
+		}
+
+		return true;
+	}
 }
