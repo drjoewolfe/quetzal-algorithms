@@ -52,4 +52,22 @@ class GreedyAlgorithmsTest {
         totalTime = GreedyAlgorithms.assignMiceToHoles(micePositions, holePositions);
         assertEquals(102, totalTime);
     }
+    
+    @Test
+    void getThievesCaughtByPolice() {
+        char[] arr;
+        int theivesCaught;
+
+        arr = Utilities.constructArray('P', 'T', 'T', 'P', 'T');
+        theivesCaught = GreedyAlgorithms.getThievesCaughtByPolice(arr, 1);
+        assertEquals(2, theivesCaught);
+        
+        arr = Utilities.constructArray('T', 'T', 'P', 'P', 'T', 'P');
+        theivesCaught = GreedyAlgorithms.getThievesCaughtByPolice(arr, 2);
+        assertEquals(3, theivesCaught);
+        
+        arr = Utilities.constructArray('P', 'T', 'P', 'T', 'T', 'P');
+        theivesCaught = GreedyAlgorithms.getThievesCaughtByPolice(arr, 3);
+        assertEquals(3, theivesCaught);
+    }
 }

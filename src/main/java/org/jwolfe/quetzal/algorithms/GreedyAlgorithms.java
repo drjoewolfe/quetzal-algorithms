@@ -95,4 +95,45 @@ public class GreedyAlgorithms {
 
         return maxTime;
     }
+    
+    public static int getThievesCaughtByPolice(char[] arr, int k) {
+    	// Array contains 'P' or 'T'
+    	// A policeman ('P') can catch one thief ('T') and only if T is at a distance of utmost k
+    	// Returns the maximum number of theives that can be caught
+    	
+    	List<Integer> policePositions = new ArrayList<>();
+    	List<Integer> thiefPosititions = new ArrayList<>();
+    	
+    	for (int i = 0; i < arr.length; i++) {
+			if(arr[i]== 'P') {
+				policePositions.add(i);
+			} else if(arr[i]== 'T') {
+				thiefPosititions.add(i);
+			} 
+		}
+    	
+    	int policeIndex = 0;
+    	int thiefIndex = 0;
+    	int thievesCaught = 0;
+    	
+    	while(policeIndex < policePositions.size()
+    			&& thiefIndex < thiefPosititions.size()) {
+    		int policePosition = policePositions.get(policeIndex);
+    		int theifPosition = thiefPosititions.get(thiefIndex);
+    		
+    		if(Math.abs(policePosition - theifPosition) <=k) {
+    			thievesCaught++;
+    			policeIndex++;
+    			thiefIndex++;
+    		}
+    		else if(policePosition < theifPosition) {
+    			policePosition++;
+    		}
+    		else {
+    			theifPosition++;
+    		}
+    	}
+    	
+    	return thievesCaught;
+	}
 }
