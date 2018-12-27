@@ -3,6 +3,7 @@ package org.jwolfe.quetzal.algorithms;
 import org.jwolfe.quetzal.library.general.Activity;
 import org.jwolfe.quetzal.library.utilities.ActivityFinishComparator;
 import org.jwolfe.quetzal.library.general.Pair;
+import org.jwolfe.quetzal.library.general.Triplet;
 
 import java.util.*;
 
@@ -135,5 +136,35 @@ public class GreedyAlgorithms {
     	}
     	
     	return thievesCaught;
+	}
+    
+    public static Triplet<Integer, Integer, Integer> fitWallWithShelvesForMinimumRemainingWidth(int wallWidth, int longerShelfWidth, int shorterShelfWidth) {
+    	// Result is of the format (# longer shelves, # shorter shelves, remaining width in wall)
+    	// Objective is minimum remaining width. However, longer shelves are preferred over shorter ones
+    	
+    	int numLongerShelves = 0;
+    	int numShorterShelves = 0;
+    	int minRemainingWidth = wallWidth;
+    	
+    	int longShelfCounter = 0;
+    	int shortShelfCounter = 0;
+    	int remainingWidth = 0;
+ 
+    	while(wallWidth >= longerShelfWidth) {
+    		longShelfCounter++;
+    		wallWidth -= longerShelfWidth;
+    		
+    		shortShelfCounter = wallWidth / shorterShelfWidth;
+    		remainingWidth = wallWidth % shorterShelfWidth;
+    		
+    		if(remainingWidth <= minRemainingWidth) {
+    			numLongerShelves = longShelfCounter;
+    			numShorterShelves = shortShelfCounter;
+    			minRemainingWidth = remainingWidth;
+    		}
+    		
+    	}
+    	
+		return new Triplet<Integer, Integer, Integer>(numLongerShelves, numShorterShelves, minRemainingWidth);
 	}
 }

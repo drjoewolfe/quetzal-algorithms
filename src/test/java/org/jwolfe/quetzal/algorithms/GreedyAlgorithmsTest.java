@@ -3,6 +3,7 @@ package org.jwolfe.quetzal.algorithms;
 import org.junit.jupiter.api.Test;
 import org.jwolfe.quetzal.library.general.Activity;
 import org.jwolfe.quetzal.library.general.Pair;
+import org.jwolfe.quetzal.library.general.Triplet;
 import org.jwolfe.quetzal.library.utilities.Utilities;
 
 import java.util.LinkedList;
@@ -69,5 +70,22 @@ class GreedyAlgorithmsTest {
         arr = Utilities.constructArray('P', 'T', 'P', 'T', 'T', 'P');
         theivesCaught = GreedyAlgorithms.getThievesCaughtByPolice(arr, 3);
         assertEquals(3, theivesCaught);
+    }
+    
+    @Test
+    void fitWallWithShelvesForMinimumRemainingWidth() {
+    	Triplet<Integer, Integer, Integer> result;
+    	
+		result = GreedyAlgorithms.fitWallWithShelvesForMinimumRemainingWidth(24, 5, 3);
+		assertNotNull(result);
+		assertEquals(3, (int) result.getFirst());
+		assertEquals(3, (int) result.getSecond());
+		assertEquals(0, (int) result.getThird());
+		
+		result = GreedyAlgorithms.fitWallWithShelvesForMinimumRemainingWidth(29, 9, 3);
+		assertNotNull(result);
+		assertEquals(3, (int) result.getFirst());
+		assertEquals(0, (int) result.getSecond());
+		assertEquals(2, (int) result.getThird());
     }
 }
