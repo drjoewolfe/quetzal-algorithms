@@ -3,6 +3,7 @@ package org.jwolfe.quetzal.algorithms;
 import org.junit.jupiter.api.Test;
 import org.jwolfe.quetzal.library.general.Activity;
 import org.jwolfe.quetzal.library.general.Pair;
+import org.jwolfe.quetzal.library.utilities.Utilities;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -33,5 +34,22 @@ class GreedyAlgorithmsTest {
         double maxValue = GreedyAlgorithms.fractionalKnapSack(50, items);
         System.out.println("Max value: " + maxValue);
         assertEquals(240, maxValue);
+    }
+
+    @Test
+    void assignMiceToHoles() {
+        int[] micePositions;
+        int[] holePositions;
+        int totalTime;
+
+        micePositions = Utilities.constructArray(4, -4, 2);
+        holePositions = Utilities.constructArray(4, 0, 5);
+        totalTime = GreedyAlgorithms.assignMiceToHoles(micePositions, holePositions);
+        assertEquals(4, totalTime);
+
+        micePositions = Utilities.constructArray(-10, -79, -79, 67, 93, -85, -28, -94);
+        holePositions = Utilities.constructArray(-2, 9, 69, 25, -31, 23, 50, 78);
+        totalTime = GreedyAlgorithms.assignMiceToHoles(micePositions, holePositions);
+        assertEquals(102, totalTime);
     }
 }

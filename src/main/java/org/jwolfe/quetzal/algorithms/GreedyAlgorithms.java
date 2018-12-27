@@ -4,10 +4,7 @@ import org.jwolfe.quetzal.library.general.Activity;
 import org.jwolfe.quetzal.library.utilities.ActivityFinishComparator;
 import org.jwolfe.quetzal.library.general.Pair;
 
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 public class GreedyAlgorithms {
 
@@ -76,5 +73,26 @@ public class GreedyAlgorithms {
         }
 
         return value;
+    }
+
+    public static int assignMiceToHoles(int[] micePositions, int[] holePositions) {
+        // Returns the last time (in minutes) that a mouse enters a hole.
+        // At any moment, a mouse can enter a hole, move left one unit, or move right one unit in a minute.
+        if(micePositions == null || holePositions == null
+                || micePositions.length == 0
+                || micePositions.length != holePositions.length) {
+            return -1;
+        }
+
+
+        Arrays.sort(micePositions);
+        Arrays.sort(holePositions);
+
+        int maxTime = 0;
+        for (int i = 0; i < micePositions.length; i++) {
+            maxTime = Math.max(maxTime, Math.abs(micePositions[i] - holePositions[i]));
+        }
+
+        return maxTime;
     }
 }
