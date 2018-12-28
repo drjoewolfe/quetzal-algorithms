@@ -371,4 +371,37 @@ class DynamicProgrammingTest {
         minTrials = DynamicProgramming.eggDropRecursive(2, 5);
         assertEquals(3, minTrials);
     }
+
+    @Test
+    void longestRepeatingSubsequence() {
+        int lrs;
+
+        lrs = DynamicProgramming.longestRepeatingSubsequence("ATACTCGGA");
+        assertEquals(4, lrs);
+
+        lrs = DynamicProgramming.longestRepeatingSubsequence("AABEBCDD");
+        assertEquals(3, lrs);
+    }
+
+    @Test
+    void longestRepeatingSubsequenceMemoized() {
+        int lrs;
+
+        lrs = DynamicProgramming.longestRepeatingSubsequenceMemoized("ATACTCGGA");
+        assertEquals(4, lrs);
+
+        lrs = DynamicProgramming.longestRepeatingSubsequenceMemoized("AABEBCDD");
+        assertEquals(3, lrs);
+    }
+
+    @Test
+    void longestRepeatingSubsequenceRecursive() {
+        int lrs;
+
+        lrs = DynamicProgramming.longestRepeatingSubsequenceRecursive("ATACTCGGA");
+        assertEquals(4, lrs);
+
+        lrs = DynamicProgramming.longestRepeatingSubsequenceRecursive("AABEBCDD");
+        assertEquals(3, lrs);
+    }
 }

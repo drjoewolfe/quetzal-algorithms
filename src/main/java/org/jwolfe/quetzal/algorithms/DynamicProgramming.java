@@ -1,14 +1,12 @@
 package org.jwolfe.quetzal.algorithms;
 
+import org.jwolfe.quetzal.library.general.IntPair;
 import org.jwolfe.quetzal.library.general.Pair;
 import org.jwolfe.quetzal.library.utilities.PairFirstSorter;
 import org.jwolfe.quetzal.library.general.Triplet;
 import org.jwolfe.quetzal.library.utilities.Utilities;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 public class DynamicProgramming {
     public static int lis(int[] arr) {
@@ -607,5 +605,94 @@ public class DynamicProgramming {
         }
 
         return minTrials;
+    }
+
+    public static int longestRepeatingSubsequence(String str) {
+        //  Variation of longest common subsequence, with (str, str). Match when m != n
+
+        if(str == null || str.length() == 0) {
+            return 0;
+        }
+
+        int n = str.length();
+        int[][] dp = new int[n + 1][n + 1];
+        for (int i = 0; i <= n; i++) {
+            dp[0][i] = 0;
+            dp[i][0] = 0;
+        }
+
+        for (int i = 1; i <= n; i++) {
+            for (int j = 1; j <= n; j++) {
+                if(i != j && str.charAt(i - 1) == str.charAt(j - 1)) {
+                    dp[i][j] = 1 + dp[i-1][j-1];
+                }
+                else {
+                    dp[i][j] = Math.max(dp[i-1][j],
+                                        dp[i][j-1]);
+                }
+            }
+        }
+
+        return dp[n][n];
+    }
+
+    public static int longestRepeatingSubsequenceMemoized(String str) {
+        //  Variation of longest common subsequence, with (str, str). Match when m != n
+
+        if(str == null || str.length() == 0) {
+            return 0;
+        }
+
+        Map<IntPair, Integer> memo = new HashMap<>();
+        return longestRepeatingSubsequenceMemoized(str, str.length(), str.length(), memo);
+    }
+
+    private static int longestRepeatingSubsequenceMemoized(String str, int m, int n, Map<IntPair, Integer> memo) {
+        if (m == 0 || n == 0) {
+            return 0;
+        }
+
+        IntPair pair = new IntPair(m, n);
+        if (memo.containsKey(pair)) {
+            return memo.get(pair);
+        }
+
+        int lrs = 0;
+        if (m != n && str.charAt(m - 1) == str.charAt(n - 1)) {
+            lrs = 1 + longestRepeatingSubsequenceMemoized(str, m - 1, n - 1, memo);
+        } else {
+            lrs = Math.max(
+                    longestRepeatingSubsequenceMemoized(str, m - 1, n, memo),
+                    longestRepeatingSubsequenceMemoized(str, m, n - 1, memo)
+            );
+        }
+
+        memo.put(pair, lrs);
+        return lrs;
+    }
+
+    public static int longestRepeatingSubsequenceRecursive(String str) {
+        //  Variation of longest common subsequence, with (str, str). Match when m != n
+
+        if(str == null || str.length() == 0) {
+            return 0;
+        }
+
+        return longestRepeatingSubsequenceRecursive(str, str.length(), str.length());
+    }
+
+    private static int longestRepeatingSubsequenceRecursive(String str, int m, int n) {
+        if(m == 0 || n == 0) {
+            return 0;
+        }
+
+        if(m != n && str.charAt(m - 1) == str.charAt(n - 1)) {
+            return 1 + longestRepeatingSubsequenceRecursive(str, m - 1, n - 1);
+        }
+
+        return Math.max(
+                longestRepeatingSubsequenceRecursive(str, m - 1, n),
+                longestRepeatingSubsequenceRecursive(str, m, n - 1)
+        );
     }
 }
