@@ -5,9 +5,9 @@ import org.jwolfe.quetzal.library.general.Activity;
 import org.jwolfe.quetzal.library.general.Pair;
 import org.jwolfe.quetzal.library.general.Triplet;
 import org.jwolfe.quetzal.library.utilities.Utilities;
+import org.jwolfe.quetzal.test.QuetzalAssertions;
 
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -87,5 +87,45 @@ class GreedyAlgorithmsTest {
 		assertEquals(3, (int) result.getFirst());
 		assertEquals(0, (int) result.getSecond());
 		assertEquals(2, (int) result.getThird());
+    }
+
+    @Test
+    void getSubsetCover() {
+        Set<Integer> universe;
+        Map<Set<Integer>, Integer> setCosts;
+        Set<Set<Integer>> cover;
+        Set<Set<Integer>> expectedCover;
+
+        // Optimal solution
+        universe = Utilities.constructSet(1,2,3,4,5);
+        var setA1 = Utilities.constructSet(4,1,3);
+        var setA2 = Utilities.constructSet(2,5);
+        var setA3 = Utilities.constructSet(1,4,3,2);
+        setCosts = new HashMap<>();
+        setCosts.put(setA1, 5);
+        setCosts.put(setA2, 10);
+        setCosts.put(setA3, 3);
+        expectedCover = Utilities.constructSet(setA2, setA3);
+        cover = GreedyAlgorithms.getSubsetCover(universe, setCosts);
+        assertNotNull(cover);
+        QuetzalAssertions.assertSetEquals(expectedCover, cover);
+
+        // Approximate solution
+        universe = Utilities.constructSet(1,2,3,4,5, 6, 7, 8, 9, 10, 11, 12, 13);
+        var setB1 = Utilities.constructSet(1, 2);
+        var setB2 = Utilities.constructSet(2, 3, 4, 5);
+        var setB3 = Utilities.constructSet(6, 7, 8, 9, 10, 11, 12, 13);
+        var setB4 = Utilities.constructSet(1, 3, 5, 7, 9, 11, 13);
+        var setB5 = Utilities.constructSet(2, 4, 6, 8, 10, 12, 13);
+        setCosts = new HashMap<>();
+        setCosts.put(setB1, 5);
+        setCosts.put(setB2, 5);
+        setCosts.put(setB3, 5);
+        setCosts.put(setB4, 5);
+        setCosts.put(setB5, 5);
+        expectedCover = Utilities.constructSet(setB3, setB2, setB4);
+        cover = GreedyAlgorithms.getSubsetCover(universe, setCosts);
+        assertNotNull(cover);
+        QuetzalAssertions.assertSetEquals(expectedCover, cover);
     }
 }

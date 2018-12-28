@@ -4,6 +4,7 @@ import org.jwolfe.quetzal.library.general.Activity;
 import org.jwolfe.quetzal.library.utilities.ActivityFinishComparator;
 import org.jwolfe.quetzal.library.general.Pair;
 import org.jwolfe.quetzal.library.general.Triplet;
+import org.jwolfe.quetzal.library.utilities.Utilities;
 
 import java.util.*;
 
@@ -165,6 +166,43 @@ public class GreedyAlgorithms {
     		
     	}
     	
-		return new Triplet<Integer, Integer, Integer>(numLongerShelves, numShorterShelves, minRemainingWidth);
+		return new Triplet<>(numLongerShelves, numShorterShelves, minRemainingWidth);
 	}
+
+	public static Set<Set<Integer>> getSubsetCover(Set<Integer> universe, Map<Set<Integer>, Integer> setCosts) {
+        // Greedy implementation. Approximation, not optimal.
+        if(universe == null || universe.size() == 0
+                || setCosts == null || setCosts.size() == 0) {
+            return null;
+        }
+
+        Set<Set<Integer>> cover = new HashSet<>();
+        Set<Integer> incudedNumbers = new HashSet<>();
+
+        while (incudedNumbers.size() < universe.size()) {
+            double minCostRatio = Double.MAX_VALUE;
+            Set<Integer> selectedSubset = null;
+            for (var subSet : setCosts.keySet()) {
+                if (cover.contains(subSet)) {
+                    // Already in cover
+                    continue;
+                }
+
+                Set<Integer> uniqueNumbers = Utilities.getSetDifference(subSet, incudedNumbers);
+
+                int cost = setCosts.get(subSet);
+                double costRatio =  1.0 * cost / uniqueNumbers.size();
+
+                if (costRatio < minCostRatio) {
+                    minCostRatio = costRatio;
+                    selectedSubset = subSet;
+                }
+            }
+
+            cover.add(selectedSubset);
+            incudedNumbers.addAll(selectedSubset);
+        }
+
+        return cover;
+    }
 }
