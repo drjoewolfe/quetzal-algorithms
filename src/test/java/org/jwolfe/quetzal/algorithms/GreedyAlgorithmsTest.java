@@ -128,4 +128,10 @@ class GreedyAlgorithmsTest {
         assertNotNull(cover);
         QuetzalAssertions.assertSetEquals(expectedCover, cover);
     }
+
+    @Test
+    void getMinimumSwapsForBracketBalancing() {
+        assertEquals(2, GreedyAlgorithms.getMinimumSwapsForBracketBalancing("[]][]["));
+        assertEquals(0, GreedyAlgorithms.getMinimumSwapsForBracketBalancing("[[][]]"));
+    }
 }

@@ -12,12 +12,12 @@ public class GreedyAlgorithms {
 
     public static List<Activity> selectActivities(int[] startTimes, int[] finishTimes) {
         int length = startTimes.length;
-        if(length != finishTimes.length) {
+        if (length != finishTimes.length) {
             return null;
         }
 
         List<Activity> activities = new LinkedList<>();
-        for(int i = 0; i<startTimes.length; i++) {
+        for (int i = 0; i < startTimes.length; i++) {
             Activity activity = new Activity(startTimes[i], finishTimes[i]);
             activities.add(activity);
         }
@@ -36,7 +36,7 @@ public class GreedyAlgorithms {
         selectedActivities.add(previousActivity);
         for (int i = 1; i < activities.size(); i++) {
             Activity activity = activities.get(i);
-            if(activity.getStart() > previousActivity.getFinish()) {
+            if (activity.getStart() > previousActivity.getFinish()) {
                 previousActivity = activity;
                 selectedActivities.add(activity);
             }
@@ -48,7 +48,7 @@ public class GreedyAlgorithms {
     public static double fractionalKnapSack(int knapsackWeight, List<Pair<Integer, Integer>> items) {
         // Each pair is of the form (value, weight)
 
-        if(items == null
+        if (items == null
                 || items.size() == 0) {
             return 0;
         }
@@ -64,11 +64,10 @@ public class GreedyAlgorithms {
         int weight = 0;
         for (int i = 0; i < items.size(); i++) {
             var item = items.get(i);
-            if(weight + item.getSecond() <= knapsackWeight ) {
+            if (weight + item.getSecond() <= knapsackWeight) {
                 weight += item.getSecond();
                 value += item.getFirst();
-            }
-            else {
+            } else {
                 int remainingWeight = knapsackWeight - weight;
                 value += item.getFirst() * remainingWeight / item.getSecond();
             }
@@ -80,7 +79,7 @@ public class GreedyAlgorithms {
     public static int assignMiceToHoles(int[] micePositions, int[] holePositions) {
         // Returns the last time (in minutes) that a mouse enters a hole.
         // At any moment, a mouse can enter a hole, move left one unit, or move right one unit in a minute.
-        if(micePositions == null || holePositions == null
+        if (micePositions == null || holePositions == null
                 || micePositions.length == 0
                 || micePositions.length != holePositions.length) {
             return -1;
@@ -97,81 +96,79 @@ public class GreedyAlgorithms {
 
         return maxTime;
     }
-    
-    public static int getThievesCaughtByPolice(char[] arr, int k) {
-    	// Array contains 'P' or 'T'
-    	// A policeman ('P') can catch one thief ('T') and only if T is at a distance of utmost k
-    	// Returns the maximum number of theives that can be caught
-    	
-    	List<Integer> policePositions = new ArrayList<>();
-    	List<Integer> thiefPosititions = new ArrayList<>();
-    	
-    	for (int i = 0; i < arr.length; i++) {
-			if(arr[i]== 'P') {
-				policePositions.add(i);
-			} else if(arr[i]== 'T') {
-				thiefPosititions.add(i);
-			} 
-		}
-    	
-    	int policeIndex = 0;
-    	int thiefIndex = 0;
-    	int thievesCaught = 0;
-    	
-    	while(policeIndex < policePositions.size()
-    			&& thiefIndex < thiefPosititions.size()) {
-    		int policePosition = policePositions.get(policeIndex);
-    		int theifPosition = thiefPosititions.get(thiefIndex);
-    		
-    		if(Math.abs(policePosition - theifPosition) <=k) {
-    			thievesCaught++;
-    			policeIndex++;
-    			thiefIndex++;
-    		}
-    		else if(policePosition < theifPosition) {
-    			policePosition++;
-    		}
-    		else {
-    			theifPosition++;
-    		}
-    	}
-    	
-    	return thievesCaught;
-	}
-    
-    public static Triplet<Integer, Integer, Integer> fitWallWithShelvesForMinimumRemainingWidth(int wallWidth, int longerShelfWidth, int shorterShelfWidth) {
-    	// Result is of the format (# longer shelves, # shorter shelves, remaining width in wall)
-    	// Objective is minimum remaining width. However, longer shelves are preferred over shorter ones
-    	
-    	int numLongerShelves = 0;
-    	int numShorterShelves = 0;
-    	int minRemainingWidth = wallWidth;
-    	
-    	int longShelfCounter = 0;
-    	int shortShelfCounter = 0;
-    	int remainingWidth = 0;
- 
-    	while(wallWidth >= longerShelfWidth) {
-    		longShelfCounter++;
-    		wallWidth -= longerShelfWidth;
-    		
-    		shortShelfCounter = wallWidth / shorterShelfWidth;
-    		remainingWidth = wallWidth % shorterShelfWidth;
-    		
-    		if(remainingWidth <= minRemainingWidth) {
-    			numLongerShelves = longShelfCounter;
-    			numShorterShelves = shortShelfCounter;
-    			minRemainingWidth = remainingWidth;
-    		}
-    		
-    	}
-    	
-		return new Triplet<>(numLongerShelves, numShorterShelves, minRemainingWidth);
-	}
 
-	public static Set<Set<Integer>> getSubsetCover(Set<Integer> universe, Map<Set<Integer>, Integer> setCosts) {
+    public static int getThievesCaughtByPolice(char[] arr, int k) {
+        // Array contains 'P' or 'T'
+        // A policeman ('P') can catch one thief ('T') and only if T is at a distance of utmost k
+        // Returns the maximum number of theives that can be caught
+
+        List<Integer> policePositions = new ArrayList<>();
+        List<Integer> thiefPosititions = new ArrayList<>();
+
+        for (int i = 0; i < arr.length; i++) {
+            if (arr[i] == 'P') {
+                policePositions.add(i);
+            } else if (arr[i] == 'T') {
+                thiefPosititions.add(i);
+            }
+        }
+
+        int policeIndex = 0;
+        int thiefIndex = 0;
+        int thievesCaught = 0;
+
+        while (policeIndex < policePositions.size()
+                && thiefIndex < thiefPosititions.size()) {
+            int policePosition = policePositions.get(policeIndex);
+            int theifPosition = thiefPosititions.get(thiefIndex);
+
+            if (Math.abs(policePosition - theifPosition) <= k) {
+                thievesCaught++;
+                policeIndex++;
+                thiefIndex++;
+            } else if (policePosition < theifPosition) {
+                policePosition++;
+            } else {
+                theifPosition++;
+            }
+        }
+
+        return thievesCaught;
+    }
+
+    public static Triplet<Integer, Integer, Integer> fitWallWithShelvesForMinimumRemainingWidth(int wallWidth, int longerShelfWidth, int shorterShelfWidth) {
+        // Result is of the format (# longer shelves, # shorter shelves, remaining width in wall)
+        // Objective is minimum remaining width. However, longer shelves are preferred over shorter ones
+
+        int numLongerShelves = 0;
+        int numShorterShelves = 0;
+        int minRemainingWidth = wallWidth;
+
+        int longShelfCounter = 0;
+        int shortShelfCounter = 0;
+        int remainingWidth = 0;
+
+        while (wallWidth >= longerShelfWidth) {
+            longShelfCounter++;
+            wallWidth -= longerShelfWidth;
+
+            shortShelfCounter = wallWidth / shorterShelfWidth;
+            remainingWidth = wallWidth % shorterShelfWidth;
+
+            if (remainingWidth <= minRemainingWidth) {
+                numLongerShelves = longShelfCounter;
+                numShorterShelves = shortShelfCounter;
+                minRemainingWidth = remainingWidth;
+            }
+
+        }
+
+        return new Triplet<>(numLongerShelves, numShorterShelves, minRemainingWidth);
+    }
+
+    public static Set<Set<Integer>> getSubsetCover(Set<Integer> universe, Map<Set<Integer>, Integer> setCosts) {
         // Greedy implementation. Approximation, not optimal.
-        if(universe == null || universe.size() == 0
+        if (universe == null || universe.size() == 0
                 || setCosts == null || setCosts.size() == 0) {
             return null;
         }
@@ -191,7 +188,7 @@ public class GreedyAlgorithms {
                 Set<Integer> uniqueNumbers = Utilities.getSetDifference(subSet, incudedNumbers);
 
                 int cost = setCosts.get(subSet);
-                double costRatio =  1.0 * cost / uniqueNumbers.size();
+                double costRatio = 1.0 * cost / uniqueNumbers.size();
 
                 if (costRatio < minCostRatio) {
                     minCostRatio = costRatio;
@@ -204,5 +201,42 @@ public class GreedyAlgorithms {
         }
 
         return cover;
+    }
+
+    public static int getMinimumSwapsForBracketBalancing(String str) {
+
+        List<Integer> openPositions = new ArrayList<Integer>();
+        for (int i = 0; i < str.length(); i++) {
+            char c = str.charAt(i);
+            if (c == '[') {
+                openPositions.add(i);
+            }
+        }
+
+        int counter = 0;
+        int openCounterIndex = 0;
+        int swapsRequired = 0;
+
+        for (int i = 0; i < str.length(); i++) {
+            char c = str.charAt(i);
+            if (c == '[') {
+                counter++;
+                openCounterIndex++;
+            } else if (c == ']') {
+                counter--;
+            }
+
+            if (counter < 0) {
+                // Encountered imbalance
+                int nextOpen = openPositions.get(openCounterIndex);
+                swapsRequired += (nextOpen - i);
+                str = Utilities.swap(str, i, nextOpen);
+                openCounterIndex++;
+
+                counter = 1;
+            }
+        }
+
+        return swapsRequired;
     }
 }
