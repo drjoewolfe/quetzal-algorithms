@@ -142,36 +142,78 @@ class GreedyAlgorithmsTest {
     }
 
     @Test
-    void getMaxProductFromSubset() {
+    void getMaxProductSubArray() {
         int[] arr;
         int product;
 
         arr = Utilities.constructArray(4, -2, 5);
-        product = GreedyAlgorithms.getMaxProductFromSubset(arr);
+        product = GreedyAlgorithms.getMaxProductSubArray(arr);
         assertEquals(20, product);
 
         arr = Utilities.constructArray(-4, -2, 3, 7, 5, 0, 1);
-        product = GreedyAlgorithms.getMaxProductFromSubset(arr);
+        product = GreedyAlgorithms.getMaxProductSubArray(arr);
         assertEquals(840, product);
 
         arr = Utilities.constructArray(2, 3, 4, 5);
-        product = GreedyAlgorithms.getMaxProductFromSubset(arr);
+        product = GreedyAlgorithms.getMaxProductSubArray(arr);
         assertEquals(120, product);
 
         arr = Utilities.constructArray(-1, -1, -2, 4, 3);
-        product = GreedyAlgorithms.getMaxProductFromSubset(arr);
+        product = GreedyAlgorithms.getMaxProductSubArray(arr);
         assertEquals(24, product);
 
         arr = Utilities.constructArray(-1, 0);
-        product = GreedyAlgorithms.getMaxProductFromSubset(arr);
+        product = GreedyAlgorithms.getMaxProductSubArray(arr);
         assertEquals(0, product);
 
         arr = Utilities.constructArray(0, 0, 0);
-        product = GreedyAlgorithms.getMaxProductFromSubset(arr);
+        product = GreedyAlgorithms.getMaxProductSubArray(arr);
         assertEquals(0, product);
 
         arr = Utilities.constructArray(4);
-        product = GreedyAlgorithms.getMaxProductFromSubset(arr);
+        product = GreedyAlgorithms.getMaxProductSubArray(arr);
         assertEquals(4, product);
+
+        arr = Utilities.constructArray(4, 0);
+        product = GreedyAlgorithms.getMaxProductSubArray(arr);
+        assertEquals(4, product);
+    }
+
+    @Test
+    void getMinProductSubArray() {
+        int[] arr;
+        int product;
+
+        arr = Utilities.constructArray(4, -2, 5);
+        product = GreedyAlgorithms.getMinProductSubArray(arr);
+        assertEquals(-40, product);
+
+        arr = Utilities.constructArray(-4, -2, 3, 7, 5, 0, 1);
+        product = GreedyAlgorithms.getMinProductSubArray(arr);
+        assertEquals(-420, product);
+
+        arr = Utilities.constructArray(2, 3, 4, 5);
+        product = GreedyAlgorithms.getMinProductSubArray(arr);
+        assertEquals(2, product);
+
+        arr = Utilities.constructArray(-1, -1, -2, 4, 3);
+        product = GreedyAlgorithms.getMinProductSubArray(arr);
+        assertEquals(-24, product);
+
+        arr = Utilities.constructArray(-1, 0);
+        product = GreedyAlgorithms.getMinProductSubArray(arr);
+        assertEquals(-1, product);
+
+        arr = Utilities.constructArray(0, 0, 0);
+        product = GreedyAlgorithms.getMinProductSubArray(arr);
+        assertEquals(0, product);
+
+        arr = Utilities.constructArray(4);
+        product = GreedyAlgorithms.getMinProductSubArray(arr);
+        assertEquals(4, product);
+
+        arr = Utilities.constructArray(4, 0);
+        product = GreedyAlgorithms.getMinProductSubArray(arr);
+        assertEquals(0, product);
     }
 }

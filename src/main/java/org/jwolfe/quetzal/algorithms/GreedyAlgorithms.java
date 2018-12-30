@@ -1,6 +1,7 @@
 package org.jwolfe.quetzal.algorithms;
 
 import org.jwolfe.quetzal.library.general.Activity;
+import org.jwolfe.quetzal.library.matrix.Matrix;
 import org.jwolfe.quetzal.library.utilities.ActivityFinishComparator;
 import org.jwolfe.quetzal.library.general.Pair;
 import org.jwolfe.quetzal.library.general.Triplet;
@@ -278,7 +279,7 @@ public class GreedyAlgorithms {
         return swapsRequired;
     }
 
-    public static int getMaxProductFromSubset(int[] arr) {
+    public static int getMaxProductSubArray(int[] arr) {
         // Note the below for the maximum product
         //  1) Only positive numbers in array - max product is product of all numbers
         //  2) Positive & 0 numbers in array - max product is product of all positive numbers
@@ -290,6 +291,10 @@ public class GreedyAlgorithms {
         //  8) One negative, 0 - zero
         //  9) Odd negative, 0 - product of all non-zero numbers except the largest negative
         //  10) All zeros, 0
+
+        if (arr == null || arr.length == 0) {
+            return 0;
+        }
 
         int length = arr.length;
         int numNegatives = 0;
@@ -313,20 +318,73 @@ public class GreedyAlgorithms {
             }
         }
 
-        if(numZeros == length) {
+        if (numZeros == length) {
             // All zeros
             maxProduct = 0;
-        }
-        else if(numNegatives % 2 > 0) {
+        } else if (numNegatives % 2 > 0) {
             // Odd number of negatives
-            if(numNegatives == 1 && numZeros == length - 1) {
+            if (numNegatives == 1 && numZeros == length - 1) {
                 maxProduct = 0;
-            }
-            else {
+            } else {
                 maxProduct /= maxNegative;
             }
         }
 
         return maxProduct;
+    }
+
+    public static int getMinProductSubArray(int[] arr) {
+        // Note the below for the minimum product
+        //  1) Only positive numbers in array - min product is smallest number
+        //  2) Positive & 0 numbers in array - zero
+        //  3) Even number of negatives, no 0 & rest positive - product of all numbers except the largest negative
+        //  4) Odd number of negatives, no 0 & rest positive - product of all numbers
+        //  5) Even negatives, 0, positive - product of all non-zero numbers except the largest negative
+        //  6) Odd negatives, 0, positive - product of all numbers except zero
+        //  7) Even negative, 0 - product of all non-zero numbers except the largest negative
+        //  8) One negative, 0 - non zero number
+        //  9) Odd negative, 0 - product of all non-zero numbers
+        //  10) All zeros, 0
+
+        int length = arr.length;
+        if (arr == null || arr.length == 0) {
+            return 0;
+        }
+
+        int numNegatives = 0;
+        int numZeros = 0;
+        int maxNegative = Integer.MIN_VALUE;
+        int smallestPostive = Integer.MAX_VALUE;
+        int minProduct = 1;
+
+        for (int i = 0; i < length; i++) {
+            int n = arr[i];
+
+            if (n == 0) {
+                numZeros++;
+                continue;
+            }
+
+            if (n < 0) {
+                numNegatives++;
+                maxNegative = Math.max(maxNegative, n);
+            } else {
+                smallestPostive = Math.min(smallestPostive, n);
+            }
+
+            minProduct *= n;
+        }
+
+        if (numNegatives == 0 && numZeros == 0) {
+            // Only positives in the array
+            minProduct = smallestPostive;
+        } else if (numNegatives == 0) {
+            // Zero & positives in the array
+            minProduct = 0;
+        } else if (numNegatives % 2 == 0) {
+            minProduct /= maxNegative;
+        }
+
+        return minProduct;
     }
 }
