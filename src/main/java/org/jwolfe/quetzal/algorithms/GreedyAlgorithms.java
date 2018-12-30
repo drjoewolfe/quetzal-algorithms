@@ -204,6 +204,44 @@ public class GreedyAlgorithms {
     }
 
     public static int getMinimumSwapsForBracketBalancing(String str) {
+        // O(n) time, O(1) space complexity.
+        if (str == null || str.length() == 0) {
+            return 0;
+        }
+
+        int swapsRequired = 0;
+        int openCount = 0;
+        int closeCount = 0;
+        int balance = 0;
+
+        for (int i = 0; i < str.length(); i++) {
+            char c = str.charAt(i);
+
+            if (c == '[') {
+                openCount++;
+
+                if (balance > 0) {
+                    // Current open helps to reduce balance difference by 1.
+                    swapsRequired += balance;
+                    balance--;
+                }
+
+            } else if (c == ']') {
+                closeCount++;
+
+                balance = (closeCount - openCount);
+            }
+        }
+
+        return swapsRequired;
+    }
+
+    public static int getMinimumSwapsForBracketBalancingA2(String str) {
+        // O(n) time, O(n) space complexity. Better than brute, which is O(n^2) time
+
+        if (str == null || str.length() == 0) {
+            return 0;
+        }
 
         List<Integer> openPositions = new ArrayList<Integer>();
         for (int i = 0; i < str.length(); i++) {

@@ -130,8 +130,14 @@ class GreedyAlgorithmsTest {
     }
 
     @Test
-    void getMinimumSwapsForBracketBalancing() {
+    void getMinimumSwapsForBracketBalancings() {
         assertEquals(2, GreedyAlgorithms.getMinimumSwapsForBracketBalancing("[]][]["));
         assertEquals(0, GreedyAlgorithms.getMinimumSwapsForBracketBalancing("[[][]]"));
+    }
+
+    @Test
+    void getMinimumSwapsForBracketBalancingA2() {
+        assertEquals(2, GreedyAlgorithms.getMinimumSwapsForBracketBalancingA2("[]][]["));
+        assertEquals(0, GreedyAlgorithms.getMinimumSwapsForBracketBalancingA2("[[][]]"));
     }
 }
