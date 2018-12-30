@@ -277,4 +277,56 @@ public class GreedyAlgorithms {
 
         return swapsRequired;
     }
+
+    public static int getMaxProductFromSubset(int[] arr) {
+        // Note the below for the maximum product
+        //  1) Only positive numbers in array - max product is product of all numbers
+        //  2) Positive & 0 numbers in array - max product is product of all positive numbers
+        //  3) Even number of negatives, no 0 & rest positive - product of all numbers
+        //  4) Odd number of negatives, no 0 & rest positive - product of all numbers except the largest negative
+        //  5) Even negatives, 0, positive - product of all non-zero numbers
+        //  6) Odd negatives, 0, positive - product of all numbers except zero & the largest negative
+        //  7) Even negative, 0 - product of all non-zero numbers
+        //  8) One negative, 0 - zero
+        //  9) Odd negative, 0 - product of all non-zero numbers except the largest negative
+        //  10) All zeros, 0
+
+        int length = arr.length;
+        int numNegatives = 0;
+        int numZeros = 0;
+        int maxNegative = Integer.MIN_VALUE;
+        int maxProduct = 1;
+
+        for (int i = 0; i < arr.length; i++) {
+            int n = arr[i];
+
+            if (n == 0) {
+                numZeros++;
+                continue;
+            }
+
+            maxProduct *= n;
+
+            if (n < 0) {
+                numNegatives++;
+                maxNegative = Math.max(maxNegative, n);
+            }
+        }
+
+        if(numZeros == length) {
+            // All zeros
+            maxProduct = 0;
+        }
+        else if(numNegatives % 2 > 0) {
+            // Odd number of negatives
+            if(numNegatives == 1 && numZeros == length - 1) {
+                maxProduct = 0;
+            }
+            else {
+                maxProduct /= maxNegative;
+            }
+        }
+
+        return maxProduct;
+    }
 }

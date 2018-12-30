@@ -130,7 +130,7 @@ class GreedyAlgorithmsTest {
     }
 
     @Test
-    void getMinimumSwapsForBracketBalancings() {
+    void getMinimumSwapsForBracketBalancing() {
         assertEquals(2, GreedyAlgorithms.getMinimumSwapsForBracketBalancing("[]][]["));
         assertEquals(0, GreedyAlgorithms.getMinimumSwapsForBracketBalancing("[[][]]"));
     }
@@ -139,5 +139,39 @@ class GreedyAlgorithmsTest {
     void getMinimumSwapsForBracketBalancingA2() {
         assertEquals(2, GreedyAlgorithms.getMinimumSwapsForBracketBalancingA2("[]][]["));
         assertEquals(0, GreedyAlgorithms.getMinimumSwapsForBracketBalancingA2("[[][]]"));
+    }
+
+    @Test
+    void getMaxProductFromSubset() {
+        int[] arr;
+        int product;
+
+        arr = Utilities.constructArray(4, -2, 5);
+        product = GreedyAlgorithms.getMaxProductFromSubset(arr);
+        assertEquals(20, product);
+
+        arr = Utilities.constructArray(-4, -2, 3, 7, 5, 0, 1);
+        product = GreedyAlgorithms.getMaxProductFromSubset(arr);
+        assertEquals(840, product);
+
+        arr = Utilities.constructArray(2, 3, 4, 5);
+        product = GreedyAlgorithms.getMaxProductFromSubset(arr);
+        assertEquals(120, product);
+
+        arr = Utilities.constructArray(-1, -1, -2, 4, 3);
+        product = GreedyAlgorithms.getMaxProductFromSubset(arr);
+        assertEquals(24, product);
+
+        arr = Utilities.constructArray(-1, 0);
+        product = GreedyAlgorithms.getMaxProductFromSubset(arr);
+        assertEquals(0, product);
+
+        arr = Utilities.constructArray(0, 0, 0);
+        product = GreedyAlgorithms.getMaxProductFromSubset(arr);
+        assertEquals(0, product);
+
+        arr = Utilities.constructArray(4);
+        product = GreedyAlgorithms.getMaxProductFromSubset(arr);
+        assertEquals(4, product);
     }
 }
