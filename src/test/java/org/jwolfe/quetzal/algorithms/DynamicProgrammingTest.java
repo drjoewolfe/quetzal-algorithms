@@ -431,4 +431,21 @@ class DynamicProgrammingTest {
         uglyNumbers = DynamicProgramming.getUglyNumbers(11);
         assertArrayEquals(expectedUglyNumbers, uglyNumbers);
     }
+
+    @Test
+    void subSetSumRecursive() {
+        int[] set;
+
+        set = Utilities.constructArray(1, 2, 3);
+        assertTrue(DynamicProgramming.subSetSumRecursive(set, 5));
+
+        set = Utilities.constructArray(7, 3, 2, 5, 8);
+        assertTrue(DynamicProgramming.subSetSumRecursive(set, 14));
+
+        set = Utilities.constructArray(3, 34, 4, 12, 5, 2);
+        assertTrue(DynamicProgramming.subSetSumRecursive(set, 9));
+
+        set = Utilities.constructArray(3, 34, 4, 12, 5, 2);
+        assertFalse(DynamicProgramming.subSetSumRecursive(set, 35));
+    }
 }

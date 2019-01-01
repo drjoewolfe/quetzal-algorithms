@@ -778,4 +778,35 @@ public class DynamicProgramming {
 
         return uglyNumbers;
     }
+
+    public static boolean subSetSumRecursive(int[] set, int sum) {
+        if (set == null || set.length == 0) {
+            return false;
+        }
+
+        return subSetSumRecursive(set, sum, set.length - 1);
+    }
+
+    private static boolean subSetSumRecursive(int[] set, int sum, int index) {
+        if (sum == 0) {
+            return true;
+        }
+
+        if (index < 0) {
+            return false;
+        }
+
+        // If current element is greater than sum, ignore
+        if (set[index] > sum) {
+            return subSetSumRecursive(set, sum, index - 1);
+        }
+
+        // Current index not included
+        boolean inclusive = subSetSumRecursive(set, sum, index - 1);
+
+        // Current index included
+        boolean exclusive = subSetSumRecursive(set, sum - set[index], index - 1);
+
+        return inclusive || exclusive;
+    }
 }
