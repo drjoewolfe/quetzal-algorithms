@@ -483,4 +483,15 @@ class DynamicProgrammingTest {
                 {3, 2, 2, 7, 6}};
         assertEquals(8, DynamicProgramming.maxLengthSnakeSequence(grid2));
     }
+
+    @Test
+    void maxRevenueFromRodCuttingRecursive() {
+        int[] prices;
+
+        prices = Utilities.constructArray(1, 5, 8, 9, 10, 17, 17, 20);
+        assertEquals(22, DynamicProgramming.maxRevenueFromRodCuttingRecursive(prices, 8));
+
+        prices = Utilities.constructArray(3, 5, 8, 9, 10, 17, 17, 20);
+        assertEquals(24, DynamicProgramming.maxRevenueFromRodCuttingRecursive(prices, 8));
+    }
 }

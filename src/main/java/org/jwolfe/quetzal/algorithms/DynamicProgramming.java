@@ -2,7 +2,6 @@ package org.jwolfe.quetzal.algorithms;
 
 import org.jwolfe.quetzal.library.general.IntPair;
 import org.jwolfe.quetzal.library.general.Pair;
-import org.jwolfe.quetzal.library.matrix.Matrix;
 import org.jwolfe.quetzal.library.utilities.PairFirstSorter;
 import org.jwolfe.quetzal.library.general.Triplet;
 import org.jwolfe.quetzal.library.utilities.Utilities;
@@ -883,5 +882,30 @@ public class DynamicProgramming {
         }
 
         return maxLength;
+    }
+
+    public static int maxRevenueFromRodCuttingRecursive(int[] prices, int rodLength) {
+        // Note: prices[] contains the price for all lengths of the rod upto the given rod length.
+        //      Since arrays are zero-indexed, index of 0 stands for length of 1 unit
+
+        if(prices == null || prices.length == 0 || prices.length != rodLength) {
+            return 0;
+        }
+
+        return maxRevenueFromRodCuttingRecursive(prices, rodLength, rodLength);
+    }
+
+    private static int maxRevenueFromRodCuttingRecursive(int[] prices, int rodLength, int currentLength) {
+        if(currentLength <= 0) {
+            return 0;
+        }
+
+        int maxRevenue = Integer.MIN_VALUE;
+        for (int i = 0; i < currentLength; i++) {
+            int revenue = prices[i] + maxRevenueFromRodCuttingRecursive(prices, rodLength, currentLength - i - 1);
+            maxRevenue = Math.max(maxRevenue, revenue);
+        }
+
+        return maxRevenue;
     }
 }
