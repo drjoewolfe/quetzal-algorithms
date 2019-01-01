@@ -465,4 +465,22 @@ class DynamicProgrammingTest {
         set = Utilities.constructArray(3, 34, 4, 12, 5, 2);
         assertFalse(DynamicProgramming.subSetSumRecursive(set, 35));
     }
+
+    @Test
+    void maxLengthSnakeSequence() {
+        int[][] grid1 = {
+                {9, 6, 5, 2},
+                {8, 7, 6, 5},
+                {7, 3, 1, 6},
+                {1, 1, 1, 7}};
+        assertEquals(7, DynamicProgramming.maxLengthSnakeSequence(grid1));
+
+        int[][] grid2 = {
+                {7, 5, 2, 3, 1},
+                {3, 4, 1, 4, 4},
+                {1, 5, 6, 7, 8},
+                {3, 4, 5, 8, 9},
+                {3, 2, 2, 7, 6}};
+        assertEquals(8, DynamicProgramming.maxLengthSnakeSequence(grid2));
+    }
 }

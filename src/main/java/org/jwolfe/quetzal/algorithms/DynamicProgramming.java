@@ -2,6 +2,7 @@ package org.jwolfe.quetzal.algorithms;
 
 import org.jwolfe.quetzal.library.general.IntPair;
 import org.jwolfe.quetzal.library.general.Pair;
+import org.jwolfe.quetzal.library.matrix.Matrix;
 import org.jwolfe.quetzal.library.utilities.PairFirstSorter;
 import org.jwolfe.quetzal.library.general.Triplet;
 import org.jwolfe.quetzal.library.utilities.Utilities;
@@ -843,5 +844,44 @@ public class DynamicProgramming {
         boolean exclusive = subSetSumRecursive(set, sum - set[index], index - 1);
 
         return inclusive || exclusive;
+    }
+
+    public static int maxLengthSnakeSequence(int[][] grid) {
+        if (grid == null || grid.length == 0 || grid[0].length == 0) {
+            return 0;
+        }
+
+        int rows = grid.length;
+        int columns = grid[0].length;
+
+        for (int i = 1; i < rows; i++) {
+            if (grid[i].length != columns) {
+                return 0;
+            }
+        }
+
+        int[][] dp = new int[rows][columns];
+        int maxLength = 1;
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < columns; j++) {
+                int downLength = 0;
+                if (i > 0
+                        && (Math.abs(grid[i][j] - grid[i - 1][j]) == 1)) {
+                    downLength = dp[i - 1][j];
+                }
+
+                int leftLength = 0;
+                if (j > 0
+                        && Math.abs(grid[i][j] - grid[i][j - 1]) == 1) {
+                    leftLength = dp[i][j - 1];
+                }
+
+                int length = Math.max(downLength, leftLength) + 1;
+                dp[i][j] = length;
+                maxLength = Math.max(maxLength, length);
+            }
+        }
+
+        return maxLength;
     }
 }
