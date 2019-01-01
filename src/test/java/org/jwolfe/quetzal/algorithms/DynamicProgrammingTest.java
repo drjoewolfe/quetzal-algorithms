@@ -24,7 +24,7 @@ class DynamicProgrammingTest {
 
     @Test
     void lis() {
-        int arr1[] = { 10, 22, 9, 33, 21, 50, 41, 60 };
+        int arr1[] = {10, 22, 9, 33, 21, 50, 41, 60};
         int lis1 = DynamicProgramming.lis(arr1);
         System.out.println("Length of lis is " + lis1);
 
@@ -137,7 +137,7 @@ class DynamicProgrammingTest {
         k = 2;
         c = DynamicProgramming.binomialCoefficient(n, k);
         assertEquals(10, c);
-        System.out.println ("Binomail coefficient is " + c );
+        System.out.println("Binomail coefficient is " + c);
     }
 
     @Test
@@ -149,7 +149,7 @@ class DynamicProgrammingTest {
         k = 2;
         c = DynamicProgramming.binomialCoefficientRecursive(n, k);
         assertEquals(10, c);
-        System.out.println ("Binomail coefficient is " + c );
+        System.out.println("Binomail coefficient is " + c);
     }
 
     @Test
@@ -161,7 +161,7 @@ class DynamicProgrammingTest {
         k = 2;
         c = DynamicProgramming.binomialCoefficientEfficient(n, k);
         assertEquals(10, c);
-        System.out.println ("Binomail coefficient is " + c );
+        System.out.println("Binomail coefficient is " + c);
     }
 
     @Test
@@ -174,13 +174,13 @@ class DynamicProgrammingTest {
         str2 = "AEDFHR";
         lcs = DynamicProgramming.longestCommonSubsequence(str1, str2);
         assertEquals(3, lcs);
-        System.out.println("Length of LCS is " + lcs );
+        System.out.println("Length of LCS is " + lcs);
 
         str1 = "AGGTAB";
         str2 = "GXTXAYB";
         lcs = DynamicProgramming.longestCommonSubsequence(str1, str2);
         assertEquals(4, lcs);
-        System.out.println("Length of LCS is " + lcs );
+        System.out.println("Length of LCS is " + lcs);
     }
 
     @Test
@@ -193,13 +193,13 @@ class DynamicProgrammingTest {
         str2 = "AEDFHR";
         lcs = DynamicProgramming.longestCommonSubsequenceRecursive(str1, str2);
         assertEquals(3, lcs);
-        System.out.println("Length of LCS is " + lcs );
+        System.out.println("Length of LCS is " + lcs);
 
         str1 = "AGGTAB";
         str2 = "GXTXAYB";
         lcs = DynamicProgramming.longestCommonSubsequenceRecursive(str1, str2);
         assertEquals(4, lcs);
-        System.out.println("Length of LCS is " + lcs );
+        System.out.println("Length of LCS is " + lcs);
     }
 
     @Test
@@ -212,13 +212,13 @@ class DynamicProgrammingTest {
         V = 11;
         minCoins = DynamicProgramming.minCoins(coins, V);
         assertEquals(2, minCoins);
-        System.out.println("Minimum coins required is " + minCoins );
+        System.out.println("Minimum coins required is " + minCoins);
 
         coins = Utilities.constructArray(25, 10, 5);
         V = 30;
         minCoins = DynamicProgramming.minCoins(coins, V);
         assertEquals(2, minCoins);
-        System.out.println("Minimum coins required is " + minCoins );
+        System.out.println("Minimum coins required is " + minCoins);
     }
 
     @Test
@@ -231,13 +231,13 @@ class DynamicProgrammingTest {
         V = 11;
         minCoins = DynamicProgramming.minCoinsRecursive(coins, V);
         assertEquals(2, minCoins);
-        System.out.println("Minimum coins required is " + minCoins );
+        System.out.println("Minimum coins required is " + minCoins);
 
         coins = Utilities.constructArray(25, 10, 5);
         V = 30;
         minCoins = DynamicProgramming.minCoinsRecursive(coins, V);
         assertEquals(2, minCoins);
-        System.out.println("Minimum coins required is " + minCoins );
+        System.out.println("Minimum coins required is " + minCoins);
     }
 
     @Test
@@ -271,12 +271,12 @@ class DynamicProgrammingTest {
         int count;
 
         n = 2;
-        count =DynamicProgramming.countBinaryStringsWithoutConsecutiveOnesForLengthN(n);
+        count = DynamicProgramming.countBinaryStringsWithoutConsecutiveOnesForLengthN(n);
         System.out.println(count);
         assertEquals(3, count);
 
         n = 3;
-        count =DynamicProgramming.countBinaryStringsWithoutConsecutiveOnesForLengthN(n);
+        count = DynamicProgramming.countBinaryStringsWithoutConsecutiveOnesForLengthN(n);
         System.out.println(count);
         assertEquals(5, count);
     }
@@ -403,5 +403,32 @@ class DynamicProgrammingTest {
 
         lrs = DynamicProgramming.longestRepeatingSubsequenceRecursive("AABEBCDD");
         assertEquals(3, lrs);
+    }
+
+    @Test
+    void getNthUglyNumber() {
+        assertEquals(1, DynamicProgramming.getNthUglyNumber(1));
+        assertEquals(2, DynamicProgramming.getNthUglyNumber(2));
+        assertEquals(3, DynamicProgramming.getNthUglyNumber(3));
+        assertEquals(4, DynamicProgramming.getNthUglyNumber(4));
+        assertEquals(5, DynamicProgramming.getNthUglyNumber(5));
+        assertEquals(6, DynamicProgramming.getNthUglyNumber(6));
+        assertEquals(8, DynamicProgramming.getNthUglyNumber(7));
+        assertEquals(9, DynamicProgramming.getNthUglyNumber(8));
+        assertEquals(10, DynamicProgramming.getNthUglyNumber(9));
+        assertEquals(12, DynamicProgramming.getNthUglyNumber(10));
+        assertEquals(15, DynamicProgramming.getNthUglyNumber(11));
+        assertEquals(24, DynamicProgramming.getNthUglyNumber(15));
+        assertEquals(5832, DynamicProgramming.getNthUglyNumber(150));
+    }
+
+    @Test
+    void getUglyNumbers() {
+        int[] uglyNumbers;
+        int[] expectedUglyNumbers;
+
+        expectedUglyNumbers = Utilities.constructArray(1, 2, 3, 4, 5, 6, 8, 9, 10, 12, 15);
+        uglyNumbers = DynamicProgramming.getUglyNumbers(11);
+        assertArrayEquals(expectedUglyNumbers, uglyNumbers);
     }
 }

@@ -8,7 +8,7 @@ class NumberAlgorithmsTest {
 
     @Test
     void powerWithoutMutiplicationAndDivision() {
-        assertEquals(NumberAlgorithms.powerWithoutMutiplicationAndDivision(5, 3), 125)  ;
+        assertEquals(NumberAlgorithms.powerWithoutMutiplicationAndDivision(5, 3), 125);
     }
 
     @Test
@@ -80,5 +80,27 @@ class NumberAlgorithmsTest {
         assertEquals(4, NumberAlgorithms.nextSparse(4));
         assertEquals(40, NumberAlgorithms.nextSparse(38));
         assertEquals(64, NumberAlgorithms.nextSparse(44));
+    }
+
+    @Test
+    void isUgly() {
+        assertTrue(NumberAlgorithms.isUgly(1));
+        assertTrue(NumberAlgorithms.isUgly(2));
+        assertTrue(NumberAlgorithms.isUgly(3));
+        assertTrue(NumberAlgorithms.isUgly(4));
+        assertTrue(NumberAlgorithms.isUgly(5));
+        assertTrue(NumberAlgorithms.isUgly(6));
+        assertFalse(NumberAlgorithms.isUgly(7));
+        assertTrue(NumberAlgorithms.isUgly(8));
+        assertTrue(NumberAlgorithms.isUgly(9));
+        assertTrue(NumberAlgorithms.isUgly(10));
+        assertFalse(NumberAlgorithms.isUgly(11));
+        assertTrue(NumberAlgorithms.isUgly(12));
+        assertFalse(NumberAlgorithms.isUgly(14));
+        assertTrue(NumberAlgorithms.isUgly(15));
+        assertFalse(NumberAlgorithms.isUgly(21));
+        assertTrue(NumberAlgorithms.isUgly(24));
+        assertTrue(NumberAlgorithms.isUgly(5832));
+        assertFalse(NumberAlgorithms.isUgly(5837));
     }
 }

@@ -546,7 +546,7 @@ public class DynamicProgramming {
     }
 
     public static int eggDrop(int eggs, int floors) {
-        if(eggs == 0 || floors == 0) {
+        if (eggs == 0 || floors == 0) {
             return 0;
         }
 
@@ -555,16 +555,16 @@ public class DynamicProgramming {
             dp[i][1] = 1;
             dp[i][0] = 0;
         }
-        
+
         for (int j = 0; j <= floors; j++) {
             dp[1][j] = j;
         }
 
         for (int i = 2; i <= eggs; i++) {
             for (int j = 2; j <= floors; j++) {
-               dp[i][j] = Integer.MAX_VALUE;
-                for (int k = 1; k <=j; k++) {
-                    int netTrials = 1 + Math.max(dp[i-1][k-1], dp[i][j-k]);
+                dp[i][j] = Integer.MAX_VALUE;
+                for (int k = 1; k <= j; k++) {
+                    int netTrials = 1 + Math.max(dp[i - 1][k - 1], dp[i][j - k]);
                     dp[i][j] = Math.min(dp[i][j], netTrials);
                 }
             }
@@ -576,17 +576,17 @@ public class DynamicProgramming {
     public static int eggDropRecursive(int eggs, int floors) {
         // Find minimum number of trials to find the lowest floor from which an egg dropped down will break
 
-        if(eggs == 0 || floors == 0) {
+        if (eggs == 0 || floors == 0) {
             return 0;
         }
 
         // If there is only one floor, only one trial is required
-        if(floors == 1) {
+        if (floors == 1) {
             return 1;
         }
 
         // If there is only one egg, minimum number of trials is equal to the number of floors.
-        if(eggs == 1) {
+        if (eggs == 1) {
             return floors;
         }
 
@@ -610,7 +610,7 @@ public class DynamicProgramming {
     public static int longestRepeatingSubsequence(String str) {
         //  Variation of longest common subsequence, with (str, str). Match when m != n
 
-        if(str == null || str.length() == 0) {
+        if (str == null || str.length() == 0) {
             return 0;
         }
 
@@ -623,12 +623,11 @@ public class DynamicProgramming {
 
         for (int i = 1; i <= n; i++) {
             for (int j = 1; j <= n; j++) {
-                if(i != j && str.charAt(i - 1) == str.charAt(j - 1)) {
-                    dp[i][j] = 1 + dp[i-1][j-1];
-                }
-                else {
-                    dp[i][j] = Math.max(dp[i-1][j],
-                                        dp[i][j-1]);
+                if (i != j && str.charAt(i - 1) == str.charAt(j - 1)) {
+                    dp[i][j] = 1 + dp[i - 1][j - 1];
+                } else {
+                    dp[i][j] = Math.max(dp[i - 1][j],
+                            dp[i][j - 1]);
                 }
             }
         }
@@ -639,7 +638,7 @@ public class DynamicProgramming {
     public static int longestRepeatingSubsequenceMemoized(String str) {
         //  Variation of longest common subsequence, with (str, str). Match when m != n
 
-        if(str == null || str.length() == 0) {
+        if (str == null || str.length() == 0) {
             return 0;
         }
 
@@ -674,7 +673,7 @@ public class DynamicProgramming {
     public static int longestRepeatingSubsequenceRecursive(String str) {
         //  Variation of longest common subsequence, with (str, str). Match when m != n
 
-        if(str == null || str.length() == 0) {
+        if (str == null || str.length() == 0) {
             return 0;
         }
 
@@ -682,11 +681,11 @@ public class DynamicProgramming {
     }
 
     private static int longestRepeatingSubsequenceRecursive(String str, int m, int n) {
-        if(m == 0 || n == 0) {
+        if (m == 0 || n == 0) {
             return 0;
         }
 
-        if(m != n && str.charAt(m - 1) == str.charAt(n - 1)) {
+        if (m != n && str.charAt(m - 1) == str.charAt(n - 1)) {
             return 1 + longestRepeatingSubsequenceRecursive(str, m - 1, n - 1);
         }
 
@@ -694,5 +693,89 @@ public class DynamicProgramming {
                 longestRepeatingSubsequenceRecursive(str, m - 1, n),
                 longestRepeatingSubsequenceRecursive(str, m, n - 1)
         );
+    }
+
+    public static int getNthUglyNumber(int n) {
+        // Ugly numbers have their only prime factors as 2, 3, or 5. By convention 1 is the fist ugly number
+        // Approach 1: Iterate through all numbers checking if it is ugly. Return the number when the ugly counter hits n
+        // Approach 2: Merge-style implementation from sequences of multiples of 2, 3, & 5.
+
+        if (n == 1) {
+            return 1;
+        }
+
+        int[] uglyNumbers = new int[n];
+
+        int twoIndex = 0;
+        int threeIndex = 0;
+        int fiveIndex = 0;
+
+        int twoMultiple = 2;
+        int threeMultiple = 3;
+        int fiveMultiple = 5;
+
+        uglyNumbers[0] = 1;
+        int nthUglyNumber = 1;
+        for (int i = 1; i < n; i++) {
+            nthUglyNumber = Utilities.min(twoMultiple, threeMultiple, fiveMultiple);
+            uglyNumbers[i] = nthUglyNumber;
+
+            if (nthUglyNumber == twoMultiple) {
+                twoIndex++;
+                twoMultiple = uglyNumbers[twoIndex] * 2;
+            }
+
+            if (nthUglyNumber == threeMultiple) {
+                threeIndex++;
+                threeMultiple = uglyNumbers[threeIndex] * 3;
+            }
+
+            if (nthUglyNumber == fiveMultiple) {
+                fiveIndex++;
+                fiveMultiple = uglyNumbers[fiveIndex] * 5;
+            }
+        }
+
+        return nthUglyNumber;
+    }
+
+    public static int[] getUglyNumbers(int n) {
+        if (n <= 0) {
+            return null;
+        }
+
+        int[] uglyNumbers = new int[n];
+        uglyNumbers[0] = 1;
+
+        int twoIndex = 0;
+        int threeIndex = 0;
+        int fiveIndex = 0;
+
+        int twoMultiple = 2;
+        int threeMultiple = 3;
+        int fiveMultiple = 5;
+
+        int nextUglyNumber = 1;
+        for (int i = 1; i < n; i++) {
+            nextUglyNumber = Utilities.min(twoMultiple, threeMultiple, fiveMultiple);
+            uglyNumbers[i] = nextUglyNumber;
+
+            if (twoMultiple == nextUglyNumber) {
+                twoIndex++;
+                twoMultiple = uglyNumbers[twoIndex] * 2;
+            }
+
+            if (threeMultiple == nextUglyNumber) {
+                threeIndex++;
+                threeMultiple = uglyNumbers[threeIndex] * 3;
+            }
+
+            if (fiveMultiple == nextUglyNumber) {
+                fiveIndex++;
+                fiveMultiple = uglyNumbers[fiveIndex] * 5;
+            }
+        }
+
+        return uglyNumbers;
     }
 }

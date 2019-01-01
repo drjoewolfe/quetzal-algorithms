@@ -158,4 +158,32 @@ public class NumberAlgorithms {
 
         return answer;
     }
+
+    public static boolean isUgly(int n) {
+        if (n <= 0) {
+            return false;
+        }
+
+        if (n == 1) {
+            return true;
+        }
+
+        n = divideAsPossible(n, 2);
+        n = divideAsPossible(n, 3);
+        n = divideAsPossible(n, 5);
+
+        if (n == 1) {
+            return true;
+        }
+
+        return false;
+    }
+
+    private static int divideAsPossible(int n, int d) {
+        while (n % d == 0) {
+            n /= d;
+        }
+
+        return n;
+    }
 }
