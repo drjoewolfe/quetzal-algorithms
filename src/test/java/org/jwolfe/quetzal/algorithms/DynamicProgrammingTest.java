@@ -433,6 +433,23 @@ class DynamicProgrammingTest {
     }
 
     @Test
+    void subSetSum() {
+        int[] set;
+
+        set = Utilities.constructArray(1, 2, 3);
+        assertTrue(DynamicProgramming.subSetSum(set, 5));
+
+        set = Utilities.constructArray(7, 3, 2, 5, 8);
+        assertTrue(DynamicProgramming.subSetSum(set, 14));
+
+        set = Utilities.constructArray(3, 34, 4, 12, 5, 2);
+        assertTrue(DynamicProgramming.subSetSum(set, 9));
+
+        set = Utilities.constructArray(3, 34, 4, 12, 5, 2);
+        assertFalse(DynamicProgramming.subSetSum(set, 35));
+    }
+
+    @Test
     void subSetSumRecursive() {
         int[] set;
 

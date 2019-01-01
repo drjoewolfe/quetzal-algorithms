@@ -779,6 +779,41 @@ public class DynamicProgramming {
         return uglyNumbers;
     }
 
+    public static boolean subSetSum(int[] set, int sum) {
+        // Pseudo-polynomial, DP implementation
+
+        if (set == null || set.length == 0) {
+            return false;
+        }
+
+        int n = set.length;
+
+        // dp[i][j] is true, if subset S(0...i) contains the sum j
+        boolean[][] dp = new boolean[n + 1][sum + 1];
+
+        // Sum = 0 => empty subset matches, and thus all subsets
+        for (int i = 0; i <= n; i++) {
+            dp[i][0] = true;
+        }
+
+        // Empty subset does not match sums > 0;
+        for (int j = 1; j <= sum; j++) {
+            dp[0][j] = false;
+        }
+
+        for (int i = 1; i <= n; i++) {
+            for (int j = 1; j <= sum; j++) {
+                if (set[i - 1] > j) {
+                    dp[i][j] = dp[i - 1][j];
+                } else {
+                    dp[i][j] = dp[i - 1][j] || dp[i - 1][j - set[i - 1]];
+                }
+            }
+        }
+
+        return dp[n][sum];
+    }
+
     public static boolean subSetSumRecursive(int[] set, int sum) {
         if (set == null || set.length == 0) {
             return false;
