@@ -884,11 +884,30 @@ public class DynamicProgramming {
         return maxLength;
     }
 
+    public static int maxRevenueFromRodCutting(int[] prices, int rodLength) {
+        // Note: prices[] contains the price for all lengths of the rod upto the given rod length.
+        //      Since arrays are zero-indexed, index of 0 stands for length of 1 unit
+
+        if (prices == null || prices.length == 0 || prices.length != rodLength) {
+            return 0;
+        }
+
+        int[] revenues = new int[rodLength + 1];
+        for (int i = 1; i <= rodLength; i++) {
+            for (int j = 0; j < i; j++) {
+                revenues[i] = Math.max(revenues[i], prices[j] + revenues[i - j - 1]);
+            }
+        }
+
+        return revenues[rodLength];
+    }
+
+
     public static int maxRevenueFromRodCuttingRecursive(int[] prices, int rodLength) {
         // Note: prices[] contains the price for all lengths of the rod upto the given rod length.
         //      Since arrays are zero-indexed, index of 0 stands for length of 1 unit
 
-        if(prices == null || prices.length == 0 || prices.length != rodLength) {
+        if (prices == null || prices.length == 0 || prices.length != rodLength) {
             return 0;
         }
 
@@ -896,7 +915,7 @@ public class DynamicProgramming {
     }
 
     private static int maxRevenueFromRodCuttingRecursive(int[] prices, int rodLength, int currentLength) {
-        if(currentLength <= 0) {
+        if (currentLength <= 0) {
             return 0;
         }
 

@@ -485,6 +485,17 @@ class DynamicProgrammingTest {
     }
 
     @Test
+    void maxRevenueFromRodCutting() {
+        int[] prices;
+
+        prices = Utilities.constructArray(1, 5, 8, 9, 10, 17, 17, 20);
+        assertEquals(22, DynamicProgramming.maxRevenueFromRodCutting(prices, 8));
+
+        prices = Utilities.constructArray(3, 5, 8, 9, 10, 17, 17, 20);
+        assertEquals(24, DynamicProgramming.maxRevenueFromRodCutting(prices, 8));
+    }
+
+    @Test
     void maxRevenueFromRodCuttingRecursive() {
         int[] prices;
 
