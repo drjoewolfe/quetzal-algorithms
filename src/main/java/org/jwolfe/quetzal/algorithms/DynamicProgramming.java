@@ -97,7 +97,7 @@ public class DynamicProgramming {
             return 0;
 
         int n = str.length();
-        int dp[][] = new int[n][n];
+        int[][] dp = new int[n][n];
 
         for (int i = 0; i < n; i++) {
             dp[i][i] = 1;
@@ -592,7 +592,7 @@ public class DynamicProgramming {
 
         int minTrials = Integer.MAX_VALUE;
         for (int i = 1; i <= floors; i++) {
-            // Two possibilities -> egg broke & egg didnt break
+            // Two possibilities -> egg broke & egg did not break
             //      Egg broke : try in lower floors
             //      Egg didnt break : try in upper floors
             // Find the max of either of these options
