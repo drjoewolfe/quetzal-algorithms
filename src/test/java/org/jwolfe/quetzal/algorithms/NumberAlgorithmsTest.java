@@ -103,4 +103,46 @@ class NumberAlgorithmsTest {
         assertTrue(NumberAlgorithms.isUgly(5832));
         assertFalse(NumberAlgorithms.isUgly(5837));
     }
+
+    @Test
+    void isPrime() {
+        assertFalse(NumberAlgorithms.isPrime(1));
+        assertTrue(NumberAlgorithms.isPrime(2));
+        assertTrue(NumberAlgorithms.isPrime(3));
+        assertFalse(NumberAlgorithms.isPrime(4));
+        assertTrue(NumberAlgorithms.isPrime(5));
+        assertFalse(NumberAlgorithms.isPrime(6));
+        assertTrue(NumberAlgorithms.isPrime(7));
+        assertFalse(NumberAlgorithms.isPrime(8));
+        assertFalse(NumberAlgorithms.isPrime(9));
+        assertFalse(NumberAlgorithms.isPrime(10));
+        assertTrue(NumberAlgorithms.isPrime(11));
+        assertFalse(NumberAlgorithms.isPrime(12));
+        assertTrue(NumberAlgorithms.isPrime(13));
+        assertFalse(NumberAlgorithms.isPrime(14));
+        assertFalse(NumberAlgorithms.isPrime(15));
+        assertFalse(NumberAlgorithms.isPrime(16));
+        assertTrue(NumberAlgorithms.isPrime(17));
+        assertFalse(NumberAlgorithms.isPrime(18));
+        assertTrue(NumberAlgorithms.isPrime(19));
+        assertFalse(NumberAlgorithms.isPrime(20));
+        assertFalse(NumberAlgorithms.isPrime(21));
+        assertFalse(NumberAlgorithms.isPrime(22));
+        assertTrue(NumberAlgorithms.isPrime(23));
+        assertFalse(NumberAlgorithms.isPrime(24));
+        assertFalse(NumberAlgorithms.isPrime(25));
+        assertFalse(NumberAlgorithms.isPrime(26));
+        assertFalse(NumberAlgorithms.isPrime(27));
+        assertFalse(NumberAlgorithms.isPrime(28));
+        assertTrue(NumberAlgorithms.isPrime(29));
+        assertFalse(NumberAlgorithms.isPrime(30));
+
+        assertTrue(NumberAlgorithms.isPrime(281));
+        assertTrue(NumberAlgorithms.isPrime(617));
+        assertTrue(NumberAlgorithms.isPrime(839));
+        assertTrue(NumberAlgorithms.isPrime(907));
+        assertTrue(NumberAlgorithms.isPrime(997));
+
+        assertFalse(NumberAlgorithms.isPrime(1000));
+    }
 }
