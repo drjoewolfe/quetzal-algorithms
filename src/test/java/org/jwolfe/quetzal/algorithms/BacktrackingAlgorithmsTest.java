@@ -17,21 +17,21 @@ class BacktrackingAlgorithmsTest {
 		int[] arr;
 		int sum;
 		List<Set<Integer>> subsets;
-				
+
 		arr = Utilities.constructArray(1, 2, 3);
 		sum = 6;
 		subsets = BacktrackingAlgorithms.generateSubsetsWithGivenSum(arr, sum);
 		assertNotNull(subsets);
 		assertEquals(1, subsets.size());
 		QuetzalAssertions.assertSetEquals(Utilities.constructSet(1, 2, 3), subsets.get(0));
-		
+
 		arr = Utilities.constructArray(1, 2, 3);
 		sum = 2;
 		subsets = BacktrackingAlgorithms.generateSubsetsWithGivenSum(arr, sum);
 		assertNotNull(subsets);
 		assertEquals(1, subsets.size());
 		QuetzalAssertions.assertSetEquals(Utilities.constructSet(2), subsets.get(0));
-				
+
 		arr = Utilities.constructArray(15, 22, 14, 26, 32, 9, 16, 8);
 		sum = 53;
 		subsets = BacktrackingAlgorithms.generateSubsetsWithGivenSum(arr, sum);
@@ -41,27 +41,27 @@ class BacktrackingAlgorithmsTest {
 		QuetzalAssertions.assertSetEquals(Utilities.constructSet(8, 14, 15, 16), subsets.get(1));
 		QuetzalAssertions.assertSetEquals(Utilities.constructSet(8, 9, 14, 22), subsets.get(2));
 	}
-	
+
 	@Test
 	void generateSubsetsWithGivenSumForSortedArray() {
 		int[] arr;
 		int sum;
 		List<Set<Integer>> subsets;
-				
+
 		arr = Utilities.constructArray(1, 2, 3);
 		sum = 6;
 		subsets = BacktrackingAlgorithms.generateSubsetsWithGivenSumForSortedArray(arr, sum);
 		assertNotNull(subsets);
 		assertEquals(1, subsets.size());
 		QuetzalAssertions.assertSetEquals(Utilities.constructSet(1, 2, 3), subsets.get(0));
-		
+
 		arr = Utilities.constructArray(1, 2, 3);
 		sum = 2;
 		subsets = BacktrackingAlgorithms.generateSubsetsWithGivenSumForSortedArray(arr, sum);
 		assertNotNull(subsets);
 		assertEquals(1, subsets.size());
 		QuetzalAssertions.assertSetEquals(Utilities.constructSet(2), subsets.get(0));
-				
+
 		arr = Utilities.constructArray(15, 22, 14, 26, 32, 9, 16, 8);
 		Arrays.sort(arr);
 		sum = 53;
@@ -71,5 +71,28 @@ class BacktrackingAlgorithmsTest {
 		QuetzalAssertions.assertSetEquals(Utilities.constructSet(8, 9, 14, 22), subsets.get(0));
 		QuetzalAssertions.assertSetEquals(Utilities.constructSet(8, 14, 15, 16), subsets.get(1));
 		QuetzalAssertions.assertSetEquals(Utilities.constructSet(15, 16, 22), subsets.get(2));
+	}
+
+	@Test
+	void getNPrimeNumbersAfterPWithSumS() {
+		Set<Set<Integer>> primes;
+		Set<Set<Integer>> expectedPrimes;
+
+		expectedPrimes = Utilities.constructSet(Utilities.constructSet(11, 17));
+		primes = BacktrackingAlgorithms.getNPrimeNumbersAfterPWithSumS(7, 2, 28);
+		QuetzalAssertions.assertSetEquals(expectedPrimes, primes);
+
+		expectedPrimes = Utilities.constructSet(Utilities.constructSet(3, 7, 13),
+				Utilities.constructSet(5, 7, 11));
+		primes = BacktrackingAlgorithms.getNPrimeNumbersAfterPWithSumS(2, 3, 23);
+		QuetzalAssertions.assertSetEquals(expectedPrimes, primes);
+
+		expectedPrimes = Utilities.constructSet(Utilities.constructSet(7, 47),
+				Utilities.constructSet(11, 43),
+				Utilities.constructSet(13, 41),
+				Utilities.constructSet(17, 37),
+				Utilities.constructSet(23, 31));
+		primes = BacktrackingAlgorithms.getNPrimeNumbersAfterPWithSumS(3, 2, 54);
+		QuetzalAssertions.assertSetEquals(expectedPrimes, primes);
 	}
 }

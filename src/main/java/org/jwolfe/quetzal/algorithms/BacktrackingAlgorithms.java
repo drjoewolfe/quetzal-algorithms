@@ -1,9 +1,6 @@
 package org.jwolfe.quetzal.algorithms;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
-import java.util.TreeSet;
+import java.util.*;
 
 public class BacktrackingAlgorithms {
 	public static List<Set<Integer>> generateSubsetsWithGivenSum(int[] arr, int targetSum) {
@@ -19,7 +16,7 @@ public class BacktrackingAlgorithms {
 	}
 
 	private static void generateSubsetsWithGivenSum(int[] arr, Set<Integer> currentSet, int currentIndex, int targetSum,
-			int currentSum, List<Set<Integer>> resultSubSets) {
+													int currentSum, List<Set<Integer>> resultSubSets) {
 		if (currentSum == targetSum) {
 			Set<Integer> set = new TreeSet<>(currentSet);
 			resultSubSets.add(set);
@@ -61,7 +58,7 @@ public class BacktrackingAlgorithms {
 	}
 
 	private static void generateSubsetsWithGivenSumForSortedArray(int[] arr, Set<Integer> currentSet, int currentIndex,
-			int targetSum, int currentSum, List<Set<Integer>> resultSubSets) {
+																  int targetSum, int currentSum, List<Set<Integer>> resultSubSets) {
 		if (currentSum == targetSum) {
 			Set<Integer> set = new TreeSet<>(currentSet);
 			resultSubSets.add(set);
@@ -91,5 +88,52 @@ public class BacktrackingAlgorithms {
 				currentSet.remove(arr[i]);
 			}
 		}
+	}
+
+	public static Set<Set<Integer>> getNPrimeNumbersAfterPWithSumS(int p, int n, int s) {
+		// Get all primes between p & s
+		List<Integer> primes = new ArrayList<>();
+		for (int i = p + 1; i <= s; i++) {
+			if (NumberAlgorithms.isPrime(i)) {
+				primes.add(i);
+			}
+		}
+
+		return getSubsetsOfLengthNAddingToSum(primes, n, s);
+	}
+
+	public static Set<Set<Integer>> getSubsetsOfLengthNAddingToSum(List<Integer> set, int length, int sum) {
+		Set<Set<Integer>> subSets = new HashSet<>();
+		Set<Integer> currentSet = new HashSet<>();
+
+		generateSubsetsOfLengthNAddingToSum(set, length, sum, 0, currentSet, subSets);
+		return subSets;
+	}
+
+	private static void generateSubsetsOfLengthNAddingToSum(List<Integer> set, int length, int sum,
+															int currentIndex, Set<Integer> currentSet,
+															Set<Set<Integer>> subsets) {
+		if (currentSet.size() == length) {
+			int subSetSum = currentSet.stream().mapToInt(i -> i).sum();
+			if (subSetSum == sum) {
+				subsets.add(new HashSet<>(currentSet));
+			}
+
+			return;
+		}
+
+		if (currentIndex >= set.size()) {
+			return;
+		}
+
+		int currentNumber = set.get(currentIndex);
+
+		// Option 1: Include current number
+		currentSet.add(currentNumber);
+		generateSubsetsOfLengthNAddingToSum(set, length, sum, currentIndex + 1, currentSet, subsets);
+
+		// Option 2: Exclude current number
+		currentSet.remove(currentNumber);
+		generateSubsetsOfLengthNAddingToSum(set, length, sum, currentIndex + 1, currentSet, subsets);
 	}
 }
