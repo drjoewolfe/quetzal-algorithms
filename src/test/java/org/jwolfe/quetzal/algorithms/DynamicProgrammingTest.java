@@ -569,6 +569,68 @@ class DynamicProgrammingTest {
     }
     
     @Test
+    void wordBreakDP() {
+    	String str;
+        List<String> dictionary;
+
+        dictionary = Utilities.constructList("i", "and", "want", "need", "wish", "straw", "berry", "strawberry", "uni", "corn", "unicorn", "models", "fruit", "salad", "fruitsalad");
+        
+        str = "i";
+        assertTrue(DynamicProgramming.wordBreakDP(str, dictionary));
+
+        str = "want";
+        assertTrue(DynamicProgramming.wordBreakDP(str, dictionary));
+        
+        str = "we";
+        assertFalse(DynamicProgramming.wordBreakDP(str, dictionary));
+        
+        str = "straw";
+        assertTrue(DynamicProgramming.wordBreakDP(str, dictionary));
+        
+        str = "strawberry";
+        assertTrue(DynamicProgramming.wordBreakDP(str, dictionary));
+        
+        str = "strawmerry";
+        assertFalse(DynamicProgramming.wordBreakDP(str, dictionary));
+        
+        str = "fruitstraw";
+        assertTrue(DynamicProgramming.wordBreakDP(str, dictionary));
+        
+        str = "strawfruit";
+        assertTrue(DynamicProgramming.wordBreakDP(str, dictionary));
+        
+        str = "saladmodel";
+        assertFalse(DynamicProgramming.wordBreakDP(str, dictionary));
+        
+        str = "iwant";
+        assertTrue(DynamicProgramming.wordBreakDP(str, dictionary));
+        
+        str = "iwish";
+        assertTrue(DynamicProgramming.wordBreakDP(str, dictionary));   
+        
+        str = "iwantandneed";
+        assertTrue(DynamicProgramming.wordBreakDP(str, dictionary));       
+  
+        str = "iwantunicorn";
+        assertTrue(DynamicProgramming.wordBreakDP(str, dictionary));   
+        
+        str = "iwantunicornmodels";
+        assertTrue(DynamicProgramming.wordBreakDP(str, dictionary));   
+        
+        str = "iwantfruitsaladandstrawberry";
+        assertTrue(DynamicProgramming.wordBreakDP(str, dictionary));   
+        
+        str = "iwantandneedandwishunicornmodelsandfruitsaladandstrawberry";
+        assertTrue(DynamicProgramming.wordBreakDP(str, dictionary));   
+        
+        str = "iwantandneedandwishunicornmodelsandfruitsaladandstrawberryandpista";
+        assertFalse(DynamicProgramming.wordBreakDP(str, dictionary));
+        
+        str = "iwantandneedandwishmerryunicornmodelsandfruitsaladandstrawberry";
+        assertFalse(DynamicProgramming.wordBreakDP(str, dictionary));
+    }
+    
+    @Test
     void wordBreakRecursive() {
     	String str;
         List<String> dictionary;
