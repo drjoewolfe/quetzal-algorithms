@@ -16,7 +16,7 @@ public class BacktrackingAlgorithms {
 	}
 
 	private static void generateSubsetsWithGivenSum(int[] arr, Set<Integer> currentSet, int currentIndex, int targetSum,
-													int currentSum, List<Set<Integer>> resultSubSets) {
+			int currentSum, List<Set<Integer>> resultSubSets) {
 		if (currentSum == targetSum) {
 			Set<Integer> set = new TreeSet<>(currentSet);
 			resultSubSets.add(set);
@@ -58,7 +58,7 @@ public class BacktrackingAlgorithms {
 	}
 
 	private static void generateSubsetsWithGivenSumForSortedArray(int[] arr, Set<Integer> currentSet, int currentIndex,
-																  int targetSum, int currentSum, List<Set<Integer>> resultSubSets) {
+			int targetSum, int currentSum, List<Set<Integer>> resultSubSets) {
 		if (currentSum == targetSum) {
 			Set<Integer> set = new TreeSet<>(currentSet);
 			resultSubSets.add(set);
@@ -110,9 +110,8 @@ public class BacktrackingAlgorithms {
 		return subSets;
 	}
 
-	private static void generateSubsetsOfLengthNAddingToSum(List<Integer> set, int length, int sum,
-															int currentIndex, Set<Integer> currentSet,
-															Set<Set<Integer>> subsets) {
+	private static void generateSubsetsOfLengthNAddingToSum(List<Integer> set, int length, int sum, int currentIndex,
+			Set<Integer> currentSet, Set<Set<Integer>> subsets) {
 		if (currentSet.size() == length) {
 			int subSetSum = currentSet.stream().mapToInt(i -> i).sum();
 			if (subSetSum == sum) {
@@ -135,5 +134,54 @@ public class BacktrackingAlgorithms {
 		// Option 2: Exclude current number
 		currentSet.remove(currentNumber);
 		generateSubsetsOfLengthNAddingToSum(set, length, sum, currentIndex + 1, currentSet, subsets);
+	}
+
+	public static boolean isSubStringSumString(String str) {
+		// A string has substring sum (ex: 12358 -> (1+2=3), (2+3=5) & (3+5=0)) if.
+		// i) length of the string is at least 3
+		// ii) sub-str(i, x) + sub-str(x+1, j) = sub-str(j+1, l);
+		// iii) (ii) repeatedly holds for sub-str(x+1, j) + sub-str(j+1, l) =
+		// sub-str(l+1, m) for the entire string
+
+		if (str == null || str.length() < 3) {
+			return false;
+		}
+
+		int n = str.length();
+		for (int len1 = 1; len1 < n - 1; len1++) {
+			for (int len2 = 1; len2 + len1 <= n; len2++) {
+				if (isSubStringSumString(str, 0, len1, len2)) {
+					return true;
+				}
+			}
+		}
+
+		return false;
+	}
+
+	private static boolean isSubStringSumString(String str, int startIndex, int len1, int len2) {
+		int length = str.length();
+		int currentLength = startIndex + len1 + len2;
+
+		String str1 = str.substring(startIndex, startIndex + len1); // (i, x)
+		String str2 = str.substring(startIndex + len1, currentLength); // (x+1, j)
+		String str3 = StringAlgorithms.getSumString(str1, str2); // (j+1, l)
+
+		int len3 = str3.length();
+		if (len3 > (length - currentLength)) {
+			return false;
+		}
+
+		String actualStr3 = str.substring(currentLength, currentLength + len3);
+		if (str3.equals(actualStr3)) {
+			if (len3 == length - currentLength) {
+				// Finished parsing the string for sum-string properties successfully
+				return true;
+			}
+
+			return isSubStringSumString(str, startIndex + len1, len2, len3);
+		}
+
+		return false;
 	}
 }

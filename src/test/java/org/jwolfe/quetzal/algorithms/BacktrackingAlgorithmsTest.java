@@ -95,4 +95,15 @@ class BacktrackingAlgorithmsTest {
 		primes = BacktrackingAlgorithms.getNPrimeNumbersAfterPWithSumS(3, 2, 54);
 		QuetzalAssertions.assertSetEquals(expectedPrimes, primes);
 	}
+	
+	@Test
+	void isSubStringSumString() {
+		assertTrue(BacktrackingAlgorithms.isSubStringSumString("12358"));
+		assertTrue(BacktrackingAlgorithms.isSubStringSumString("199100199"));
+		assertFalse(BacktrackingAlgorithms.isSubStringSumString("2368"));
+		assertTrue(BacktrackingAlgorithms.isSubStringSumString("12243660"));
+		assertTrue(BacktrackingAlgorithms.isSubStringSumString("1111112223"));
+		assertTrue(BacktrackingAlgorithms.isSubStringSumString("1212243660"));
+		assertFalse(BacktrackingAlgorithms.isSubStringSumString("123456787"));
+	}
 }
