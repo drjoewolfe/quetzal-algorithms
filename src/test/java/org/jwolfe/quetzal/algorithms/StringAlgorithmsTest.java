@@ -72,4 +72,12 @@ class StringAlgorithmsTest {
         expectedSubstrings = Utilities.constructSet("a", "b", "c", "d", "ab", "bc", "cd", "abc", "bcd", "abcd");
         assertSetEquals(expectedSubstrings, subStrings);
     }
+    
+    @Test
+    void getSumString() {
+    	assertEquals("60", StringAlgorithms.getSumString("24",  "36"));
+    	assertEquals("10", StringAlgorithms.getSumString("1",  "9"));
+    	assertEquals("8", StringAlgorithms.getSumString("6",  "2"));
+    	assertEquals("225", StringAlgorithms.getSumString("111",  "114"));
+    }
 }

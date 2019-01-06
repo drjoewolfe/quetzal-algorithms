@@ -84,4 +84,12 @@ public class StringAlgorithms {
 
         return allSubStrings;
     }
+
+	public static String getSumString(String str1, String str2) {
+		Integer i1 = Integer.parseInt(str1);
+		Integer i2 = Integer.parseInt(str2);
+		
+		Integer i3 = i1 + i2;		
+		return i3.toString();
+	}
 }
