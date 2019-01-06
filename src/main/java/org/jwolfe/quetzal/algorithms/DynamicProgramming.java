@@ -927,4 +927,31 @@ public class DynamicProgramming {
 
         return maxRevenue;
     }
+    
+    public static boolean wordBreak(String str, List<String> dictionary) {
+    	if(str == null || str.length() == 0 || dictionary == null || dictionary.size() == 0) {
+    		return false;
+    	}    	
+    	
+    	return wordBreakHelper(str, dictionary);
+    }
+    
+    public static boolean wordBreakHelper(String str, List<String> dictionary) { 	
+    	int size = str.length();
+    	if(size == 0) {
+    		return true;
+    	}
+    	
+    	for (int len = 1; len <= size; len++) {
+			String prefix = str.substring(0, len);
+			if(dictionary.contains(prefix)) {
+				String suffix = str.substring(len);
+				if(wordBreakHelper(suffix, dictionary)) {
+					return true;
+				}
+			}
+		}
+    	
+    	return false;
+    }
 }

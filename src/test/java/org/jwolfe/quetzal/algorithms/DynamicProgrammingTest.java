@@ -505,4 +505,66 @@ class DynamicProgrammingTest {
         prices = Utilities.constructArray(3, 5, 8, 9, 10, 17, 17, 20);
         assertEquals(24, DynamicProgramming.maxRevenueFromRodCuttingRecursive(prices, 8));
     }
+    
+    @Test
+    void wordBreak() {
+    	String str;
+        List<String> dictionary;
+
+        dictionary = Utilities.constructList("i", "and", "want", "need", "wish", "straw", "berry", "strawberry", "uni", "corn", "unicorn", "models", "fruit", "salad", "fruitsalad");
+        
+        str = "i";
+        assertTrue(DynamicProgramming.wordBreak(str, dictionary));
+
+        str = "want";
+        assertTrue(DynamicProgramming.wordBreak(str, dictionary));
+        
+        str = "we";
+        assertFalse(DynamicProgramming.wordBreak(str, dictionary));
+        
+        str = "straw";
+        assertTrue(DynamicProgramming.wordBreak(str, dictionary));
+        
+        str = "strawberry";
+        assertTrue(DynamicProgramming.wordBreak(str, dictionary));
+        
+        str = "strawmerry";
+        assertFalse(DynamicProgramming.wordBreak(str, dictionary));
+        
+        str = "fruitstraw";
+        assertTrue(DynamicProgramming.wordBreak(str, dictionary));
+        
+        str = "strawfruit";
+        assertTrue(DynamicProgramming.wordBreak(str, dictionary));
+        
+        str = "saladmodel";
+        assertFalse(DynamicProgramming.wordBreak(str, dictionary));
+        
+        str = "iwant";
+        assertTrue(DynamicProgramming.wordBreak(str, dictionary));
+        
+        str = "iwish";
+        assertTrue(DynamicProgramming.wordBreak(str, dictionary));   
+        
+        str = "iwantandneed";
+        assertTrue(DynamicProgramming.wordBreak(str, dictionary));       
+  
+        str = "iwantunicorn";
+        assertTrue(DynamicProgramming.wordBreak(str, dictionary));   
+        
+        str = "iwantunicornmodels";
+        assertTrue(DynamicProgramming.wordBreak(str, dictionary));   
+        
+        str = "iwantfruitsaladandstrawberry";
+        assertTrue(DynamicProgramming.wordBreak(str, dictionary));   
+        
+        str = "iwantandneedandwishunicornmodelsandfruitsaladandstrawberry";
+        assertTrue(DynamicProgramming.wordBreak(str, dictionary));   
+        
+        str = "iwantandneedandwishunicornmodelsandfruitsaladandstrawberryandpista";
+        assertFalse(DynamicProgramming.wordBreak(str, dictionary));
+        
+        str = "iwantandneedandwishmerryunicornmodelsandfruitsaladandstrawberry";
+        assertFalse(DynamicProgramming.wordBreak(str, dictionary));
+    }
 }
