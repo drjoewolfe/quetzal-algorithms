@@ -931,12 +931,49 @@ public class DynamicProgramming {
     public static boolean wordBreak(String str, List<String> dictionary) {
     	if(str == null || str.length() == 0 || dictionary == null || dictionary.size() == 0) {
     		return false;
-    	}    	
+    	}
     	
-    	return wordBreakHelper(str, dictionary);
+    	int n = str.length();
+    	boolean[] dp = new boolean[n+1];
+    	dp[0] = true;
+    	
+    	for (int i = 1; i <= n; i++) {
+			String prefix = str.substring(0, i);
+			if(dp[i] == false
+					&& dictionary.contains(prefix)) {
+				dp[i] = true;
+			}
+			
+			if(dp[i] == true) {
+				if(i == n) {
+					return true;
+				}
+				
+				for (int j = i + 1; j <= n ; j++) {
+					String suffix = str.substring(i, j);
+					if(dp[j]== false && dictionary.contains(suffix)) {
+						dp[j]= true; 
+					}
+					
+					if(j == n && dp[j] == true) {
+						return true;
+					}
+				}
+			}
+		}
+    	
+    	return false;
     }
     
-    public static boolean wordBreakHelper(String str, List<String> dictionary) { 	
+    public static boolean wordBreakRecursive(String str, List<String> dictionary) {
+    	if(str == null || str.length() == 0 || dictionary == null || dictionary.size() == 0) {
+    		return false;
+    	}    	
+    	
+    	return wordBreakRecursiveHelper(str, dictionary);
+    }
+    
+    public static boolean wordBreakRecursiveHelper(String str, List<String> dictionary) { 	
     	int size = str.length();
     	if(size == 0) {
     		return true;
@@ -946,7 +983,7 @@ public class DynamicProgramming {
 			String prefix = str.substring(0, len);
 			if(dictionary.contains(prefix)) {
 				String suffix = str.substring(len);
-				if(wordBreakHelper(suffix, dictionary)) {
+				if(wordBreakRecursiveHelper(suffix, dictionary)) {
 					return true;
 				}
 			}

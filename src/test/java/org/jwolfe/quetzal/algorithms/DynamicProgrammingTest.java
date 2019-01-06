@@ -567,4 +567,66 @@ class DynamicProgrammingTest {
         str = "iwantandneedandwishmerryunicornmodelsandfruitsaladandstrawberry";
         assertFalse(DynamicProgramming.wordBreak(str, dictionary));
     }
+    
+    @Test
+    void wordBreakRecursive() {
+    	String str;
+        List<String> dictionary;
+
+        dictionary = Utilities.constructList("i", "and", "want", "need", "wish", "straw", "berry", "strawberry", "uni", "corn", "unicorn", "models", "fruit", "salad", "fruitsalad");
+        
+        str = "i";
+        assertTrue(DynamicProgramming.wordBreakRecursive(str, dictionary));
+
+        str = "want";
+        assertTrue(DynamicProgramming.wordBreakRecursive(str, dictionary));
+        
+        str = "we";
+        assertFalse(DynamicProgramming.wordBreakRecursive(str, dictionary));
+        
+        str = "straw";
+        assertTrue(DynamicProgramming.wordBreakRecursive(str, dictionary));
+        
+        str = "strawberry";
+        assertTrue(DynamicProgramming.wordBreakRecursive(str, dictionary));
+        
+        str = "strawmerry";
+        assertFalse(DynamicProgramming.wordBreakRecursive(str, dictionary));
+        
+        str = "fruitstraw";
+        assertTrue(DynamicProgramming.wordBreakRecursive(str, dictionary));
+        
+        str = "strawfruit";
+        assertTrue(DynamicProgramming.wordBreakRecursive(str, dictionary));
+        
+        str = "saladmodel";
+        assertFalse(DynamicProgramming.wordBreakRecursive(str, dictionary));
+        
+        str = "iwant";
+        assertTrue(DynamicProgramming.wordBreakRecursive(str, dictionary));
+        
+        str = "iwish";
+        assertTrue(DynamicProgramming.wordBreakRecursive(str, dictionary));   
+        
+        str = "iwantandneed";
+        assertTrue(DynamicProgramming.wordBreakRecursive(str, dictionary));       
+  
+        str = "iwantunicorn";
+        assertTrue(DynamicProgramming.wordBreakRecursive(str, dictionary));   
+        
+        str = "iwantunicornmodels";
+        assertTrue(DynamicProgramming.wordBreakRecursive(str, dictionary));   
+        
+        str = "iwantfruitsaladandstrawberry";
+        assertTrue(DynamicProgramming.wordBreakRecursive(str, dictionary));   
+        
+        str = "iwantandneedandwishunicornmodelsandfruitsaladandstrawberry";
+        assertTrue(DynamicProgramming.wordBreakRecursive(str, dictionary));   
+        
+        str = "iwantandneedandwishunicornmodelsandfruitsaladandstrawberryandpista";
+        assertFalse(DynamicProgramming.wordBreakRecursive(str, dictionary));
+        
+        str = "iwantandneedandwishmerryunicornmodelsandfruitsaladandstrawberry";
+        assertFalse(DynamicProgramming.wordBreakRecursive(str, dictionary));
+    }
 }
