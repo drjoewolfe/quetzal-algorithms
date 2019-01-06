@@ -958,6 +958,8 @@ public class DynamicProgramming {
 	}
 
 	public static boolean wordBreakRecursive(String str, List<String> dictionary) {
+		// Note: Using a trie for the dictionary will yeild better performance
+
 		if (str == null || str.length() == 0 || dictionary == null || dictionary.size() == 0) {
 			return false;
 		}
@@ -982,5 +984,34 @@ public class DynamicProgramming {
 		}
 
 		return false;
+	}
+
+	public static List<String> getWordBreaks(String str, List<String> dictionary) {
+		if (str == null || str.length() == 0 || dictionary == null || dictionary.size() == 0) {
+			return null;
+		}
+
+		List<String> wordBreaks = new ArrayList<>();
+		generatewordBreaks(str, dictionary, "", wordBreaks);
+		return wordBreaks;
+	}
+
+	public static void generatewordBreaks(String str, List<String> dictionary, String runningString,
+			List<String> wordBreaks) {
+		int size = str.length();
+		if (size == 0) {
+			wordBreaks.add(runningString.substring(0, runningString.length() - 1));
+			return;
+		}
+
+		for (int len = 1; len <= size; len++) {
+			String prefix = str.substring(0, len);
+			if (dictionary.contains(prefix)) {
+				String suffix = str.substring(len);
+				generatewordBreaks(suffix, dictionary, runningString + prefix + " ", wordBreaks);
+			}
+		}
+
+		return;
 	}
 }

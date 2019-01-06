@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.jwolfe.quetzal.library.general.Pair;
 import org.jwolfe.quetzal.library.general.Triplet;
 import org.jwolfe.quetzal.library.utilities.Utilities;
+import org.jwolfe.quetzal.test.QuetzalAssertions;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -690,5 +691,34 @@ class DynamicProgrammingTest {
         
         str = "iwantandneedandwishmerryunicornmodelsandfruitsaladandstrawberry";
         assertFalse(DynamicProgramming.wordBreakRecursive(str, dictionary));
+    }
+    
+    @Test
+    void getWordBreaks() {
+    	String str;
+        List<String> dictionary;
+        List<String> wordBreaks;
+        List<String> expectedWordBreaks; 
+
+        dictionary = Utilities.constructList("i", "and", "want", "need", "wish", "straw", "berry", "strawberry", "uni", "corn", "unicorn", "models", "fruit", "salad", "fruitsalad");
+        
+        str = "i";
+        expectedWordBreaks = Utilities.constructList("i");
+        wordBreaks = DynamicProgramming.getWordBreaks(str, dictionary);
+        QuetzalAssertions.assertListEquals(expectedWordBreaks, wordBreaks);
+
+        str = "strawberry";
+        expectedWordBreaks = Utilities.constructList("straw berry", "strawberry");
+        wordBreaks = DynamicProgramming.getWordBreaks(str, dictionary);
+        QuetzalAssertions.assertListEquals(expectedWordBreaks, wordBreaks);
+        
+        str = "iwantunicornmodels";
+        expectedWordBreaks = Utilities.constructList("i want uni corn models", "i want unicorn models");
+        wordBreaks = DynamicProgramming.getWordBreaks(str, dictionary);
+        QuetzalAssertions.assertListEquals(expectedWordBreaks, wordBreaks);
+        
+        str = "iwantandneedandwishmerryunicornmodelsandfruitsaladandstrawberry";
+        wordBreaks = DynamicProgramming.getWordBreaks(str, dictionary);
+        assertEquals(0, wordBreaks.size());
     }
 }
