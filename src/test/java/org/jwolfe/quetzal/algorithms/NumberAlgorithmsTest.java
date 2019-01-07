@@ -145,4 +145,18 @@ class NumberAlgorithmsTest {
 
         assertFalse(NumberAlgorithms.isPrime(1000));
     }
+
+    @Test
+    void getNumberForBinaryRepresentation() {
+        assertEquals(0, NumberAlgorithms.getNumberForBinaryRepresentation("0"));
+        assertEquals(1, NumberAlgorithms.getNumberForBinaryRepresentation("1"));
+        assertEquals(2, NumberAlgorithms.getNumberForBinaryRepresentation("10"));
+        assertEquals(3, NumberAlgorithms.getNumberForBinaryRepresentation("11"));
+        assertEquals(3, NumberAlgorithms.getNumberForBinaryRepresentation("011"));
+        assertEquals(3, NumberAlgorithms.getNumberForBinaryRepresentation("0011"));
+        assertEquals(7, NumberAlgorithms.getNumberForBinaryRepresentation("111"));
+        assertEquals(4, NumberAlgorithms.getNumberForBinaryRepresentation("100"));
+        assertEquals(10, NumberAlgorithms.getNumberForBinaryRepresentation("1010"));
+        assertEquals(15, NumberAlgorithms.getNumberForBinaryRepresentation("1111"));
+    }
 }
