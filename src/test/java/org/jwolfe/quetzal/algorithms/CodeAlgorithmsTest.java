@@ -33,6 +33,28 @@ class CodeAlgorithmsTest {
     }
 
     @Test
+    void getGrayCodeValues() {
+        List<Integer> grayCodes;
+        List<Integer> expectedGrayCodes;
+
+        expectedGrayCodes = Utilities.constructList(0, 1);
+        grayCodes = CodeAlgorithms.getGrayCodeValues(1);
+        QuetzalAssertions.assertListEquals(expectedGrayCodes, grayCodes);
+
+        expectedGrayCodes = Utilities.constructList(0, 1, 3, 2);
+        grayCodes = CodeAlgorithms.getGrayCodeValues(2);
+        QuetzalAssertions.assertListEquals(expectedGrayCodes, grayCodes);
+
+        expectedGrayCodes = Utilities.constructList(0, 1, 3, 2, 6, 7, 5, 4);
+        grayCodes = CodeAlgorithms.getGrayCodeValues(3);
+        QuetzalAssertions.assertListEquals(expectedGrayCodes, grayCodes);
+
+        expectedGrayCodes = Utilities.constructList(0, 1, 3, 2, 6, 7, 5, 4, 12, 13, 15, 14, 10, 11, 9, 8);
+        grayCodes = CodeAlgorithms.getGrayCodeValues(4);
+        QuetzalAssertions.assertListEquals(expectedGrayCodes, grayCodes);
+    }
+
+    @Test
     void grayToBinary() {
         assertNull(CodeAlgorithms.grayToBinary(null));
         assertNull(CodeAlgorithms.grayToBinary("abc"));

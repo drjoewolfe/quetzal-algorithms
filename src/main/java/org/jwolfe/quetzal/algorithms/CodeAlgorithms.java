@@ -2,6 +2,7 @@ package org.jwolfe.quetzal.algorithms;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class CodeAlgorithms {
     public static List<String> getGrayCodes(int numBits) {
@@ -39,6 +40,35 @@ public class CodeAlgorithms {
         }
 
         return grayCodes;
+    }
+
+    public static List<Integer> getGrayCodeValues(int numBits) {
+        // Back-tracking implementation
+
+        if (numBits <= 0) {
+            return null;
+        }
+
+        List<Integer> grayCodes = new ArrayList<>();
+        generateGrayCodeValues(numBits, new AtomicInteger(0), grayCodes);
+        return grayCodes;
+    }
+
+    public static void generateGrayCodeValues(int n, AtomicInteger number, List<Integer> grayCodes) {
+        if (n == 0) {
+            grayCodes.add(number.intValue());
+
+            return;
+        }
+
+        // Without inverting nth bit
+        generateGrayCodeValues(n - 1, number, grayCodes);
+
+        // Inverting nth bit
+        int value = number.intValue();
+        value = value ^ (1 << (n - 1));
+        number.set(value);
+        generateGrayCodeValues(n - 1, number, grayCodes);
     }
 
     public static String grayToBinary(String grayCode) {
