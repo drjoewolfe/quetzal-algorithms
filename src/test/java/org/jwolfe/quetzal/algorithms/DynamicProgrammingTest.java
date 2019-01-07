@@ -10,6 +10,7 @@ import org.jwolfe.quetzal.test.QuetzalAssertions;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -720,5 +721,26 @@ class DynamicProgrammingTest {
         str = "iwantandneedandwishmerryunicornmodelsandfruitsaladandstrawberry";
         wordBreaks = DynamicProgramming.getWordBreaks(str, dictionary);
         assertEquals(0, wordBreaks.size());
+    }
+
+    @Test
+    void getLargestDivisiblePairsSubset() {
+        int[] arr;
+        Set<Integer> largestDivisiblePairsSubset;
+        Set<Integer> expectedSubset;
+
+        arr = Utilities.constructArray(10, 5, 3, 15, 20);
+        expectedSubset = Utilities.constructSet(10, 5, 20);
+        largestDivisiblePairsSubset = DynamicProgramming.getLargestDivisiblePairsSubset(arr);
+        QuetzalAssertions.assertSetEquals(expectedSubset, largestDivisiblePairsSubset);
+
+        arr = Utilities.constructArray(18, 1, 3, 6, 13, 17);
+        expectedSubset = Utilities.constructSet(18, 1, 3, 6);
+        largestDivisiblePairsSubset = DynamicProgramming.getLargestDivisiblePairsSubset(arr);
+        QuetzalAssertions.assertSetEquals(expectedSubset, largestDivisiblePairsSubset);
+
+        arr = Utilities.constructArray(5, 7, 9);
+        largestDivisiblePairsSubset = DynamicProgramming.getLargestDivisiblePairsSubset(arr);
+        assertEquals(1, largestDivisiblePairsSubset.size());
     }
 }

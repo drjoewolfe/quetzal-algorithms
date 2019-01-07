@@ -1014,4 +1014,49 @@ public class DynamicProgramming {
 
 		return;
 	}
+
+	public static Set<Integer> getLargestDivisiblePairsSubset(int[] arr) {
+		if(arr == null || arr.length == 0) {
+			return null;
+		}
+
+		Set<Integer> largestdivisiblePairsSubset = new HashSet<>();
+		Set<Integer> runningSubset = new HashSet<>();
+
+		generateLargestDivisiblePairsSubset(arr, arr.length, 0, runningSubset, largestdivisiblePairsSubset);
+		return largestdivisiblePairsSubset;
+	}
+
+	private static void generateLargestDivisiblePairsSubset(int[] arr, int length, int index, Set<Integer> runningSubset, Set<Integer> largestdivisiblePairsSubset) {
+		if(index >= length) {
+			if(runningSubset.size() > largestdivisiblePairsSubset.size()) {
+				largestdivisiblePairsSubset.clear();
+				largestdivisiblePairsSubset.addAll(runningSubset);
+			}
+
+			return;
+		}
+
+		int item = arr[index];
+
+		// Try including item
+		boolean canInclude = true;
+		for(var element : runningSubset) {
+			if((element >= item && element % item != 0)
+				|| (element < item && item % element != 0)) {
+				canInclude = false;
+				break;
+			}
+		}
+
+		if(canInclude) {
+			runningSubset.add(item);
+			generateLargestDivisiblePairsSubset(arr, length, index + 1, runningSubset, largestdivisiblePairsSubset);
+
+			runningSubset.remove(item);
+		}
+
+		// Try excluding item
+		generateLargestDivisiblePairsSubset(arr, length, index + 1, runningSubset, largestdivisiblePairsSubset);
+	}
 }
