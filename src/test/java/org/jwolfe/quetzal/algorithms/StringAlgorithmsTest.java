@@ -92,4 +92,14 @@ class StringAlgorithmsTest {
         assertEquals(5,  StringAlgorithms.getUniqueCharacterCount(new StringBuilder("abcde")));
         assertEquals(5, StringAlgorithms.getUniqueCharacterCount(new StringBuilder("aabbccddee")));
     }
+
+    @Test
+    void isBinaryString() {
+        assertTrue(StringAlgorithms.isBinaryString("111"));
+        assertTrue(StringAlgorithms.isBinaryString("000"));
+        assertTrue(StringAlgorithms.isBinaryString("101"));
+        assertFalse(StringAlgorithms.isBinaryString("aaa"));
+        assertFalse(StringAlgorithms.isBinaryString(""));
+        assertFalse(StringAlgorithms.isBinaryString(null));
+    }
 }
