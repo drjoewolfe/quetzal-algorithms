@@ -92,4 +92,22 @@ public class StringAlgorithms {
 		Integer i3 = i1 + i2;		
 		return i3.toString();
 	}
+
+    public static int getUniqueCharacterCount(StringBuilder sb) {
+        Set<Character> set = new HashSet<>();
+        for (int i = 0; i < sb.length(); i++) {
+            set.add(sb.charAt(i));
+        }
+
+        return set.size();
+    }
+
+    public static int getUniqueCharacterCount(String str) {
+        Set<Character> set = new HashSet<>();
+        for (int i = 0; i < str.length(); i++) {
+            set.add(str.charAt(i));
+        }
+
+        return set.size();
+    }
 }

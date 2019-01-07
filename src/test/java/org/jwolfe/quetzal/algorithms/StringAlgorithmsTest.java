@@ -80,4 +80,16 @@ class StringAlgorithmsTest {
     	assertEquals("8", StringAlgorithms.getSumString("6",  "2"));
     	assertEquals("225", StringAlgorithms.getSumString("111",  "114"));
     }
+
+    @Test
+    void getUniqueCharacterCount() {
+        assertEquals(5,  StringAlgorithms.getUniqueCharacterCount("abcde"));
+        assertEquals(5, StringAlgorithms.getUniqueCharacterCount("aabbccddee"));
+    }
+
+    @Test
+    void getUniqueCharacterCountSB() {
+        assertEquals(5,  StringAlgorithms.getUniqueCharacterCount(new StringBuilder("abcde")));
+        assertEquals(5, StringAlgorithms.getUniqueCharacterCount(new StringBuilder("aabbccddee")));
+    }
 }
