@@ -103,4 +103,26 @@ public class CodeAlgorithms {
         String binaryCode = NumberAlgorithms.getBinaryRepresentationForNumber(number);
         return binaryToGray(binaryCode);
     }
+
+    public static int grayValueToNumber(int grayValue) {
+        if (grayValue <= 0) {
+            return 0;
+        }
+
+        int number = 0;
+        while (grayValue > 0) {
+            number ^= grayValue;
+            grayValue = grayValue >> 1;
+        }
+
+        return number;
+    }
+
+    public static int numberToGrayValue(int number) {
+        if (number <= 0) {
+            return 0;
+        }
+
+        return number ^ (number >> 1);
+    }
 }

@@ -64,4 +64,26 @@ class CodeAlgorithmsTest {
         assertEquals("100", CodeAlgorithms.numberToGray(7));
         assertEquals("1111", CodeAlgorithms.numberToGray(10));
     }
+
+    @Test
+    void grayValueToNumber() {
+        assertEquals(0, CodeAlgorithms.grayValueToNumber(0));
+        assertEquals(1, CodeAlgorithms.grayValueToNumber(1));
+        assertEquals(2, CodeAlgorithms.grayValueToNumber(3));
+        assertEquals(4, CodeAlgorithms.grayValueToNumber(6));
+        assertEquals(5, CodeAlgorithms.grayValueToNumber(7));
+        assertEquals(6, CodeAlgorithms.grayValueToNumber(5));
+        assertEquals(7, CodeAlgorithms.grayValueToNumber(4));
+    }
+
+    @Test
+    void numberToGrayValue() {
+        assertEquals(0, CodeAlgorithms.numberToGrayValue(0));
+        assertEquals(1, CodeAlgorithms.numberToGrayValue(1));
+        assertEquals(3, CodeAlgorithms.numberToGrayValue(2));
+        assertEquals(6, CodeAlgorithms.numberToGrayValue(4));
+        assertEquals(7, CodeAlgorithms.numberToGrayValue(5));
+        assertEquals(5, CodeAlgorithms.numberToGrayValue(6));
+        assertEquals(4, CodeAlgorithms.numberToGrayValue(7));
+    }
 }
