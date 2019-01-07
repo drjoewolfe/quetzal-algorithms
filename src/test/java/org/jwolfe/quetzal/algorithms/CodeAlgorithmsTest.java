@@ -31,4 +31,20 @@ class CodeAlgorithmsTest {
         grayCodes = CodeAlgorithms.getGrayCodes(4);
         QuetzalAssertions.assertListEquals(expectedGrayCodes, grayCodes);
     }
+
+    @Test
+    void grayToBinary() {
+        assertNull(CodeAlgorithms.grayToBinary(null));
+        assertNull(CodeAlgorithms.grayToBinary("abc"));
+        assertEquals("0011", CodeAlgorithms.grayToBinary("0010"));
+        assertEquals("01001", CodeAlgorithms.grayToBinary("01101"));
+    }
+
+    @Test
+    void binaryToGray() {
+        assertNull(CodeAlgorithms.binaryToGray(null));
+        assertNull(CodeAlgorithms.binaryToGray("abc"));
+        assertEquals("0010", CodeAlgorithms.binaryToGray("0011"));
+        assertEquals("01101", CodeAlgorithms.binaryToGray("01001"));
+    }
 }

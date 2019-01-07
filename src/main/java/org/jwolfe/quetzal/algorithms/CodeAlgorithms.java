@@ -40,4 +40,53 @@ public class CodeAlgorithms {
 
         return grayCodes;
     }
+
+    public static String grayToBinary(String grayCode) {
+        // Algorithm:
+        //  1) MSB of binary & gray codes are the same
+        //  2) For each bit post the MSB, generate the gray code bit by checking the binary code bit
+        //      a) If gray is "0", binary is the previous bit
+        //      b) If gray is "1", binary is the inverse of the previous bit
+
+        if (!StringAlgorithms.isBinaryString(grayCode)) {
+            return null;
+        }
+
+        StringBuilder binaryCode = new StringBuilder();
+        binaryCode.append(grayCode.charAt(0));
+        for (int i = 1; i < grayCode.length(); i++) {
+            char g = grayCode.charAt(i);
+            char pb = binaryCode.charAt(i - 1);
+
+            if (g == '0') {
+                binaryCode.append(pb);
+            } else {
+                binaryCode.append(pb == '0' ? '1' : '0');
+            }
+        }
+
+        return binaryCode.toString();
+    }
+
+    public static String binaryToGray(String binaryCode) {
+        // Algorithm:
+        //  1) MSB of binary & gray codes are the same
+        //  2) For each bit post the MSB, the gray bit is the XOR of the current & previous binary bits
+
+        if (!StringAlgorithms.isBinaryString(binaryCode)) {
+            return null;
+        }
+
+        StringBuilder grayCode = new StringBuilder();
+        grayCode.append(binaryCode.charAt(0));
+
+        for (int i = 1; i < binaryCode.length(); i++) {
+            char b = binaryCode.charAt(i);
+            char pb = binaryCode.charAt(i - 1);
+
+            grayCode.append(b ^ pb);
+        }
+
+        return grayCode.toString();
+    }
 }
