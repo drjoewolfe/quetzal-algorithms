@@ -159,4 +159,16 @@ class NumberAlgorithmsTest {
         assertEquals(10, NumberAlgorithms.getNumberForBinaryRepresentation("1010"));
         assertEquals(15, NumberAlgorithms.getNumberForBinaryRepresentation("1111"));
     }
+
+    @Test
+    void getBinaryRepresentationForNumber() {
+        assertEquals("0", NumberAlgorithms.getBinaryRepresentationForNumber(0));
+        assertEquals("1", NumberAlgorithms.getBinaryRepresentationForNumber(1));
+        assertEquals("10", NumberAlgorithms.getBinaryRepresentationForNumber(2));
+        assertEquals("11", NumberAlgorithms.getBinaryRepresentationForNumber(3));
+        assertEquals("111", NumberAlgorithms.getBinaryRepresentationForNumber(7));
+        assertEquals("100", NumberAlgorithms.getBinaryRepresentationForNumber(4));
+        assertEquals("1010", NumberAlgorithms.getBinaryRepresentationForNumber(10));
+        assertEquals("1111", NumberAlgorithms.getBinaryRepresentationForNumber(15));
+    }
 }

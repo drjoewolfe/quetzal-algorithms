@@ -203,7 +203,7 @@ public class NumberAlgorithms {
     }
 
     public static int getNumberForBinaryRepresentation(String binary) {
-        if(!StringAlgorithms.isBinaryString(binary)) {
+        if (!StringAlgorithms.isBinaryString(binary)) {
             return -1;
         }
 
@@ -211,11 +211,29 @@ public class NumberAlgorithms {
         int length = binary.length();
         for (int i = 0; i < length; i++) {
             char c = binary.charAt(length - i - 1);
-            if(c == '1') {
+            if (c == '1') {
                 number += Math.pow(2, i);
             }
         }
 
         return number;
+    }
+
+    public static String getBinaryRepresentationForNumber(int number) {
+        if (number < 0) {
+            return null;
+        }
+
+        if (number == 0) {
+            return "0";
+        }
+
+        StringBuilder binary = new StringBuilder();
+        while (number > 0) {
+            binary.insert(0, number % 2);
+            number /= 2;
+        }
+
+        return binary.toString();
     }
 }
