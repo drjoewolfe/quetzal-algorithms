@@ -89,4 +89,18 @@ public class CodeAlgorithms {
 
         return grayCode.toString();
     }
+
+    public static int grayToNumber(String grayCode) {
+        String binaryCode = grayToBinary(grayCode);
+        if (binaryCode == null) {
+            return -1;
+        }
+
+        return NumberAlgorithms.getNumberForBinaryRepresentation(binaryCode);
+    }
+
+    public static String numberToGray(int number) {
+        String binaryCode = NumberAlgorithms.getBinaryRepresentationForNumber(number);
+        return binaryToGray(binaryCode);
+    }
 }

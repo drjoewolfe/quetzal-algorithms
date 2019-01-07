@@ -47,4 +47,21 @@ class CodeAlgorithmsTest {
         assertEquals("0010", CodeAlgorithms.binaryToGray("0011"));
         assertEquals("01101", CodeAlgorithms.binaryToGray("01001"));
     }
+
+    @Test
+    void grayToNumber() {
+        assertEquals(-1, CodeAlgorithms.grayToNumber(null));
+        assertEquals(-1, CodeAlgorithms.grayToNumber(""));
+        assertEquals(-1, CodeAlgorithms.grayToNumber("abc"));
+        assertEquals(7, CodeAlgorithms.grayToNumber("100"));
+        assertEquals(10, CodeAlgorithms.grayToNumber("1111"));
+    }
+
+    @Test
+    void numberToGray() {
+        assertNull(CodeAlgorithms.numberToGray(-1));
+        assertEquals("0", CodeAlgorithms.numberToGray(0));
+        assertEquals("100", CodeAlgorithms.numberToGray(7));
+        assertEquals("1111", CodeAlgorithms.numberToGray(10));
+    }
 }
