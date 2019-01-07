@@ -1015,6 +1015,30 @@ public class DynamicProgramming {
 		return;
 	}
 
+    public static int countLargestDivisiblePairsSubset(int[] arr) {
+        if(arr == null || arr.length == 0) {
+            return 0;
+        }
+
+        Arrays.sort(arr);
+        int n = arr.length;
+        int[] dp = new int[n];
+        dp[n-1] = 1;
+
+        for (int i = n-2; i >= 0 ; i--) {
+            int max = 0;
+            for (int j = i + 1; j < n; j++) {
+                if(arr[j] % arr[i] == 0) {
+                    max = Math.max(max, dp[j]);
+                }
+            }
+
+            dp[i] = max + 1;
+        }
+
+        return Arrays.stream(dp).max().getAsInt();
+    }
+
 	public static Set<Integer> getLargestDivisiblePairsSubset(int[] arr) {
 		if(arr == null || arr.length == 0) {
 			return null;
@@ -1053,6 +1077,7 @@ public class DynamicProgramming {
 			runningSubset.add(item);
 			generateLargestDivisiblePairsSubset(arr, length, index + 1, runningSubset, largestdivisiblePairsSubset);
 
+			// Backtrack
 			runningSubset.remove(item);
 		}
 

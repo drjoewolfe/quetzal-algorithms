@@ -724,6 +724,22 @@ class DynamicProgrammingTest {
     }
 
     @Test
+    void countLargestDivisiblePairsSubset() {
+        int[] arr;
+        Set<Integer> largestDivisiblePairsSubset;
+        Set<Integer> expectedSubset;
+
+        arr = Utilities.constructArray(10, 5, 3, 15, 20);
+        assertEquals(3, DynamicProgramming.countLargestDivisiblePairsSubset(arr));
+
+        arr = Utilities.constructArray(18, 1, 3, 6, 13, 17);
+        assertEquals(4, DynamicProgramming.countLargestDivisiblePairsSubset(arr));
+
+        arr = Utilities.constructArray(5, 7, 9);
+        assertEquals(1, DynamicProgramming.countLargestDivisiblePairsSubset(arr));
+    }
+
+    @Test
     void getLargestDivisiblePairsSubset() {
         int[] arr;
         Set<Integer> largestDivisiblePairsSubset;
