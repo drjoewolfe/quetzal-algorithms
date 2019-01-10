@@ -2,10 +2,7 @@ package org.jwolfe.quetzal.algorithms;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Set;
-import java.util.TreeSet;
+import java.util.*;
 
 import org.junit.jupiter.api.Test;
 import org.jwolfe.quetzal.library.utilities.Utilities;
@@ -42,7 +39,7 @@ class ListAlgorithmsTest {
 
 		set = Utilities.constructSet(1, 2, 3);
 		expectedSubsets = Utilities.constructSet(
-				new TreeSet<>(),
+				new HashSet<>(),
 				Utilities.constructSet(1),
 				Utilities.constructSet(1, 2),
 				Utilities.constructSet(1, 2, 3),
