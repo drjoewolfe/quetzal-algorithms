@@ -166,4 +166,23 @@ class BacktrackingAlgorithmsTest {
 		longestPath = BacktrackingAlgorithms.getLongestRouteBetweenSourceAndDestinationInAMatrixWithHurdles(matrix, source, destination);
 		QuetzalAssertions.assertListEquals(expectedPath, longestPath);
 	}
+
+	@Test
+	void fillMarkedGridFromListSuchThatNoAdjacentListPairsAreAdjacentInGrid() {
+		int[][] grid;
+		int[] list;
+		boolean solved;
+		int[][] expectedGrid;
+
+		grid = new int[][]{{0, -1, -1, 0},
+				{-1, -1, -1, -1},
+				{0, -1, -1, 0}};
+		list = new int[]{1, 2, 3, 4, 5, 6, 7, 8};
+		expectedGrid = new int[][]{{0, 3, 5, 0},
+				{7, 1, 8, 2},
+				{0, 4, 6, 0}};
+		solved = BacktrackingAlgorithms.fillMarkedGridFromListSuchThatNoAdjacentListPairsAreAdjacentInGrid(grid, list);
+		assertTrue(solved);
+		QuetzalAssertions.assertTwoDimensionalArrayEquals(expectedGrid, grid);
+	}
 }
