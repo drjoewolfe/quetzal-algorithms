@@ -32,23 +32,15 @@ class ListAlgorithmsTest {
 	}
 
 	@Test
-	void getAllSubSets() {
-		Set<Integer> set;
-		Set<Set<Integer>> subsets;
-		Set<Set<Integer>> expectedSubsets;
+	void getDistinctSubsets() {
+		List<Integer> list;
+		List<List<Integer>> subsets;
+		List<List<Integer>> expectedSubsets;
 
-		set = Utilities.constructSet(1, 2, 3);
-		expectedSubsets = Utilities.constructSet(
-				new HashSet<>(),
-				Utilities.constructSet(1),
-				Utilities.constructSet(1, 2),
-				Utilities.constructSet(1, 2, 3),
-				Utilities.constructSet(1, 3),
-				Utilities.constructSet(2),
-				Utilities.constructSet(2, 3),
-				Utilities.constructSet(3));
-		subsets = ListAlgorithms.getAllSubsets(set);
-		QuetzalAssertions.assertSetEquals(expectedSubsets, subsets);
-		Utilities.printSetByLines(subsets);
+		list = Utilities.constructList(1, 2, 2);
+		expectedSubsets = Utilities.constructList(new ArrayList<>(), Utilities.constructList(1), Utilities.constructList(2), Utilities.constructList(1, 2),
+				Utilities.constructList(2, 2), Utilities.constructList(1, 2, 2));
+		subsets = ListAlgorithms.getDistinctSubsets(list);
+		QuetzalAssertions.assertListEquals(expectedSubsets, subsets);
 	}
 }

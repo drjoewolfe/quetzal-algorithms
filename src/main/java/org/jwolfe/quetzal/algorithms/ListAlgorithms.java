@@ -51,40 +51,52 @@ public class ListAlgorithms {
 		return allSubsets;
 	}
 
+	public static List<List<Integer>> getDistinctSubsets(List<Integer> list) {
+		if (list == null) {
+			return null;
+		}
+
+		int length = list.size();
+		int subSetCount = (int) Math.pow(2, length);
+		List<List<Integer>> distinctSubsets = new ArrayList<>();
+		Set<String> sets = new TreeSet<>();
+
+		for (int i = 0; i < subSetCount; i++) {
+			StringBuilder sb = new StringBuilder();
+			for (int j = 0; j < length; j++) {
+				if ((i & (1 << j)) > 0) {
+					sb.append(list.get(j) + "|");
+				}
+			}
+
+			String setRepresentation = sb.toString();
+			if (!sets.contains(setRepresentation)) {
+				sets.add(setRepresentation);
+			}
+		}
+
+		for (var setRepresentation : sets) {
+			List<Integer> subSet = new ArrayList<>();
+			var elements = setRepresentation.split("|");
+			for (var item : elements) {
+				if (item.equals("") || item.equals("|")) {
+					continue;
+				}
+
+				int number = Integer.parseInt(item);
+				subSet.add(number);
+			}
+
+			distinctSubsets.add(subSet);
+		}
+
+		return distinctSubsets;
+	}
+
 	public static <T> List<List<T>> getAllSubsetsSorted(List<T> list) {
 		var allSubsets = getAllSubsets(list);
 		Collections.sort(allSubsets, (x, y) -> x.size() - y.size());
 
 		return allSubsets;
-	}
-
-	public static <T> Set<Set<T>> getAllSubsets(Set<T> set) {
-		// Backtracking based implementation for get all subsets
-		if (set == null) {
-			return null;
-		}
-
-		Set<Set<T>> subsets = new HashSet<>();
-		// Add the empty subset
-		subsets.add(new HashSet<>());
-
-		List<T> list = new ArrayList<>();
-		list.addAll(set);
-
-		Set<T> currentSet = new HashSet<>();
-		getAllSubsets(list, list.size(), 0, currentSet, subsets);
-
-		return subsets;
-	}
-
-	private static <T> void getAllSubsets(List<T> list, int length, int index, Set<T> currentSet, Set<Set<T>> subsets) {
-		for (int i = index; i < length; i++) {
-			T currentElement = list.get(i);
-			currentSet.add(currentElement);
-			subsets.add(new TreeSet<>(currentSet));
-			getAllSubsets(list, length, i + 1, currentSet, subsets);
-
-			currentSet.remove(currentElement);
-		}
 	}
 }
