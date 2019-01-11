@@ -95,7 +95,7 @@ class BacktrackingAlgorithmsTest {
 		primes = BacktrackingAlgorithms.getNPrimeNumbersAfterPWithSumS(3, 2, 54);
 		QuetzalAssertions.assertSetEquals(expectedPrimes, primes);
 	}
-	
+
 	@Test
 	void isSubStringSumString() {
 		assertTrue(BacktrackingAlgorithms.isSubStringSumString("12358"));
@@ -105,5 +105,39 @@ class BacktrackingAlgorithmsTest {
 		assertTrue(BacktrackingAlgorithms.isSubStringSumString("1111112223"));
 		assertTrue(BacktrackingAlgorithms.isSubStringSumString("1212243660"));
 		assertFalse(BacktrackingAlgorithms.isSubStringSumString("123456787"));
+	}
+
+	@Test
+	void getAllPathsFromTopLeftToBottomRight() {
+		int[][] matrix;
+		List<List<Integer>> allPaths;
+		List<List<Integer>> expectedPaths;
+
+		matrix = new int[][]{{1, 2, 3},
+				{4, 5, 6}};
+		expectedPaths = Utilities.constructList(Utilities.constructList(1, 4, 5, 6),
+				Utilities.constructList(1, 2, 5, 6),
+				Utilities.constructList(1, 2, 3, 6));
+		allPaths = BacktrackingAlgorithms.getAllPathsFromTopLeftToBottomRight(matrix);
+		QuetzalAssertions.assertListOfListEquals(expectedPaths, allPaths);
+
+		matrix = new int[][]{{1, 2},
+				{3, 4}};
+		expectedPaths = Utilities.constructList(Utilities.constructList(1, 3, 4),
+				Utilities.constructList(1, 2, 4));
+		allPaths = BacktrackingAlgorithms.getAllPathsFromTopLeftToBottomRight(matrix);
+		QuetzalAssertions.assertListOfListEquals(expectedPaths, allPaths);
+
+		matrix = new int[][]{{1, 2, 3},
+				{4, 5, 6},
+				{7, 8, 9}};
+		expectedPaths = Utilities.constructList(Utilities.constructList(1, 4, 7, 8, 9),
+				Utilities.constructList(1, 4, 5, 8, 9),
+				Utilities.constructList(1, 4, 5, 6, 9),
+				Utilities.constructList(1, 2, 5, 8, 9),
+				Utilities.constructList(1, 2, 5, 6, 9),
+				Utilities.constructList(1, 2, 3, 6, 9));
+		allPaths = BacktrackingAlgorithms.getAllPathsFromTopLeftToBottomRight(matrix);
+		QuetzalAssertions.assertListOfListEquals(expectedPaths, allPaths);
 	}
 }

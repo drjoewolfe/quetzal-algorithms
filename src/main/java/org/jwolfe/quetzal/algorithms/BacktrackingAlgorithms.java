@@ -16,7 +16,7 @@ public class BacktrackingAlgorithms {
 	}
 
 	private static void generateSubsetsWithGivenSum(int[] arr, Set<Integer> currentSet, int currentIndex, int targetSum,
-			int currentSum, List<Set<Integer>> resultSubSets) {
+													int currentSum, List<Set<Integer>> resultSubSets) {
 		if (currentSum == targetSum) {
 			Set<Integer> set = new TreeSet<>(currentSet);
 			resultSubSets.add(set);
@@ -58,7 +58,7 @@ public class BacktrackingAlgorithms {
 	}
 
 	private static void generateSubsetsWithGivenSumForSortedArray(int[] arr, Set<Integer> currentSet, int currentIndex,
-			int targetSum, int currentSum, List<Set<Integer>> resultSubSets) {
+																  int targetSum, int currentSum, List<Set<Integer>> resultSubSets) {
 		if (currentSum == targetSum) {
 			Set<Integer> set = new TreeSet<>(currentSet);
 			resultSubSets.add(set);
@@ -111,7 +111,7 @@ public class BacktrackingAlgorithms {
 	}
 
 	private static void generateSubsetsOfLengthNAddingToSum(List<Integer> set, int length, int sum, int currentIndex,
-			Set<Integer> currentSet, Set<Set<Integer>> subsets) {
+															Set<Integer> currentSet, Set<Set<Integer>> subsets) {
 		if (currentSet.size() == length) {
 			int subSetSum = currentSet.stream().mapToInt(i -> i).sum();
 			if (subSetSum == sum) {
@@ -183,5 +183,56 @@ public class BacktrackingAlgorithms {
 		}
 
 		return false;
+	}
+
+	public static List<List<Integer>> getAllPathsFromTopLeftToBottomRight(int[][] matrix) {
+		// From each cell, we can move right, or down
+
+		if (matrix == null || matrix.length == 0 || matrix[0].length == 0) {
+			return null;
+		}
+
+		int rowLength = matrix.length;
+		int columnLength = matrix[0].length;
+		for (var row : matrix) {
+			if (row.length != columnLength) {
+				return null;
+			}
+		}
+
+		List<List<Integer>> allPaths = new ArrayList<>();
+		List<Integer> currentPath = new ArrayList<>();
+
+		generateAllPathsFromTopLeftToBottomRight(matrix, rowLength, columnLength, 0, 0, currentPath, allPaths);
+		return allPaths;
+	}
+
+	private static void generateAllPathsFromTopLeftToBottomRight(int[][] matrix, int rowLength, int columnLength,
+																 int row, int column,
+																 List<Integer> currentPath, List<List<Integer>> allPaths) {
+
+		if (row < 0 || row >= rowLength || column < 0 || column >= columnLength) {
+			// Outside the bounds of the matrix
+			return;
+		}
+
+		int cell = matrix[row][column];
+		currentPath.add(cell);
+		int index = currentPath.size() - 1;
+
+		if (row == rowLength - 1 && column == columnLength - 1) {
+			// Reached bottom right
+			allPaths.add(new ArrayList<>(currentPath));
+			currentPath.remove(index);
+			return;
+		}
+
+		// Try down
+		generateAllPathsFromTopLeftToBottomRight(matrix, rowLength, columnLength, row + 1, column, currentPath, allPaths);
+
+		// Try right
+		generateAllPathsFromTopLeftToBottomRight(matrix, rowLength, columnLength, row, column + 1, currentPath, allPaths);
+
+		currentPath.remove(index);
 	}
 }
