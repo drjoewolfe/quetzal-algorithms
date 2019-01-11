@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.junit.jupiter.api.Test;
+import org.jwolfe.quetzal.library.general.Coordinate;
 import org.jwolfe.quetzal.library.utilities.Utilities;
 import org.jwolfe.quetzal.test.QuetzalAssertions;
 
@@ -139,5 +140,30 @@ class BacktrackingAlgorithmsTest {
 				Utilities.constructList(1, 2, 3, 6, 9));
 		allPaths = BacktrackingAlgorithms.getAllPathsFromTopLeftToBottomRight(matrix);
 		QuetzalAssertions.assertListOfListEquals(expectedPaths, allPaths);
+	}
+
+	@Test
+	void getLongestRouteBetweenSourceAndDestinationInAMatrixWithHurdles() {
+		int[][] matrix;
+		Coordinate source;
+		Coordinate destination;
+		List<Coordinate> longestPath;
+		List<Coordinate> expectedPath;
+
+		matrix = new int[][]{
+				{1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+				{1, 1, 0, 1, 1, 0, 1, 1, 0, 1},
+				{1, 1, 1, 1, 1, 1, 1, 1, 1, 1}
+		};
+		source = new Coordinate(0, 0);
+		destination = new Coordinate(1, 7);
+		expectedPath = Utilities.constructList(new Coordinate(0, 0), new Coordinate(0, 1), new Coordinate(1, 1), new Coordinate(1, 0),
+				new Coordinate(2, 0), new Coordinate(2, 1), new Coordinate(2, 2), new Coordinate(2, 3),
+				new Coordinate(2, 4), new Coordinate(1, 4), new Coordinate(1, 3), new Coordinate(0, 3),
+				new Coordinate(0, 4), new Coordinate(0, 5), new Coordinate(0, 6), new Coordinate(0, 7),
+				new Coordinate(0, 8), new Coordinate(0, 9), new Coordinate(1, 9), new Coordinate(2, 9),
+				new Coordinate(2, 8), new Coordinate(2, 7), new Coordinate(2, 6), new Coordinate(1, 6), new Coordinate(1, 7));
+		longestPath = BacktrackingAlgorithms.getLongestRouteBetweenSourceAndDestinationInAMatrixWithHurdles(matrix, source, destination);
+		QuetzalAssertions.assertListEquals(expectedPath, longestPath);
 	}
 }

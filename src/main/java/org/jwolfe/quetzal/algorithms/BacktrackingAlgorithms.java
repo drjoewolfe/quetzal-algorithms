@@ -1,5 +1,7 @@
 package org.jwolfe.quetzal.algorithms;
 
+import org.jwolfe.quetzal.library.general.Coordinate;
+
 import java.util.*;
 
 public class BacktrackingAlgorithms {
@@ -234,5 +236,82 @@ public class BacktrackingAlgorithms {
 		generateAllPathsFromTopLeftToBottomRight(matrix, rowLength, columnLength, row, column + 1, currentPath, allPaths);
 
 		currentPath.remove(index);
+	}
+
+	public static List<Coordinate> getLongestRouteBetweenSourceAndDestinationInAMatrixWithHurdles(int[][] matrix, Coordinate source, Coordinate destination) {
+		// Note: In the matrix, a zero value implies a hurdle; a non-zero value implies clear.
+
+		if (matrix == null || matrix.length == 0 || matrix[0].length == 0 || source == null || destination == null) {
+			return null;
+		}
+
+		int rowLength = matrix.length;
+		int columnLength = matrix[0].length;
+		for (var row : matrix) {
+			if (row.length != columnLength) {
+				return null;
+			}
+		}
+
+		if (!source.isWithinBounds(0, 0, rowLength - 1, columnLength - 1)
+				|| !destination.isWithinBounds(0, 0, rowLength - 1, columnLength - 1)) {
+			return null;
+		}
+
+		List<Coordinate> deltaCoordinates = new ArrayList<>();
+		// Left
+		deltaCoordinates.add(new Coordinate(0, -1));
+		// Right
+		deltaCoordinates.add(new Coordinate(0, 1));
+		// Top
+		deltaCoordinates.add(new Coordinate(-1, 0));
+		// Bottom
+		deltaCoordinates.add(new Coordinate(1, 0));
+
+		List<Coordinate> currentPath = new ArrayList<>();
+		List<Coordinate> longestRoute = new ArrayList<>();
+		generateLongestRouteBetweenSourceAndDestinationInAMatrixWithHurdles(matrix, rowLength, columnLength, deltaCoordinates, source, destination, source, currentPath, longestRoute);
+
+		return longestRoute;
+	}
+
+	private static int generateLongestRouteBetweenSourceAndDestinationInAMatrixWithHurdles(int[][] matrix, int rowLength, int columnLength, List<Coordinate> deltaCoordinates,
+																						   Coordinate source, Coordinate destination,
+																						   Coordinate current, List<Coordinate> currentPath, List<Coordinate> longestRoute) {
+		if (!current.isWithinBounds(0, 0, rowLength - 1, columnLength - 1)
+				|| matrix[current.getX()][current.getY()] == 0) {
+			// Out of bounds, or hurdle present
+			return Integer.MIN_VALUE;
+		}
+
+		if (currentPath.contains(current)) {
+			// Already visited
+			return Integer.MIN_VALUE;
+		}
+
+		currentPath.add(current);
+
+		if (current.equals(destination)) {
+			// Reached destination
+			int pathLength = currentPath.size();
+			if (longestRoute.size() < pathLength) {
+				longestRoute.clear();
+				longestRoute.addAll(currentPath);
+			}
+
+			currentPath.remove(current);
+			return pathLength;
+		}
+
+		int maxLength = Integer.MIN_VALUE;
+		for (var delta : deltaCoordinates) {
+			var next = current.buildNew(delta);
+			int length = generateLongestRouteBetweenSourceAndDestinationInAMatrixWithHurdles(matrix, rowLength, columnLength, deltaCoordinates, source, destination, next, currentPath, longestRoute);
+			maxLength = Math.max(maxLength, length);
+		}
+
+		currentPath.remove(current);
+
+		return maxLength;
 	}
 }
