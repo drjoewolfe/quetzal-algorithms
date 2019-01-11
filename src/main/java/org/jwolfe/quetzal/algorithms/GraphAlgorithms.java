@@ -96,38 +96,36 @@ public class GraphAlgorithms {
 
 		return distances;
 	}
-	
+
 	public static int[][] floydWarshall(int[][] graph, int numVertices, int startVertex) {
 		// Shortest paths from every vertex to every other vertex. O(V^3) 
-		
+
 		int[][] shortestPaths = new int[numVertices][numVertices];
-		
+
 		for (int i = 0; i < numVertices; i++) {
 			for (int j = 0; j < numVertices; j++) {
-				if(i == j) {
+				if (i == j) {
 					shortestPaths[i][i] = 0;
-				}
-				else if(graph[i][j] != 0) {
+				} else if (graph[i][j] != 0) {
 					shortestPaths[i][j] = graph[i][j];
-				}
-				else {
-					shortestPaths[i][j]= Integer.MAX_VALUE;
+				} else {
+					shortestPaths[i][j] = Integer.MAX_VALUE;
 				}
 			}
 		}
-		
+
 		for (int k = 0; k < numVertices; k++) {
 			for (int i = 0; i < numVertices; i++) {
 				for (int j = 0; j < numVertices; j++) {
-					if(shortestPaths[i][k] != Integer.MAX_VALUE 
-						&& shortestPaths[k][j] != Integer.MAX_VALUE
-						&& shortestPaths[i][k] + shortestPaths[k][j] < shortestPaths[i][j]) {
+					if (shortestPaths[i][k] != Integer.MAX_VALUE
+							&& shortestPaths[k][j] != Integer.MAX_VALUE
+							&& shortestPaths[i][k] + shortestPaths[k][j] < shortestPaths[i][j]) {
 						shortestPaths[i][j] = shortestPaths[i][k] + shortestPaths[k][j];
 					}
 				}
 			}
 		}
-		
+
 		return shortestPaths;
 	}
 
@@ -229,18 +227,18 @@ public class GraphAlgorithms {
 	}
 
 	public static int[] getHamiltonianCycle(int[][] graph, int startVertex) {
-		if(graph == null || graph.length == 0) {
+		if (graph == null || graph.length == 0) {
 			return null;
 		}
 
 		int numVertices = graph.length;
 		for (var list : graph) {
-			if(list == null || list.length != numVertices) {
+			if (list == null || list.length != numVertices) {
 				return null;
 			}
 		}
 
-		if(startVertex >= numVertices) {
+		if (startVertex >= numVertices) {
 			return null;
 		}
 
@@ -249,7 +247,7 @@ public class GraphAlgorithms {
 		path[0] = startVertex;
 
 		boolean hamiltonianCycleFound = constructHamiltonianCycle(graph, startVertex, numVertices, path, 1);
-		if(!hamiltonianCycleFound) {
+		if (!hamiltonianCycleFound) {
 			return null;
 		}
 
@@ -267,7 +265,7 @@ public class GraphAlgorithms {
 		for (int vertex = 0; vertex < numVertices; vertex++) {
 			if (isValildForHamiltonianPath(graph, path, pathIndex, vertex)) {
 				path[pathIndex] = vertex;
-				if(constructHamiltonianCycle(graph, startVertex, numVertices, path, pathIndex + 1)) {
+				if (constructHamiltonianCycle(graph, startVertex, numVertices, path, pathIndex + 1)) {
 					return true;
 				}
 
@@ -282,14 +280,14 @@ public class GraphAlgorithms {
 	private static boolean isValildForHamiltonianPath(int[][] graph, int[] path, int pathIndex, int vertex) {
 		// Ensure vertex not seen in path till now.
 		for (int i = 0; i < pathIndex; i++) {
-			if(path[i] == vertex) {
+			if (path[i] == vertex) {
 				return false;
 			}
 		}
 
 		// Ensure there is a path from the last vertex in the path to this vertex
-		if(graph[path[pathIndex - 1]][vertex] == 0) {
-			return  false;
+		if (graph[path[pathIndex - 1]][vertex] == 0) {
+			return false;
 		}
 
 		return true;
