@@ -440,14 +440,17 @@ public class DynamicProgramming {
 			}
 		}
 
-		StringBuilder sb = new StringBuilder(dp[m][n]);
+		int lcsSize = dp[m][n];
+		StringBuilder sb = new StringBuilder(lcsSize);
 		int i = m;
 		int j = n;
+		int index = lcsSize - 1;
 		while (i > 0 && j > 0) {
 			if (str1.charAt(i - 1) == str2.charAt(j - 1)) {
-				sb.append(str1.charAt(i - 1));
+				sb.setCharAt(index, str1.charAt(i - 1));
 				i--;
 				j--;
+				index--;
 			} else if (dp[i - 1][j] == dp[i][j]) {
 				i--;
 			} else {
@@ -455,7 +458,7 @@ public class DynamicProgramming {
 			}
 		}
 
-		return sb.reverse().toString();
+		return sb.toString();
 	}
 
 	public static int longestCommonSubsequenceRecursive(String str1, String str2) {
@@ -480,6 +483,37 @@ public class DynamicProgramming {
 			return Math.max(longestCommonSubsequenceRecursive(str1, str2, m, n - 1),
 					longestCommonSubsequenceRecursive(str1, str2, m - 1, n));
 		}
+	}
+
+	public static int longestCommonSubsequenceSpaceOptimized(String str1, String str2) {
+		// We need only the previous row for any iteration (if we do not need to get the lcs list.
+		// So we can work with 2 rows, instead of m.
+
+		if (str1 == null || str2 == null) {
+			return 0;
+		}
+
+		int m = str1.length();
+		int n = str2.length();
+		int[][] dp = new int[2][n + 1];
+
+		int binaryIndex = 0;
+
+		for (int i = 0; i <= m; i++) {
+			binaryIndex = i & 1;
+
+			for (int j = 0; j <= n; j++) {
+				if (i == 0 || j == 0) {
+					dp[binaryIndex][j] = 0;
+				} else if (str1.charAt(i - 1) == str2.charAt(j - 1)) {
+					dp[binaryIndex][j] = dp[1 - binaryIndex][j - 1] + 1;
+				} else {
+					dp[binaryIndex][j] = Math.max(dp[1 - binaryIndex][j], dp[binaryIndex][j - 1]);
+				}
+			}
+		}
+
+		return dp[binaryIndex][n];
 	}
 
 	public static int minCoins(int[] coins, int V) {

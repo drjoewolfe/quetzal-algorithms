@@ -343,6 +343,25 @@ class DynamicProgrammingTest {
     }
 
     @Test
+    void longestCommonSubsequenceSpaceOptimized() {
+        String str1;
+        String str2;
+        int lcs;
+
+        str1 = "ABCDGH";
+        str2 = "AEDFHR";
+        lcs = DynamicProgramming.longestCommonSubsequenceSpaceOptimized(str1, str2);
+        assertEquals(3, lcs);
+        System.out.println("Length of LCS is " + lcs);
+
+        str1 = "AGGTAB";
+        str2 = "GXTXAYB";
+        lcs = DynamicProgramming.longestCommonSubsequenceSpaceOptimized(str1, str2);
+        assertEquals(4, lcs);
+        System.out.println("Length of LCS is " + lcs);
+    }
+
+    @Test
     void minCoins() {
         int coins[];
         int V;
