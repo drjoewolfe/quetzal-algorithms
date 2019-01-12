@@ -6,9 +6,14 @@ import org.jwolfe.quetzal.library.utilities.PairFirstSorter;
 import org.jwolfe.quetzal.library.utilities.Utilities;
 
 import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class DynamicProgramming {
 	public static int lis(int[] arr) {
+        if(arr == null || arr.length == 0) {
+            return 0;
+        }
+
 		int n = arr.length;
 		int[] lis = new int[n];
 		Arrays.fill(lis, 1);
@@ -33,7 +38,38 @@ public class DynamicProgramming {
 		return max;
 	}
 
-	public static int editDistance(String str1, String str2) {
+    public static int lisRecursive(int[] arr) {
+        if (arr == null || arr.length == 0) {
+            return 0;
+        }
+
+        AtomicInteger max = new AtomicInteger(1);
+        lisRecursive(arr, arr.length - 1, max);
+
+        return max.intValue();
+    }
+
+    private static int lisRecursive(int[] arr, int index, AtomicInteger max) {
+        if (index == 0) {
+            return 1;
+        }
+
+        int lis = 1;
+        for (int i = 0; i < index; i++) {
+            int iLis = lisRecursive(arr, i, max);
+            if (arr[i] < arr[index] &&  lis < iLis + 1) {
+                lis = iLis + 1;
+            }
+        }
+
+        if (max.intValue() < lis) {
+            max.set(lis);
+        }
+
+        return lis;
+    }
+
+    public static int editDistance(String str1, String str2) {
 		if (str1 == null || str2 == null)
 			return 0;
 

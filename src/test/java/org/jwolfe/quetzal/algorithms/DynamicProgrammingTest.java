@@ -17,25 +17,66 @@ import java.util.Set;
 import static org.junit.jupiter.api.Assertions.*;
 
 class DynamicProgrammingTest {
+    @Test
+    void lis() {
+        int arr[];
+        int lis;
 
-    @BeforeEach
-    void setUp() {
-    }
+        arr = new int[] {10, 22, 9, 33, 21, 50, 41, 60, 80};
+        lis = DynamicProgramming.lis(arr);
+        assertEquals(6, lis);
+        System.out.println("Length of lis is " + lis);
 
-    @AfterEach
-    void tearDown() {
+        System.out.println();
+        arr = new int[] {10, 9, 2, 5, 3, 7, 101, 18};
+        lis = DynamicProgramming.lis(arr);
+        assertEquals(4, lis);
+        System.out.println("Length of lis is " + lis);
+
+        System.out.println();
+        arr = new int[] {3, 10, 2, 1, 20};
+        lis = DynamicProgramming.lis(arr);
+        assertEquals(3, lis);
+        System.out.println("Length of lis is " + lis);
+
+        System.out.println();
+        arr = new int[] {3, 2};
+        lis = DynamicProgramming.lis(arr);
+        assertEquals(1, lis);
+        System.out.println("Length of lis is " + lis);
+
+        System.out.println();
+        arr = new int[] {50, 3, 10, 7, 40, 80};
+        lis = DynamicProgramming.lis(arr);
+        assertEquals(4, lis);
+        System.out.println("Length of lis is " + lis);
     }
 
     @Test
-    void lis() {
-        int arr1[] = {10, 22, 9, 33, 21, 50, 41, 60};
-        int lis1 = DynamicProgramming.lis(arr1);
-        System.out.println("Length of lis is " + lis1);
+    void lisRecursive() {
+        int arr[];
+        int lis;
+
+        arr = new int[] {10, 22, 9, 33, 21, 50, 41, 60, 80};
+        lis = DynamicProgramming.lisRecursive(arr);
+        assertEquals(6, lis);
 
         System.out.println();
-        int arr2[] = {10, 9, 2, 5, 3, 7, 101, 18};
-        int lis2 = DynamicProgramming.lis(arr2);
-        System.out.println("Length of lis is " + lis2);
+        arr = new int[] {10, 9, 2, 5, 3, 7, 101, 18};
+        lis = DynamicProgramming.lisRecursive(arr);
+        assertEquals(4, lis);
+
+        arr = new int[] {3, 10, 2, 1, 20};
+        lis = DynamicProgramming.lisRecursive(arr);
+        assertEquals(3, lis);
+
+        arr = new int[] {3, 2};
+        lis = DynamicProgramming.lisRecursive(arr);
+        assertEquals(1, lis);
+
+        arr = new int[] {50, 3, 10, 7, 40, 80};
+        lis = DynamicProgramming.lisRecursive(arr);
+        assertEquals(4, lis);
     }
 
     @Test
