@@ -156,6 +156,32 @@ class DynamicProgrammingTest {
     }
 
     @Test
+    void knapsack01Unbounded() {
+        int[] weights;
+        int[] values;
+        int W;
+        int knapsackValue;
+
+        weights = new int[]{1, 50};
+        values = new int[]{1, 30};
+        W = 100;
+        knapsackValue = DynamicProgramming.knapsack01Unbounded(weights, values, W);
+        assertEquals(100, knapsackValue);
+
+        weights = new int[]{1, 3, 4, 5};
+        values = new int[]{10, 40, 50, 70};
+        W = 8;
+        knapsackValue = DynamicProgramming.knapsack01Unbounded(weights, values, W);
+        assertEquals(110, knapsackValue);
+
+        weights = new int[]{5, 10, 15};
+        values = new int[]{10, 30, 20};
+        W = 100;
+        knapsackValue = DynamicProgramming.knapsack01Unbounded(weights, values, W);
+        assertEquals(300, knapsackValue);
+    }
+
+    @Test
     void knapsack01Recursive() {
         int val[] = {60, 100, 120};
         int wt[] = {10, 20, 30};

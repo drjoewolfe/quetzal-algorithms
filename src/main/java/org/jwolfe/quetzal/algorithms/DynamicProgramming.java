@@ -233,6 +233,27 @@ public class DynamicProgramming {
 		return knapsack;
 	}
 
+	public static int knapsack01Unbounded(int[] weights, int[] values, int W) {
+        if (weights == null || values == null || weights.length != values.length || W < 0) {
+            return -1;
+        }
+
+        int n = weights.length;
+        int[] dp = new int[W + 1];
+        dp[0] = 0;
+
+        for (int i = 1; i <= W; i++) {
+            dp[i] = 0;
+            for (int j = 0; j < n; j++) {
+                if (weights[j] <= i) {
+                    dp[i] = Math.max(dp[i], values[j] + dp[i - weights[j]]);
+                }
+            }
+        }
+
+        return dp[W];
+    }
+
 	public static int knapsack01Recursive(int[] weights, int[] values, int W) {
 		int n = weights.length;
 		if (values.length != n)
