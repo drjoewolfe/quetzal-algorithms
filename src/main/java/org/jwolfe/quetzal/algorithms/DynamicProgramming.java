@@ -1,9 +1,8 @@
 package org.jwolfe.quetzal.algorithms;
 
-import org.jwolfe.quetzal.library.general.IntPair;
-import org.jwolfe.quetzal.library.general.Pair;
+import org.jwolfe.quetzal.library.general.*;
+import org.jwolfe.quetzal.library.matrix.Matrix;
 import org.jwolfe.quetzal.library.utilities.PairFirstSorter;
-import org.jwolfe.quetzal.library.general.Triplet;
 import org.jwolfe.quetzal.library.utilities.Utilities;
 
 import java.util.*;
@@ -189,6 +188,49 @@ public class DynamicProgramming {
 		}
 
 		return dp[n][W];
+	}
+
+	public static Knapsack knapsack01(List<CarryItem> items, int maxWeight) {
+		if (items == null || maxWeight < 0) {
+			return null;
+		}
+
+		int n = items.size();
+
+		// The value matrix that stores the max values for various combinations, built in a bottom-up fashion
+		int[][] dp = new int[n + 1][maxWeight + 1];
+		for (int i = 0; i <= n; i++) {
+			for (int j = 0; j <= maxWeight; j++) {
+				if (i == 0 || j == 0) {
+					dp[i][j] = 0;
+					continue;
+				}
+
+				var item = items.get(i - 1);
+				if (item.getWeight() > j) {
+					dp[i][j] = dp[i - 1][j];
+				} else {
+					dp[i][j] = Math.max(dp[i - 1][j], item.getValue() + dp[i - 1][j - item.getWeight()]);
+				}
+			}
+		}
+
+		// dp[n][maxWeight] has the final max value for the Knapsack. Building the knapsack.
+		Knapsack knapsack = new Knapsack();
+		var sackItems = knapsack.getItems();
+		int weight = maxWeight;
+		for (int i = n; i > 0; i--) {
+			if (dp[i][weight] == dp[i - 1][weight]) {
+				// This item was not included.
+				continue;
+			} else {
+				var item = items.get(i - 1);
+				sackItems.add(item);
+				weight -= item.getWeight();
+			}
+		}
+
+		return knapsack;
 	}
 
 	public static int knapsack01Recursive(int[] weights, int[] values, int W) {

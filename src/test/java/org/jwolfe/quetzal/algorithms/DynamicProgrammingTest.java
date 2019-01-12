@@ -3,6 +3,8 @@ package org.jwolfe.quetzal.algorithms;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.jwolfe.quetzal.library.general.CarryItem;
+import org.jwolfe.quetzal.library.general.Knapsack;
 import org.jwolfe.quetzal.library.general.Pair;
 import org.jwolfe.quetzal.library.general.Triplet;
 import org.jwolfe.quetzal.library.utilities.Utilities;
@@ -119,6 +121,38 @@ class DynamicProgrammingTest {
         int W = 50;
         int res = DynamicProgramming.knapsack01(wt, val, W);
         System.out.println(res);
+    }
+
+    @Test
+    void knapsack01WithItems() {
+        List<CarryItem> items;
+        int maxWeight;
+        Knapsack knapsack;
+        List<CarryItem> expectedKnapsackItems;
+
+        items = Utilities.constructList(new CarryItem(10, 60), new CarryItem(20, 100), new CarryItem(30, 120));
+        maxWeight = 50;
+        expectedKnapsackItems = Utilities.constructList(new CarryItem(20, 100), new CarryItem(30, 120));
+        knapsack = DynamicProgramming.knapsack01(items, maxWeight);
+        assertNotNull(knapsack);
+        assertEquals(220, knapsack.getValue());
+        QuetzalAssertions.assertListEquals(expectedKnapsackItems, knapsack.getItems());
+
+        items = Utilities.constructList(new CarryItem(20, 40), new CarryItem(10, 100), new CarryItem(40, 50), new CarryItem(30, 60));
+        maxWeight = 60;
+        expectedKnapsackItems = Utilities.constructList(new CarryItem(20, 40), new CarryItem(10, 100), new CarryItem(30, 60));
+        knapsack = DynamicProgramming.knapsack01(items, maxWeight);
+        assertNotNull(knapsack);
+        assertEquals(200, knapsack.getValue());
+        QuetzalAssertions.assertListEquals(expectedKnapsackItems, knapsack.getItems());
+
+        items = Utilities.constructList(new CarryItem(1, 1), new CarryItem(3, 4), new CarryItem(4, 5), new CarryItem(5, 7));
+        maxWeight = 7;
+        expectedKnapsackItems = Utilities.constructList(new CarryItem(3, 4), new CarryItem(4, 5));
+        knapsack = DynamicProgramming.knapsack01(items, maxWeight);
+        assertNotNull(knapsack);
+        assertEquals(9, knapsack.getValue());
+        QuetzalAssertions.assertListEquals(expectedKnapsackItems, knapsack.getItems());
     }
 
     @Test
