@@ -1,7 +1,5 @@
 package org.jwolfe.quetzal.algorithms;
 
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.jwolfe.quetzal.library.general.CarryItem;
 import org.jwolfe.quetzal.library.general.Knapsack;
@@ -18,64 +16,81 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class DynamicProgrammingTest {
     @Test
-    void lis() {
-        int arr[];
+    void longestIncreasingSubsequence() {
+        int[] arr;
         int lis;
 
         arr = new int[] {10, 22, 9, 33, 21, 50, 41, 60, 80};
-        lis = DynamicProgramming.lis(arr);
+        lis = DynamicProgramming.longestIncreasingSubsequence(arr);
         assertEquals(6, lis);
-        System.out.println("Length of lis is " + lis);
+        System.out.println("Length of longest increasing subsequence is " + lis);
 
         System.out.println();
         arr = new int[] {10, 9, 2, 5, 3, 7, 101, 18};
-        lis = DynamicProgramming.lis(arr);
+        lis = DynamicProgramming.longestIncreasingSubsequence(arr);
         assertEquals(4, lis);
-        System.out.println("Length of lis is " + lis);
+        System.out.println("Length of longest increasing subsequence is " + lis);
 
         System.out.println();
         arr = new int[] {3, 10, 2, 1, 20};
-        lis = DynamicProgramming.lis(arr);
+        lis = DynamicProgramming.longestIncreasingSubsequence(arr);
         assertEquals(3, lis);
-        System.out.println("Length of lis is " + lis);
+        System.out.println("Length of longest increasing subsequence is " + lis);
 
         System.out.println();
         arr = new int[] {3, 2};
-        lis = DynamicProgramming.lis(arr);
+        lis = DynamicProgramming.longestIncreasingSubsequence(arr);
         assertEquals(1, lis);
-        System.out.println("Length of lis is " + lis);
+        System.out.println("Length of longest increasing subsequence is " + lis);
 
         System.out.println();
         arr = new int[] {50, 3, 10, 7, 40, 80};
-        lis = DynamicProgramming.lis(arr);
+        lis = DynamicProgramming.longestIncreasingSubsequence(arr);
         assertEquals(4, lis);
-        System.out.println("Length of lis is " + lis);
+        System.out.println("Length of longest increasing subsequence is " + lis);
     }
 
     @Test
-    void lisRecursive() {
-        int arr[];
+    void getLongestIncreasingSubsequence() {
+        int[] arr;
+        List<Integer> lisList;
+        List<Integer> expectedLisList;
+
+        arr = new int[]{10, 22, 9, 33, 21, 50, 41, 60, 80};
+        expectedLisList = Utilities.constructList(10, 22, 33, 50, 60, 80);
+        lisList = DynamicProgramming.getLongestIncreasingSubsequence(arr);
+        QuetzalAssertions.assertListEquals(expectedLisList, lisList);
+
+        arr = new int[]{3, 2, 6, 4, 5, 1};
+        expectedLisList = Utilities.constructList(2, 4, 5);
+        lisList = DynamicProgramming.getLongestIncreasingSubsequence(arr);
+        QuetzalAssertions.assertListEquals(expectedLisList, lisList);
+    }
+
+    @Test
+    void longestIncreasingSubsequenceRecursive() {
+        int[] arr;
         int lis;
 
         arr = new int[] {10, 22, 9, 33, 21, 50, 41, 60, 80};
-        lis = DynamicProgramming.lisRecursive(arr);
+        lis = DynamicProgramming.longestIncreasingSubsequenceRecursive(arr);
         assertEquals(6, lis);
 
         System.out.println();
         arr = new int[] {10, 9, 2, 5, 3, 7, 101, 18};
-        lis = DynamicProgramming.lisRecursive(arr);
+        lis = DynamicProgramming.longestIncreasingSubsequenceRecursive(arr);
         assertEquals(4, lis);
 
         arr = new int[] {3, 10, 2, 1, 20};
-        lis = DynamicProgramming.lisRecursive(arr);
+        lis = DynamicProgramming.longestIncreasingSubsequenceRecursive(arr);
         assertEquals(3, lis);
 
         arr = new int[] {3, 2};
-        lis = DynamicProgramming.lisRecursive(arr);
+        lis = DynamicProgramming.longestIncreasingSubsequenceRecursive(arr);
         assertEquals(1, lis);
 
         arr = new int[] {50, 3, 10, 7, 40, 80};
-        lis = DynamicProgramming.lisRecursive(arr);
+        lis = DynamicProgramming.longestIncreasingSubsequenceRecursive(arr);
         assertEquals(4, lis);
     }
 

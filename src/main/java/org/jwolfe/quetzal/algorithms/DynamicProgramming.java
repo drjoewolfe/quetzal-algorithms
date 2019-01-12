@@ -1,7 +1,6 @@
 package org.jwolfe.quetzal.algorithms;
 
 import org.jwolfe.quetzal.library.general.*;
-import org.jwolfe.quetzal.library.matrix.Matrix;
 import org.jwolfe.quetzal.library.utilities.PairFirstSorter;
 import org.jwolfe.quetzal.library.utilities.Utilities;
 
@@ -9,7 +8,7 @@ import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class DynamicProgramming {
-	public static int lis(int[] arr) {
+	public static int longestIncreasingSubsequence(int[] arr) {
         if(arr == null || arr.length == 0) {
             return 0;
         }
@@ -38,25 +37,59 @@ public class DynamicProgramming {
 		return max;
 	}
 
-    public static int lisRecursive(int[] arr) {
+	public static List<Integer> getLongestIncreasingSubsequence(int[] arr) {
+		if (arr == null || arr.length == 0) {
+			return null;
+		}
+
+		List<List<Integer>> dp = new ArrayList<>();
+
+		List<Integer> runningList = new ArrayList<>();
+		runningList.add(arr[0]);
+		dp.add(new ArrayList<>(runningList));
+
+		for (int i = 1; i < arr.length; i++) {
+			runningList.clear();
+			for (int j = 0; j < i; j++) {
+				if (arr[j] < arr[i]
+						&& runningList.size() < dp.get(j).size()) {
+					runningList = dp.get(j);
+				}
+			}
+
+			dp.add(new ArrayList<>(runningList));
+			dp.get(i).add(arr[i]);
+		}
+
+		List<Integer> lisList = dp.get(0);
+		for (int i = 1; i < dp.size(); i++) {
+			if (lisList.size() < dp.get(i).size()) {
+				lisList = dp.get(i);
+			}
+		}
+
+		return lisList;
+	}
+
+    public static int longestIncreasingSubsequenceRecursive(int[] arr) {
         if (arr == null || arr.length == 0) {
             return 0;
         }
 
         AtomicInteger max = new AtomicInteger(1);
-        lisRecursive(arr, arr.length - 1, max);
+        longestIncreasingSubsequenceRecursive(arr, arr.length - 1, max);
 
         return max.intValue();
     }
 
-    private static int lisRecursive(int[] arr, int index, AtomicInteger max) {
+    private static int longestIncreasingSubsequenceRecursive(int[] arr, int index, AtomicInteger max) {
         if (index == 0) {
             return 1;
         }
 
         int lis = 1;
         for (int i = 0; i < index; i++) {
-            int iLis = lisRecursive(arr, i, max);
+            int iLis = longestIncreasingSubsequenceRecursive(arr, i, max);
             if (arr[i] < arr[index] &&  lis < iLis + 1) {
                 lis = iLis + 1;
             }
