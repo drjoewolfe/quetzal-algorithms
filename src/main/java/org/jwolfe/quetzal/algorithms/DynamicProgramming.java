@@ -395,6 +395,10 @@ public class DynamicProgramming {
 	}
 
 	public static int longestCommonSubsequence(String str1, String str2) {
+		if(str1 == null || str2 == null) {
+			return 0;
+		}
+
 		int m = str1.length();
 		int n = str2.length();
 
@@ -415,7 +419,50 @@ public class DynamicProgramming {
 		return dp[m][n];
 	}
 
+	public static String getLongestCommonSubsequence(String str1, String str2) {
+		if (str1 == null || str2 == null) {
+			return null;
+		}
+
+		int m = str1.length();
+		int n = str2.length();
+
+		int[][] dp = new int[m + 1][n + 1];
+		for (int i = 0; i <= m; i++) {
+			for (int j = 0; j <= n; j++) {
+				if (i == 0 || j == 0) {
+					dp[i][j] = 0;
+				} else if (str1.charAt(i - 1) == str2.charAt(j - 1)) {
+					dp[i][j] = 1 + dp[i - 1][j - 1];
+				} else {
+					dp[i][j] = Math.max(dp[i - 1][j], dp[i][j - 1]);
+				}
+			}
+		}
+
+		StringBuilder sb = new StringBuilder(dp[m][n]);
+		int i = m;
+		int j = n;
+		while (i > 0 && j > 0) {
+			if (str1.charAt(i - 1) == str2.charAt(j - 1)) {
+				sb.append(str1.charAt(i - 1));
+				i--;
+				j--;
+			} else if (dp[i - 1][j] == dp[i][j]) {
+				i--;
+			} else {
+				j--;
+			}
+		}
+
+		return sb.reverse().toString();
+	}
+
 	public static int longestCommonSubsequenceRecursive(String str1, String str2) {
+		if(str1 == null || str2 == null) {
+			return 0;
+		}
+
 		int m = str1.length();
 		int n = str2.length();
 

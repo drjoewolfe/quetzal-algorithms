@@ -302,6 +302,28 @@ class DynamicProgrammingTest {
     }
 
     @Test
+    void getLongestCommonSubsequence() {
+        String str1;
+        String str2;
+        String lcsString;
+
+        str1 = "ABCDGH";
+        str2 = "AEDFHR";
+        lcsString = DynamicProgramming.getLongestCommonSubsequence(str1, str2);
+        assertEquals("ADH", lcsString);
+
+        str1 = "AGGTAB";
+        str2 = "GXTXAYB";
+        lcsString = DynamicProgramming.getLongestCommonSubsequence(str1, str2);
+        assertEquals("GTAB", lcsString);
+
+        str1 = "MZJAWXU";
+        str2 = "XMJYAUZ";
+        lcsString = DynamicProgramming.getLongestCommonSubsequence(str1, str2);
+        assertEquals("MJAU", lcsString);
+    }
+
+    @Test
     void longestCommonSubsequenceRecursive() {
         String str1;
         String str2;
