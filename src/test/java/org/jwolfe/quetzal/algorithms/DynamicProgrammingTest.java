@@ -20,31 +20,31 @@ class DynamicProgrammingTest {
         int[] arr;
         int lis;
 
-        arr = new int[] {10, 22, 9, 33, 21, 50, 41, 60, 80};
+        arr = new int[]{10, 22, 9, 33, 21, 50, 41, 60, 80};
         lis = DynamicProgramming.longestIncreasingSubsequence(arr);
         assertEquals(6, lis);
         System.out.println("Length of longest increasing subsequence is " + lis);
 
         System.out.println();
-        arr = new int[] {10, 9, 2, 5, 3, 7, 101, 18};
+        arr = new int[]{10, 9, 2, 5, 3, 7, 101, 18};
         lis = DynamicProgramming.longestIncreasingSubsequence(arr);
         assertEquals(4, lis);
         System.out.println("Length of longest increasing subsequence is " + lis);
 
         System.out.println();
-        arr = new int[] {3, 10, 2, 1, 20};
+        arr = new int[]{3, 10, 2, 1, 20};
         lis = DynamicProgramming.longestIncreasingSubsequence(arr);
         assertEquals(3, lis);
         System.out.println("Length of longest increasing subsequence is " + lis);
 
         System.out.println();
-        arr = new int[] {3, 2};
+        arr = new int[]{3, 2};
         lis = DynamicProgramming.longestIncreasingSubsequence(arr);
         assertEquals(1, lis);
         System.out.println("Length of longest increasing subsequence is " + lis);
 
         System.out.println();
-        arr = new int[] {50, 3, 10, 7, 40, 80};
+        arr = new int[]{50, 3, 10, 7, 40, 80};
         lis = DynamicProgramming.longestIncreasingSubsequence(arr);
         assertEquals(4, lis);
         System.out.println("Length of longest increasing subsequence is " + lis);
@@ -72,24 +72,24 @@ class DynamicProgrammingTest {
         int[] arr;
         int lis;
 
-        arr = new int[] {10, 22, 9, 33, 21, 50, 41, 60, 80};
+        arr = new int[]{10, 22, 9, 33, 21, 50, 41, 60, 80};
         lis = DynamicProgramming.longestIncreasingSubsequenceRecursive(arr);
         assertEquals(6, lis);
 
         System.out.println();
-        arr = new int[] {10, 9, 2, 5, 3, 7, 101, 18};
+        arr = new int[]{10, 9, 2, 5, 3, 7, 101, 18};
         lis = DynamicProgramming.longestIncreasingSubsequenceRecursive(arr);
         assertEquals(4, lis);
 
-        arr = new int[] {3, 10, 2, 1, 20};
+        arr = new int[]{3, 10, 2, 1, 20};
         lis = DynamicProgramming.longestIncreasingSubsequenceRecursive(arr);
         assertEquals(3, lis);
 
-        arr = new int[] {3, 2};
+        arr = new int[]{3, 2};
         lis = DynamicProgramming.longestIncreasingSubsequenceRecursive(arr);
         assertEquals(1, lis);
 
-        arr = new int[] {50, 3, 10, 7, 40, 80};
+        arr = new int[]{50, 3, 10, 7, 40, 80};
         lis = DynamicProgramming.longestIncreasingSubsequenceRecursive(arr);
         assertEquals(4, lis);
     }
@@ -664,202 +664,202 @@ class DynamicProgrammingTest {
         prices = Utilities.constructArray(3, 5, 8, 9, 10, 17, 17, 20);
         assertEquals(24, DynamicProgramming.maxRevenueFromRodCuttingRecursive(prices, 8));
     }
-    
+
     @Test
     void wordBreak() {
-    	String str;
+        String str;
         List<String> dictionary;
 
         dictionary = Utilities.constructList("i", "and", "want", "need", "wish", "straw", "berry", "strawberry", "uni", "corn", "unicorn", "models", "fruit", "salad", "fruitsalad");
-        
+
         str = "i";
         assertTrue(DynamicProgramming.wordBreak(str, dictionary));
 
         str = "want";
         assertTrue(DynamicProgramming.wordBreak(str, dictionary));
-        
+
         str = "we";
         assertFalse(DynamicProgramming.wordBreak(str, dictionary));
-        
+
         str = "straw";
         assertTrue(DynamicProgramming.wordBreak(str, dictionary));
-        
+
         str = "strawberry";
         assertTrue(DynamicProgramming.wordBreak(str, dictionary));
-        
+
         str = "strawmerry";
         assertFalse(DynamicProgramming.wordBreak(str, dictionary));
-        
+
         str = "fruitstraw";
         assertTrue(DynamicProgramming.wordBreak(str, dictionary));
-        
+
         str = "strawfruit";
         assertTrue(DynamicProgramming.wordBreak(str, dictionary));
-        
+
         str = "saladmodel";
         assertFalse(DynamicProgramming.wordBreak(str, dictionary));
-        
+
         str = "iwant";
         assertTrue(DynamicProgramming.wordBreak(str, dictionary));
-        
+
         str = "iwish";
-        assertTrue(DynamicProgramming.wordBreak(str, dictionary));   
-        
+        assertTrue(DynamicProgramming.wordBreak(str, dictionary));
+
         str = "iwantandneed";
-        assertTrue(DynamicProgramming.wordBreak(str, dictionary));       
-  
+        assertTrue(DynamicProgramming.wordBreak(str, dictionary));
+
         str = "iwantunicorn";
-        assertTrue(DynamicProgramming.wordBreak(str, dictionary));   
-        
+        assertTrue(DynamicProgramming.wordBreak(str, dictionary));
+
         str = "iwantunicornmodels";
-        assertTrue(DynamicProgramming.wordBreak(str, dictionary));   
-        
+        assertTrue(DynamicProgramming.wordBreak(str, dictionary));
+
         str = "iwantfruitsaladandstrawberry";
-        assertTrue(DynamicProgramming.wordBreak(str, dictionary));   
-        
+        assertTrue(DynamicProgramming.wordBreak(str, dictionary));
+
         str = "iwantandneedandwishunicornmodelsandfruitsaladandstrawberry";
-        assertTrue(DynamicProgramming.wordBreak(str, dictionary));   
-        
+        assertTrue(DynamicProgramming.wordBreak(str, dictionary));
+
         str = "iwantandneedandwishunicornmodelsandfruitsaladandstrawberryandpista";
         assertFalse(DynamicProgramming.wordBreak(str, dictionary));
-        
+
         str = "iwantandneedandwishmerryunicornmodelsandfruitsaladandstrawberry";
         assertFalse(DynamicProgramming.wordBreak(str, dictionary));
     }
-    
+
     @Test
     void wordBreakDP() {
-    	String str;
+        String str;
         List<String> dictionary;
 
         dictionary = Utilities.constructList("i", "and", "want", "need", "wish", "straw", "berry", "strawberry", "uni", "corn", "unicorn", "models", "fruit", "salad", "fruitsalad");
-        
+
         str = "i";
         assertTrue(DynamicProgramming.wordBreakDP(str, dictionary));
 
         str = "want";
         assertTrue(DynamicProgramming.wordBreakDP(str, dictionary));
-        
+
         str = "we";
         assertFalse(DynamicProgramming.wordBreakDP(str, dictionary));
-        
+
         str = "straw";
         assertTrue(DynamicProgramming.wordBreakDP(str, dictionary));
-        
+
         str = "strawberry";
         assertTrue(DynamicProgramming.wordBreakDP(str, dictionary));
-        
+
         str = "strawmerry";
         assertFalse(DynamicProgramming.wordBreakDP(str, dictionary));
-        
+
         str = "fruitstraw";
         assertTrue(DynamicProgramming.wordBreakDP(str, dictionary));
-        
+
         str = "strawfruit";
         assertTrue(DynamicProgramming.wordBreakDP(str, dictionary));
-        
+
         str = "saladmodel";
         assertFalse(DynamicProgramming.wordBreakDP(str, dictionary));
-        
+
         str = "iwant";
         assertTrue(DynamicProgramming.wordBreakDP(str, dictionary));
-        
+
         str = "iwish";
-        assertTrue(DynamicProgramming.wordBreakDP(str, dictionary));   
-        
+        assertTrue(DynamicProgramming.wordBreakDP(str, dictionary));
+
         str = "iwantandneed";
-        assertTrue(DynamicProgramming.wordBreakDP(str, dictionary));       
-  
+        assertTrue(DynamicProgramming.wordBreakDP(str, dictionary));
+
         str = "iwantunicorn";
-        assertTrue(DynamicProgramming.wordBreakDP(str, dictionary));   
-        
+        assertTrue(DynamicProgramming.wordBreakDP(str, dictionary));
+
         str = "iwantunicornmodels";
-        assertTrue(DynamicProgramming.wordBreakDP(str, dictionary));   
-        
+        assertTrue(DynamicProgramming.wordBreakDP(str, dictionary));
+
         str = "iwantfruitsaladandstrawberry";
-        assertTrue(DynamicProgramming.wordBreakDP(str, dictionary));   
-        
+        assertTrue(DynamicProgramming.wordBreakDP(str, dictionary));
+
         str = "iwantandneedandwishunicornmodelsandfruitsaladandstrawberry";
-        assertTrue(DynamicProgramming.wordBreakDP(str, dictionary));   
-        
+        assertTrue(DynamicProgramming.wordBreakDP(str, dictionary));
+
         str = "iwantandneedandwishunicornmodelsandfruitsaladandstrawberryandpista";
         assertFalse(DynamicProgramming.wordBreakDP(str, dictionary));
-        
+
         str = "iwantandneedandwishmerryunicornmodelsandfruitsaladandstrawberry";
         assertFalse(DynamicProgramming.wordBreakDP(str, dictionary));
     }
-    
+
     @Test
     void wordBreakRecursive() {
-    	String str;
+        String str;
         List<String> dictionary;
 
         dictionary = Utilities.constructList("i", "and", "want", "need", "wish", "straw", "berry", "strawberry", "uni", "corn", "unicorn", "models", "fruit", "salad", "fruitsalad");
-        
+
         str = "i";
         assertTrue(DynamicProgramming.wordBreakRecursive(str, dictionary));
 
         str = "want";
         assertTrue(DynamicProgramming.wordBreakRecursive(str, dictionary));
-        
+
         str = "we";
         assertFalse(DynamicProgramming.wordBreakRecursive(str, dictionary));
-        
+
         str = "straw";
         assertTrue(DynamicProgramming.wordBreakRecursive(str, dictionary));
-        
+
         str = "strawberry";
         assertTrue(DynamicProgramming.wordBreakRecursive(str, dictionary));
-        
+
         str = "strawmerry";
         assertFalse(DynamicProgramming.wordBreakRecursive(str, dictionary));
-        
+
         str = "fruitstraw";
         assertTrue(DynamicProgramming.wordBreakRecursive(str, dictionary));
-        
+
         str = "strawfruit";
         assertTrue(DynamicProgramming.wordBreakRecursive(str, dictionary));
-        
+
         str = "saladmodel";
         assertFalse(DynamicProgramming.wordBreakRecursive(str, dictionary));
-        
+
         str = "iwant";
         assertTrue(DynamicProgramming.wordBreakRecursive(str, dictionary));
-        
+
         str = "iwish";
-        assertTrue(DynamicProgramming.wordBreakRecursive(str, dictionary));   
-        
+        assertTrue(DynamicProgramming.wordBreakRecursive(str, dictionary));
+
         str = "iwantandneed";
-        assertTrue(DynamicProgramming.wordBreakRecursive(str, dictionary));       
-  
+        assertTrue(DynamicProgramming.wordBreakRecursive(str, dictionary));
+
         str = "iwantunicorn";
-        assertTrue(DynamicProgramming.wordBreakRecursive(str, dictionary));   
-        
+        assertTrue(DynamicProgramming.wordBreakRecursive(str, dictionary));
+
         str = "iwantunicornmodels";
-        assertTrue(DynamicProgramming.wordBreakRecursive(str, dictionary));   
-        
+        assertTrue(DynamicProgramming.wordBreakRecursive(str, dictionary));
+
         str = "iwantfruitsaladandstrawberry";
-        assertTrue(DynamicProgramming.wordBreakRecursive(str, dictionary));   
-        
+        assertTrue(DynamicProgramming.wordBreakRecursive(str, dictionary));
+
         str = "iwantandneedandwishunicornmodelsandfruitsaladandstrawberry";
-        assertTrue(DynamicProgramming.wordBreakRecursive(str, dictionary));   
-        
+        assertTrue(DynamicProgramming.wordBreakRecursive(str, dictionary));
+
         str = "iwantandneedandwishunicornmodelsandfruitsaladandstrawberryandpista";
         assertFalse(DynamicProgramming.wordBreakRecursive(str, dictionary));
-        
+
         str = "iwantandneedandwishmerryunicornmodelsandfruitsaladandstrawberry";
         assertFalse(DynamicProgramming.wordBreakRecursive(str, dictionary));
     }
-    
+
     @Test
     void getWordBreaks() {
-    	String str;
+        String str;
         List<String> dictionary;
         List<String> wordBreaks;
-        List<String> expectedWordBreaks; 
+        List<String> expectedWordBreaks;
 
         dictionary = Utilities.constructList("i", "and", "want", "need", "wish", "straw", "berry", "strawberry", "uni", "corn", "unicorn", "models", "fruit", "salad", "fruitsalad");
-        
+
         str = "i";
         expectedWordBreaks = Utilities.constructList("i");
         wordBreaks = DynamicProgramming.getWordBreaks(str, dictionary);
@@ -869,12 +869,12 @@ class DynamicProgrammingTest {
         expectedWordBreaks = Utilities.constructList("straw berry", "strawberry");
         wordBreaks = DynamicProgramming.getWordBreaks(str, dictionary);
         QuetzalAssertions.assertListEquals(expectedWordBreaks, wordBreaks);
-        
+
         str = "iwantunicornmodels";
         expectedWordBreaks = Utilities.constructList("i want uni corn models", "i want unicorn models");
         wordBreaks = DynamicProgramming.getWordBreaks(str, dictionary);
         QuetzalAssertions.assertListEquals(expectedWordBreaks, wordBreaks);
-        
+
         str = "iwantandneedandwishmerryunicornmodelsandfruitsaladandstrawberry";
         wordBreaks = DynamicProgramming.getWordBreaks(str, dictionary);
         assertEquals(0, wordBreaks.size());
@@ -915,5 +915,13 @@ class DynamicProgrammingTest {
         arr = Utilities.constructArray(5, 7, 9);
         largestDivisiblePairsSubset = DynamicProgramming.getLargestDivisiblePairsSubset(arr);
         assertEquals(1, largestDivisiblePairsSubset.size());
+    }
+
+    @Test
+    void minimumPalindromePartitioning() {
+        assertEquals(9, DynamicProgramming.minimumPalindromePartitioning("abcdefghij"));
+        assertEquals(3, DynamicProgramming.minimumPalindromePartitioning("ababbbabbababa"));
+        assertEquals(1, DynamicProgramming.minimumPalindromePartitioning("add"));
+        assertEquals(3, DynamicProgramming.minimumPalindromePartitioning("doopy"));
     }
 }
