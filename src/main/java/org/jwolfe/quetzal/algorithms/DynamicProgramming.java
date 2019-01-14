@@ -1342,4 +1342,34 @@ public class DynamicProgramming {
 
         return cuts[n - 1];
     }
+
+    public static int minimumPalindromePartitioningRecursive(String str) {
+        if (str == null || str.length() == 0) {
+            return 0;
+        }
+
+        if(str.length() == 0 || StringAlgorithms.isPalidrome(str)) {
+            return 0;
+        }
+
+        return minimumPalindromePartitioningRecursive(str, 0, str.length() - 1);
+    }
+
+    public static int minimumPalindromePartitioningRecursive(String str, int start, int end) {
+        if (start == end) {
+            return 0;
+        }
+
+        if (StringAlgorithms.isPalidrome(str.substring(start, end + 1))) {
+            return 0;
+        }
+
+        int minCuts = Integer.MAX_VALUE;
+        for (int k = start; k < end; k++) {
+            int cuts = minimumPalindromePartitioningRecursive(str, start, k) + 1 + minimumPalindromePartitioningRecursive(str, k + 1, end);
+            minCuts = Math.min(minCuts, cuts);
+        }
+
+        return minCuts;
+    }
 }

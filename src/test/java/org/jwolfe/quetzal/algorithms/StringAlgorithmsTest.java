@@ -102,4 +102,16 @@ class StringAlgorithmsTest {
         assertFalse(StringAlgorithms.isBinaryString(""));
         assertFalse(StringAlgorithms.isBinaryString(null));
     }
+
+    @Test
+    void isPalidrome() {
+        assertFalse(StringAlgorithms.isPalidrome(null));
+        assertFalse(StringAlgorithms.isPalidrome(""));
+        assertTrue(StringAlgorithms.isPalidrome("a"));
+        assertTrue(StringAlgorithms.isPalidrome("aa"));
+        assertFalse(StringAlgorithms.isPalidrome("ab"));
+        assertTrue(StringAlgorithms.isPalidrome("aba"));
+        assertFalse(StringAlgorithms.isPalidrome("aab"));
+        assertTrue(StringAlgorithms.isPalidrome("malayalam"));
+    }
 }

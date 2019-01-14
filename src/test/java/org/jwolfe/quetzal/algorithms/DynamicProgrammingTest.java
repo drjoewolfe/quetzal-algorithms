@@ -924,4 +924,12 @@ class DynamicProgrammingTest {
         assertEquals(1, DynamicProgramming.minimumPalindromePartitioning("add"));
         assertEquals(3, DynamicProgramming.minimumPalindromePartitioning("doopy"));
     }
+
+    @Test
+    void minimumPalindromePartitioningRecursive() {
+        assertEquals(9, DynamicProgramming.minimumPalindromePartitioningRecursive("abcdefghij"));
+        assertEquals(3, DynamicProgramming.minimumPalindromePartitioningRecursive("ababbbabbababa"));
+        assertEquals(1, DynamicProgramming.minimumPalindromePartitioningRecursive("add"));
+        assertEquals(3, DynamicProgramming.minimumPalindromePartitioningRecursive("doopy"));
+    }
 }
