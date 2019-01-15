@@ -1343,6 +1343,51 @@ public class DynamicProgramming {
         return cuts[n - 1];
     }
 
+    public static int minimumPalindromePartitioningA1(String str) {
+        if (str == null || str.length() == 0) {
+            return 0;
+        }
+
+        int n = str.length();
+
+        // palindomes[i][j] == 0 if substr(str, i, j) is a palindrome
+        boolean[][] palindromes = new boolean[n][n];
+
+        // cuts[i][j] denotes the minimum number of cuts for palindromic partioning of substr(str, i, j)
+        int[][] cuts = new int[n][n];
+
+        for (int i = 0; i < n; i++) {
+            // Strings of length 1 are palindromes
+            palindromes[i][i] = true;
+            cuts[i][i] = 0;
+        }
+
+        for (int len = 2; len <= n; len++) {
+            for (int i = 0; i < n - len + 1; i++) {
+                int j = i + len - 1;
+
+                if (len == 2) {
+                    palindromes[i][j] = (str.charAt(i) == str.charAt(j));
+                } else {
+                    palindromes[i][j] = (str.charAt(i) == str.charAt(j))
+                            && palindromes[i + 1][j - 1];
+                }
+
+                if (palindromes[i][j]) {
+                    cuts[i][j] = 0;
+                } else {
+                    cuts[i][j] = Integer.MAX_VALUE;
+                    for (int k = i; k < j; k++) {
+                        cuts[i][j] = Math.min(cuts[i][j],
+                                cuts[i][k] + 1 + cuts[k + 1][j]);
+                    }
+                }
+            }
+        }
+
+        return cuts[0][n - 1];
+    }
+
     public static int minimumPalindromePartitioningRecursive(String str) {
         if (str == null || str.length() == 0) {
             return 0;
