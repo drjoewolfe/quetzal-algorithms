@@ -3,6 +3,7 @@ package org.jwolfe.quetzal.algorithms;
 import org.junit.jupiter.api.Test;
 import org.jwolfe.quetzal.library.utilities.Utilities;
 
+import java.util.List;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -72,24 +73,24 @@ class StringAlgorithmsTest {
         expectedSubstrings = Utilities.constructSet("a", "b", "c", "d", "ab", "bc", "cd", "abc", "bcd", "abcd");
         assertSetEquals(expectedSubstrings, subStrings);
     }
-    
+
     @Test
     void getSumString() {
-    	assertEquals("60", StringAlgorithms.getSumString("24",  "36"));
-    	assertEquals("10", StringAlgorithms.getSumString("1",  "9"));
-    	assertEquals("8", StringAlgorithms.getSumString("6",  "2"));
-    	assertEquals("225", StringAlgorithms.getSumString("111",  "114"));
+        assertEquals("60", StringAlgorithms.getSumString("24", "36"));
+        assertEquals("10", StringAlgorithms.getSumString("1", "9"));
+        assertEquals("8", StringAlgorithms.getSumString("6", "2"));
+        assertEquals("225", StringAlgorithms.getSumString("111", "114"));
     }
 
     @Test
     void getUniqueCharacterCount() {
-        assertEquals(5,  StringAlgorithms.getUniqueCharacterCount("abcde"));
+        assertEquals(5, StringAlgorithms.getUniqueCharacterCount("abcde"));
         assertEquals(5, StringAlgorithms.getUniqueCharacterCount("aabbccddee"));
     }
 
     @Test
     void getUniqueCharacterCountSB() {
-        assertEquals(5,  StringAlgorithms.getUniqueCharacterCount(new StringBuilder("abcde")));
+        assertEquals(5, StringAlgorithms.getUniqueCharacterCount(new StringBuilder("abcde")));
         assertEquals(5, StringAlgorithms.getUniqueCharacterCount(new StringBuilder("aabbccddee")));
     }
 
@@ -113,5 +114,32 @@ class StringAlgorithmsTest {
         assertTrue(StringAlgorithms.isPalidrome("aba"));
         assertFalse(StringAlgorithms.isPalidrome("aab"));
         assertTrue(StringAlgorithms.isPalidrome("malayalam"));
+    }
+
+    @Test
+    void getAllPalindromePartitions() {
+        String str;
+        List<List<String>> partitions;
+        List<List<String>> expectedPartitions;
+
+        str = "abcdefghij";
+        expectedPartitions = Utilities.constructList(Utilities.constructList("a", "b", "c", "d", "e", "f", "g", "h", "i", "j"));
+        partitions = StringAlgorithms.getAllPalindromePartitions(str);
+        assertListOfListEquals(expectedPartitions, partitions);
+
+        str = "add";
+        expectedPartitions = Utilities.constructList(Utilities.constructList("a", "d", "d"), Utilities.constructList("a", "dd"));
+        partitions = StringAlgorithms.getAllPalindromePartitions(str);
+        assertListOfListEquals(expectedPartitions, partitions);
+
+        str = "doopy";
+        expectedPartitions = Utilities.constructList(Utilities.constructList("d", "o", "o", "p", "y"), Utilities.constructList("d", "oo", "p", "y"));
+        partitions = StringAlgorithms.getAllPalindromePartitions(str);
+        assertListOfListEquals(expectedPartitions, partitions);
+
+        str = "zakaz";
+        expectedPartitions = Utilities.constructList(Utilities.constructList("z", "a", "k", "a", "z"), Utilities.constructList("z", "aka", "z"), Utilities.constructList("zakaz"));
+        partitions = StringAlgorithms.getAllPalindromePartitions(str);
+        assertListOfListEquals(expectedPartitions, partitions);
     }
 }
