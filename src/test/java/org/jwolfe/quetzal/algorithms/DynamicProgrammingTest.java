@@ -986,4 +986,15 @@ class DynamicProgrammingTest {
         matrixDimensions = new int[]{10, 20, 30};
         assertEquals(6000, DynamicProgramming.minimumCostForMatrixChainMultiplicationRecursive(matrixDimensions));
     }
+
+    @Test
+    void lengthOfLongestArithmeticProgression() {
+        int[] arr;
+
+        arr = new int[]{1, 7, 10, 15, 27, 29};
+        assertEquals(3, DynamicProgramming.lengthOfLongestArithmeticProgression(arr));
+
+        arr = new int[]{5, 10, 15, 20, 25, 30};
+        assertEquals(6, DynamicProgramming.lengthOfLongestArithmeticProgression(arr));
+    }
 }

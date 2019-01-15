@@ -1482,4 +1482,59 @@ public class DynamicProgramming {
 
         return minCost;
     }
+
+    public static int lengthOfLongestArithmeticProgression(int[] arr) {
+        // Note: Assuming input array is sorted
+
+        if (arr == null) {
+            return 0;
+        }
+
+        int n = arr.length;
+        if (n <= 2) {
+            return n;
+        }
+
+        // llap[i][j] denotes the length of the longest arithmetic progression that has arr[i] & arr[j] as its first & second elements in the array
+        // Note: only cells that has i < j are valid in the llap array
+        int[][] llap = new int[n][n];
+        int maxLlap = 2;
+
+        for (int i = 0; i < n; i++) {
+            // Last column. Fill with 2.
+            llap[i][n - 1] = 2;
+        }
+
+        for (int j = n - 2; j > 0; j--) {
+            int i = j - 1;
+            int k = j + 1;
+
+            while (i >= 0 && k < n) {
+                int a = arr[i];
+                int b = arr[j];
+                int c = arr[k];
+
+                if (a + c < 2 * b) {
+                    k++;
+                } else if (a + c > 2 * b) {
+                    llap[i][j] = 2;
+                    i--;
+                } else {
+                    // a, b, c are in AP
+                    llap[i][j] = llap[j][k] + 1;
+                    maxLlap = Math.max(maxLlap, llap[i][j]);
+
+                    i--;
+                    k++;
+                }
+            }
+
+            while (i >= 0) {
+                llap[i][j] = 2;
+                i--;
+            }
+        }
+
+        return maxLlap;
+    }
 }
