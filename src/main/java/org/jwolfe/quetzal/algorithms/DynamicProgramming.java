@@ -1393,7 +1393,7 @@ public class DynamicProgramming {
             return 0;
         }
 
-        if(str.length() == 0 || StringAlgorithms.isPalidrome(str)) {
+        if (str.length() == 0 || StringAlgorithms.isPalidrome(str)) {
             return 0;
         }
 
@@ -1416,5 +1416,33 @@ public class DynamicProgramming {
         }
 
         return minCuts;
+    }
+
+    public static int minimumCostForMatrixChainMultiplicationRecursive(int[] matrixLengths) {
+        // In matrixLengths, array i has the dimensions matrixlengths[i-1] x matrixLengths[i]
+
+        if (matrixLengths == null || matrixLengths.length == 0) {
+            return 0;
+        }
+
+        return minimumCostForMatrixChainMultiplicationRecursive(matrixLengths, 0, matrixLengths.length - 1);
+    }
+
+    private static int minimumCostForMatrixChainMultiplicationRecursive(int[] matrixLengths, int start, int end) {
+        if (end == start + 1) {
+            // Single matrix
+            return 0;
+        }
+
+        int minCost = Integer.MAX_VALUE;
+        for (int k = start + 1; k < end; k++) {
+            int cost = minimumCostForMatrixChainMultiplicationRecursive(matrixLengths, start, k);
+            cost += minimumCostForMatrixChainMultiplicationRecursive(matrixLengths, k, end);
+            cost += (matrixLengths[start] * matrixLengths[k] * matrixLengths[end]);
+
+            minCost = Math.min(minCost, cost);
+        }
+
+        return minCost;
     }
 }

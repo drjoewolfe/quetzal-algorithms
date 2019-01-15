@@ -940,4 +940,27 @@ class DynamicProgrammingTest {
         assertEquals(1, DynamicProgramming.minimumPalindromePartitioningRecursive("add"));
         assertEquals(3, DynamicProgramming.minimumPalindromePartitioningRecursive("doopy"));
     }
+
+    @Test
+    void minimumCostForMatrixChainMultiplicationRecursive() {
+        int[] matrixLengths;
+
+        matrixLengths = new int[] {10, 30, 5, 60};
+        assertEquals(4500, DynamicProgramming.minimumCostForMatrixChainMultiplicationRecursive(matrixLengths));
+
+        matrixLengths = new int[] {10, 100, 5, 50};
+        assertEquals(7500, DynamicProgramming.minimumCostForMatrixChainMultiplicationRecursive(matrixLengths));
+
+        matrixLengths = new int[] {1, 2, 3, 4};
+        assertEquals(18, DynamicProgramming.minimumCostForMatrixChainMultiplicationRecursive(matrixLengths));
+
+        matrixLengths = new int[] {40, 20, 30, 10, 30};
+        assertEquals(26000, DynamicProgramming.minimumCostForMatrixChainMultiplicationRecursive(matrixLengths));
+
+        matrixLengths = new int[] {10, 20, 30, 40, 30};
+        assertEquals(30000, DynamicProgramming.minimumCostForMatrixChainMultiplicationRecursive(matrixLengths));
+
+        matrixLengths = new int[] {10, 20, 30};
+        assertEquals(6000, DynamicProgramming.minimumCostForMatrixChainMultiplicationRecursive(matrixLengths));
+    }
 }
