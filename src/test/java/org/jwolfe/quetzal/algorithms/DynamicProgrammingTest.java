@@ -1037,4 +1037,15 @@ class DynamicProgrammingTest {
         arr = new int[]{10, 22, 9, 33, 49, 50, 31, 60};
         assertEquals(6, DynamicProgramming.longestZigZagSubsequence(arr));
     }
+
+    @Test
+    void maximumSumBitonicSubarray() {
+        int[] arr;
+
+        arr = new int[]{5, 3, 9, 2, 7, 6, 4};
+        assertEquals(19, DynamicProgramming.maximumSumBitonicSubarray(arr));
+
+        arr = new int[]{9, 12, 14, 8, 6, 5, 10, 20};
+        assertEquals(54, DynamicProgramming.maximumSumBitonicSubarray(arr));
+    }
 }

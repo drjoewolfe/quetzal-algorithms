@@ -1636,4 +1636,42 @@ public class DynamicProgramming {
 
         return maxLength;
     }
+
+    public static int maximumSumBitonicSubarray(int[] arr) {
+        if (arr == null || arr.length == 0) {
+            return 0;
+        }
+
+        int n = arr.length;
+
+        // Maximum sum increasing subsequence
+        int[] msis = new int[n];
+        msis[0] = arr[0];
+        for (int i = 1; i < n; i++) {
+            if (arr[i] > arr[i - 1]) {
+                msis[i] = arr[i] + msis[i - 1];
+            } else {
+                msis[i] = arr[i];
+            }
+        }
+
+        // Maximum sum decreasing subsequence
+        int[] msds = new int[n];
+        msds[n - 1] = arr[n - 1];
+        for (int i = n - 2; i >= 0; i--) {
+            if (arr[i] > arr[i + 1]) {
+                msds[i] = arr[i] + msds[i + 1];
+            } else {
+                msds[i] = arr[i];
+            }
+        }
+
+        int maxSumBitonicSubsequence = 0;
+        for (int i = 0; i < n; i++) {
+            maxSumBitonicSubsequence = Math.max(maxSumBitonicSubsequence,
+                    msis[i] + msds[i] - arr[i]);
+        }
+
+        return maxSumBitonicSubsequence;
+    }
 }
