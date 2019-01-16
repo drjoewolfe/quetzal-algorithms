@@ -997,4 +997,30 @@ class DynamicProgrammingTest {
         arr = new int[]{5, 10, 15, 20, 25, 30};
         assertEquals(6, DynamicProgramming.lengthOfLongestArithmeticProgression(arr));
     }
+
+    @Test
+    void lengthOfLongestGeometricProgression() {
+        int[] arr;
+
+        arr = new int[]{5, 7, 10, 15, 20, 29};
+        assertEquals(3, DynamicProgramming.lengthOfLongestGeometricProgression(arr));
+
+        arr = new int[]{3, 7, 11, 17};
+        assertEquals(1, DynamicProgramming.lengthOfLongestGeometricProgression(arr));
+
+        arr = new int[]{3, 7, 11, 15};
+        assertEquals(2, DynamicProgramming.lengthOfLongestGeometricProgression(arr));
+
+        arr = new int[]{3, 9, 27, 81};
+        assertEquals(4, DynamicProgramming.lengthOfLongestGeometricProgression(arr));
+
+        arr = new int[]{1, 3, 9, 27, 81, 243};
+        assertEquals(6, DynamicProgramming.lengthOfLongestGeometricProgression(arr));
+
+        arr = new int[]{1, 3, 4, 9, 7, 27};
+        assertEquals(4, DynamicProgramming.lengthOfLongestGeometricProgression(arr));
+
+        arr = new int[]{2, 3, 5, 7, 11, 13};
+        assertEquals(1, DynamicProgramming.lengthOfLongestGeometricProgression(arr));
+    }
 }

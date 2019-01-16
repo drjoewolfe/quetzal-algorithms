@@ -1506,6 +1506,7 @@ public class DynamicProgramming {
         }
 
         for (int j = n - 2; j > 0; j--) {
+            // Try to find indices i, j, k such that their numbers are in AP
             int i = j - 1;
             int k = j + 1;
 
@@ -1530,11 +1531,75 @@ public class DynamicProgramming {
             }
 
             while (i >= 0) {
+                // Fill up with 2 for rest of the 'i''s for the current j
                 llap[i][j] = 2;
                 i--;
             }
         }
 
         return maxLlap;
+    }
+
+    public static int lengthOfLongestGeometricProgression(int[] arr) {
+        // Note: Assuming input array is sorted
+
+        if (arr == null) {
+            return 0;
+        }
+
+        int n = arr.length;
+        if (n < 2) {
+            return n;
+        }
+
+        if (n == 2) {
+            return (arr[1] % arr[0] == 0) ? 2 : 1;
+        }
+
+        // llgp[i][j] denotes the length of the longest geometric progression that has arr[i] & arr[j] as its first & second elements in the array
+        // Note: only cells that has i < j are valid in the llgp array
+        int[][] llgp = new int[n][n];
+        int maxLlgp = 1;
+
+        for (int i = 0; i < n; i++) {
+            // Last column. Fill with 2 or 1.
+            llgp[i][n - 1] = (i != n - 1) && (arr[n - 1] % arr[i] == 0) ? 2 : 1;
+            maxLlgp = Math.max(maxLlgp, llgp[i][n - 1]);
+        }
+
+        for (int j = n - 2; j > 0; j--) {
+            // Try to find indices i, j, k such that their numbers are in GP
+            int i = j - 1;
+            int k = j + 1;
+
+            while (i >= 0 && k < n) {
+                int a = arr[i];
+                int b = arr[j];
+                int c = arr[k];
+
+                if (a * c < Math.pow(b, 2)) {
+                    k++;
+                } else if (a * c > Math.pow(b, 2)) {
+                    llgp[i][j] = (arr[j] % arr[i] == 0) ? 2 : 1;
+                    maxLlgp = Math.max(maxLlgp, llgp[i][j]);
+
+                    i--;
+                } else {
+                    // a, b, c are in GP
+                    llgp[i][j] = llgp[j][k] + 1;
+                    maxLlgp = Math.max(maxLlgp, llgp[i][j]);
+
+                    i--;
+                    k++;
+                }
+            }
+
+            while (i >= 0) {
+                llgp[i][j] = (arr[j] % arr[i] == 0) ? 2 : 1;
+                i--;
+            }
+        }
+
+        return maxLlgp;
     }
 }
