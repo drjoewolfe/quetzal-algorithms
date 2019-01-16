@@ -1602,4 +1602,38 @@ public class DynamicProgramming {
 
         return maxLlgp;
     }
+
+    public static int longestZigZagSubsequence(int[] arr) {
+        if (arr == null || arr.length == 0) {
+            return 0;
+        }
+
+        int n = arr.length;
+
+        // dp[i][0] => length of the longest zig-zag subsequence that ends at i & where the last element is greater than the previous.
+        // dp[i][1] => length of the longest zig-zag subsequence that ends at i & where the last element is smaller than the previous.
+        int[][] dp = new int[n][2];
+
+        for (int i = 0; i < n; i++) {
+            dp[i][0] = 1;
+            dp[i][1] = 1;
+        }
+
+        for (int i = 1; i < n; i++) {
+            for (int j = 0; j < i; j++) {
+                if (arr[j] < arr[i]) {
+                    dp[i][0] = Math.max(dp[i][0], dp[j][1] + 1);
+                } else if (arr[j] > arr[i]) {
+                    dp[i][1] = Math.max(dp[i][1], dp[j][0] + 1);
+                }
+            }
+        }
+
+        int maxLength = 0;
+        for (int i = 0; i < n; i++) {
+            maxLength = Utilities.max(maxLength, dp[i][0], dp[i][1]);
+        }
+
+        return maxLength;
+    }
 }
