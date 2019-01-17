@@ -2055,4 +2055,28 @@ public class DynamicProgramming {
         // remainders[0] represents the existance of the subset whose sum modulo m is 0.
         return remainders[0];
     }
+
+    public static int maximumProductOfIncreasingSubsequence(int[] arr) {
+        if (arr == null || arr.length == 0) {
+            return 0;
+        }
+
+        int n = arr.length;
+        int[] mpis = new int[n];
+        mpis[0] = arr[0];
+        int maxProduct = mpis[0];
+
+        for (int i = 1; i < n; i++) {
+            for (int j = 0; j < i; j++) {
+                if (arr[i] > arr[j]) {
+                    // Increasing subsequence
+                    int product = arr[i] * mpis[j];
+                    mpis[i] = Math.max(mpis[i], product);
+                    maxProduct = Math.max(maxProduct, mpis[i]);
+                }
+            }
+        }
+
+        return maxProduct;
+    }
 }
