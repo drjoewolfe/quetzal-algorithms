@@ -1101,6 +1101,17 @@ class DynamicProgrammingTest {
     }
 
     @Test
+    void maximumSumBitonicSubsequence() {
+        int[] arr;
+
+        arr = new int[]{1, 15, 51, 45, 33, 100, 12, 18, 9};
+        assertEquals(194, DynamicProgramming.maximumSumBitonicSubsequence(arr));
+
+        arr = new int[]{80, 60, 30, 40, 20, 10};
+        assertEquals(210, DynamicProgramming.maximumSumBitonicSubsequence(arr));
+    }
+
+    @Test
     void maximumSumBitonicSubarray() {
         int[] arr;
 

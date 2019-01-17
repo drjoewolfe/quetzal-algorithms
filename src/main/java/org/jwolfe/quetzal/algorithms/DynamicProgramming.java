@@ -1820,7 +1820,7 @@ public class DynamicProgramming {
         return maxLength;
     }
 
-    public static int maximumSumBitonicSubarray(int[] arr) {
+    public static int maximumSumBitonicSubsequence(int[] arr) {
         if (arr == null || arr.length == 0) {
             return 0;
         }
@@ -1831,10 +1831,11 @@ public class DynamicProgramming {
         int[] msis = new int[n];
         msis[0] = arr[0];
         for (int i = 1; i < n; i++) {
-            if (arr[i] > arr[i - 1]) {
-                msis[i] = arr[i] + msis[i - 1];
-            } else {
-                msis[i] = arr[i];
+            msis[i] = arr[i];
+            for (int j = 0; j < i; j++) {
+                if (arr[i] > arr[j]) {
+                    msis[i] = Math.max(msis[i], msis[j] + arr[i]);
+                }
             }
         }
 
@@ -1842,10 +1843,11 @@ public class DynamicProgramming {
         int[] msds = new int[n];
         msds[n - 1] = arr[n - 1];
         for (int i = n - 2; i >= 0; i--) {
-            if (arr[i] > arr[i + 1]) {
-                msds[i] = arr[i] + msds[i + 1];
-            } else {
-                msds[i] = arr[i];
+            msds[i] = arr[i];
+            for (int j = n - 1; j > i; j--) {
+                if (arr[i] > arr[j]) {
+                    msds[i] = Math.max(msds[i], msds[j] + arr[i]);
+                }
             }
         }
 
@@ -1856,6 +1858,44 @@ public class DynamicProgramming {
         }
 
         return maxSumBitonicSubsequence;
+    }
+
+    public static int maximumSumBitonicSubarray(int[] arr) {
+        if (arr == null || arr.length == 0) {
+            return 0;
+        }
+
+        int n = arr.length;
+
+        // Maximum sum increasing subarray
+        int[] msis = new int[n];
+        msis[0] = arr[0];
+        for (int i = 1; i < n; i++) {
+            if (arr[i] > arr[i - 1]) {
+                msis[i] = arr[i] + msis[i - 1];
+            } else {
+                msis[i] = arr[i];
+            }
+        }
+
+        // Maximum sum decreasing subarray
+        int[] msds = new int[n];
+        msds[n - 1] = arr[n - 1];
+        for (int i = n - 2; i >= 0; i--) {
+            if (arr[i] > arr[i + 1]) {
+                msds[i] = arr[i] + msds[i + 1];
+            } else {
+                msds[i] = arr[i];
+            }
+        }
+
+        int maxSumBitonicSubarray = 0;
+        for (int i = 0; i < n; i++) {
+            maxSumBitonicSubarray = Math.max(maxSumBitonicSubarray,
+                    msis[i] + msds[i] - arr[i]);
+        }
+
+        return maxSumBitonicSubarray;
     }
 
     public static boolean subsetWithSumDivisibleByMExists(int[] arr, int m) {
