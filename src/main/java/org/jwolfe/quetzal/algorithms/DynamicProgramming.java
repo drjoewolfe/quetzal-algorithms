@@ -684,6 +684,32 @@ public class DynamicProgramming {
         return lcs;
     }
 
+    public static int longestCommonSubstringRecursive(String str1, String str2) {
+        if (str1 == null || str2 == null) {
+            return 0;
+        }
+
+        int m = str1.length();
+        int n = str2.length();
+
+        return longestCommonSubstringRecursive(str1, str2, m, n, 0);
+    }
+
+    private static int longestCommonSubstringRecursive(String str1, String str2, int m, int n, int runningLength) {
+        if (m == 0 || n == 0) {
+            return runningLength;
+        }
+
+        if (str1.charAt(m - 1) == str2.charAt(n - 1)) {
+            runningLength = longestCommonSubstringRecursive(str1, str2, m - 1, n - 1, runningLength + 1);
+        }
+
+        int leftDown = longestCommonSubstringRecursive(str1, str2, m - 1, n, 0);
+        int rightDown = longestCommonSubstringRecursive(str1, str2, m, n - 1, 0);
+
+        return Utilities.max(runningLength, leftDown, rightDown);
+    }
+
     public static int maxWaysForCoinChange(int[] coins, int value) {
         // Note: we have an infinite supply for each coin.
 
