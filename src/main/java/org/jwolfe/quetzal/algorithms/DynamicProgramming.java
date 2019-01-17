@@ -34,12 +34,50 @@ public class DynamicProgramming {
             return fibonacciSeries;
         }
 
+        int c;
+
         for (int i = 2; i <= n; i++) {
-            int c = a + b;
+            c = a + b;
             fibonacciSeries.add(c);
 
             a = b;
             b = c;
+        }
+
+        return fibonacciSeries;
+    }
+
+    /**
+     * Returns the first n fibonacci numbers
+     * @param n count of fibonacci numbers required
+     * @return the first n fibonacci numbers
+     */
+    public static List<Integer> getFibonacciNumbersA2(int n) {
+        // Implementation using 2 variables (a, b)
+
+        if (n <= 0) {
+            return null;
+        }
+
+        List<Integer> fibonacciSeries = new ArrayList<>();
+
+        int a = 0;
+        fibonacciSeries.add(a);
+        if (n == 1) {
+            return fibonacciSeries;
+        }
+
+        int b = 1;
+        fibonacciSeries.add(b);
+        if (n == 2) {
+            return fibonacciSeries;
+        }
+
+        for (int i = 2; i <= n; i++) {
+            fibonacciSeries.add(a + b);
+
+            b = a + b;
+            a = b - a;
         }
 
         return fibonacciSeries;

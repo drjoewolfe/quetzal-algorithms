@@ -16,6 +16,26 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class DynamicProgrammingTest {
     @Test
+    void getFibonacciNumbers() {
+        List<Integer> fibonacciSeries;
+        List<Integer> expectedFibonacciSeries;
+
+        expectedFibonacciSeries = Utilities.constructList(0, 1, 1, 2, 3, 5, 8, 13, 21, 34);
+        fibonacciSeries = DynamicProgramming.getFibonacciNumbers(9);
+        QuetzalAssertions.assertListEquals(expectedFibonacciSeries, fibonacciSeries);
+    }
+
+    @Test
+    void getFibonacciNumbersA2() {
+        List<Integer> fibonacciSeries;
+        List<Integer> expectedFibonacciSeries;
+
+        expectedFibonacciSeries = Utilities.constructList(0, 1, 1, 2, 3, 5, 8, 13, 21, 34);
+        fibonacciSeries = DynamicProgramming.getFibonacciNumbersA2(9);
+        QuetzalAssertions.assertListEquals(expectedFibonacciSeries, fibonacciSeries);
+    }
+
+    @Test
     void longestIncreasingSubsequence() {
         int[] arr;
         int lis;
@@ -1093,15 +1113,5 @@ class DynamicProgrammingTest {
 
         arr = new int[] {1, 7};
         assertFalse(DynamicProgramming.subsetWithSumDivisibleByMExists(arr, 5));
-    }
-
-    @Test
-    void getFibonacciNumbers() {
-        List<Integer> fibonacciSeries;
-        List<Integer> expectedFibonacciSeries;
-
-        expectedFibonacciSeries = Utilities.constructList(0, 1, 1, 2, 3, 5, 8, 13, 21, 34);
-        fibonacciSeries = DynamicProgramming.getFibonacciNumbers(9);
-        QuetzalAssertions.assertListEquals(expectedFibonacciSeries, fibonacciSeries);
     }
 }
