@@ -658,6 +658,32 @@ public class DynamicProgramming {
         return dp[m][n][o];
     }
 
+    public static int longestCommonSubstring(String str1, String str2) {
+        if (str1 == null || str2 == null) {
+            return 0;
+        }
+
+        int m = str1.length();
+        int n = str2.length();
+        int[][] dp = new int[m + 1][n + 1];
+        int lcs = 0;
+
+        for (int i = 0; i <= m; i++) {
+            for (int j = 0; j <= n; j++) {
+                if (i == 0 || j == 0) {
+                    dp[i][j] = 0;
+                } else if (str1.charAt(i - 1) == str2.charAt(j - 1)) {
+                    dp[i][j] = dp[i - 1][j - 1] + 1;
+                    lcs = Math.max(lcs, dp[i][j]);
+                } else {
+                    dp[i][j] = 0;
+                }
+            }
+        }
+
+        return lcs;
+    }
+
     public static int maxWaysForCoinChange(int[] coins, int value) {
         // Note: we have an infinite supply for each coin.
 

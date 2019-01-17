@@ -418,6 +418,28 @@ class DynamicProgrammingTest {
     }
 
     @Test
+    void longestCommonSubstring() {
+        String str1;
+        String str2;
+        int lcs;
+
+        str1 = "beepsandbeeps";
+        str2 = "beepssound";
+        lcs = DynamicProgramming.longestCommonSubstring(str1, str2);
+        assertEquals(5, lcs);
+
+        str1 = "efghuvw";
+        str2 = "uvwefgh";
+        lcs = DynamicProgramming.longestCommonSubstring(str1, str2);
+        assertEquals(4, lcs);
+
+        str1 = "zxabcdezy";
+        str2 = "yzabcdezx";
+        lcs = DynamicProgramming.longestCommonSubstring(str1, str2);
+        assertEquals(6, lcs);
+    }
+
+    @Test
     void maxWaysForCoinChange() {
         int[] coins;
         int value;
