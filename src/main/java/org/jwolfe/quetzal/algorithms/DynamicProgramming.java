@@ -629,6 +629,35 @@ public class DynamicProgramming {
         return dp[binaryIndex][n];
     }
 
+    public static int longestCommonSubsequence(String str1, String str2, String str3) {
+        if (str1 == null || str2 == null || str3 == null) {
+            return 0;
+        }
+
+        int m = str1.length();
+        int n = str2.length();
+        int o = str3.length();
+
+        int[][][] dp = new int[m + 1][n + 1][o + 1];
+
+        for (int i = 0; i <= m; i++) {
+            for (int j = 0; j <= n; j++) {
+                for (int k = 0; k <= o; k++) {
+                    if (i == 0 || j == 0 || k == 0) {
+                        dp[i][j][k] = 0;
+                    } else if (str1.charAt(i - 1) == str2.charAt(j - 1)
+                            && str1.charAt(i - 1) == str3.charAt(k - 1)) {
+                        dp[i][j][k] = dp[i - 1][j - 1][k - 1] + 1;
+                    } else {
+                        dp[i][j][k] = Utilities.max(dp[i - 1][j][k], dp[i][j - 1][k], dp[i][j][k - 1]);
+                    }
+                }
+            }
+        }
+
+        return dp[m][n][o];
+    }
+
     public static int maxWaysForCoinChange(int[] coins, int value) {
         // Note: we have an infinite supply for each coin.
 

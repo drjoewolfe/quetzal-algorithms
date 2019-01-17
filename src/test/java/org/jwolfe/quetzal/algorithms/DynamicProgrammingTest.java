@@ -392,6 +392,32 @@ class DynamicProgrammingTest {
     }
 
     @Test
+    void longestCommonSubsequence3Strings() {
+        String str1;
+        String str2;
+        String str3;
+        int lcs;
+
+        str1 = "beeps";
+        str2 = "beepsand";
+        str3 = "beepsandbeeps";
+        lcs = DynamicProgramming.longestCommonSubsequence(str1, str2, str3);
+        assertEquals(5, lcs);
+
+        str1 = "akcd8s2";
+        str2 = "kc18sa";
+        str3 = "kd8sa";
+        lcs = DynamicProgramming.longestCommonSubsequence(str1, str2, str3);
+        assertEquals(3, lcs);
+
+        str1 = "ZPPK98";
+        str2 = "98KXZYB";
+        str3 = "98XBZ";
+        lcs = DynamicProgramming.longestCommonSubsequence(str1, str2, str3);
+        assertEquals(2, lcs);
+    }
+
+    @Test
     void maxWaysForCoinChange() {
         int[] coins;
         int value;
