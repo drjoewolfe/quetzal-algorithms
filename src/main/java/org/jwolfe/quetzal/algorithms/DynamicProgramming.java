@@ -36,7 +36,7 @@ public class DynamicProgramming {
 
         int c;
 
-        for (int i = 2; i <= n; i++) {
+        for (int i = 3; i <= n; i++) {
             c = a + b;
             fibonacciSeries.add(c);
 
@@ -73,11 +73,51 @@ public class DynamicProgramming {
             return fibonacciSeries;
         }
 
-        for (int i = 2; i <= n; i++) {
+        for (int i = 3; i <= n; i++) {
             fibonacciSeries.add(a + b);
 
             b = a + b;
             a = b - a;
+        }
+
+        return fibonacciSeries;
+    }
+
+    /**
+     * Returns the first n fibonacci numbers
+     * @param n count of fibonacci numbers required
+     * @return the first n fibonacci numbers
+     */
+    public static List<Integer> getReverseFibonacciNumbers(int n) {
+        if (n <= 0) {
+            return null;
+        }
+
+        List<Integer> fibonacciSeries = new ArrayList<>(n);
+        for (int i = 0; i < n; i++) {
+            fibonacciSeries.add(null);
+        }
+
+        int a = 0;
+        fibonacciSeries.set(n - 1, a);
+        if (n == 1) {
+            return fibonacciSeries;
+        }
+
+        int b = 1;
+        fibonacciSeries.set(n - 2, b);
+        if (n == 2) {
+            return fibonacciSeries;
+        }
+
+        int c;
+
+        for (int i = 3; i <= n; i++) {
+            c = a + b;
+            fibonacciSeries.set(n - i, c);
+
+            a = b;
+            b = c;
         }
 
         return fibonacciSeries;

@@ -21,8 +21,8 @@ class DynamicProgrammingTest {
         List<Integer> expectedFibonacciSeries;
 
         expectedFibonacciSeries = Utilities.constructList(0, 1, 1, 2, 3, 5, 8, 13, 21, 34);
-        fibonacciSeries = DynamicProgramming.getFibonacciNumbers(9);
-        QuetzalAssertions.assertListEquals(expectedFibonacciSeries, fibonacciSeries);
+        fibonacciSeries = DynamicProgramming.getFibonacciNumbers(10);
+        QuetzalAssertions.assertListStrictEquals(expectedFibonacciSeries, fibonacciSeries);
     }
 
     @Test
@@ -31,8 +31,18 @@ class DynamicProgrammingTest {
         List<Integer> expectedFibonacciSeries;
 
         expectedFibonacciSeries = Utilities.constructList(0, 1, 1, 2, 3, 5, 8, 13, 21, 34);
-        fibonacciSeries = DynamicProgramming.getFibonacciNumbersA2(9);
-        QuetzalAssertions.assertListEquals(expectedFibonacciSeries, fibonacciSeries);
+        fibonacciSeries = DynamicProgramming.getFibonacciNumbersA2(10);
+        QuetzalAssertions.assertListStrictEquals(expectedFibonacciSeries, fibonacciSeries);
+    }
+
+    @Test
+    void getReverseFibonacciNumbers() {
+        List<Integer> reverseFibonacciSeries;
+        List<Integer> expectedreverseFibonacciSeries;
+
+        expectedreverseFibonacciSeries = Utilities.constructList(34, 21, 13, 8, 5, 3, 2, 1, 1, 0);
+        reverseFibonacciSeries = DynamicProgramming.getReverseFibonacciNumbers(10);
+        QuetzalAssertions.assertListStrictEquals(expectedreverseFibonacciSeries, reverseFibonacciSeries);
     }
 
     @Test
