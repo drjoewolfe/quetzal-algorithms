@@ -362,6 +362,23 @@ class DynamicProgrammingTest {
     }
 
     @Test
+    void maxWaysForCoinChange() {
+        int[] coins;
+        int value;
+        int maxWays;
+
+        coins = new int[]{1, 2, 3};
+        value = 4;
+        maxWays = DynamicProgramming.maxWaysForCoinChange(coins, value);
+        assertEquals(4, maxWays);
+
+        coins = new int[]{2, 5, 3, 6};
+        value = 10;
+        maxWays = DynamicProgramming.maxWaysForCoinChange(coins, value);
+        assertEquals(5, maxWays);
+    }
+
+    @Test
     void maxWaysForCoinChangeRecursive() {
         int[] coins;
         int value;

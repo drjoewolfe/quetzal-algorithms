@@ -515,6 +515,34 @@ public class DynamicProgramming {
         return dp[binaryIndex][n];
     }
 
+    public static int maxWaysForCoinChange(int[] coins, int value) {
+        // Note: we have an infinite supply for each coin.
+
+        if (coins == null || coins.length == 0 || value < 0) {
+            return 0;
+        }
+
+        int n = coins.length;
+        int[][] dp = new int[n][value + 1];
+        for (int i = 0; i < n; i++) {
+            // Zero value -> 1 solution (=> no coins)
+            dp[i][0] = 1;
+        }
+
+        for (int i = 0; i < n; i++) {
+            for (int j = 1; j <= value; j++) {
+                int coinValue = coins[i];
+
+                int inclusiveWays = coinValue <= j ? dp[i][j - coinValue] : 0;
+                int exclusiveWays = i > 0 ? dp[i - 1][j] : 0;
+
+                dp[i][j] = inclusiveWays + exclusiveWays;
+            }
+        }
+
+        return dp[n - 1][value];
+    }
+
     public static int maxWaysForCoinChangeRecursive(int[] coins, int value) {
         // Note: we have an infinite supply for each coin.
 
