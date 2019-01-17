@@ -710,6 +710,35 @@ public class DynamicProgramming {
         return Utilities.max(runningLength, leftDown, rightDown);
     }
 
+    public static int longestCommonSubstringSpaceOptimized(String str1, String str2) {
+        if (str1 == null || str2 == null) {
+            return 0;
+        }
+
+        int m = str1.length();
+        int n = str2.length();
+        int[][] dp = new int[2][n + 1];
+        int binaryIndex = 0;
+        int lcs = 0;
+
+        for (int i = 0; i <= m; i++) {
+            binaryIndex = 1 & i;
+
+            for (int j = 0; j <= n; j++) {
+                if (i == 0 || j == 0) {
+                    dp[binaryIndex][j] = 0;
+                } else if (str1.charAt(i - 1) == str2.charAt(j - 1)) {
+                    dp[binaryIndex][j] = dp[1 - binaryIndex][j - 1] + 1;
+                    lcs = Math.max(lcs, dp[binaryIndex][j]);
+                } else {
+                    dp[binaryIndex][j] = 0;
+                }
+            }
+        }
+
+        return lcs;
+    }
+
     public static int maxWaysForCoinChange(int[] coins, int value) {
         // Note: we have an infinite supply for each coin.
 
