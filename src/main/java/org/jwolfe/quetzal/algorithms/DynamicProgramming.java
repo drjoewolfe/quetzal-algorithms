@@ -9,6 +9,42 @@ import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class DynamicProgramming {
+
+    /**
+     * Returns the first n fibonacci numbers
+     * @param n count of fibonacci numbers required
+     * @return the first n fibonacci numbers
+     */
+    public static List<Integer> getFibonacciNumbers(int n) {
+        if (n <= 0) {
+            return null;
+        }
+
+        List<Integer> fibonacciSeries = new ArrayList<>();
+
+        int a = 0;
+        fibonacciSeries.add(a);
+        if (n == 1) {
+            return fibonacciSeries;
+        }
+
+        int b = 1;
+        fibonacciSeries.add(b);
+        if (n == 2) {
+            return fibonacciSeries;
+        }
+
+        for (int i = 2; i <= n; i++) {
+            int c = a + b;
+            fibonacciSeries.add(c);
+
+            a = b;
+            b = c;
+        }
+
+        return fibonacciSeries;
+    }
+
     public static int longestIncreasingSubsequence(int[] arr) {
         if (arr == null || arr.length == 0) {
             return 0;
