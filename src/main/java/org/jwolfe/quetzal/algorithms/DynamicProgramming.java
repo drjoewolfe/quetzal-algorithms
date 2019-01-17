@@ -1284,6 +1284,7 @@ public class DynamicProgramming {
 
     /**
      * Returns the length of the largest subset where, for every pair in the subset, the larger element is divisible by the smaller one.
+     *
      * @param arr integer array whose largest divisible pairs subset is required
      * @return length of the largest divisible pairs subset
      */
@@ -1315,6 +1316,7 @@ public class DynamicProgramming {
 
     /**
      * Returns the largest subset where, for every pair in the subset, the larger element is divisible by the smaller one.
+     *
      * @param arr integer array whose largest divisible pairs subset is required
      * @return the largest divisible pairs subset
      */
@@ -1740,5 +1742,53 @@ public class DynamicProgramming {
         }
 
         return maxSumBitonicSubsequence;
+    }
+
+    public static boolean subsetWithSumDivisibleByMExists(int[] arr, int m) {
+        if (arr == null || arr.length == 0) {
+            return false;
+        }
+
+        int n = arr.length;
+
+        if (n > m) {
+            // A subset with sum divisible by m always exists (Pigeonhole principle)
+            return true;
+        }
+
+        // Represents sum (modulo) m values that can be made from the subsets of the array
+        boolean[] remainders = new boolean[m];
+
+        for (int i = 0; i < n; i++) {
+            if (remainders[0]) {
+                // Found a subset whose sum is divisible by m.
+                break;
+            }
+
+            boolean[] tempRemainders = new boolean[m];
+
+            // For all possible remainders of <sum> modulo m
+            for (int j = 0; j < m; j++) {
+                if (remainders[j]) {
+                    int rem = (j + arr[i]) % m;
+                    if (!remainders[rem]) {
+                        tempRemainders[rem] = true;
+                    }
+                }
+            }
+
+            for (int j = 0; j < m; j++) {
+                if (tempRemainders[j]) {
+                    remainders[j] = true;
+                }
+            }
+
+            // arr[i] also represents a single element subset
+            int rem = arr[i] % m;
+            remainders[rem] = true;
+        }
+
+        // remainders[0] represents the existance of the subset whose sum modulo m is 0.
+        return remainders[0];
     }
 }

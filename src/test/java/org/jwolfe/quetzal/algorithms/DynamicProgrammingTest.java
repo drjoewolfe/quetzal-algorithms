@@ -1080,4 +1080,18 @@ class DynamicProgrammingTest {
         arr = new int[]{9, 12, 14, 8, 6, 5, 10, 20};
         assertEquals(54, DynamicProgramming.maximumSumBitonicSubarray(arr));
     }
+
+    @Test
+    void subsetWithSumDivisibleByMExists() {
+        int[] arr;
+
+        arr = new int[] {3, 1, 7, 5};
+        assertTrue(DynamicProgramming.subsetWithSumDivisibleByMExists(arr, 6));
+
+        arr = new int[] {1, 6};
+        assertFalse(DynamicProgramming.subsetWithSumDivisibleByMExists(arr, 5));
+
+        arr = new int[] {1, 7};
+        assertFalse(DynamicProgramming.subsetWithSumDivisibleByMExists(arr, 5));
+    }
 }
