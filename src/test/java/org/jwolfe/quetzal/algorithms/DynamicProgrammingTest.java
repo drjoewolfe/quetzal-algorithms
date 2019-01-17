@@ -362,6 +362,23 @@ class DynamicProgrammingTest {
     }
 
     @Test
+    void maxWaysForCoinChangeRecursive() {
+        int[] coins;
+        int value;
+        int maxWays;
+
+        coins = new int[]{1, 2, 3};
+        value = 4;
+        maxWays = DynamicProgramming.maxWaysForCoinChangeRecursive(coins, value);
+        assertEquals(4, maxWays);
+
+        coins = new int[]{2, 5, 3, 6};
+        value = 10;
+        maxWays = DynamicProgramming.maxWaysForCoinChangeRecursive(coins, value);
+        assertEquals(5, maxWays);
+    }
+
+    @Test
     void minCoins() {
         int coins[];
         int V;
@@ -881,19 +898,17 @@ class DynamicProgrammingTest {
     }
 
     @Test
-    void countLargestDivisiblePairsSubset() {
+    void lengthOfLargestDivisiblePairsSubset() {
         int[] arr;
-        Set<Integer> largestDivisiblePairsSubset;
-        Set<Integer> expectedSubset;
 
         arr = Utilities.constructArray(10, 5, 3, 15, 20);
-        assertEquals(3, DynamicProgramming.countLargestDivisiblePairsSubset(arr));
+        assertEquals(3, DynamicProgramming.lengthOfLargestDivisiblePairsSubset(arr));
 
         arr = Utilities.constructArray(18, 1, 3, 6, 13, 17);
-        assertEquals(4, DynamicProgramming.countLargestDivisiblePairsSubset(arr));
+        assertEquals(4, DynamicProgramming.lengthOfLargestDivisiblePairsSubset(arr));
 
         arr = Utilities.constructArray(5, 7, 9);
-        assertEquals(1, DynamicProgramming.countLargestDivisiblePairsSubset(arr));
+        assertEquals(1, DynamicProgramming.lengthOfLargestDivisiblePairsSubset(arr));
     }
 
     @Test

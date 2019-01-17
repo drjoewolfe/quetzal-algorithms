@@ -515,6 +515,32 @@ public class DynamicProgramming {
         return dp[binaryIndex][n];
     }
 
+    public static int maxWaysForCoinChangeRecursive(int[] coins, int value) {
+        // Note: we have an infinite supply for each coin.
+
+        if (coins == null || coins.length == 0 || value < 0) {
+            return 0;
+        }
+
+        return maxWaysForCoinChangeRecursive(coins, value, coins.length - 1);
+    }
+
+    private static int maxWaysForCoinChangeRecursive(int[] coins, int value, int index) {
+        if (index < 0 || value < 0) {
+            return 0;
+        }
+
+        if (value == 0) {
+            // One way -> No coins
+            return 1;
+        }
+
+        int inclusiveWays = maxWaysForCoinChangeRecursive(coins, value - coins[index], index);
+        int exclusiveWays = maxWaysForCoinChangeRecursive(coins, value, index - 1);
+
+        return inclusiveWays + exclusiveWays;
+    }
+
     public static int minCoins(int[] coins, int V) {
         int n = coins.length;
 
@@ -1227,7 +1253,15 @@ public class DynamicProgramming {
         return;
     }
 
-    public static int countLargestDivisiblePairsSubset(int[] arr) {
+
+    /**
+     * Returns the length of the largest subset where, for every pair in the subset, the larger element is divisible by the smaller one.
+     * @param arr integer array whose largest divisible pairs subset is required
+     * @return length of the largest divisible pairs subset
+     */
+    public static int lengthOfLargestDivisiblePairsSubset(int[] arr) {
+        //
+
         if (arr == null || arr.length == 0) {
             return 0;
         }
@@ -1251,6 +1285,11 @@ public class DynamicProgramming {
         return Arrays.stream(dp).max().getAsInt();
     }
 
+    /**
+     * Returns the largest subset where, for every pair in the subset, the larger element is divisible by the smaller one.
+     * @param arr integer array whose largest divisible pairs subset is required
+     * @return the largest divisible pairs subset
+     */
     public static Set<Integer> getLargestDivisiblePairsSubset(int[] arr) {
         if (arr == null || arr.length == 0) {
             return null;
