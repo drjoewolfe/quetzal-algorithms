@@ -970,6 +970,84 @@ public class DynamicProgramming {
         return maxLength;
     }
 
+    public static List<Integer> getLongestBitonicSubsequence(int[] arr) {
+        if (arr == null || arr.length == 0) {
+            return null;
+        }
+
+        int n = arr.length;
+
+        // Longest Increasing Subsequence
+        List<List<Integer>> lis = new ArrayList<>();
+        for (int i = 0; i < n; i++) {
+            lis.add(new ArrayList<>());
+        }
+
+        lis.get(0).add(arr[0]);
+        for (int i = 1; i < n; i++) {
+            var ilist = lis.get(i);
+
+            for (int j = 0; j < i; j++) {
+                var jList = lis.get(j);
+                if (arr[i] > arr[j]
+                        && ilist.size() < jList.size()) {
+                    ilist.clear();
+                    ilist.addAll(jList);
+                }
+            }
+
+            ilist.add(arr[i]);
+        }
+
+        // Longest Decreasing Subsequence
+        List<List<Integer>> lds = new ArrayList<>();
+        for (int i = 0; i < n; i++) {
+            lds.add(new ArrayList<>());
+        }
+
+        lds.get(n - 1).add(arr[n - 1]);
+        for (int i = n - 2; i >= 0; i--) {
+            var iList = lds.get(i);
+            for (int j = n - 1; j > i; j--) {
+                var jList = lds.get(j);
+
+                if (arr[i] > arr[j]
+                        && iList.size() < jList.size()) {
+                    iList.clear();
+                    iList.addAll(jList);
+                }
+            }
+
+            iList.add(0, arr[i]);
+        }
+
+        List<Integer> maxLisList = lis.get(0);
+        List<Integer> maxLdsList = lds.get(0);
+        int maxSize = maxLdsList.size() + maxLdsList.size() - 1;
+        for (int i = 1; i < n; i++) {
+            var lisList = lis.get(i);
+            var ldsList = lds.get(i);
+
+            int size = lisList.size() + ldsList.size() - 1;
+            if (size > maxSize) {
+                maxSize = size;
+                maxLisList = lisList;
+                maxLdsList = ldsList;
+            }
+        }
+
+        List<Integer> bitonicList = new ArrayList<>();
+        for (int i = 0; i < maxLisList.size(); i++) {
+            bitonicList.add(maxLisList.get(i));
+        }
+
+        for (int i = 1; i < maxLdsList.size(); i++) {
+            bitonicList.add(maxLdsList.get(i));
+        }
+
+        return bitonicList;
+    }
+
     public static int paintFence(int numPosts, int numColors) {
         int[] dp = new int[numPosts];
         dp[0] = numColors;

@@ -628,6 +628,32 @@ class DynamicProgrammingTest {
     }
 
     @Test
+    void getLongestBitonicSubsequence() {
+        int[] arr;
+        List<Integer> lbs;
+        List<List<Integer>> expectedLbsList;
+
+        arr = new int[]{1, 11, 2, 10, 4, 5, 2, 1};
+        expectedLbsList = Utilities.constructList(Utilities.constructList(1, 2, 10, 4, 2, 1),
+                Utilities.constructList(1, 11, 10, 5, 2, 1),
+                Utilities.constructList(1, 2, 4, 5, 2, 1));
+        lbs = DynamicProgramming.getLongestBitonicSubsequence(arr);
+        QuetzalAssertions.assertListOfListStrictlyContainsList(expectedLbsList, lbs);
+
+        arr = new int[]{12, 11, 40, 5, 3, 1};
+        expectedLbsList = Utilities.constructList(Utilities.constructList(12, 11, 5, 3, 1),
+                Utilities.constructList(12, 40, 5, 3, 1));
+        lbs = DynamicProgramming.getLongestBitonicSubsequence(arr);
+        QuetzalAssertions.assertListOfListStrictlyContainsList(expectedLbsList, lbs);
+
+        arr = new int[]{80, 60, 30, 40, 20, 10};
+        expectedLbsList = Utilities.constructList(Utilities.constructList(80, 60, 30, 20, 10),
+                Utilities.constructList(80, 60, 40, 20, 10));
+        lbs = DynamicProgramming.getLongestBitonicSubsequence(arr);
+        QuetzalAssertions.assertListOfListStrictlyContainsList(expectedLbsList, lbs);
+    }
+
+    @Test
     void paintFence() {
         int numPosts;
         int numColors;
