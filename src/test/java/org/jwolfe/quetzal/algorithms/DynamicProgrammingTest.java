@@ -392,6 +392,26 @@ class DynamicProgrammingTest {
     }
 
     @Test
+    void longestCommonSubsequenceWithUtmostKChangesAllowed() {
+        int[] arr1;
+        int[] arr2;
+        int k;
+        int lcs;
+
+        arr1 = new int[]{8, 3};
+        arr2 = new int[]{1, 3};
+        k = 1;
+        lcs = DynamicProgramming.longestCommonSubsequenceWithUtmostKChangesAllowed(arr1, arr2, k);
+        assertEquals(2, lcs);
+
+        arr1 = new int[]{1, 2, 3, 4, 5};
+        arr2 = new int[]{5, 3, 1, 4, 2};
+        k = 1;
+        lcs = DynamicProgramming.longestCommonSubsequenceWithUtmostKChangesAllowed(arr1, arr2, k);
+        assertEquals(3, lcs);
+    }
+
+    @Test
     void longestCommonSubsequence3Strings() {
         String str1;
         String str2;

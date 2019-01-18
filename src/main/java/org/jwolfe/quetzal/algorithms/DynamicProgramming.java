@@ -629,6 +629,45 @@ public class DynamicProgramming {
         return dp[binaryIndex][n];
     }
 
+    public static int longestCommonSubsequenceWithUtmostKChangesAllowed(int[] arr1, int[] arr2, int maxChanges) {
+        if (arr1 == null || arr1.length == 0 || arr2 == null || arr2.length == 0 || maxChanges <= 0) {
+            return 0;
+        }
+
+        int m = arr1.length;
+        int n = arr2.length;
+
+        // dp[i][j][k] represents the lcs at arr1[0..i-1], arr[0...j-1] with utmost k changes made to arr1
+        int[][][] dp = new int[m + 1][n + 1][maxChanges + 1];
+        for (int i = 0; i <= m; i++) {
+            for (int j = 0; j <= n; j++) {
+                for (int k = 0; k <= maxChanges; k++) {
+                    if (i == 0 || j == 0 || k == 0) {
+                        dp[i][j][k] = 0;
+                    } else {
+                        int lcs = 0;
+
+                        // Try with no changes
+                        lcs = Math.max(dp[i - 1][j][k], dp[i][j - 1][k]);
+
+                        // If the characters are the same
+                        if (arr1[i - 1] == arr2[j - 1]) {
+                            // ith & jth items are same. No changes to be made
+                            lcs = Math.max(lcs, 1 + dp[i - 1][j - 1][k]);
+                        }
+
+                        // Try with one change
+                        lcs = Math.max(lcs, 1 + dp[i - 1][j - 1][k - 1]);
+
+                        dp[i][j][k] = lcs;
+                    }
+                }
+            }
+        }
+
+        return dp[m][n][maxChanges];
+    }
+
     public static int longestCommonSubsequence(String str1, String str2, String str3) {
         if (str1 == null || str2 == null || str3 == null) {
             return 0;
