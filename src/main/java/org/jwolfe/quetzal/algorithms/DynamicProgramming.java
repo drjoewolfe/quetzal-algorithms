@@ -12,6 +12,7 @@ public class DynamicProgramming {
 
     /**
      * Returns the first n fibonacci numbers
+     *
      * @param n count of fibonacci numbers required
      * @return the first n fibonacci numbers
      */
@@ -49,6 +50,7 @@ public class DynamicProgramming {
 
     /**
      * Returns the first n fibonacci numbers
+     *
      * @param n count of fibonacci numbers required
      * @return the first n fibonacci numbers
      */
@@ -85,6 +87,7 @@ public class DynamicProgramming {
 
     /**
      * Returns the first n fibonacci numbers
+     *
      * @param n count of fibonacci numbers required
      * @return the first n fibonacci numbers
      */
@@ -2117,5 +2120,46 @@ public class DynamicProgramming {
         }
 
         return maxProduct;
+    }
+
+    public static int minimumSumNonDecreasingSubsequenceOfLengthK(int[] arr, int length) {
+        if (arr == null || arr.length == 0 || length <= 0) {
+            return 0;
+        }
+
+        int n = arr.length;
+        int[][] dp = new int[n][length + 1];
+        Utilities.fillArray(dp, Integer.MAX_VALUE);
+
+        int min = arr[0];
+        for (int i = 0; i < n; i++) {
+            min = Math.min(min, arr[i]);
+            dp[i][0] = 0;
+            dp[i][1] = min;
+        }
+
+        for (int i = 1; i < n; i++) {
+            for (int k = 2; k <= i + 1 && k <= length; k++) {
+                int minValue = Integer.MAX_VALUE;
+
+                for (int j = 0; j < i; j++) {
+                    if (arr[i] >= arr[j]) {
+                        if (dp[j][k - 1] == Integer.MAX_VALUE) {
+                            continue;
+                        }
+
+                        int value = Math.min(dp[j][k - 1] + arr[i],
+                                dp[j][k]);
+                        minValue = Math.min(minValue, value);
+                    } else {
+                        minValue = Math.min(minValue, dp[j][k]);
+                    }
+                }
+
+                dp[i][k] = minValue;
+            }
+        }
+
+        return dp[n - 1][length];
     }
 }

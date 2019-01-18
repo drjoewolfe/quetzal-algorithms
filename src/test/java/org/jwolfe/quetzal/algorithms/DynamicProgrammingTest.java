@@ -1238,13 +1238,13 @@ class DynamicProgrammingTest {
     void subsetWithSumDivisibleByMExists() {
         int[] arr;
 
-        arr = new int[] {3, 1, 7, 5};
+        arr = new int[]{3, 1, 7, 5};
         assertTrue(DynamicProgramming.subsetWithSumDivisibleByMExists(arr, 6));
 
-        arr = new int[] {1, 6};
+        arr = new int[]{1, 6};
         assertFalse(DynamicProgramming.subsetWithSumDivisibleByMExists(arr, 5));
 
-        arr = new int[] {1, 7};
+        arr = new int[]{1, 7};
         assertFalse(DynamicProgramming.subsetWithSumDivisibleByMExists(arr, 5));
     }
 
@@ -1252,10 +1252,24 @@ class DynamicProgrammingTest {
     void maximumProductOfIncreasingSubsequence() {
         int[] arr;
 
-        arr = new int[] {3, 100, 4, 5, 150, 6};
+        arr = new int[]{3, 100, 4, 5, 150, 6};
         assertEquals(45000, DynamicProgramming.maximumProductOfIncreasingSubsequence(arr));
 
-        arr = new int[] {10, 22, 9, 33, 21, 50, 41, 60};
+        arr = new int[]{10, 22, 9, 33, 21, 50, 41, 60};
         assertEquals(21780000, DynamicProgramming.maximumProductOfIncreasingSubsequence(arr));
+    }
+
+    @Test
+    void minimumSumNonDecreasingSubsequenceOfLengthK() {
+        int[] arr;
+
+        arr = new int[]{58, 12, 11, 12, 82, 30, 20, 77, 16, 86};
+        assertEquals(39, DynamicProgramming.minimumSumNonDecreasingSubsequenceOfLengthK(arr, 3));
+
+        arr = new int[]{58, 12, 11, 12, 82, 30, 20, 77, 16, 86};
+        assertEquals(120, DynamicProgramming.minimumSumNonDecreasingSubsequenceOfLengthK(arr, 4));
+
+        arr = new int[]{58, 12, 11, 12, 82, 30, 20, 77, 16, 86};
+        assertEquals(206, DynamicProgramming.minimumSumNonDecreasingSubsequenceOfLengthK(arr, 5));
     }
 }
