@@ -360,6 +360,32 @@ class DynamicProgrammingTest {
     }
 
     @Test
+    void getAllLongestCommonSubsequences() {
+        String str1;
+        String str2;
+        Set<String> lcsList;
+        Set<String> expectedLcsList;
+
+        str1 = "AGTGATG";
+        str2 = "GTTAG";
+        expectedLcsList = Utilities.constructSet("GTAG", "GTTG");
+        lcsList = DynamicProgramming.getAllLongestCommonSubsequences(str1, str2);
+        QuetzalAssertions.assertSetEquals(expectedLcsList, lcsList);
+
+        str1 = "AATCC";
+        str2 = "ACACG";
+        expectedLcsList = Utilities.constructSet("ACC", "AAC");
+        lcsList = DynamicProgramming.getAllLongestCommonSubsequences(str1, str2);
+        QuetzalAssertions.assertSetEquals(expectedLcsList, lcsList);
+
+        str1 = "ABCBDAB";
+        str2 = "BDCABA";
+        expectedLcsList = Utilities.constructSet("BCAB", "BCBA", "BDAB");
+        lcsList = DynamicProgramming.getAllLongestCommonSubsequences(str1, str2);
+        QuetzalAssertions.assertSetEquals(expectedLcsList, lcsList);
+    }
+
+    @Test
     void longestCommonSubsequenceRecursive() {
         String str1;
         String str2;
