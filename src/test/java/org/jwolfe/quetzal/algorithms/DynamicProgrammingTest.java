@@ -1347,4 +1347,21 @@ class DynamicProgrammingTest {
         arr = new int[]{58, 12, 11, 12, 82, 30, 20, 77, 16, 86};
         assertEquals(206, DynamicProgramming.minimumSumNonDecreasingSubsequenceOfLengthK(arr, 5));
     }
+
+    @Test
+    void countUniquePathsFromTopLeftToBottomRightInGridWithObstacless() {
+        int[][] grid;
+
+        grid = new int[][] {{1, 0, 0}, {0, 0, 0}, {0, 0, 0}};
+        assertEquals(0, DynamicProgramming.countUniquePathsFromTopLeftToBottomRightInGridWithObstacles(grid));
+
+        grid = new int[][] {{0, 0, 0}, {0, 0, 0}, {0, 0, 1}};
+        assertEquals(0, DynamicProgramming.countUniquePathsFromTopLeftToBottomRightInGridWithObstacles(grid));
+
+        grid = new int[][] {{0, 0, 0}, {0, 0, 0}, {0, 0, 0}};
+        assertEquals(6, DynamicProgramming.countUniquePathsFromTopLeftToBottomRightInGridWithObstacles(grid));
+
+        grid = new int[][] {{0, 0, 0}, {0, 1, 0}, {0, 0, 0}};
+        assertEquals(2, DynamicProgramming.countUniquePathsFromTopLeftToBottomRightInGridWithObstacles(grid));
+    }
 }

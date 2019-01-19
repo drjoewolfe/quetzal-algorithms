@@ -2366,4 +2366,42 @@ public class DynamicProgramming {
 
         return dp[n - 1][length];
     }
+
+    public static int countUniquePathsFromTopLeftToBottomRightInGridWithObstacles(int[][] grid) {
+        // In the grid, 0 implies free and non-zero denotes an obstacle.
+        // Navigation is allowed to right or down
+        if (grid == null || grid.length == 0 || grid[0].length == 0) {
+            return 0;
+        }
+
+        int m = grid.length;
+        int n = grid[0].length;
+        for (var row : grid) {
+            if (row.length != n) {
+                // Invalid grid
+                return 0;
+            }
+        }
+
+        if (grid[0][0] == 1 || grid[n - 1][m - 1] == 1) {
+            // Obstacle at start or end
+            return 0;
+        }
+
+        int[][] dp = new int[m][n];
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                if (i == 0 || j == 0) {
+                    // Left column / Top row
+                    dp[i][j] = 1;
+                } else {
+                    if (grid[i][j] == 0) {
+                        dp[i][j] = dp[i - 1][j] + dp[i][j - 1];
+                    }
+                }
+            }
+        }
+
+        return dp[m - 1][n - 1];
+    }
 }
