@@ -189,6 +189,40 @@ public class DynamicProgramming {
         return lisList;
     }
 
+    public static List<Integer> getLongestIncreasingSubsequence(List<Integer> list) {
+        if (list == null || list.size() == 0) {
+            return null;
+        }
+
+        List<List<Integer>> dp = new ArrayList<>();
+
+        List<Integer> runningList = new ArrayList<>();
+        runningList.add(list.get(0));
+        dp.add(new ArrayList<>(runningList));
+
+        for (int i = 1; i < list.size(); i++) {
+            runningList.clear();
+            for (int j = 0; j < i; j++) {
+                if (list.get(j) < list.get(i)
+                        && runningList.size() < dp.get(j).size()) {
+                    runningList = dp.get(j);
+                }
+            }
+
+            dp.add(new ArrayList<>(runningList));
+            dp.get(i).add(list.get(i));
+        }
+
+        List<Integer> lisList = dp.get(0);
+        for (int i = 1; i < dp.size(); i++) {
+            if (lisList.size() < dp.get(i).size()) {
+                lisList = dp.get(i);
+            }
+        }
+
+        return lisList;
+    }
+
     public static int longestIncreasingSubsequenceRecursive(int[] arr) {
         if (arr == null || arr.length == 0) {
             return 0;

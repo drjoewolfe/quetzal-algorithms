@@ -98,6 +98,23 @@ class DynamicProgrammingTest {
     }
 
     @Test
+    void getLongestIncreasingSubsequenceList() {
+        List<Integer> list;
+        List<Integer> lisList;
+        List<Integer> expectedLisList;
+
+        list = Utilities.constructList(10, 22, 9, 33, 21, 50, 41, 60, 80);
+        expectedLisList = Utilities.constructList(10, 22, 33, 50, 60, 80);
+        lisList = DynamicProgramming.getLongestIncreasingSubsequence(list);
+        QuetzalAssertions.assertListEquals(expectedLisList, lisList);
+
+        list = Utilities.constructList(3, 2, 6, 4, 5, 1);
+        expectedLisList = Utilities.constructList(2, 4, 5);
+        lisList = DynamicProgramming.getLongestIncreasingSubsequence(list);
+        QuetzalAssertions.assertListEquals(expectedLisList, lisList);
+    }
+
+    @Test
     void longestIncreasingSubsequenceRecursive() {
         int[] arr;
         int lis;
