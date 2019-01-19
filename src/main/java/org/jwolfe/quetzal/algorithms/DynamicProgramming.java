@@ -318,6 +318,45 @@ public class DynamicProgramming {
         }
     }
 
+    public static String getLongestPalindromicSubsequence(String str) {
+        // Longest Palindromic Subsequence is the same as Longest Common Subsequence of a string & its reverse
+
+        if (str == null || str.length() == 0) {
+            return null;
+        }
+
+        int n = str.length();
+        int[][] dp = new int[n + 1][n + 1];
+        for (int i = 0; i <= n; i++) {
+            for (int j = 0; j <= n; j++) {
+                if (i == 0 || j == 0) {
+                    dp[i][j] = 0;
+                } else if (str.charAt(i - 1) == str.charAt(n - j)) {
+                    dp[i][j] = dp[i - 1][j - 1] + 1;
+                } else {
+                    dp[i][j] = Math.max(dp[i - 1][j], dp[i][j - 1]);
+                }
+            }
+        }
+
+        StringBuilder subsequence = new StringBuilder();
+        int i = n;
+        int j = n;
+        while (i > 0 && j > 0) {
+            if (str.charAt(i - 1) == str.charAt(n - j)) {
+                subsequence.append(str.charAt(i - 1));
+                i--;
+                j--;
+            } else if (dp[i - 1][j] > dp[i][j - 1]) {
+                i--;
+            } else {
+                j--;
+            }
+        }
+
+        return subsequence.reverse().toString();
+    }
+
     public static int longestPalindromicSubstring(String str) {
         int n = str.length();
         boolean[][] dp = new boolean[n][n];

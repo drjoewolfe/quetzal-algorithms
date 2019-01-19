@@ -169,7 +169,7 @@ class DynamicProgrammingTest {
     @Test
     void longestPalindromicSubsequence() {
         System.out.println();
-        String str = "GEEKSFORGEEKS";
+        String str = "DOOPSTHEDOOPS";
         int lps = DynamicProgramming.longestPalindromicSubsequence(str);
         System.out.println("Longest palindromic subsequence of " + str + "  is of length " + lps);
 
@@ -182,7 +182,7 @@ class DynamicProgrammingTest {
     @Test
     void longestPalindromicSubsequenceRecursive() {
         System.out.println();
-        String str = "GEEKSFORGEEKS";
+        String str = "DOOPSTHEDOOPS";
         int lps = DynamicProgramming.longestPalindromicSubsequenceRecursive(str);
         System.out.println("Longest palindromic subsequence of " + str + "  is of length " + lps);
 
@@ -190,6 +190,12 @@ class DynamicProgrammingTest {
         str = "BBABCBCAB";
         lps = DynamicProgramming.longestPalindromicSubsequenceRecursive(str);
         System.out.println("Longest palindromic subsequence of " + str + "  is of length " + lps);
+    }
+
+    @Test
+    void getLongestPalindromicSubsequence() {
+        assertEquals("BACBCAB", DynamicProgramming.getLongestPalindromicSubsequence("BBABCBCAB"));
+        assertEquals("OODOO", DynamicProgramming.getLongestPalindromicSubsequence("DOOPSTHEDOOPS"));
     }
 
     @Test
