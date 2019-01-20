@@ -1288,6 +1288,20 @@ class DynamicProgrammingTest {
     }
 
     @Test
+    void longestAlternatingSubsequence() {
+        int[] arr;
+
+        arr = new int[]{1, 5, 4};
+        assertEquals(3, DynamicProgramming.longestZigZagSubsequence(arr));
+
+        arr = new int[]{1, 4, 5};
+        assertEquals(2, DynamicProgramming.longestZigZagSubsequence(arr));
+
+        arr = new int[]{10, 22, 9, 33, 49, 50, 31, 60};
+        assertEquals(6, DynamicProgramming.longestZigZagSubsequence(arr));
+    }
+
+    @Test
     void maximumSumBitonicSubsequence() {
         int[] arr;
 

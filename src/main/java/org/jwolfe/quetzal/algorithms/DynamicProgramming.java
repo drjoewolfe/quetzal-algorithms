@@ -2176,6 +2176,41 @@ public class DynamicProgramming {
         return maxLength;
     }
 
+    public static int longestAlternatingSubsequence(int[] arr) {
+        // For alternating subsequences,
+        //      x1 < x2 > x3 < x4 > x5 < …. xn or
+        //      x1 > x2 < x3 > x4 < x5 > …. xn
+
+        if (arr == null || arr.length == 0) {
+            return 0;
+        }
+
+        int n = arr.length;
+
+        // las[i][0] => las where arr[i] is lesser than the previous element
+        // las[i][1] => las where arr[i] is greater than the previous element
+        int[][] las = new int[n][2];
+        las[0][0] = arr[0];
+        las[0][1] = arr[0];
+
+        for (int i = 1; i < n; i++) {
+            for (int j = 0; j < i; j++) {
+                if (arr[i] > arr[j]) {
+                    las[i][1] = Math.max(las[i][1], las[j][0] + arr[i]);
+                } else if (arr[i] < arr[j]) {
+                    las[i][0] = Math.max(las[i][1], las[j][1] + arr[i]);
+                }
+            }
+        }
+
+        int maxLas = Integer.MIN_VALUE;
+        for (int i = 0; i < n; i++) {
+            maxLas = Utilities.max(maxLas, las[i][0], las[i][1]);
+        }
+
+        return maxLas;
+    }
+
     public static int maximumSumBitonicSubsequence(int[] arr) {
         if (arr == null || arr.length == 0) {
             return 0;
