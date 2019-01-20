@@ -1349,7 +1349,7 @@ class DynamicProgrammingTest {
     }
 
     @Test
-    void countUniquePathsFromTopLeftToBottomRightInGridWithObstacless() {
+    void countUniquePathsFromTopLeftToBottomRightInGridWithObstacles() {
         int[][] grid;
 
         grid = new int[][] {{1, 0, 0}, {0, 0, 0}, {0, 0, 0}};
@@ -1363,5 +1363,19 @@ class DynamicProgrammingTest {
 
         grid = new int[][] {{0, 0, 0}, {0, 1, 0}, {0, 0, 0}};
         assertEquals(2, DynamicProgramming.countUniquePathsFromTopLeftToBottomRightInGridWithObstacles(grid));
+    }
+
+    @Test
+    void lengthOfShortestCommonSupersequence() {
+        String str1;
+        String str2;
+
+        str1 = "doop";
+        str2 = "opo";
+        assertEquals(5, DynamicProgramming.lengthOfShortestCommonSupersequence(str1, str2));
+
+        str1 = "AGGTAB";
+        str2 = "GXTXAYB";
+        assertEquals(9, DynamicProgramming.lengthOfShortestCommonSupersequence(str1, str2));
     }
 }

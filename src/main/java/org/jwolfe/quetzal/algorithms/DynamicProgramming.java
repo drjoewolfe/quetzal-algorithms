@@ -2404,4 +2404,17 @@ public class DynamicProgramming {
 
         return dp[m - 1][n - 1];
     }
+
+    public static int lengthOfShortestCommonSupersequence(String str1, String str2) {
+        if (str1 == null) {
+            return str2.length();
+        }
+
+        if (str2 == null) {
+            return str1.length();
+        }
+
+        int lcsLength = longestCommonSubsequence(str1, str2);
+        return (str1.length() + str2.length()) - lcsLength;
+    }
 }
