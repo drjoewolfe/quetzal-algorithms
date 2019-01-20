@@ -2406,6 +2406,15 @@ public class DynamicProgramming {
     }
 
     public static int lengthOfShortestCommonSupersequence(String str1, String str2) {
+        // This implementation re-uses the longest common subsequence for the 2 strings.
+        // This can also be solved as a DP by itself using the following recursion.
+        //      if(str1.charAt(i - 1) == str2.charAt(j - 1)) {
+        //          dp[i][j] = 1 + dp[i - 1][j - 1];
+        //      }
+        //      else {
+        //          dp[i][j] = 1 + Math.min(dp[i - 1][j], dp[i][j - 1]
+        //      }
+
         if (str1 == null) {
             return str2.length();
         }
@@ -2416,5 +2425,53 @@ public class DynamicProgramming {
 
         int lcsLength = longestCommonSubsequence(str1, str2);
         return (str1.length() + str2.length()) - lcsLength;
+    }
+
+    public static int maximumSumAlternatingSubsequence(int[] arr) {
+        // Note: Alternating subsequence follows the order decreasing - increasing - decreasing.... between each pair
+
+        if (arr == null || arr.length == 0) {
+            return 0;
+        }
+
+        int n = arr.length;
+        if (n == 1) {
+            return arr[0];
+        }
+
+        // msas[i][0] -> length of maximum alternate subsequence such that arr[i] is smaller than the previous element
+        // msas[i][1] -> length of maximum alternate subsequence such that arr[i] is larger than the previous element
+        int[][] msas = new int[n][2];
+        msas[0][0] = arr[0];
+        msas[0][1] = arr[0];
+
+        // Flag - We should consider increasing only after a decreasing has occured.
+        boolean decreasingEncountered = false;
+
+        for (int i = 1; i < n; i++) {
+            for (int j = 0; j < i; j++) {
+                if (arr[i] > arr[j] && decreasingEncountered) {
+                    // Increasing
+                    msas[i][1] = Math.max(msas[i][1],
+                            msas[j][0] + arr[i]);
+
+                } else if (arr[i] < arr[j]) {
+                    // Decreasing
+                    msas[i][0] = Math.max(msas[i][0],
+                            msas[j][1] + arr[i]);
+
+                    decreasingEncountered = true;
+                }
+            }
+        }
+
+        int maxValue = Integer.MIN_VALUE;
+        for (int i = 0; i < n; i++) {
+            maxValue = Utilities.max(maxValue,
+                    msas[i][0],
+                    msas[i][1]);
+        }
+
+        return maxValue;
     }
 }

@@ -1352,16 +1352,16 @@ class DynamicProgrammingTest {
     void countUniquePathsFromTopLeftToBottomRightInGridWithObstacles() {
         int[][] grid;
 
-        grid = new int[][] {{1, 0, 0}, {0, 0, 0}, {0, 0, 0}};
+        grid = new int[][]{{1, 0, 0}, {0, 0, 0}, {0, 0, 0}};
         assertEquals(0, DynamicProgramming.countUniquePathsFromTopLeftToBottomRightInGridWithObstacles(grid));
 
-        grid = new int[][] {{0, 0, 0}, {0, 0, 0}, {0, 0, 1}};
+        grid = new int[][]{{0, 0, 0}, {0, 0, 0}, {0, 0, 1}};
         assertEquals(0, DynamicProgramming.countUniquePathsFromTopLeftToBottomRightInGridWithObstacles(grid));
 
-        grid = new int[][] {{0, 0, 0}, {0, 0, 0}, {0, 0, 0}};
+        grid = new int[][]{{0, 0, 0}, {0, 0, 0}, {0, 0, 0}};
         assertEquals(6, DynamicProgramming.countUniquePathsFromTopLeftToBottomRightInGridWithObstacles(grid));
 
-        grid = new int[][] {{0, 0, 0}, {0, 1, 0}, {0, 0, 0}};
+        grid = new int[][]{{0, 0, 0}, {0, 1, 0}, {0, 0, 0}};
         assertEquals(2, DynamicProgramming.countUniquePathsFromTopLeftToBottomRightInGridWithObstacles(grid));
     }
 
@@ -1377,5 +1377,19 @@ class DynamicProgrammingTest {
         str1 = "AGGTAB";
         str2 = "GXTXAYB";
         assertEquals(9, DynamicProgramming.lengthOfShortestCommonSupersequence(str1, str2));
+    }
+
+    @Test
+    void maximumSumAlternatingSubsequence() {
+        int[] arr;
+
+        arr = new int[]{4, 3, 8, 5, 3, 8};
+        assertEquals(28, DynamicProgramming.maximumSumAlternatingSubsequence(arr));
+
+        arr = new int[]{4, 8, 2, 5, 6, 8};
+        assertEquals(14, DynamicProgramming.maximumSumAlternatingSubsequence(arr));
+
+        arr = new int[]{8, 2, 3, 5, 7, 9, 10};
+        assertEquals(25, DynamicProgramming.maximumSumAlternatingSubsequence(arr));
     }
 }
