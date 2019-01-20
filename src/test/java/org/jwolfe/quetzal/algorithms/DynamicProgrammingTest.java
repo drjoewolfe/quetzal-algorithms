@@ -1458,4 +1458,12 @@ class DynamicProgrammingTest {
         str2 = "abab";
         assertEquals(-1, DynamicProgramming.lengthOfShortestUncommonSubsequenceRecursive(str1, str2));
     }
+
+    @Test
+    void countDistinctSubsequences() {
+        assertEquals(1, DynamicProgramming.countDistinctSubsequences(""));
+        assertEquals(2, DynamicProgramming.countDistinctSubsequences("a"));
+        assertEquals(7, DynamicProgramming.countDistinctSubsequences("aka"));
+        assertEquals(4, DynamicProgramming.countDistinctSubsequences("zzz"));
+    }
 }

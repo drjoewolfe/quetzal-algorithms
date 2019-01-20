@@ -2606,4 +2606,41 @@ public class DynamicProgramming {
 
         return Math.min(exclusive, inclusive);
     }
+
+    public static int countDistinctSubsequences(String str) {
+        // If all characters in the string are distinct, the count is
+        //      C(n, 0) + C(n, 1) + C(n, 2) + ... + C(n, n) = 2^n
+
+        // Since the string may have non-distinct characters, the recursion is
+        //      ds(n) = 2 * ds(n - 1) - repetitions
+        //          repetitions = 0, if the character has not been encountered before
+        //                      = ds(index) of the previous occurance of the character, if encountered
+
+        if (str == null) {
+            return 0;
+        }
+
+        if (str.length() == 0) {
+            return 1;
+        }
+
+        int n = str.length();
+
+        Map<Character, Integer> map = new HashMap<>();
+        int[] dp = new int[n + 1];
+        dp[0] = 1;
+
+        for (int i = 1; i <= n; i++) {
+            dp[i] = 2 * dp[i - 1];
+
+            char c = str.charAt(i - 1);
+            if (map.containsKey(c)) {
+                dp[i] = dp[i] - dp[map.get(c)];
+            }
+
+            map.put(c, i - 1);
+        }
+
+        return dp[n];
+    }
 }
