@@ -2643,4 +2643,28 @@ public class DynamicProgramming {
 
         return dp[n];
     }
+
+    public static int lengthOfLongestIncreasingOddEvenSubsequence(int[] arr) {
+        if (arr == null || arr.length == 0) {
+            return 0;
+        }
+
+        int n = arr.length;
+
+        // lieos[i] denotes the length of the lieos ending at i
+        int[] lieos = new int[n];
+        Arrays.fill(lieos, 1);
+
+        for (int i = 1; i < n; i++) {
+            for (int j = 0; j < i; j++) {
+                if (arr[i] > arr[j]
+                        && (arr[i] + arr[j]) % 2 != 0) {
+                    lieos[i] = Math.max(lieos[i], lieos[j] + 1);
+                }
+            }
+        }
+
+        int maxLength = Arrays.stream(lieos).max().getAsInt();
+        return maxLength;
+    }
 }

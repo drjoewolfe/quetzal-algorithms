@@ -1466,4 +1466,15 @@ class DynamicProgrammingTest {
         assertEquals(7, DynamicProgramming.countDistinctSubsequences("aka"));
         assertEquals(4, DynamicProgramming.countDistinctSubsequences("zzz"));
     }
+
+    @Test
+    void lengthOfLongestIncreasingOddEvenSubsequence() {
+        int[] arr;
+
+        arr = new int[]{5, 6, 9, 4, 7, 8};
+        assertEquals(4, DynamicProgramming.lengthOfLongestIncreasingOddEvenSubsequence(arr));
+
+        arr = new int[]{1, 12, 2, 22, 5, 30, 31, 14, 17, 11};
+        assertEquals(5, DynamicProgramming.lengthOfLongestIncreasingOddEvenSubsequence(arr));
+    }
 }
