@@ -13,6 +13,8 @@ import java.util.Stack;
 public class GraphAlgorithms {
 	public static int[] dijkstrasShortestPaths(int[][] graph, int numVertices, int startVertex) {
 		int[] distances = new int[numVertices];
+
+		// Shortest Path Tree
 		boolean[] sptSet = new boolean[numVertices];
 
 		Arrays.fill(distances, Integer.MAX_VALUE);
