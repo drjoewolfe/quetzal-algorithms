@@ -2509,4 +2509,53 @@ public class DynamicProgramming {
 
         return maxValue;
     }
+
+    public static int lengthOfShortestUncommonSubsequence(String str1, String str2) {
+        // Expected: length of the shortest subsequence in str1, which is not present in str2
+        if (str1 == null || str1.length() == 0) {
+            return -1;
+        }
+
+        if (str2 == null) {
+            // Any character in str1 is an uncommon subsequence
+            return 1;
+        }
+
+        int m = str1.length();
+        int n = str2.length();
+
+        int length = lengthOfShortestUncommonSubsequence(str1, str2, m, n, 0, 0);
+        return length == m + 1 ? -1 : length;
+    }
+
+    private static int lengthOfShortestUncommonSubsequence(String str1, String str2, int m, int n, int i, int j) {
+        if (i == m) {
+            // Reached end of str1
+            return m + 1;
+        }
+
+        if (j == n) {
+            // Reached end of str2, with str1 still having characters
+            return 1;
+        }
+
+        // Find first occurance of mth char from str1 in str2
+        char c = str1.charAt(i);
+        int index;
+        for (index = j; index < n; index++) {
+            if (c == str2.charAt(index)) {
+                break;
+            }
+        }
+
+        if (index == n) {
+            // c not found in str2
+            return 1;
+        }
+
+        int exclusive = lengthOfShortestUncommonSubsequence(str1, str2, m, n, i + 1, j);
+        int inclusive = 1 + lengthOfShortestUncommonSubsequence(str1, str2, m, n, i + 1, index + 1);
+
+        return Math.min(exclusive, inclusive);
+    }
 }

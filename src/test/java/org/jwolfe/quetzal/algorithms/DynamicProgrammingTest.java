@@ -1406,4 +1406,30 @@ class DynamicProgrammingTest {
         arr = new int[]{8, 2, 3, 5, 7, 9, 10};
         assertEquals(25, DynamicProgramming.maximumSumAlternatingSubsequence(arr));
     }
+
+    @Test
+    void lengthOfShortestUncommonSubsequence() {
+        String str1;
+        String str2;
+
+        str1 = "ab";
+        str2 = "cx";
+        assertEquals(1, DynamicProgramming.lengthOfShortestUncommonSubsequence(str1, str2));
+
+        str1 = "abc";
+        str2 = "cxa";
+        assertEquals(1, DynamicProgramming.lengthOfShortestUncommonSubsequence(str1, str2));
+
+        str1 = "abd";
+        str2 = "cxa";
+        assertEquals(1, DynamicProgramming.lengthOfShortestUncommonSubsequence(str1, str2));
+
+        str1 = "babab";
+        str2 = "babba";
+        assertEquals(3, DynamicProgramming.lengthOfShortestUncommonSubsequence(str1, str2));
+
+        str1 = "abb";
+        str2 = "abab";
+        assertEquals(-1, DynamicProgramming.lengthOfShortestUncommonSubsequence(str1, str2));
+    }
 }
