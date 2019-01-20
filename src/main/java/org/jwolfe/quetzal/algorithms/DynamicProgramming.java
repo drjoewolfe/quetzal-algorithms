@@ -2667,4 +2667,40 @@ public class DynamicProgramming {
         int maxLength = Arrays.stream(lieos).max().getAsInt();
         return maxLength;
     }
+
+    public static int lengthOfLongestParanthesisBalancedSubsequence(String str) {
+        if (str == null || str.length() == 0) {
+            return 0;
+        }
+
+        int n = str.length();
+
+        // dp[i][j] denotes the length of the longest balanced subsequence of the string str(i...j)
+        int[][] dp = new int[n][n];
+
+        // For substrings of length 2
+        for (int i = 0; i < n - 1; i++) {
+            if (str.charAt(i) == '(' && str.charAt(i + 1) == ')') {
+                dp[i][i + 1] = 2;
+            }
+        }
+
+        for (int len = 3; len <= n; len++) {
+            for (int i = 0; i < n - len + 1; i++) {
+                int j = i + len - 1;
+
+                if (str.charAt(i) == '(' && str.charAt(j) == ')') {
+                    dp[i][j] = 2 + dp[i + 1][j - 1];
+                }
+
+                for (int k = i; k < j; k++) {
+                    dp[i][j] = Math.max(dp[i][j],
+                            dp[i][k] + dp[k + 1][j]);
+                }
+            }
+
+        }
+
+        return dp[0][n - 1];
+    }
 }

@@ -1477,4 +1477,15 @@ class DynamicProgrammingTest {
         arr = new int[]{1, 12, 2, 22, 5, 30, 31, 14, 17, 11};
         assertEquals(5, DynamicProgramming.lengthOfLongestIncreasingOddEvenSubsequence(arr));
     }
+
+    @Test
+    void lengthOfLongestParanthesisBalancedSubsequence() {
+        assertEquals(0, DynamicProgramming.lengthOfLongestParanthesisBalancedSubsequence(")("));
+        assertEquals(0, DynamicProgramming.lengthOfLongestParanthesisBalancedSubsequence("))(("));
+        assertEquals(2, DynamicProgramming.lengthOfLongestParanthesisBalancedSubsequence("()"));
+        assertEquals(4, DynamicProgramming.lengthOfLongestParanthesisBalancedSubsequence("()()"));
+        assertEquals(4, DynamicProgramming.lengthOfLongestParanthesisBalancedSubsequence("()())"));
+        assertEquals(6, DynamicProgramming.lengthOfLongestParanthesisBalancedSubsequence("(()())"));
+        assertEquals(4, DynamicProgramming.lengthOfLongestParanthesisBalancedSubsequence("()(((((()"));
+    }
 }
