@@ -1432,4 +1432,30 @@ class DynamicProgrammingTest {
         str2 = "abab";
         assertEquals(-1, DynamicProgramming.lengthOfShortestUncommonSubsequence(str1, str2));
     }
+
+    @Test
+    void lengthOfShortestUncommonSubsequenceRecursive() {
+        String str1;
+        String str2;
+
+        str1 = "ab";
+        str2 = "cx";
+        assertEquals(1, DynamicProgramming.lengthOfShortestUncommonSubsequenceRecursive(str1, str2));
+
+        str1 = "abc";
+        str2 = "cxa";
+        assertEquals(1, DynamicProgramming.lengthOfShortestUncommonSubsequenceRecursive(str1, str2));
+
+        str1 = "abd";
+        str2 = "cxa";
+        assertEquals(1, DynamicProgramming.lengthOfShortestUncommonSubsequenceRecursive(str1, str2));
+
+        str1 = "babab";
+        str2 = "babba";
+        assertEquals(3, DynamicProgramming.lengthOfShortestUncommonSubsequenceRecursive(str1, str2));
+
+        str1 = "abb";
+        str2 = "abab";
+        assertEquals(-1, DynamicProgramming.lengthOfShortestUncommonSubsequenceRecursive(str1, str2));
+    }
 }
