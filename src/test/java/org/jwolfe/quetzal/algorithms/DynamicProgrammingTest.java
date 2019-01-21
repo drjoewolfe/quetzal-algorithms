@@ -1496,9 +1496,20 @@ class DynamicProgrammingTest {
 
         root = Utilities.constructBinaryTree(10, 20, 30, 40, 50, null, 60, null, null, 70, 80);
         assertEquals(3, DynamicProgramming.lengthOfVertexCover(root));
-;
+        ;
         root = Utilities.constructBinaryTree(20, 8, 22, 4, 12, null, 25, null, null, 10, 14);
         assertEquals(3, DynamicProgramming.lengthOfVertexCover(root));
+    }
+
+    @Test
+    void lengthOfVertexCoverRecursive() {
+        BinaryTreeNode root;
+
+        root = Utilities.constructBinaryTree(10, 20, 30, 40, 50, null, 60, null, null, 70, 80);
+        assertEquals(3, DynamicProgramming.lengthOfVertexCoverRecursive(root));
+        ;
+        root = Utilities.constructBinaryTree(20, 8, 22, 4, 12, null, 25, null, null, 10, 14);
+        assertEquals(3, DynamicProgramming.lengthOfVertexCoverRecursive(root));
     }
 
 //    @Test

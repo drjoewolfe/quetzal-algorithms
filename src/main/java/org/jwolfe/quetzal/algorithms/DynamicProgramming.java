@@ -2716,17 +2716,66 @@ public class DynamicProgramming {
             return 0;
         }
 
+        Map<BinaryTreeNode, Integer> memo = new HashMap<>();
+        return lengthOfVertexCoverMemoized(root, memo);
+    }
+
+    private static int lengthOfVertexCoverMemoized(BinaryTreeNode root, Map<BinaryTreeNode, Integer> memo) {
+        if (root == null) {
+            // Empty tree - zero cover
+            return 0;
+        }
+
+        if (root.getLeft() == null && root.getRight() == null) {
+            // Only one node - zero cover
+            return 0;
+        }
+
+        if (memo.containsKey(root)) {
+            return memo.get(root);
+        }
+
         // Try with root included in the vertex cover
-        int inclusive = 1 + lengthOfVertexCover(root.getLeft()) + lengthOfVertexCover(root.getRight());
+        int inclusive = 1 + lengthOfVertexCoverRecursive(root.getLeft()) + lengthOfVertexCoverRecursive(root.getRight());
 
         //  Try with root excluded from the vertex cover (In this case, both the children should be included
         int exclusive = 0;
         if (root.getLeft() != null) {
-            exclusive += 1 + lengthOfVertexCover(root.getLeft().getLeft()) + lengthOfVertexCover(root.getLeft().getRight());
+            exclusive += 1 + lengthOfVertexCoverMemoized(root.getLeft().getLeft(), memo) + lengthOfVertexCoverMemoized(root.getLeft().getRight(), memo);
         }
 
         if (root.getRight() != null) {
-            exclusive += 1 + lengthOfVertexCover(root.getRight().getLeft()) + lengthOfVertexCover(root.getRight().getRight());
+            exclusive += 1 + lengthOfVertexCoverMemoized(root.getRight().getLeft(), memo) + lengthOfVertexCoverMemoized(root.getRight().getRight(), memo);
+        }
+
+        int lengthOfCover = Math.min(inclusive, exclusive);
+        memo.put(root, lengthOfCover);
+
+        return lengthOfCover;
+    }
+
+    public static int lengthOfVertexCoverRecursive(BinaryTreeNode root) {
+        if (root == null) {
+            // Empty tree - zero cover
+            return 0;
+        }
+
+        if (root.getLeft() == null && root.getRight() == null) {
+            // Only one node - zero cover
+            return 0;
+        }
+
+        // Try with root included in the vertex cover
+        int inclusive = 1 + lengthOfVertexCoverRecursive(root.getLeft()) + lengthOfVertexCoverRecursive(root.getRight());
+
+        //  Try with root excluded from the vertex cover (In this case, both the children should be included
+        int exclusive = 0;
+        if (root.getLeft() != null) {
+            exclusive += 1 + lengthOfVertexCoverRecursive(root.getLeft().getLeft()) + lengthOfVertexCoverRecursive(root.getLeft().getRight());
+        }
+
+        if (root.getRight() != null) {
+            exclusive += 1 + lengthOfVertexCoverRecursive(root.getRight().getLeft()) + lengthOfVertexCoverRecursive(root.getRight().getRight());
         }
 
         return Math.min(inclusive, exclusive);
