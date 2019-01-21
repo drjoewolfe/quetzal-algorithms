@@ -5,6 +5,7 @@ import org.jwolfe.quetzal.library.general.CarryItem;
 import org.jwolfe.quetzal.library.general.Knapsack;
 import org.jwolfe.quetzal.library.general.Pair;
 import org.jwolfe.quetzal.library.general.Triplet;
+import org.jwolfe.quetzal.library.tree.BinaryTreeNode;
 import org.jwolfe.quetzal.library.utilities.Utilities;
 import org.jwolfe.quetzal.test.QuetzalAssertions;
 
@@ -1488,4 +1489,32 @@ class DynamicProgrammingTest {
         assertEquals(6, DynamicProgramming.lengthOfLongestParanthesisBalancedSubsequence("(()())"));
         assertEquals(4, DynamicProgramming.lengthOfLongestParanthesisBalancedSubsequence("()(((((()"));
     }
+
+    @Test
+    void lengthOfVertexCover() {
+        BinaryTreeNode root;
+
+        root = Utilities.constructBinaryTree(10, 20, 30, 40, 50, null, 60, null, null, 70, 80);
+        assertEquals(3, DynamicProgramming.lengthOfVertexCover(root));
+;
+        root = Utilities.constructBinaryTree(20, 8, 22, 4, 12, null, 25, null, null, 10, 14);
+        assertEquals(3, DynamicProgramming.lengthOfVertexCover(root));
+    }
+
+//    @Test
+//    void getVertexCover() {
+//        BinaryTreeNode root;
+//        List<BinaryTreeNode> vertexCover;
+//        List<BinaryTreeNode> expectedVertexCover;
+//
+//        expectedVertexCover = Utilities.constructList(new BinaryTreeNode(20), new BinaryTreeNode(30), new BinaryTreeNode(50));
+//        root = Utilities.constructBinaryTree(10, 20, 30, 40, 50, null, 60, null, null, 70, 80);
+//        vertexCover = DynamicProgramming.getVertexCover(root);
+//        QuetzalAssertions.assertListOfTreeNodesAreEqualOnData(expectedVertexCover, vertexCover);
+//
+//        expectedVertexCover = Utilities.constructList(new BinaryTreeNode(8), new BinaryTreeNode(12), new BinaryTreeNode(22));
+//        root = Utilities.constructBinaryTree(20, 8, 22, 4, 12, null, 25, null, null, 10, 14);
+//        vertexCover = DynamicProgramming.getVertexCover(root);
+//        QuetzalAssertions.assertListOfTreeNodesAreEqualOnData(expectedVertexCover, vertexCover);
+//    }
 }

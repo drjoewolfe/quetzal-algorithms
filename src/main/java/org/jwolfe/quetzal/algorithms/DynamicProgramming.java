@@ -1,6 +1,7 @@
 package org.jwolfe.quetzal.algorithms;
 
 import org.jwolfe.quetzal.library.general.*;
+import org.jwolfe.quetzal.library.tree.BinaryTreeNode;
 import org.jwolfe.quetzal.library.utilities.PairFirstSorter;
 import org.jwolfe.quetzal.library.utilities.Utilities;
 
@@ -2702,5 +2703,36 @@ public class DynamicProgramming {
         }
 
         return dp[0][n - 1];
+    }
+
+    public static int lengthOfVertexCover(BinaryTreeNode root) {
+        if (root == null) {
+            // Empty tree - zero cover
+            return 0;
+        }
+
+        if (root.getLeft() == null && root.getRight() == null) {
+            // Only one node - zero cover
+            return 0;
+        }
+
+        // Try with root included in the vertex cover
+        int inclusive = 1 + lengthOfVertexCover(root.getLeft()) + lengthOfVertexCover(root.getRight());
+
+        //  Try with root excluded from the vertex cover (In this case, both the children should be included
+        int exclusive = 0;
+        if (root.getLeft() != null) {
+            exclusive += 1 + lengthOfVertexCover(root.getLeft().getLeft()) + lengthOfVertexCover(root.getLeft().getRight());
+        }
+
+        if (root.getRight() != null) {
+            exclusive += 1 + lengthOfVertexCover(root.getRight().getLeft()) + lengthOfVertexCover(root.getRight().getRight());
+        }
+
+        return Math.min(inclusive, exclusive);
+    }
+
+    public static List<BinaryTreeNode> getVertexCover(BinaryTreeNode root) {
+        return null;
     }
 }
