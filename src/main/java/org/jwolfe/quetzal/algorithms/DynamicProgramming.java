@@ -2736,7 +2736,7 @@ public class DynamicProgramming {
         }
 
         // Try with root included in the vertex cover
-        int inclusive = 1 + lengthOfVertexCoverRecursive(root.getLeft()) + lengthOfVertexCoverRecursive(root.getRight());
+        int inclusive = 1 + lengthOfVertexCoverMemoized(root.getLeft(), memo) + lengthOfVertexCoverMemoized(root.getRight(), memo);
 
         //  Try with root excluded from the vertex cover (In this case, both the children should be included
         int exclusive = 0;
@@ -2782,6 +2782,89 @@ public class DynamicProgramming {
     }
 
     public static List<BinaryTreeNode> getVertexCover(BinaryTreeNode root) {
-        return null;
+        if (root == null) {
+            // Empty tree - zero cover
+            return null;
+        }
+
+        if (root.getLeft() == null && root.getRight() == null) {
+            // Only one node - zero cover
+            return null;
+        }
+
+        Map<BinaryTreeNode, List<BinaryTreeNode>> memo = new HashMap<>();
+        generateVertexCover(root, memo);
+
+        return memo.get(root);
+    }
+
+    private static int generateVertexCover(BinaryTreeNode root, Map<BinaryTreeNode, List<BinaryTreeNode>> memo) {
+        if (root == null) {
+            // Empty tree - zero cover
+            return 0;
+        }
+
+        if (root.getLeft() == null && root.getRight() == null) {
+            memo.put(root, new ArrayList<>());
+            return 0;
+        }
+
+        if (memo.containsKey(root)) {
+            return memo.get(root).size();
+        }
+
+        // Try with root included in the vertex cover
+        int inclusive = 1 + generateVertexCover(root.getLeft(), memo) + generateVertexCover(root.getRight(), memo);
+
+        //  Try with root excluded from the vertex cover (In this case, both the children should be included
+        int exclusive = 0;
+        if (root.getLeft() != null) {
+            exclusive += 1 + generateVertexCover(root.getLeft().getLeft(), memo) + generateVertexCover(root.getLeft().getRight(), memo);
+        }
+
+        if (root.getRight() != null) {
+            exclusive += 1 + generateVertexCover(root.getRight().getLeft(), memo) + generateVertexCover(root.getRight().getRight(), memo);
+        }
+
+        List<BinaryTreeNode> vertexCover = new ArrayList<>();
+        if (inclusive < exclusive) {
+            vertexCover.add(root);
+
+            if (root.getLeft() != null) {
+                vertexCover.addAll(memo.get(root.getLeft()));
+            }
+
+            if (root.getRight() != null) {
+                vertexCover.addAll(memo.get(root.getRight()));
+            }
+        } else {
+            if (root.getLeft() != null) {
+                vertexCover.add(root.getLeft());
+
+                if (root.getLeft().getLeft() != null) {
+                    vertexCover.addAll(memo.get(root.getLeft().getLeft()));
+                }
+
+                if (root.getLeft().getRight() != null) {
+                    vertexCover.addAll(memo.get(root.getLeft().getRight()));
+                }
+            }
+
+            if (root.getRight() != null) {
+                vertexCover.add(root.getRight());
+
+                if (root.getRight().getLeft() != null) {
+                    vertexCover.addAll(memo.get(root.getRight().getLeft()));
+                }
+
+                if (root.getRight().getRight() != null) {
+                    vertexCover.addAll(memo.get(root.getRight().getRight()));
+                }
+            }
+        }
+
+        memo.put(root, vertexCover);
+        int lengthOfCover = vertexCover.size();
+        return lengthOfCover;
     }
 }

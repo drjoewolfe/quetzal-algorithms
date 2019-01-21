@@ -1512,20 +1512,20 @@ class DynamicProgrammingTest {
         assertEquals(3, DynamicProgramming.lengthOfVertexCoverRecursive(root));
     }
 
-//    @Test
-//    void getVertexCover() {
-//        BinaryTreeNode root;
-//        List<BinaryTreeNode> vertexCover;
-//        List<BinaryTreeNode> expectedVertexCover;
-//
-//        expectedVertexCover = Utilities.constructList(new BinaryTreeNode(20), new BinaryTreeNode(30), new BinaryTreeNode(50));
-//        root = Utilities.constructBinaryTree(10, 20, 30, 40, 50, null, 60, null, null, 70, 80);
-//        vertexCover = DynamicProgramming.getVertexCover(root);
-//        QuetzalAssertions.assertListOfTreeNodesAreEqualOnData(expectedVertexCover, vertexCover);
-//
-//        expectedVertexCover = Utilities.constructList(new BinaryTreeNode(8), new BinaryTreeNode(12), new BinaryTreeNode(22));
-//        root = Utilities.constructBinaryTree(20, 8, 22, 4, 12, null, 25, null, null, 10, 14);
-//        vertexCover = DynamicProgramming.getVertexCover(root);
-//        QuetzalAssertions.assertListOfTreeNodesAreEqualOnData(expectedVertexCover, vertexCover);
-//    }
+    @Test
+    void getVertexCover() {
+        BinaryTreeNode root;
+        List<BinaryTreeNode> vertexCover;
+        List<BinaryTreeNode> expectedVertexCover;
+
+        expectedVertexCover = Utilities.constructList(new BinaryTreeNode(20), new BinaryTreeNode(30), new BinaryTreeNode(50));
+        root = Utilities.constructBinaryTree(10, 20, 30, 40, 50, null, 60, null, null, 70, 80);
+        vertexCover = DynamicProgramming.getVertexCover(root);
+        QuetzalAssertions.assertListOfTreeNodesAreEqualOnData(expectedVertexCover, vertexCover);
+
+        expectedVertexCover = Utilities.constructList(new BinaryTreeNode(8), new BinaryTreeNode(12), new BinaryTreeNode(22));
+        root = Utilities.constructBinaryTree(20, 8, 22, 4, 12, null, 25, null, null, 10, 14);
+        vertexCover = DynamicProgramming.getVertexCover(root);
+        QuetzalAssertions.assertListOfTreeNodesAreEqualOnData(expectedVertexCover, vertexCover);
+    }
 }
