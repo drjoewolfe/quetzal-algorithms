@@ -168,6 +168,8 @@ public class GreedyAlgorithms {
     }
 
     public static Set<Set<Integer>> getSubsetCover(Set<Integer> universe, Map<Set<Integer>, Integer> setCosts) {
+        // Universe (U) & a collection of subsets of U provided. Every subset has an associated cost.
+        // Find the minumum cost subset that covers all elements of U
         // Greedy implementation. Approximation, not optimal.
         if (universe == null || universe.size() == 0
                 || setCosts == null || setCosts.size() == 0) {
