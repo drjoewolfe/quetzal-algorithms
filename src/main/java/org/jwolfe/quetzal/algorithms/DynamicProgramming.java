@@ -3029,4 +3029,26 @@ public class DynamicProgramming {
 
         return activitiesForMaxProfit;
     }
+
+    public static int numberOfWaysToReachScoreInAGame(int totalScore, int[] turnScores) {
+        // In one turn, one of turn scores can be scored (ex: 3 or 5 or 10)
+        if (totalScore < 0 || turnScores == null || turnScores.length == 0) {
+            return 0;
+        }
+
+        // dp[i] denotes the number of ways by which a score "i" can be obtained
+        int[] dp = new int[totalScore + 1];
+        Arrays.fill(dp, 0);
+
+        // One way to reach zero score
+        dp[0] = 1;
+
+        for (int score : turnScores) {
+            for (int i = score; i <= totalScore; i++) {
+                dp[i] = dp[i] + dp[i - score];
+            }
+        }
+
+        return dp[totalScore];
+    }
 }

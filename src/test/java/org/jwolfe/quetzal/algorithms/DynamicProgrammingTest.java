@@ -1568,4 +1568,18 @@ class DynamicProgrammingTest {
         scheduledActivities = DynamicProgramming.getActivitiesForMaximumProfitFromWeightedActivityScheduling(activities);
         QuetzalAssertions.assertListEquals(expectedScheduledActivities, scheduledActivities);
     }
+
+    @Test
+    void numberOfWaysToReachScoreInAGame() {
+        int totalScore;
+        int[] turnScores;
+
+        totalScore = 20;
+        turnScores = new int[] {3, 5, 10};
+        assertEquals(4, DynamicProgramming.numberOfWaysToReachScoreInAGame(totalScore, turnScores));
+
+        totalScore = 13;
+        turnScores = new int[] {3, 5, 10};
+        assertEquals(2, DynamicProgramming.numberOfWaysToReachScoreInAGame(totalScore, turnScores));
+    }
 }
