@@ -3,6 +3,7 @@ package org.jwolfe.quetzal.algorithms;
 import org.jwolfe.quetzal.library.general.*;
 import org.jwolfe.quetzal.library.tree.BinaryTreeNode;
 import org.jwolfe.quetzal.library.utilities.ActivityFinishComparator;
+import org.jwolfe.quetzal.library.utilities.ActivityStartComparator;
 import org.jwolfe.quetzal.library.utilities.PairFirstSorter;
 import org.jwolfe.quetzal.library.utilities.Utilities;
 
@@ -2887,7 +2888,7 @@ public class DynamicProgramming {
             // Profit, including the current activity
             int inclusiveProfit = activities.get(i).getProfit();
 
-            int previousActivityIndex = getPreviousActivityIndex(activities, i);
+            int previousActivityIndex = getPreviousActivityIndexUsingBinarySearch(activities, i);
             if (previousActivityIndex != -1) {
                 inclusiveProfit += dp[previousActivityIndex];
             }
@@ -2943,11 +2944,45 @@ public class DynamicProgramming {
         return previousActivityIndex;
     }
 
+    private static int getPreviousActivityIndexUsingBinarySearch(List<Activity> activities, int activityIndex) {
+        // A log-n optimized implementation of get-previous-activity-index
+        var currentActivity = activities.get(activityIndex);
+
+        int left = 0;
+        int right = activityIndex - 1;
+
+        while (left <= right) {
+            int mid = (left + right) / 2;
+            var activity = activities.get(mid);
+
+            if (activity.getFinish() <= currentActivity.getStart()) {
+                if (mid < activityIndex - 1) {
+                    var nextActivity = activities.get(mid + 1);
+
+                    if (nextActivity.getFinish() <= currentActivity.getStart()) {
+                        left = mid;
+                        continue;
+                    }
+                }
+
+                return mid;
+            } else {
+                right = mid;
+            }
+
+        }
+
+        return -1;
+    }
+
     public static List<Activity> getActivitiesForMaximumProfitFromWeightedActivityScheduling(List<Activity> activities) {
         // Approach similar to LIS
         if (activities == null || activities.size() == 0) {
             return null;
         }
+
+        // Sort activities by finish time
+        activities.sort(new ActivityStartComparator());
 
         int n = activities.size();
 
