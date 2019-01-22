@@ -1538,4 +1538,17 @@ class DynamicProgrammingTest {
 
         assertEquals(250, DynamicProgramming.getMaximumProfitFromWeightedActivityScheduling(activities));
     }
+
+    @Test
+    void getMaximumProfitFromWeightedActivitySchedulingRecursive() {
+        List<Activity> activities;
+
+        activities = new ArrayList<>();
+        activities.add(new Activity(3, 10, 20));
+        activities.add(new Activity(1, 2, 50));
+        activities.add(new Activity(6, 19, 100));
+        activities.add(new Activity(2, 100, 200));
+
+        assertEquals(250, DynamicProgramming.getMaximumProfitFromWeightedActivitySchedulingRecursive(activities));
+    }
 }

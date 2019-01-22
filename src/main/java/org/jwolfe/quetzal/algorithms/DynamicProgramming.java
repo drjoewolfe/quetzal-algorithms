@@ -2876,10 +2876,42 @@ public class DynamicProgramming {
 
         // Sort activities by finish time
         activities.sort(new ActivityFinishComparator());
-        return getMaximumProfitFromWeightedActivityScheduling(activities, activities.size() - 1);
+
+        int n = activities.size();
+
+        // dp[i] denotes the maximum profit when there are i activities
+        int[] dp = new int[n];
+        dp[0] = activities.get(0).getProfit();
+
+        for (int i = 1; i < n; i++) {
+            // Profit, including the current activity
+            int inclusiveProfit = activities.get(i).getProfit();
+
+            int previousActivityIndex = getPreviousActivityIndex(activities, i);
+            if (previousActivityIndex != -1) {
+                inclusiveProfit += dp[previousActivityIndex];
+            }
+
+            // Profit, excluding the current activity
+            int exclusiveProfit = dp[n - 1];
+
+            dp[i] = Math.max(inclusiveProfit, exclusiveProfit);
+        }
+
+        return dp[n - 1];
     }
 
-    private static int getMaximumProfitFromWeightedActivityScheduling(List<Activity> activities, int index) {
+    public static int getMaximumProfitFromWeightedActivitySchedulingRecursive(List<Activity> activities) {
+        if (activities == null || activities.size() == 0) {
+            return 0;
+        }
+
+        // Sort activities by finish time
+        activities.sort(new ActivityFinishComparator());
+        return getMaximumProfitFromWeightedActivitySchedulingRecursive(activities, activities.size() - 1);
+    }
+
+    private static int getMaximumProfitFromWeightedActivitySchedulingRecursive(List<Activity> activities, int index) {
         if (index == 0) {
             return activities.get(0).getProfit();
         }
@@ -2889,11 +2921,11 @@ public class DynamicProgramming {
 
         int previousActivityIndex = getPreviousActivityIndex(activities, index);
         if (previousActivityIndex != -1) {
-            inclusiveProfit += getMaximumProfitFromWeightedActivityScheduling(activities, previousActivityIndex);
+            inclusiveProfit += getMaximumProfitFromWeightedActivitySchedulingRecursive(activities, previousActivityIndex);
         }
 
         // Profit, excluding the activity
-        int exclusiveProfit = getMaximumProfitFromWeightedActivityScheduling(activities, index - 1);
+        int exclusiveProfit = getMaximumProfitFromWeightedActivitySchedulingRecursive(activities, index - 1);
 
         return Math.max(inclusiveProfit, exclusiveProfit);
     }
