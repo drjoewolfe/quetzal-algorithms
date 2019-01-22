@@ -1551,4 +1551,21 @@ class DynamicProgrammingTest {
 
         assertEquals(250, DynamicProgramming.getMaximumProfitFromWeightedActivitySchedulingRecursive(activities));
     }
+
+    @Test
+    void getActivitiesForMaximumProfitFromWeightedActivityScheduling() {
+        List<Activity> activities;
+        List<Activity> scheduledActivities;
+        List<Activity> expectedScheduledActivities;
+
+        var a1 = new Activity(3, 10, 20);
+        var a2 = new Activity(1, 2, 50);
+        var a3 = new Activity(6, 19, 100);
+        var a4 = new Activity(2, 100, 200);
+
+        activities = Utilities.constructList(a1, a2, a3, a4);
+        expectedScheduledActivities = Utilities.constructList(a2, a4);
+        scheduledActivities = DynamicProgramming.getActivitiesForMaximumProfitFromWeightedActivityScheduling(activities);
+        QuetzalAssertions.assertListEquals(expectedScheduledActivities, scheduledActivities);
+    }
 }

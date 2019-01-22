@@ -2942,4 +2942,56 @@ public class DynamicProgramming {
 
         return previousActivityIndex;
     }
+
+    public static List<Activity> getActivitiesForMaximumProfitFromWeightedActivityScheduling(List<Activity> activities) {
+        // Approach similar to LIS
+        if (activities == null || activities.size() == 0) {
+            return null;
+        }
+
+        int n = activities.size();
+
+        List<List<Activity>> maxProfitList = new ArrayList<>(n);
+
+        List<Activity> runningList = new ArrayList<>();
+        runningList.add(activities.get(0));
+        maxProfitList.add(runningList);
+
+        for (int i = 1; i < n; i++) {
+            var ai = activities.get(i);
+            runningList = new ArrayList<>();
+            maxProfitList.add(runningList);
+
+            int maxProfit = Integer.MIN_VALUE;
+            int maxProfitIndex = -1;
+            for (int j = 0; j < i; j++) {
+                var aj = activities.get(j);
+                if (aj.getFinish() <= ai.getStart()) {
+                    int profit = maxProfitList.get(j).stream().mapToInt(a -> a.getProfit()).sum();
+                    if (profit > maxProfit) {
+                        maxProfit = profit;
+                        maxProfitIndex = j;
+                    }
+                }
+            }
+
+            if (maxProfitIndex != -1) {
+                runningList.addAll(maxProfitList.get(maxProfitIndex));
+            }
+
+            runningList.add(ai);
+        }
+
+        var activitiesForMaxProfit = maxProfitList.get(0);
+        int maxProfit = activitiesForMaxProfit.stream().mapToInt(a -> a.getProfit()).sum();
+        for (int i = 1; i < n; i++) {
+            int profit = maxProfitList.get(i).stream().mapToInt(a -> a.getProfit()).sum();
+            if (profit > maxProfit) {
+                activitiesForMaxProfit = maxProfitList.get(i);
+                maxProfit = profit;
+            }
+        }
+
+        return activitiesForMaxProfit;
+    }
 }
