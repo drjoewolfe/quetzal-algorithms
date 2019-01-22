@@ -1,10 +1,7 @@
 package org.jwolfe.quetzal.algorithms;
 
 import org.junit.jupiter.api.Test;
-import org.jwolfe.quetzal.library.general.CarryItem;
-import org.jwolfe.quetzal.library.general.Knapsack;
-import org.jwolfe.quetzal.library.general.Pair;
-import org.jwolfe.quetzal.library.general.Triplet;
+import org.jwolfe.quetzal.library.general.*;
 import org.jwolfe.quetzal.library.tree.BinaryTreeNode;
 import org.jwolfe.quetzal.library.utilities.Utilities;
 import org.jwolfe.quetzal.test.QuetzalAssertions;
@@ -1527,5 +1524,18 @@ class DynamicProgrammingTest {
         root = Utilities.constructBinaryTree(20, 8, 22, 4, 12, null, 25, null, null, 10, 14);
         vertexCover = DynamicProgramming.getVertexCover(root);
         QuetzalAssertions.assertListOfTreeNodesAreEqualOnData(expectedVertexCover, vertexCover);
+    }
+
+    @Test
+    void getMaximumProfitFromWeightedActivityScheduling() {
+        List<Activity> activities;
+
+        activities = new ArrayList<>();
+        activities.add(new Activity(3, 10, 20));
+        activities.add(new Activity(1, 2, 50));
+        activities.add(new Activity(6, 19, 100));
+        activities.add(new Activity(2, 100, 200));
+
+        assertEquals(250, DynamicProgramming.getMaximumProfitFromWeightedActivityScheduling(activities));
     }
 }

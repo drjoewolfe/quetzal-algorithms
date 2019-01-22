@@ -2,6 +2,7 @@ package org.jwolfe.quetzal.algorithms;
 
 import org.jwolfe.quetzal.library.general.*;
 import org.jwolfe.quetzal.library.tree.BinaryTreeNode;
+import org.jwolfe.quetzal.library.utilities.ActivityFinishComparator;
 import org.jwolfe.quetzal.library.utilities.PairFirstSorter;
 import org.jwolfe.quetzal.library.utilities.Utilities;
 
@@ -2866,5 +2867,47 @@ public class DynamicProgramming {
         memo.put(root, vertexCover);
         int lengthOfCover = vertexCover.size();
         return lengthOfCover;
+    }
+
+    public static int getMaximumProfitFromWeightedActivityScheduling(List<Activity> activities) {
+        if (activities == null || activities.size() == 0) {
+            return 0;
+        }
+
+        // Sort activities by finish time
+        activities.sort(new ActivityFinishComparator());
+        return getMaximumProfitFromWeightedActivityScheduling(activities, activities.size() - 1);
+    }
+
+    private static int getMaximumProfitFromWeightedActivityScheduling(List<Activity> activities, int index) {
+        if (index == 0) {
+            return activities.get(0).getProfit();
+        }
+
+        // Profit, including the activity
+        int inclusiveProfit = activities.get(index).getProfit();
+
+        int previousActivityIndex = getPreviousActivityIndex(activities, index);
+        if (previousActivityIndex != -1) {
+            inclusiveProfit += getMaximumProfitFromWeightedActivityScheduling(activities, previousActivityIndex);
+        }
+
+        // Profit, excluding the activity
+        int exclusiveProfit = getMaximumProfitFromWeightedActivityScheduling(activities, index - 1);
+
+        return Math.max(inclusiveProfit, exclusiveProfit);
+    }
+
+    private static int getPreviousActivityIndex(List<Activity> activities, int activityIndex) {
+        var currentActivity = activities.get(activityIndex);
+        int previousActivityIndex = -1;
+        for (int i = activityIndex - 1; i >= 0; i--) {
+            var activity = activities.get(i);
+            if (activity.getFinish() <= currentActivity.getStart()) {
+                previousActivityIndex = i;
+            }
+        }
+
+        return previousActivityIndex;
     }
 }
