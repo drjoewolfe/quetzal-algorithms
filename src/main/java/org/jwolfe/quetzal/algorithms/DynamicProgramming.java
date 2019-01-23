@@ -1006,6 +1006,30 @@ public class DynamicProgramming {
         return minCoins;
     }
 
+    public static int minCoinsGreedy(int[] coins, int V) {
+        // Note: Greedy approach may not always give the correct solution.
+
+        Arrays.sort(coins);
+        int n = coins.length;
+
+        int numCoins = 0;
+        int i = n - 1;
+        while (i >= 0) {
+            if (coins[i] <= V) {
+                numCoins++;
+                V -= coins[i];
+            } else {
+                i--;
+            }
+        }
+
+        if (V != 0) {
+            return 0;
+        }
+
+        return numCoins;
+    }
+
     public static int maxChainLength(List<Pair<Integer, Integer>> pairs) {
         var sorter = new PairFirstSorter();
         Collections.sort(pairs, sorter);

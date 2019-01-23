@@ -623,6 +623,29 @@ class DynamicProgrammingTest {
     }
 
     @Test
+    void minCoinsGreedy() {
+        int coins[];
+        int V;
+        int minCoins;
+
+        coins = Utilities.constructArray(1, 2, 5, 10, 20, 50, 100, 500, 1000);
+        V = 70;
+        minCoins = DynamicProgramming.minCoinsGreedy(coins, V);
+        assertEquals(2, minCoins);
+
+        coins = Utilities.constructArray(1, 2, 5, 10, 20, 50, 100, 500, 1000);
+        V = 121;
+        minCoins = DynamicProgramming.minCoinsGreedy(coins, V);
+        assertEquals(3, minCoins);
+
+        coins = Utilities.constructArray(9, 6, 5, 1);
+        V = 11;
+        minCoins = DynamicProgramming.minCoinsGreedy(coins, V);
+        assertEquals(3, minCoins);
+        // Note: Optimal solution is 2, not 3. Greedy is not optimal
+    }
+
+    @Test
     void maxChainLength() {
         List<Pair<Integer, Integer>> pairs;
         int maxChain;
