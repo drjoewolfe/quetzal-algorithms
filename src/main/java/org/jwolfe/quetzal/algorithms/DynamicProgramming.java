@@ -3104,4 +3104,43 @@ public class DynamicProgramming {
 
         return dp[totalScore];
     }
+
+    public static int maximumBridgesThatCanBeBuiltWithoutOverlaps(List<IntPair> cityPairs) {
+        // For each city pair, one is on the north side of a river, and the other on the south side
+        // The values in each pair denotes the co-ordinates on the x-axis of the city
+        if (cityPairs == null || cityPairs.size() == 0) {
+            return 0;
+        }
+
+        cityPairs.sort((x, y) ->
+        {
+            if (x.getB() != y.getB()) {
+                return x.getB() - y.getB();
+            } else {
+                return x.getA() - y.getA();
+            }
+        });
+
+        int n = cityPairs.size();
+        int[] lis = new int[n];
+        Arrays.fill(lis, 1);
+
+        // Fill lis based on north-city
+        for (int i = 1; i < n; i++) {
+            var iCity = cityPairs.get(i);
+            for (int j = 0; j < i; j++) {
+                var jCity = cityPairs.get(j);
+                if (iCity.getA() >= jCity.getA()) {
+                    lis[i] = Math.max(lis[i], lis[j] + 1);
+                }
+            }
+        }
+
+        int maxBridges = lis[0];
+        for (int i = 1; i < n; i++) {
+            maxBridges = Math.max(maxBridges, lis[i]);
+        }
+
+        return maxBridges;
+    }
 }

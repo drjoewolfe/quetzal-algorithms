@@ -1609,11 +1609,23 @@ class DynamicProgrammingTest {
         int[] turnScores;
 
         totalScore = 20;
-        turnScores = new int[] {3, 5, 10};
+        turnScores = new int[]{3, 5, 10};
         assertEquals(4, DynamicProgramming.numberOfWaysToReachScoreInAGame(totalScore, turnScores));
 
         totalScore = 13;
-        turnScores = new int[] {3, 5, 10};
+        turnScores = new int[]{3, 5, 10};
         assertEquals(2, DynamicProgramming.numberOfWaysToReachScoreInAGame(totalScore, turnScores));
+    }
+
+    @Test
+    void maximumBridgesThatCanBeBuiltWithoutOverlaps() {
+        List<IntPair> cityPairs;
+
+        cityPairs = Utilities.constructList(new IntPair(6, 2), new IntPair(4, 3), new IntPair(2, 6), new IntPair(1, 5));
+        assertEquals(2, DynamicProgramming.maximumBridgesThatCanBeBuiltWithoutOverlaps(cityPairs));
+
+        cityPairs = Utilities.constructList(new IntPair(8, 1), new IntPair(1, 2), new IntPair(4, 3), new IntPair(3, 4),
+                new IntPair(5, 5), new IntPair(2, 6), new IntPair(6, 7), new IntPair(7, 8));
+        assertEquals(5, DynamicProgramming.maximumBridgesThatCanBeBuiltWithoutOverlaps(cityPairs));
     }
 }
