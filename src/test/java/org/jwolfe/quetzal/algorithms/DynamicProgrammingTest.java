@@ -1359,6 +1359,17 @@ class DynamicProgrammingTest {
     }
 
     @Test
+    void maximumSumOfIncreasingSubsequence() {
+        int[] arr;
+
+        arr = new int[]{1, 101, 2, 3, 100, 4, 5};
+        assertEquals(106, DynamicProgramming.maximumSumOfIncreasingSubsequence(arr));
+
+        arr = new int[]{3, 4, 5, 10};
+        assertEquals(22, DynamicProgramming.maximumSumOfIncreasingSubsequence(arr));
+    }
+
+    @Test
     void maximumProductOfIncreasingSubsequence() {
         int[] arr;
 

@@ -2363,6 +2363,35 @@ public class DynamicProgramming {
         return remainders[0];
     }
 
+    public static int maximumSumOfIncreasingSubsequence(int[] arr) {
+        if (arr == null || arr.length == 0) {
+            return 0;
+        }
+
+        int n = arr.length;
+        int[] msis = new int[n];
+
+        msis[0] = arr[0];
+        for (int i = 1; i < n; i++) {
+            int maxSum = arr[i];
+
+            for (int j = 0; j < i; j++) {
+                if (arr[i] > arr[j]) {
+                    maxSum = Math.max(maxSum, msis[j] + arr[i]);
+                }
+            }
+
+            msis[i] = maxSum;
+        }
+
+        int maxSum = msis[0];
+        for (int i = 1; i < n; i++) {
+            maxSum = Math.max(maxSum, msis[i]);
+        }
+
+        return maxSum;
+    }
+
     public static int maximumProductOfIncreasingSubsequence(int[] arr) {
         if (arr == null || arr.length == 0) {
             return 0;
