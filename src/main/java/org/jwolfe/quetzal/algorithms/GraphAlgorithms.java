@@ -1,6 +1,7 @@
 package org.jwolfe.quetzal.algorithms;
 
 import org.jwolfe.quetzal.library.graph.AdjacencyGraph;
+import org.jwolfe.quetzal.library.tree.TreeNode;
 import org.jwolfe.quetzal.library.utilities.Utilities;
 
 import java.util.ArrayList;
@@ -174,6 +175,61 @@ public class GraphAlgorithms {
 		for (int i = 1; i < vertices; i++) {
 			System.out.println((i) + ":\t" + parent[i] + "\t-\t" + i + "\t(" + graph[i][parent[i]] + ")");
 		}
+	}
+
+	public static TreeNode<Integer> getPrimMST(int[][] graph) {
+		return getPrimMST(graph, 0);
+	}
+
+	public static TreeNode<Integer> getPrimMST(int[][] graph, int startVertex) {
+		if (graph == null || graph.length == 0) {
+			return null;
+		}
+
+		int vertexCount = graph.length;
+		for (var record : graph) {
+			if (record.length != vertexCount) {
+				return null;
+			}
+		}
+
+		int[] parent = new int[vertexCount];
+		int[] keys = new int[vertexCount];
+		boolean[] inMst = new boolean[vertexCount];
+
+		Arrays.fill(parent, -1);
+		Arrays.fill(keys, Integer.MAX_VALUE);
+		Arrays.fill(inMst, false);
+
+		keys[startVertex] = 0;
+		for (int i = 0; i < vertexCount; i++) {
+			int u = getMinIndexFromKeys(keys, inMst);
+			inMst[u] = true;
+
+			for (int v = 0; v < vertexCount; v++) {
+				if (graph[u][v] != 0 && inMst[v] == false && graph[u][v] < keys[v]) {
+					parent[v] = u;
+					keys[v] = graph[u][v];
+				}
+			}
+		}
+
+		TreeNode<Integer> root = null;
+
+		List<TreeNode> nodes = new ArrayList<>(vertexCount);
+		for (int i = 0; i < vertexCount; i++) {
+			nodes.add(new TreeNode<>(i));
+		}
+
+		for (int i = 0; i < vertexCount; i++) {
+			if (parent[i] == -1) {
+				root = nodes.get(i);
+			} else {
+				nodes.get(parent[i]).addChild(nodes.get(i));
+			}
+		}
+
+		return root;
 	}
 
 	private static int getMinIndexFromKeys(int[] keys, boolean[] inMst) {

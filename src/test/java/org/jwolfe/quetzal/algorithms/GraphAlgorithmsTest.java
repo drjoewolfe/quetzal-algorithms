@@ -2,7 +2,9 @@ package org.jwolfe.quetzal.algorithms;
 
 import org.junit.jupiter.api.Test;
 import org.jwolfe.quetzal.library.graph.AdjacencyGraph;
+import org.jwolfe.quetzal.library.tree.TreeNode;
 import org.jwolfe.quetzal.library.utilities.Utilities;
+import org.jwolfe.quetzal.test.QuetzalAssertions;
 
 import java.util.Arrays;
 
@@ -79,6 +81,29 @@ class GraphAlgorithmsTest {
 
         // Print the solution
         GraphAlgorithms.primMST(graph);
+    }
+
+    @Test
+    void getPrimMST() {
+        int[][] graph;
+        int startVertex;
+        TreeNode<Integer> mstRoot;
+        TreeNode<Integer> expectedMstRoot;
+
+        graph = new int[][]{
+                {0, 10, 15, 20},
+                {10, 0, 35, 25},
+                {15, 0, 35, 30},
+                {20, 25, 30, 0}
+        };
+        startVertex = 0;
+        expectedMstRoot = new TreeNode<>(0);
+        expectedMstRoot.addChild(new TreeNode<>(1));
+        expectedMstRoot.addChild(new TreeNode<>(2));
+        expectedMstRoot.addChild(new TreeNode<>(3));
+
+        mstRoot = GraphAlgorithms.getPrimMST(graph, startVertex);
+        QuetzalAssertions.assertTreeEquals(expectedMstRoot, mstRoot);
     }
 
     @Test
