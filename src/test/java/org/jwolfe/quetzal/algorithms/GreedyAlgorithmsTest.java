@@ -2,6 +2,7 @@ package org.jwolfe.quetzal.algorithms;
 
 import org.junit.jupiter.api.Test;
 import org.jwolfe.quetzal.library.general.Activity;
+import org.jwolfe.quetzal.library.general.IntPair;
 import org.jwolfe.quetzal.library.general.Pair;
 import org.jwolfe.quetzal.library.general.Triplet;
 import org.jwolfe.quetzal.library.utilities.Utilities;
@@ -15,11 +16,11 @@ class GreedyAlgorithmsTest {
 
     @Test
     void selectActivities() {
-        int[] startTimes =  {1, 3, 0, 5, 8, 5};
-        int[] finishTimes =  {2, 4, 6, 7, 9, 9};
+        int[] startTimes = {1, 3, 0, 5, 8, 5};
+        int[] finishTimes = {2, 4, 6, 7, 9, 9};
 
         var selectedActivities = GreedyAlgorithms.selectActivities(startTimes, finishTimes);
-        for(int i = 0; i<selectedActivities.size(); i++) {
+        for (int i = 0; i < selectedActivities.size(); i++) {
             Activity activity = selectedActivities.get(i);
             System.out.println(i + ": " + activity.getStart() + ", " + activity.getFinish());
         }
@@ -53,7 +54,7 @@ class GreedyAlgorithmsTest {
         totalTime = GreedyAlgorithms.assignMiceToHoles(micePositions, holePositions);
         assertEquals(102, totalTime);
     }
-    
+
     @Test
     void getThievesCaughtByPolice() {
         char[] arr;
@@ -62,31 +63,31 @@ class GreedyAlgorithmsTest {
         arr = Utilities.constructArray('P', 'T', 'T', 'P', 'T');
         theivesCaught = GreedyAlgorithms.getThievesCaughtByPolice(arr, 1);
         assertEquals(2, theivesCaught);
-        
+
         arr = Utilities.constructArray('T', 'T', 'P', 'P', 'T', 'P');
         theivesCaught = GreedyAlgorithms.getThievesCaughtByPolice(arr, 2);
         assertEquals(3, theivesCaught);
-        
+
         arr = Utilities.constructArray('P', 'T', 'P', 'T', 'T', 'P');
         theivesCaught = GreedyAlgorithms.getThievesCaughtByPolice(arr, 3);
         assertEquals(3, theivesCaught);
     }
-    
+
     @Test
     void fitWallWithShelvesForMinimumRemainingWidth() {
-    	Triplet<Integer, Integer, Integer> result;
-    	
-		result = GreedyAlgorithms.fitWallWithShelvesForMinimumRemainingWidth(24, 5, 3);
-		assertNotNull(result);
-		assertEquals(3, (int) result.getFirst());
-		assertEquals(3, (int) result.getSecond());
-		assertEquals(0, (int) result.getThird());
-		
-		result = GreedyAlgorithms.fitWallWithShelvesForMinimumRemainingWidth(29, 9, 3);
-		assertNotNull(result);
-		assertEquals(3, (int) result.getFirst());
-		assertEquals(0, (int) result.getSecond());
-		assertEquals(2, (int) result.getThird());
+        Triplet<Integer, Integer, Integer> result;
+
+        result = GreedyAlgorithms.fitWallWithShelvesForMinimumRemainingWidth(24, 5, 3);
+        assertNotNull(result);
+        assertEquals(3, (int) result.getFirst());
+        assertEquals(3, (int) result.getSecond());
+        assertEquals(0, (int) result.getThird());
+
+        result = GreedyAlgorithms.fitWallWithShelvesForMinimumRemainingWidth(29, 9, 3);
+        assertNotNull(result);
+        assertEquals(3, (int) result.getFirst());
+        assertEquals(0, (int) result.getSecond());
+        assertEquals(2, (int) result.getThird());
     }
 
     @Test
@@ -97,10 +98,10 @@ class GreedyAlgorithmsTest {
         Set<Set<Integer>> expectedCover;
 
         // Optimal solution
-        universe = Utilities.constructSet(1,2,3,4,5);
-        var setA1 = Utilities.constructSet(4,1,3);
-        var setA2 = Utilities.constructSet(2,5);
-        var setA3 = Utilities.constructSet(1,4,3,2);
+        universe = Utilities.constructSet(1, 2, 3, 4, 5);
+        var setA1 = Utilities.constructSet(4, 1, 3);
+        var setA2 = Utilities.constructSet(2, 5);
+        var setA3 = Utilities.constructSet(1, 4, 3, 2);
         setCosts = new HashMap<>();
         setCosts.put(setA1, 5);
         setCosts.put(setA2, 10);
@@ -111,7 +112,7 @@ class GreedyAlgorithmsTest {
         QuetzalAssertions.assertSetEquals(expectedCover, cover);
 
         // Approximate solution
-        universe = Utilities.constructSet(1,2,3,4,5, 6, 7, 8, 9, 10, 11, 12, 13);
+        universe = Utilities.constructSet(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13);
         var setB1 = Utilities.constructSet(1, 2);
         var setB2 = Utilities.constructSet(2, 3, 4, 5);
         var setB3 = Utilities.constructSet(6, 7, 8, 9, 10, 11, 12, 13);
@@ -215,5 +216,33 @@ class GreedyAlgorithmsTest {
         arr = Utilities.constructArray(4, 0);
         product = GreedyAlgorithms.getMinProductSubArray(arr);
         assertEquals(0, product);
+    }
+
+    @Test
+    void scheduleJobs() {
+        List<Activity> jobsToSchedule;
+        List<Activity> scheduledJobs;
+        List<Activity> expectedScheduledJobs;
+
+        var j11 = new Activity("A", 4, 20);
+        var j12 = new Activity("B", 1, 10);
+        var j13 = new Activity("C", 1, 40);
+        var j14 = new Activity("D", 1, 30);
+
+        jobsToSchedule = Utilities.constructList(j11, j12, j13, j14);
+        expectedScheduledJobs = Utilities.constructList(j13, j11);
+        scheduledJobs = GreedyAlgorithms.scheduleJobs(jobsToSchedule);
+        QuetzalAssertions.assertListStrictEquals(expectedScheduledJobs, scheduledJobs);
+
+        var j21 = new Activity("A", 2, 100);
+        var j22 = new Activity("B", 1, 19);
+        var j23 = new Activity("C", 2, 27);
+        var j24 = new Activity("D", 1, 25);
+        var j25 = new Activity("E", 3, 15);
+
+        jobsToSchedule = Utilities.constructList(j21, j22, j23, j24, j25);
+        expectedScheduledJobs = Utilities.constructList(j23, j21, j25);
+        scheduledJobs = GreedyAlgorithms.scheduleJobs(jobsToSchedule);
+        QuetzalAssertions.assertListStrictEquals(expectedScheduledJobs, scheduledJobs);
     }
 }

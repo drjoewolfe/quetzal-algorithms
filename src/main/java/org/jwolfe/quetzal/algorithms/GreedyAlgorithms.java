@@ -1,6 +1,7 @@
 package org.jwolfe.quetzal.algorithms;
 
 import org.jwolfe.quetzal.library.general.Activity;
+import org.jwolfe.quetzal.library.general.IntPair;
 import org.jwolfe.quetzal.library.matrix.Matrix;
 import org.jwolfe.quetzal.library.utilities.ActivityFinishComparator;
 import org.jwolfe.quetzal.library.general.Pair;
@@ -388,5 +389,39 @@ public class GreedyAlgorithms {
         }
 
         return minProduct;
+    }
+
+    public static List<Activity> scheduleJobs(List<Activity> jobsToSchedule) {
+        // Notes: Each job is represented by the pair (deadline, profit) in the activity
+        if (jobsToSchedule == null || jobsToSchedule.size() == 1) {
+            return null;
+        }
+
+        jobsToSchedule.sort((j1, j2) -> (j2.getProfit() - j1.getProfit()));
+
+        int n = jobsToSchedule.stream().mapToInt(j -> j.getDeadline()).max().getAsInt();
+        boolean[] timeSlots = new boolean[n];
+        Activity[] schedule = new Activity[n];
+
+        for (var job : jobsToSchedule) {
+            for (int i = job.getDeadline() - 1; i >= 0; i--) {
+                if (!timeSlots[i]) {
+                    // Can slot here.
+                    timeSlots[i] = true;
+                    schedule[i] = job;
+
+                    break;
+                }
+            }
+        }
+
+        List<Activity> scheduledJobs = new ArrayList<>();
+        for (var job : schedule) {
+            if (job != null) {
+                scheduledJobs.add(job);
+            }
+        }
+
+        return scheduledJobs;
     }
 }
