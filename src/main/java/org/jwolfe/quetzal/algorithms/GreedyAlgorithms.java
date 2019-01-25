@@ -3,6 +3,7 @@ package org.jwolfe.quetzal.algorithms;
 import org.jwolfe.quetzal.library.general.Activity;
 import org.jwolfe.quetzal.library.general.IntPair;
 import org.jwolfe.quetzal.library.matrix.Matrix;
+import org.jwolfe.quetzal.library.set.IntDisjointSet;
 import org.jwolfe.quetzal.library.utilities.ActivityFinishComparator;
 import org.jwolfe.quetzal.library.general.Pair;
 import org.jwolfe.quetzal.library.general.Triplet;
@@ -418,6 +419,31 @@ public class GreedyAlgorithms {
         List<Activity> scheduledJobs = new ArrayList<>();
         for (var job : schedule) {
             if (job != null) {
+                scheduledJobs.add(job);
+            }
+        }
+
+        return scheduledJobs;
+    }
+
+    public static List<Activity> scheduleJobsA2(List<Activity> jobsToSchedule) {
+        // Notes: Each job is represented by the pair (deadline, profit) in the activity
+        if (jobsToSchedule == null || jobsToSchedule.size() == 0) {
+            return null;
+        }
+
+        int n = jobsToSchedule.size();
+        jobsToSchedule.sort((j1, j2) -> (j2.getProfit() - j1.getProfit()));
+        int maxDeadline = jobsToSchedule.stream().mapToInt(j -> j.getDeadline()).max().getAsInt();
+
+        List<Activity> scheduledJobs = new ArrayList<>();
+        IntDisjointSet set = new IntDisjointSet(maxDeadline);
+        for (int i = 0; i < n; i++) {
+            var job = jobsToSchedule.get(i);
+            int slot = set.find(job.getDeadline());
+
+            if (slot > 0) {
+                set.union(set.find(slot - 1), slot);
                 scheduledJobs.add(job);
             }
         }

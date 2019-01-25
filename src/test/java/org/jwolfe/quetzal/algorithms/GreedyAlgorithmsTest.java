@@ -245,4 +245,32 @@ class GreedyAlgorithmsTest {
         scheduledJobs = GreedyAlgorithms.scheduleJobs(jobsToSchedule);
         QuetzalAssertions.assertListStrictEquals(expectedScheduledJobs, scheduledJobs);
     }
+
+    @Test
+    void scheduleJobsA2() {
+        List<Activity> jobsToSchedule;
+        List<Activity> scheduledJobs;
+        List<Activity> expectedScheduledJobs;
+
+        var j11 = new Activity("A", 4, 20);
+        var j12 = new Activity("B", 1, 10);
+        var j13 = new Activity("C", 1, 40);
+        var j14 = new Activity("D", 1, 30);
+
+        jobsToSchedule = Utilities.constructList(j11, j12, j13, j14);
+        expectedScheduledJobs = Utilities.constructList(j13, j11);
+        scheduledJobs = GreedyAlgorithms.scheduleJobsA2(jobsToSchedule);
+        QuetzalAssertions.assertListStrictEquals(expectedScheduledJobs, scheduledJobs);
+
+        var j21 = new Activity("A", 2, 100);
+        var j22 = new Activity("B", 1, 19);
+        var j23 = new Activity("C", 2, 27);
+        var j24 = new Activity("D", 1, 25);
+        var j25 = new Activity("E", 3, 15);
+
+        jobsToSchedule = Utilities.constructList(j21, j22, j23, j24, j25);
+        expectedScheduledJobs = Utilities.constructList(j21, j23, j25);
+        scheduledJobs = GreedyAlgorithms.scheduleJobsA2(jobsToSchedule);
+        QuetzalAssertions.assertListStrictEquals(expectedScheduledJobs, scheduledJobs);
+    }
 }
