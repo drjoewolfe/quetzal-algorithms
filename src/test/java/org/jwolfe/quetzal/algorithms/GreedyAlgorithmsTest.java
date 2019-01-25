@@ -300,4 +300,22 @@ class GreedyAlgorithmsTest {
         scheduledJobs = GreedyAlgorithms.scheduleJobsToMinimizeLoss(jobsToSchedule);
         QuetzalAssertions.assertListStrictEquals(expectedScheduledJobs, scheduledJobs);
     }
+
+    @Test
+    void getVolumeLeftAfterOptimalSequencing() {
+        int[] volumeOfGoods;
+        double percentDecayPerDay;
+
+        volumeOfGoods = new int[]{3, 5, 4, 1, 2, 7, 6, 8, 9, 10};
+        percentDecayPerDay = 0.10;
+        assertEquals(42, Math.ceil(GreedyAlgorithms.getVolumeLeftAfterOptimalSequencing(volumeOfGoods, percentDecayPerDay)));
+
+        volumeOfGoods = new int[]{4, 2, 151, 15, 1, 52, 12};
+        percentDecayPerDay = 0.10;
+        assertEquals(224, Math.ceil(GreedyAlgorithms.getVolumeLeftAfterOptimalSequencing(volumeOfGoods, percentDecayPerDay)));
+
+        volumeOfGoods = new int[]{3, 1, 41, 52, 15, 4, 1, 63, 12};
+        percentDecayPerDay = 0.20;
+        assertEquals(146, Math.ceil(GreedyAlgorithms.getVolumeLeftAfterOptimalSequencing(volumeOfGoods, percentDecayPerDay)));
+    }
 }

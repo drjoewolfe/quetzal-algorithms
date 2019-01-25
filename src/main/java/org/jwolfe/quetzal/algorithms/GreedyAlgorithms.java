@@ -2,6 +2,7 @@ package org.jwolfe.quetzal.algorithms;
 
 import org.jwolfe.quetzal.library.general.Activity;
 import org.jwolfe.quetzal.library.general.IntPair;
+import org.jwolfe.quetzal.library.heap.IntMinHeap;
 import org.jwolfe.quetzal.library.matrix.Matrix;
 import org.jwolfe.quetzal.library.set.IntDisjointSet;
 import org.jwolfe.quetzal.library.utilities.ActivityFinishComparator;
@@ -469,5 +470,36 @@ public class GreedyAlgorithms {
         });
 
         return jobsToSchedule;
+    }
+
+    public static double getVolumeLeftAfterOptimalSequencing(int[] volumeOfGoods, double percentDecayPerDay) {
+        // One type of good can be scheduled per day (any volume of that type can be made in one day)
+
+        if (volumeOfGoods == null || volumeOfGoods.length == 0 || percentDecayPerDay < 0 || percentDecayPerDay > 1) {
+            return 0;
+        }
+
+        int n = volumeOfGoods.length;
+        IntMinHeap heap = new IntMinHeap(n);
+        for (int i = 0; i < n; i++) {
+            heap.insert(volumeOfGoods[i]);
+        }
+
+        // Schedule based on lowest volume first
+        int index = 0;
+        while (!heap.isEmpty()) {
+            int volume = heap.extractMin();
+            volumeOfGoods[index] = volume;
+
+            index++;
+        }
+
+        // For each item, the volume left at the end is [(1-P) ^ (N - i)] * V, where i is the day in which it was produced
+        double result = 0;
+        for (int i = 0; i < n; i++) {
+            result += Math.pow(1 - percentDecayPerDay, n - i - 1) * volumeOfGoods[i];
+        }
+
+        return result;
     }
 }
