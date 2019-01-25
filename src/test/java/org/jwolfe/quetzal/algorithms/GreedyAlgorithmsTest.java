@@ -2,7 +2,6 @@ package org.jwolfe.quetzal.algorithms;
 
 import org.junit.jupiter.api.Test;
 import org.jwolfe.quetzal.library.general.Activity;
-import org.jwolfe.quetzal.library.general.IntPair;
 import org.jwolfe.quetzal.library.general.Pair;
 import org.jwolfe.quetzal.library.general.Triplet;
 import org.jwolfe.quetzal.library.utilities.Utilities;
@@ -247,7 +246,7 @@ class GreedyAlgorithmsTest {
     }
 
     @Test
-    void scheduleJobsA2() {
+    void scheduleJobsWithUnionFind() {
         List<Activity> jobsToSchedule;
         List<Activity> scheduledJobs;
         List<Activity> expectedScheduledJobs;
@@ -259,7 +258,7 @@ class GreedyAlgorithmsTest {
 
         jobsToSchedule = Utilities.constructList(j11, j12, j13, j14);
         expectedScheduledJobs = Utilities.constructList(j13, j11);
-        scheduledJobs = GreedyAlgorithms.scheduleJobsA2(jobsToSchedule);
+        scheduledJobs = GreedyAlgorithms.scheduleJobsWithUnionFind(jobsToSchedule);
         QuetzalAssertions.assertListStrictEquals(expectedScheduledJobs, scheduledJobs);
 
         var j21 = new Activity("A", 2, 100);
@@ -270,7 +269,35 @@ class GreedyAlgorithmsTest {
 
         jobsToSchedule = Utilities.constructList(j21, j22, j23, j24, j25);
         expectedScheduledJobs = Utilities.constructList(j21, j23, j25);
-        scheduledJobs = GreedyAlgorithms.scheduleJobsA2(jobsToSchedule);
+        scheduledJobs = GreedyAlgorithms.scheduleJobsWithUnionFind(jobsToSchedule);
+        QuetzalAssertions.assertListStrictEquals(expectedScheduledJobs, scheduledJobs);
+    }
+
+    @Test
+    void scheduleJobsToMinimizeLoss() {
+        List<Activity> jobsToSchedule;
+        List<Activity> scheduledJobs;
+        List<Activity> expectedScheduledJobs;
+
+        var j11 = Activity.createActivityForNumDaysAndLoss("A", 4, 3);
+        var j12 = Activity.createActivityForNumDaysAndLoss("B", 1000, 1);
+        var j13 = Activity.createActivityForNumDaysAndLoss("C", 2, 2);
+        var j14 = Activity.createActivityForNumDaysAndLoss("D", 5, 4);
+
+        jobsToSchedule = Utilities.constructList(j11, j12, j13, j14);
+        expectedScheduledJobs = Utilities.constructList(j13, j14, j11, j12);
+        scheduledJobs = GreedyAlgorithms.scheduleJobsToMinimizeLoss(jobsToSchedule);
+        QuetzalAssertions.assertListStrictEquals(expectedScheduledJobs, scheduledJobs);
+
+        var j21 = Activity.createActivityForNumDaysAndLoss("A", 2, 1);
+        var j22 = Activity.createActivityForNumDaysAndLoss("B", 4, 2);
+        var j23 = Activity.createActivityForNumDaysAndLoss("C", 1, 3);
+        var j24 = Activity.createActivityForNumDaysAndLoss("D", 3, 5);
+        var j25 = Activity.createActivityForNumDaysAndLoss("E", 2, 6);
+
+        jobsToSchedule = Utilities.constructList(j21, j22, j23, j24, j25);
+        expectedScheduledJobs = Utilities.constructList(j23, j25, j24, j21, j22);
+        scheduledJobs = GreedyAlgorithms.scheduleJobsToMinimizeLoss(jobsToSchedule);
         QuetzalAssertions.assertListStrictEquals(expectedScheduledJobs, scheduledJobs);
     }
 }

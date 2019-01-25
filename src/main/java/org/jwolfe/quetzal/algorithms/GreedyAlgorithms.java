@@ -426,7 +426,7 @@ public class GreedyAlgorithms {
         return scheduledJobs;
     }
 
-    public static List<Activity> scheduleJobsA2(List<Activity> jobsToSchedule) {
+    public static List<Activity> scheduleJobsWithUnionFind(List<Activity> jobsToSchedule) {
         // Notes: Each job is represented by the pair (deadline, profit) in the activity
         if (jobsToSchedule == null || jobsToSchedule.size() == 0) {
             return null;
@@ -449,5 +449,25 @@ public class GreedyAlgorithms {
         }
 
         return scheduledJobs;
+    }
+
+    public static List<Activity> scheduleJobsToMinimizeLoss(List<Activity> jobsToSchedule) {
+        // Number of days for each job & Loss per day for delaying the start of a job are considered here
+
+        if (jobsToSchedule == null || jobsToSchedule.size() == 0) {
+            return null;
+        }
+
+        jobsToSchedule.sort((j1, j2) -> {
+            int l1 = j1.getDailyLossDueToDelay();
+            int l2 = j2.getDailyLossDueToDelay();
+
+            int t1 = j1.getNumDaysForCompletion();
+            int t2 = j2.getNumDaysForCompletion();
+
+            return (l2 * t1) - (l1 * t2);
+        });
+
+        return jobsToSchedule;
     }
 }
