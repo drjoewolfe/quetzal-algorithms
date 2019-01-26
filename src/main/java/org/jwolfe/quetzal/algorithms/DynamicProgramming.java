@@ -3248,4 +3248,29 @@ public class DynamicProgramming {
 
         return triangle[0][0];
     }
+
+    public static int numberOfChangesToConvertToStrictlyIncreasingArray(int[] arr) {
+        if (arr == null || arr.length == 0) {
+            return 0;
+        }
+
+        int n = arr.length;
+        int[] lis = new int[n];
+        Arrays.fill(lis, 1);
+
+        for (int i = 1; i < n; i++) {
+            for (int j = 0; j < i; j++) {
+                if (arr[i] > arr[j]
+                        && (arr[i] - arr[j]) >= (i - j)) {
+                    // Increasing, and has space for inserting any missing values
+                    lis[i] = Math.max(lis[i], 1 + lis[j]);
+                }
+            }
+        }
+
+        int lisLength = Arrays.stream(lis).max().getAsInt();
+
+        // Number of changes = Number of elements - Length of LIS
+        return n - lisLength;
+    }
 }

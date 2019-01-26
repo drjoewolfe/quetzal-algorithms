@@ -1691,4 +1691,15 @@ class DynamicProgrammingTest {
                 {9, 1, 8, 6}};
         assertEquals(10, DynamicProgramming.minimumPathSumInTriangle(triangle));
     }
+
+    @Test
+    void numberOfChangesToConvertToStrictlyIncreasingArray() {
+        int[] arr;
+
+        arr = new int[]{1, 2, 6, 5, 4};
+        assertEquals(2, DynamicProgramming.numberOfChangesToConvertToStrictlyIncreasingArray(arr));
+
+        arr = new int[]{1, 2, 3, 5, 7, 11};
+        assertEquals(0, DynamicProgramming.numberOfChangesToConvertToStrictlyIncreasingArray(arr));
+    }
 }
