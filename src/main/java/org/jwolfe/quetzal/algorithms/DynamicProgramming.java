@@ -3224,4 +3224,28 @@ public class DynamicProgramming {
 
         return triangle[0][0];
     }
+
+    public static int minimumPathSumInTriangle(int[][] triangle) {
+        if (triangle == null || triangle.length == 0 || triangle[0].length == 0) {
+            return 0;
+        }
+
+        int m = triangle.length;
+        int n = triangle[0].length;
+
+        for (var row : triangle) {
+            if (row.length != n) {
+                return 0;
+            }
+        }
+
+        for (int i = m - 2; i >= 0; i--) {
+            for (int j = 0; j <= i; j++) {
+                triangle[i][j] = triangle[i][j] +
+                        Math.min(triangle[i + 1][j], triangle[i + 1][j + 1]);
+            }
+        }
+
+        return triangle[0][0];
+    }
 }
