@@ -1647,4 +1647,26 @@ class DynamicProgrammingTest {
                 {0, 0, -1, 0, 0}};
         assertFalse(DynamicProgramming.checkForPathInMatrix(matrix));
     }
+
+    @Test
+    void maximumPathSumInTriangle() {
+        int[][] triangle;
+
+        triangle = new int[][]{{1, 0, 0},
+                {4, 8, 0},
+                {1, 5, 3}};
+        assertEquals(14, DynamicProgramming.maximumPathSumInTriangle(triangle));
+
+        triangle = new int[][]{{3, 0, 0, 0},
+                {7, 4, 0, 0},
+                {2, 4, 6, 0},
+                {8, 5, 9, 3}};
+        assertEquals(23, DynamicProgramming.maximumPathSumInTriangle(triangle));
+
+        triangle = new int[][]{{8, 0, 0, 0},
+                {-4, 4, 0, 0},
+                {2, 2, 6, 0},
+                {1, 1, 1, 1}};
+        assertEquals(19, DynamicProgramming.maximumPathSumInTriangle(triangle));
+    }
 }
