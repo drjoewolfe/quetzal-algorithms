@@ -1628,4 +1628,23 @@ class DynamicProgrammingTest {
                 new IntPair(5, 5), new IntPair(2, 6), new IntPair(6, 7), new IntPair(7, 8));
         assertEquals(5, DynamicProgramming.maximumBridgesThatCanBeBuiltWithoutOverlaps(cityPairs));
     }
+
+    @Test
+    void checkForPathInMatrix() {
+        int[][] matrix;
+
+        matrix = new int[][]{{0, 0, 0, -1, 0},
+                {-1, 0, 0, -1, -1},
+                {0, 0, 0, -1, 0},
+                {-1, 0, 0, 0, 0},
+                {0, 0, -1, 0, 0}};
+        assertTrue(DynamicProgramming.checkForPathInMatrix(matrix));
+
+        matrix = new int[][]{{0, 0, 0, -1, 0},
+                {-1, 0, 0, -1, -1},
+                {0, 0, 0, -1, 0},
+                {-1, 0, -1, 0, 0},
+                {0, 0, -1, 0, 0}};
+        assertFalse(DynamicProgramming.checkForPathInMatrix(matrix));
+    }
 }

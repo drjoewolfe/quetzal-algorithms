@@ -3143,4 +3143,61 @@ public class DynamicProgramming {
 
         return maxBridges;
     }
+
+    public static boolean checkForPathInMatrix(int[][] matrix) {
+        // In the matrix, -1 indicates an obstacle, 0 indicates passage
+        // Check for path from top-left to bottom-right. Path can be traversed right or down
+        if(matrix == null || matrix.length == 0 || matrix[0].length == 0 || matrix[0][0] == -1) {
+            return false;
+        }
+
+        int m = matrix.length;
+        int n = matrix[0].length;
+
+        for (var row : matrix) {
+            if(row.length != n) {
+                return false;
+            }
+
+            for(int cell : row) {
+                if(cell != -1 && cell != 0) {
+                    // Value other than 0 or -1 found in cell
+                    return false;
+                }
+            }
+        }
+
+        if(matrix[m-1][n-1] == -1) {
+            // Last cell has an obstacle
+            return false;
+        }
+
+        // Algorithm: Mark traversable cells as 1, starting from top-left. Final value of 1 at bottom right indicates existance of path
+        matrix[0][0] = 1;
+
+        // Set first column
+        for (int i = 1; i < m; i++) {
+            if(matrix[i][0] != -1) {
+                matrix[i][0] = matrix[i - 1][0];
+            }
+        }
+
+        // Set first row
+        for (int j = 1; j < n; j++) {
+            if(matrix[0][j] != -1) {
+                matrix[0][j] = matrix[0][j - 1];
+            }
+        }
+
+        for (int i = 1; i < m; i++) {
+            for (int j = 1; j < n; j++) {
+                if(matrix[i][j] != -1) {
+                    matrix[i][j] = Math.max(matrix[i - 1][j],
+                                                matrix[i][j - 1]);
+                }
+            }
+        }
+
+        return matrix[m-1][n-1] == 1 ? true: false;
+    }
 }
