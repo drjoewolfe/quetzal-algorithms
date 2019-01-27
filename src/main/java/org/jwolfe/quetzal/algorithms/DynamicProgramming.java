@@ -3250,8 +3250,8 @@ public class DynamicProgramming {
     }
 
     public static int numberOfChangesToConvertToStrictlyIncreasingArray(int[] arr) {
-        if (arr == null || arr.length == 0) {
-            return 0;
+        if (arr == null || arr.length == 0 || arr[0] == 0) {
+            return Integer.MAX_VALUE;
         }
 
         int n = arr.length;
@@ -3278,8 +3278,8 @@ public class DynamicProgramming {
         // Each element in the array denotes the maximum number of elements that can be jumped from that point.
         // Start with the first element (index - 0) & reach the last (index -  n-1)
 
-        if (arr == null || arr.length == 0) {
-            return 0;
+        if (arr == null || arr.length == 0 || arr[0] == 0) {
+            return Integer.MAX_VALUE;
         }
 
         int n = arr.length;
@@ -3307,6 +3307,43 @@ public class DynamicProgramming {
         }
 
         return minJumps[n - 1];
+    }
+
+    public static int minimumJumpsRequiredToReachEndOfArrayOptimized(int[] arr) {
+        // Each element in the array denotes the maximum number of elements that can be jumped from that point.
+        // Start with the first element (index - 0) & reach the last (index -  n-1)
+        // O(n) implementation - Other approaches limit at O(n^2)
+
+        if (arr == null || arr.length == 0 || arr[0] == 0) {
+            return Integer.MAX_VALUE;
+        }
+
+        int n = arr.length;
+
+        int maxReach = arr[0];
+        int jumpsUsed = 1;
+        int stepsRemaining = arr[0];
+
+        for (int i = 1; i < n; i++) {
+            if (i == n - 1) {
+                // Reached the end
+                return jumpsUsed;
+            }
+
+            maxReach = Math.max(maxReach, i + arr[i]);
+            stepsRemaining--;
+
+            if (stepsRemaining == 0) {
+                if (maxReach < i) {
+                    break;
+                }
+
+                jumpsUsed++;
+                stepsRemaining = maxReach - i;
+            }
+        }
+
+        return Integer.MAX_VALUE;
     }
 
     public static int minimumJumpsRequiredToReachEndOfArrayA2(int[] arr) {

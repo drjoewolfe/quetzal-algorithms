@@ -1718,6 +1718,20 @@ class DynamicProgrammingTest {
     }
 
     @Test
+    void minimumJumpsRequiredToReachEndOfArrayOptimized() {
+        int[] arr;
+
+        arr = new int[]{1, 3, 5, 8, 9, 2, 6, 7, 6, 8, 9};
+        assertEquals(3, DynamicProgramming.minimumJumpsRequiredToReachEndOfArrayOptimized(arr));
+
+        arr = new int[]{1, 3, 6, 3, 2, 3, 6, 8, 9, 5};
+        assertEquals(4, DynamicProgramming.minimumJumpsRequiredToReachEndOfArrayOptimized(arr));
+
+        arr = new int[]{1, 3, 6, 1, 0, 9};
+        assertEquals(3, DynamicProgramming.minimumJumpsRequiredToReachEndOfArrayOptimized(arr));
+    }
+
+    @Test
     void minimumJumpsRequiredToReachEndOfArrayA2() {
         int[] arr;
 
