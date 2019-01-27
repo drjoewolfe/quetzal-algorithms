@@ -3283,10 +3283,45 @@ public class DynamicProgramming {
         }
 
         int n = arr.length;
-        return minimumJumpsRequiredToReachEndOfArray(arr, 0, n - 1);
+
+        // minJumps[i] denotes the minimum number of jumps required to reach arr[i] from arr[0]
+        int[] minJumps = new int[n];
+        Arrays.fill(minJumps, Integer.MAX_VALUE);
+
+        minJumps[0] = 0;
+        for (int i = 1; i < n; i++) {
+            for (int j = 0; j < i; j++) {
+                if (minJumps[j] == Integer.MAX_VALUE
+                        || arr[j] == 0) {
+                    continue;
+                }
+
+                int reach = j + arr[j];
+                if (reach < i) {
+                    continue;
+                }
+
+                // i is reachable from j
+                minJumps[i] = Math.min(minJumps[i], 1 + minJumps[j]);
+            }
+        }
+
+        return minJumps[n - 1];
     }
 
-    private static int minimumJumpsRequiredToReachEndOfArray(int[] arr, int startIndex, int endIndex) {
+    public static int minimumJumpsRequiredToReachEndOfArrayRecursive(int[] arr) {
+        // Each element in the array denotes the maximum number of elements that can be jumped from that point.
+        // Start with the first element (index - 0) & reach the last (index -  n-1)
+
+        if (arr == null || arr.length == 0) {
+            return 0;
+        }
+
+        int n = arr.length;
+        return minimumJumpsRequiredToReachEndOfArrayRecursive(arr, 0, n - 1);
+    }
+
+    private static int minimumJumpsRequiredToReachEndOfArrayRecursive(int[] arr, int startIndex, int endIndex) {
         // Minimum Jumps = 1 + min (Minimum Jumps from all elements reachable from startIndex)
 
         if (startIndex == endIndex) {
@@ -3301,7 +3336,7 @@ public class DynamicProgramming {
         int reach = Math.min(startIndex + arr[startIndex], endIndex);
         int minJumps = Integer.MAX_VALUE;
         for (int i = startIndex + 1; i <= reach; i++) {
-            int jumps = minimumJumpsRequiredToReachEndOfArray(arr, i, endIndex);
+            int jumps = minimumJumpsRequiredToReachEndOfArrayRecursive(arr, i, endIndex);
             if (jumps != Integer.MAX_VALUE) {
                 minJumps = Math.min(minJumps, 1 + jumps);
             }
