@@ -1030,7 +1030,7 @@ public class DynamicProgramming {
         return numCoins;
     }
 
-    public static int maxChainLength(List<Pair<Integer, Integer>> pairs) {
+    public static int maxChainLength(List<IntPair> pairs) {
         var sorter = new PairFirstSorter();
         Collections.sort(pairs, sorter);
 
@@ -1057,6 +1057,49 @@ public class DynamicProgramming {
         }
 
         return maxLength;
+    }
+
+    public static List<IntPair> getMaxChain(List<IntPair> pairs) {
+        if (pairs == null || pairs.size() == 0) {
+            return null;
+        }
+
+        pairs.sort(new PairFirstSorter());
+
+        int n = pairs.size();
+        List<List<IntPair>> allMaxChains = new ArrayList<>();
+        for (int i = 0; i < n; i++) {
+            allMaxChains.add(new ArrayList<>());
+        }
+
+        allMaxChains.get(0).add(pairs.get(0));
+
+        for (int i = 1; i < n; i++) {
+            var iPair = pairs.get(i);
+            var maxChain = allMaxChains.get(i);
+
+            for (int j = 0; j < i; j++) {
+                var jPair = pairs.get(j);
+
+                if (iPair.getFirst() > jPair.getSecond()) {
+                    if (maxChain.size() < allMaxChains.get(j).size()) {
+                        maxChain.clear();
+                        maxChain.addAll(allMaxChains.get(j));
+                    }
+                }
+            }
+
+            maxChain.add(pairs.get(i));
+        }
+
+        var maxChain = allMaxChains.get(0);
+        for (int i = 1; i < n; i++) {
+            if (maxChain.size() < allMaxChains.get(i).size()) {
+                maxChain = allMaxChains.get(i);
+            }
+        }
+
+        return maxChain;
     }
 
     public static int countBinaryStringsWithoutConsecutiveOnesForLengthN(int n) {

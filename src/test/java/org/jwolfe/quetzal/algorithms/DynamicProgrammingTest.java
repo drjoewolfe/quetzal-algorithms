@@ -647,27 +647,63 @@ class DynamicProgrammingTest {
 
     @Test
     void maxChainLength() {
-        List<Pair<Integer, Integer>> pairs;
+        List<IntPair> pairs;
         int maxChain;
 
         pairs = new ArrayList<>();
-        pairs.add(new Pair<>(5, 24));
-        pairs.add(new Pair<>(15, 25));
-        pairs.add(new Pair<>(27, 40));
-        pairs.add(new Pair<>(50, 60));
+        pairs.add(new IntPair(5, 24));
+        pairs.add(new IntPair(15, 25));
+        pairs.add(new IntPair(27, 40));
+        pairs.add(new IntPair(50, 60));
         maxChain = DynamicProgramming.maxChainLength(pairs);
         assertEquals(3, maxChain);
         System.out.println("Length of maximum size chain is " + maxChain);
 
         pairs = new ArrayList<>();
-        pairs.add(new Pair<>(5, 24));
-        pairs.add(new Pair<>(39, 60));
-        pairs.add(new Pair<>(15, 28));
-        pairs.add(new Pair<>(27, 40));
-        pairs.add(new Pair<>(50, 90));
+        pairs.add(new IntPair(5, 24));
+        pairs.add(new IntPair(39, 60));
+        pairs.add(new IntPair(15, 28));
+        pairs.add(new IntPair(27, 40));
+        pairs.add(new IntPair(50, 90));
         maxChain = DynamicProgramming.maxChainLength(pairs);
         assertEquals(3, maxChain);
         System.out.println("Length of maximum size chain is " + maxChain);
+    }
+
+    @Test
+    void getMaxChain() {
+        List<IntPair> pairs;
+        List<IntPair> chain;
+        List<IntPair> expectedChain;
+
+        var p11 = new IntPair(5, 24);
+        var p12 = new IntPair(15, 25);
+        var p13 = new IntPair(27, 40);
+        var p14 = new IntPair(50, 60);
+
+        pairs = Utilities.constructList(p11, p12, p13, p14);
+        expectedChain = Utilities.constructList(p11, p13, p14);
+        chain = DynamicProgramming.getMaxChain(pairs);
+        QuetzalAssertions.assertListStrictEquals(expectedChain, chain);
+
+        var p21 = new IntPair(5, 24);
+        var p22 = new IntPair(39, 60);
+        var p23 = new IntPair(15, 28);
+        var p24 = new IntPair(27, 40);
+        var p25 = new IntPair(50, 90);
+        pairs = Utilities.constructList(p21, p22, p23, p24, p25);
+        expectedChain = Utilities.constructList(p11, p24, p25);
+        chain = DynamicProgramming.getMaxChain(pairs);
+        QuetzalAssertions.assertListStrictEquals(expectedChain, chain);
+
+        var p31 = new IntPair(11, 20);
+        var p32 = new IntPair(10, 40);
+        var p33 = new IntPair(45, 60);
+        var p34 = new IntPair(39, 40);
+        pairs = Utilities.constructList(p31, p32, p33, p34);
+        expectedChain = Utilities.constructList(p31, p34, p33);
+        chain = DynamicProgramming.getMaxChain(pairs);
+        QuetzalAssertions.assertListStrictEquals(expectedChain, chain);
     }
 
     @Test
