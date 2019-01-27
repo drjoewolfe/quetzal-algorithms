@@ -3309,6 +3309,37 @@ public class DynamicProgramming {
         return minJumps[n - 1];
     }
 
+    public static int minimumJumpsRequiredToReachEndOfArrayA2(int[] arr) {
+        // Each element in the array denotes the maximum number of elements that can be jumped from that point.
+        // Start with the first element (index - 0) & reach the last (index -  n-1)
+
+        if (arr == null || arr.length == 0) {
+            return 0;
+        }
+
+        int n = arr.length;
+
+        // minJumps[i] denotes the minimum number of jumps required to reach arr[n - 1] from arr[i]
+        int[] minJumps = new int[n];
+        Arrays.fill(minJumps, Integer.MAX_VALUE);
+
+        minJumps[n - 1] = 0;
+        for (int i = n - 2; i >= 0; i--) {
+            for (int j = i + 1; j < n; j++) {
+                if (j > i + arr[i]) {
+                    // j's from now not accessible from i
+                    break;
+                }
+
+                if (minJumps[j] != Integer.MAX_VALUE) {
+                    minJumps[i] = Math.min(minJumps[i], 1 + minJumps[j]);
+                }
+            }
+        }
+
+        return minJumps[0];
+    }
+
     public static int minimumJumpsRequiredToReachEndOfArrayRecursive(int[] arr) {
         // Each element in the array denotes the maximum number of elements that can be jumped from that point.
         // Start with the first element (index - 0) & reach the last (index -  n-1)
