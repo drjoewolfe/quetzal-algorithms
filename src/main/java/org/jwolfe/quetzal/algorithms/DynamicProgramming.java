@@ -3273,4 +3273,40 @@ public class DynamicProgramming {
         // Number of changes = Number of elements - Length of LIS
         return n - lisLength;
     }
+
+    public static int minimumJumpsRequiredToReachEndOfArray(int[] arr) {
+        // Each element in the array denotes the maximum number of elements that can be jumped from that point.
+        // Start with the first element (index - 0) & reach the last (index -  n-1)
+
+        if (arr == null || arr.length == 0) {
+            return 0;
+        }
+
+        int n = arr.length;
+        return minimumJumpsRequiredToReachEndOfArray(arr, 0, n - 1);
+    }
+
+    private static int minimumJumpsRequiredToReachEndOfArray(int[] arr, int startIndex, int endIndex) {
+        // Minimum Jumps = 1 + min (Minimum Jumps from all elements reachable from startIndex)
+
+        if (startIndex == endIndex) {
+            return 0;
+        }
+
+        if (startIndex > endIndex || arr[startIndex] == 0) {
+            // Not possible to reach end from this position
+            return Integer.MAX_VALUE;
+        }
+
+        int reach = Math.min(startIndex + arr[startIndex], endIndex);
+        int minJumps = Integer.MAX_VALUE;
+        for (int i = startIndex + 1; i <= reach; i++) {
+            int jumps = minimumJumpsRequiredToReachEndOfArray(arr, i, endIndex);
+            if (jumps != Integer.MAX_VALUE) {
+                minJumps = Math.min(minJumps, 1 + jumps);
+            }
+        }
+
+        return minJumps;
+    }
 }
