@@ -1,9 +1,6 @@
 package org.jwolfe.quetzal.algorithms;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 public class StringAlgorithms {
     public static Set<String> getAllSubsequences(String str) {
@@ -85,6 +82,36 @@ public class StringAlgorithms {
         }
 
         return allSubStrings;
+    }
+
+    public static List<String> getAllSubStringsInLexicographicOrder(String str) {
+        // Power set in lexicographic order
+        char[] characters = str.toCharArray();
+        Arrays.sort(characters);
+
+        String sortedStr = new String(characters);
+        int n = sortedStr.length();
+
+        StringBuilder buffer = new StringBuilder();
+        List<String> allSubstrings = new ArrayList<>();
+        generateAllSubStringsInLexicographicOrder(sortedStr, -1, n - 1, buffer, allSubstrings);
+
+        return allSubstrings;
+    }
+
+    private static void generateAllSubStringsInLexicographicOrder(String str, int startIndex, int endIndex, StringBuilder buffer, List<String> allSubstrings) {
+        if (startIndex > endIndex) {
+            return;
+        }
+
+        allSubstrings.add(buffer.toString());
+        for (int i = startIndex + 1; i <= endIndex; i++) {
+            buffer.append(str.charAt(i));
+            generateAllSubStringsInLexicographicOrder(str, i, endIndex, buffer, allSubstrings);
+
+            // Backtrack
+            buffer.deleteCharAt(buffer.length() - 1);
+        }
     }
 
     public static String getSumString(String str1, String str2) {

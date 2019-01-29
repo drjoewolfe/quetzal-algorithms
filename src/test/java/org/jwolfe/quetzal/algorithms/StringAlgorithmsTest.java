@@ -75,6 +75,18 @@ class StringAlgorithmsTest {
     }
 
     @Test
+    void getAllSubStringsInLexicographicOrder() {
+        String str;
+        List<String> subStrings;
+        List<String> expectedSubstrings;
+
+        str = "abc";
+        subStrings = StringAlgorithms.getAllSubStringsInLexicographicOrder(str);
+        expectedSubstrings = Utilities.constructList("", "a", "ab", "abc", "ac", "b", "bc", "c");
+        assertListStrictEquals(expectedSubstrings, subStrings);
+    }
+
+    @Test
     void getSumString() {
         assertEquals("60", StringAlgorithms.getSumString("24", "36"));
         assertEquals("10", StringAlgorithms.getSumString("1", "9"));
