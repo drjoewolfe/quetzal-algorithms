@@ -3455,4 +3455,39 @@ public class DynamicProgramming {
 
         return minJumps;
     }
+
+    public static int minTimeForCarAssemblyWithTwoAssemblyLines(int[][] stationTimes, int[][] transferTimes, IntPair entryTimes, IntPair exitTimes) {
+        if (stationTimes == null || stationTimes.length != 2
+                || transferTimes == null || transferTimes.length != 2
+                || entryTimes == null || exitTimes == null) {
+            return Integer.MAX_VALUE;
+        }
+
+        int stations = stationTimes[0].length;
+        if (transferTimes[0].length != stations
+                || transferTimes[0][0] != 0
+                || transferTimes[1][0] != 0) {
+            return Integer.MAX_VALUE;
+        }
+
+        int[][] minTimes = new int[2][stations + 1];
+
+        // Entry
+        minTimes[0][0] = entryTimes.getFirst() + stationTimes[0][0];
+        minTimes[1][0] = entryTimes.getSecond() + stationTimes[1][0];
+
+        // Intermediate Stations
+        for (int i = 1; i < stations; i++) {
+            minTimes[0][i] = Math.min(minTimes[0][i - 1] + stationTimes[0][i],
+                    minTimes[1][i - 1] + transferTimes[1][i] + stationTimes[0][i]);
+            minTimes[1][i] = Math.min(minTimes[1][i - 1] + stationTimes[1][i],
+                    minTimes[0][i - 1] + transferTimes[0][i] + stationTimes[1][i]);
+        }
+
+        // Exit
+        minTimes[0][stations] = minTimes[0][stations - 1] + exitTimes.getFirst();
+        minTimes[1][stations] = minTimes[1][stations - 1] + exitTimes.getSecond();
+
+        return Math.min(minTimes[0][stations], minTimes[1][stations]);
+    }
 }

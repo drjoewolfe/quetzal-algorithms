@@ -1794,4 +1794,20 @@ class DynamicProgrammingTest {
         arr = new int[]{1, 3, 6, 1, 0, 9};
         assertEquals(3, DynamicProgramming.minimumJumpsRequiredToReachEndOfArrayRecursive(arr));
     }
+
+    @Test
+    void minTimeForCarAssemblyWithTwoAssemblyLines() {
+        int[][] stationTimes;
+        int[][] transferTimes;
+        IntPair entryTimes;
+        IntPair exitTimes;
+
+        stationTimes = new int[][]{{4, 5, 3, 2},
+                {2, 10, 1, 4}};
+        transferTimes = new int[][]{{0, 7, 4, 5},
+                {0, 9, 2, 8}};
+        entryTimes = new IntPair(10, 12);
+        exitTimes = new IntPair(18, 7);
+        assertEquals(35, DynamicProgramming.minTimeForCarAssemblyWithTwoAssemblyLines(stationTimes, transferTimes, entryTimes, exitTimes));
+    }
 }
