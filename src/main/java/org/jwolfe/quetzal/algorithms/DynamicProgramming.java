@@ -3292,6 +3292,71 @@ public class DynamicProgramming {
         return triangle[0][0];
     }
 
+    public static int minimumPathSumIn3DArray(int[][][] arr) {
+        if (arr == null || arr.length == 0 || arr[0].length == 0 || arr[0][0].length == 0) {
+            return 0;
+        }
+
+        int l = arr.length;
+        int m = arr[0].length;
+        int n = arr[0][0].length;
+
+        int[][][] minPathSum = new int[l][m][n];
+        minPathSum[0][0][0] = arr[0][0][0];
+
+        // Fill for x-axis
+        for (int i = 1; i < l; i++) {
+            minPathSum[i][0][0] = minPathSum[i - 1][0][0] + arr[i][0][0];
+        }
+
+        // Fill for y-axis
+        for (int j = 1; j < m; j++) {
+            minPathSum[0][j][0] = minPathSum[0][j - 1][0] + arr[0][j][0];
+        }
+
+        // Fill for z-axis
+        for (int k = 1; k < n; k++) {
+            minPathSum[0][0][k] = minPathSum[0][0][k - 1] + arr[0][0][k];
+        }
+
+        // Fill for x-y plane
+        for (int i = 1; i < l; i++) {
+            for (int j = 1; j < m; j++) {
+                minPathSum[i][j][0] = Math.min(minPathSum[i - 1][j][0],
+                        minPathSum[i][j - 1][0]) + arr[i][j][0];
+            }
+        }
+
+        // Fill for x-z plane
+        for (int i = 1; i < l; i++) {
+            for (int k = 1; k < n; k++) {
+                minPathSum[i][0][k] = Math.min(minPathSum[i - 1][0][k],
+                        minPathSum[i][0][k - 1]) + arr[i][0][k];
+            }
+        }
+
+        // Fill for y-z plane
+        for (int j = 1; j < m; j++) {
+            for (int k = 1; k < n; k++) {
+                minPathSum[0][j][k] = Math.min(minPathSum[0][j - 1][k],
+                        minPathSum[0][j][k - 1]) + arr[0][j][k];
+            }
+        }
+
+        // Fill remaining cells
+        for (int i = 1; i < l; i++) {
+            for (int j = 1; j < m; j++) {
+                for (int k = 1; k < n; k++) {
+                    minPathSum[i][j][k] = Utilities.min(minPathSum[i - 1][j][k],
+                            minPathSum[i][j - 1][k],
+                            minPathSum[i][j][k - 1]) + arr[i][j][k];
+                }
+            }
+        }
+
+        return minPathSum[l - 1][m - 1][n - 1];
+    }
+
     public static int numberOfChangesToConvertToStrictlyIncreasingArray(int[] arr) {
         if (arr == null || arr.length == 0 || arr[0] == 0) {
             return Integer.MAX_VALUE;

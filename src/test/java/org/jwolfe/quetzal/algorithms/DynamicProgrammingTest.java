@@ -1729,6 +1729,19 @@ class DynamicProgrammingTest {
     }
 
     @Test
+    void minimumPathSumIn3DArray() {
+        int[][][] arr;
+
+        arr = new int[][][]{{{1, 2}, {3, 4}},
+                {{4, 8}, {5, 2}}};
+        assertEquals(9, DynamicProgramming.minimumPathSumIn3DArray(arr));
+
+        arr = new int[][][]{{{1, 2}, {4, 3}},
+                {{3, 4}, {2, 1}}};
+        assertEquals(7, DynamicProgramming.minimumPathSumIn3DArray(arr));
+    }
+
+    @Test
     void numberOfChangesToConvertToStrictlyIncreasingArray() {
         int[] arr;
 
