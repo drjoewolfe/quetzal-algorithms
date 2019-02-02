@@ -629,4 +629,36 @@ public class GreedyAlgorithms {
 
         return rotations;
     }
+
+    public static int maximumEqualSumOf3Stacks(Stack<Integer> stack1, Stack<Integer> stack2, Stack<Integer> stack3) {
+        // We are allowed to pop from stacks to make the sum equal
+        // Assumption: Stack contains only positive integers
+        if (stack1 == null || stack2 == null || stack3 == null
+                || stack1.size() == 0 || stack2.size() == 0 || stack3.size() == 0) {
+            return 0;
+        }
+
+        int sum1 = stack1.stream().mapToInt(i -> i).sum();
+        int sum2 = stack2.stream().mapToInt(i -> i).sum();
+        int sum3 = stack3.stream().mapToInt(i -> i).sum();
+
+        while (!stack1.isEmpty() && !stack2.isEmpty() && !stack3.isEmpty()) {
+            if (Utilities.areEqual(sum1, sum2, sum3)) {
+                return sum1;
+            }
+
+            if (sum1 > sum2 && sum1 > sum3) {
+                // sum1 is largest; remove from stack 1
+                sum1 -= stack1.pop();
+            } else if (sum2 > sum1 && sum2 > sum3) {
+                // sum2 is largest; remove from stack 1
+                sum2 -= stack2.pop();
+            } else {
+                // sum3 is largest; remove from stack 1
+                sum3 -= stack3.pop();
+            }
+        }
+
+        return 0;
+    }
 }

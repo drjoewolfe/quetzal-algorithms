@@ -358,4 +358,21 @@ class GreedyAlgorithmsTest {
         assertEquals(8, GreedyAlgorithms.minimumRotationsToUnlockACircularLock(2345, 5432));
         assertEquals(12, GreedyAlgorithms.minimumRotationsToUnlockACircularLock(28756, 98234));
     }
+
+    @Test
+    void maximumEqualSumOf3Stacks() {
+        Stack<Integer> stack1;
+        Stack<Integer> stack2;
+        Stack<Integer> stack3;
+
+        stack1 = Utilities.createStack(3, 10);
+        stack2 = Utilities.createStack(4, 5);
+        stack3 = Utilities.createStack(2, 1);
+        assertEquals(0, GreedyAlgorithms.maximumEqualSumOf3Stacks(stack1, stack2, stack3));
+
+        stack1 = Utilities.createStack(1, 1, 1, 2, 3);
+        stack2 = Utilities.createStack(2, 3, 4);
+        stack3 = Utilities.createStack(1, 4, 5, 2);
+        assertEquals(5, GreedyAlgorithms.maximumEqualSumOf3Stacks(stack1, stack2, stack3));
+    }
 }
