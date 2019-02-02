@@ -318,4 +318,27 @@ class GreedyAlgorithmsTest {
         percentDecayPerDay = 0.20;
         assertEquals(146, Math.ceil(GreedyAlgorithms.getVolumeLeftAfterOptimalSequencing(volumeOfGoods, percentDecayPerDay)));
     }
+
+    @Test
+    void getMinizedDifferenceOfMaximumHeightDifferenceBetweenTowersByAlteringHeightByK() {
+        int[] towerHeights;
+
+        towerHeights = new int[]{1, 15, 10};
+        assertEquals(5, GreedyAlgorithms.getMinizedDifferenceOfMaximumHeightDifferenceBetweenTowersByAlteringHeightByK(towerHeights, 6));
+
+        towerHeights = new int[]{1, 5, 15, 10};
+        assertEquals(8, GreedyAlgorithms.getMinizedDifferenceOfMaximumHeightDifferenceBetweenTowersByAlteringHeightByK(towerHeights, 3));
+
+        towerHeights = new int[]{4, 6};
+        assertEquals(2, GreedyAlgorithms.getMinizedDifferenceOfMaximumHeightDifferenceBetweenTowersByAlteringHeightByK(towerHeights, 10));
+
+        towerHeights = new int[]{6, 10};
+        assertEquals(2, GreedyAlgorithms.getMinizedDifferenceOfMaximumHeightDifferenceBetweenTowersByAlteringHeightByK(towerHeights, 3));
+
+        towerHeights = new int[]{1, 10, 14, 14, 14, 15};
+        assertEquals(5, GreedyAlgorithms.getMinizedDifferenceOfMaximumHeightDifferenceBetweenTowersByAlteringHeightByK(towerHeights, 6));
+
+        towerHeights = new int[]{1, 2, 3};
+        assertEquals(2, GreedyAlgorithms.getMinizedDifferenceOfMaximumHeightDifferenceBetweenTowersByAlteringHeightByK(towerHeights, 2));
+    }
 }

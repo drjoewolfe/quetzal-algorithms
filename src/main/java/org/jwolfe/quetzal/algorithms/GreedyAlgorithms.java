@@ -502,4 +502,43 @@ public class GreedyAlgorithms {
 
         return result;
     }
+
+    public static int getMinizedDifferenceOfMaximumHeightDifferenceBetweenTowersByAlteringHeightByK(int[] towerHeights, int k) {
+        // For every tower, we have to either increase or decrease its height by k
+
+        if (towerHeights == null || towerHeights.length < 2 || k < 0) {
+            return 0;
+        }
+
+        int n = towerHeights.length;
+        Arrays.sort(towerHeights);
+
+        int smallestTower = towerHeights[0] + k;
+        int largestTower = towerHeights[n - 1] - k;
+
+        if (smallestTower > largestTower) {
+            int temp = smallestTower;
+            smallestTower = largestTower;
+            largestTower = temp;
+        }
+
+        for (int i = 1; i < n - 1; i++) {
+            int increasedHeightTower = towerHeights[i] + k;
+            int decreasedHeightTower = towerHeights[i] - k;
+
+            if (smallestTower <= decreasedHeightTower || largestTower >= increasedHeightTower) {
+                // Maximum difference is not changed
+                continue;
+            }
+
+            if (largestTower - decreasedHeightTower <= increasedHeightTower - smallestTower) {
+                smallestTower = decreasedHeightTower;
+            } else {
+                largestTower = increasedHeightTower;
+            }
+        }
+
+        return Math.min(largestTower - smallestTower,
+                towerHeights[n - 1] - towerHeights[0]);
+    }
 }
