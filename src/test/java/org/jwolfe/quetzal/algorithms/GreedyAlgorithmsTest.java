@@ -352,4 +352,10 @@ class GreedyAlgorithmsTest {
         verticalEdgeCuttingCosts = new int[]{4, 1, 2};
         assertEquals(42, GreedyAlgorithms.minimumCostOfCuttingABoardIntoSquares(horizontalEdgeCuttingCosts, verticalEdgeCuttingCosts));
     }
+
+    @Test
+    void minimumRotationsToUnlockACircularLock() {
+        assertEquals(8, GreedyAlgorithms.minimumRotationsToUnlockACircularLock(2345, 5432));
+        assertEquals(12, GreedyAlgorithms.minimumRotationsToUnlockACircularLock(28756, 98234));
+    }
 }

@@ -603,4 +603,30 @@ public class GreedyAlgorithms {
 
         return totalCost;
     }
+
+    public static int minimumRotationsToUnlockACircularLock(int inputCode, int outputCode) {
+        // Each of the dials in the lock can be rotated up or down. We need to take the minumum of these for each code digit
+        if (inputCode < 0 || outputCode < 0) {
+            return Integer.MAX_VALUE;
+        }
+
+        int rotations = 0;
+        while (inputCode > 0 && outputCode > 0) {
+            int inDigit = inputCode % 10;
+            int outDigit = outputCode % 10;
+
+            int difference = Math.abs(inDigit - outDigit);
+            rotations += Math.min(difference, 10 - difference);
+
+            inputCode /= 10;
+            outputCode /= 10;
+        }
+
+        if (inputCode > 0 || outputCode > 0) {
+            // codes are not of the same size
+            return Integer.MAX_VALUE;
+        }
+
+        return rotations;
+    }
 }
