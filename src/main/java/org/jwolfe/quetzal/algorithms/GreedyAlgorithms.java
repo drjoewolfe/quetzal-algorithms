@@ -503,7 +503,7 @@ public class GreedyAlgorithms {
         return result;
     }
 
-    public static int getMinizedDifferenceOfMaximumHeightDifferenceBetweenTowersByAlteringHeightByK(int[] towerHeights, int k) {
+    public static int minimumDifferenceOfMaximumHeightDifferenceBetweenTowersByAlteringHeightByK(int[] towerHeights, int k) {
         // For every tower, we have to either increase or decrease its height by k
 
         if (towerHeights == null || towerHeights.length < 2 || k < 0) {
@@ -540,5 +540,67 @@ public class GreedyAlgorithms {
 
         return Math.min(largestTower - smallestTower,
                 towerHeights[n - 1] - towerHeights[0]);
+    }
+
+    public static int minimumCostOfCuttingABoardIntoSquares(int[] horizontalEdgeCuttingCosts, int[] verticalEdgeCuttingCosts) {
+        // Net cost of cutting can be summed up as
+        //  Sn = a1c1 + a2c2 + ... + aNcN
+        //      c1, c2 etc. are the costs for the edge (horizontal or vertical)
+        //      a1, a2 are the coefficients, denoting the number of units to be cut. This is dependent on previous cuts
+
+        if (horizontalEdgeCuttingCosts == null || horizontalEdgeCuttingCosts.length == 0
+                || verticalEdgeCuttingCosts == null || verticalEdgeCuttingCosts.length == 0) {
+            return 0;
+        }
+
+        int m = horizontalEdgeCuttingCosts.length + 1;
+        int n = verticalEdgeCuttingCosts.length + 1;
+
+        // Greedy implementation - start with highest cost cuts
+        Arrays.sort(horizontalEdgeCuttingCosts);
+        Arrays.sort(verticalEdgeCuttingCosts);
+
+        int totalCost = 0;
+
+        int i = m - 2;
+        int j = n - 2;
+
+        int horizontalUnits = 1;
+        int verticalUnits = 1;
+
+
+        while (i >= 0 && j >= 0) {
+            if (horizontalEdgeCuttingCosts[i] > verticalEdgeCuttingCosts[j]) {
+                // Cut horizontally
+                totalCost += (verticalUnits * horizontalEdgeCuttingCosts[i]);
+
+                horizontalUnits++;
+                i--;
+            } else {
+                // Cut vertically
+                totalCost += (horizontalUnits * verticalEdgeCuttingCosts[j]);
+
+                verticalUnits++;
+                j--;
+            }
+        }
+
+        while (i >= 0) {
+            // Cut horizontally
+            totalCost += (verticalUnits * horizontalEdgeCuttingCosts[i]);
+
+            horizontalUnits++;
+            i--;
+        }
+
+        while (j >= 0) {
+            // Cut vertically
+            totalCost += (horizontalUnits * verticalEdgeCuttingCosts[j]);
+
+            verticalUnits++;
+            j--;
+        }
+
+        return totalCost;
     }
 }

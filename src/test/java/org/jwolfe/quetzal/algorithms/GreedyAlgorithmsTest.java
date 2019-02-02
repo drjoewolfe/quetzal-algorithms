@@ -320,25 +320,36 @@ class GreedyAlgorithmsTest {
     }
 
     @Test
-    void getMinizedDifferenceOfMaximumHeightDifferenceBetweenTowersByAlteringHeightByK() {
+    void minimumDifferenceOfMaximumHeightDifferenceBetweenTowersByAlteringHeightByK() {
         int[] towerHeights;
 
         towerHeights = new int[]{1, 15, 10};
-        assertEquals(5, GreedyAlgorithms.getMinizedDifferenceOfMaximumHeightDifferenceBetweenTowersByAlteringHeightByK(towerHeights, 6));
+        assertEquals(5, GreedyAlgorithms.minimumDifferenceOfMaximumHeightDifferenceBetweenTowersByAlteringHeightByK(towerHeights, 6));
 
         towerHeights = new int[]{1, 5, 15, 10};
-        assertEquals(8, GreedyAlgorithms.getMinizedDifferenceOfMaximumHeightDifferenceBetweenTowersByAlteringHeightByK(towerHeights, 3));
+        assertEquals(8, GreedyAlgorithms.minimumDifferenceOfMaximumHeightDifferenceBetweenTowersByAlteringHeightByK(towerHeights, 3));
 
         towerHeights = new int[]{4, 6};
-        assertEquals(2, GreedyAlgorithms.getMinizedDifferenceOfMaximumHeightDifferenceBetweenTowersByAlteringHeightByK(towerHeights, 10));
+        assertEquals(2, GreedyAlgorithms.minimumDifferenceOfMaximumHeightDifferenceBetweenTowersByAlteringHeightByK(towerHeights, 10));
 
         towerHeights = new int[]{6, 10};
-        assertEquals(2, GreedyAlgorithms.getMinizedDifferenceOfMaximumHeightDifferenceBetweenTowersByAlteringHeightByK(towerHeights, 3));
+        assertEquals(2, GreedyAlgorithms.minimumDifferenceOfMaximumHeightDifferenceBetweenTowersByAlteringHeightByK(towerHeights, 3));
 
         towerHeights = new int[]{1, 10, 14, 14, 14, 15};
-        assertEquals(5, GreedyAlgorithms.getMinizedDifferenceOfMaximumHeightDifferenceBetweenTowersByAlteringHeightByK(towerHeights, 6));
+        assertEquals(5, GreedyAlgorithms.minimumDifferenceOfMaximumHeightDifferenceBetweenTowersByAlteringHeightByK(towerHeights, 6));
 
         towerHeights = new int[]{1, 2, 3};
-        assertEquals(2, GreedyAlgorithms.getMinizedDifferenceOfMaximumHeightDifferenceBetweenTowersByAlteringHeightByK(towerHeights, 2));
+        assertEquals(2, GreedyAlgorithms.minimumDifferenceOfMaximumHeightDifferenceBetweenTowersByAlteringHeightByK(towerHeights, 2));
+    }
+
+    @Test
+    void minimumCostOfCuttingABoardIntoSquares() {
+        int[] horizontalEdgeCuttingCosts;
+        int[] verticalEdgeCuttingCosts;
+
+        // 6 x 4 board
+        horizontalEdgeCuttingCosts = new int[]{2, 1, 3, 1, 4};
+        verticalEdgeCuttingCosts = new int[]{4, 1, 2};
+        assertEquals(42, GreedyAlgorithms.minimumCostOfCuttingABoardIntoSquares(horizontalEdgeCuttingCosts, verticalEdgeCuttingCosts));
     }
 }
