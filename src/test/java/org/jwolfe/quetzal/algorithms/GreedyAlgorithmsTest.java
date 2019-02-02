@@ -375,4 +375,12 @@ class GreedyAlgorithmsTest {
         stack3 = Utilities.createStack(1, 4, 5, 2);
         assertEquals(5, GreedyAlgorithms.maximumEqualSumOf3Stacks(stack1, stack2, stack3));
     }
+
+    @Test
+    void maximumStocksThatCanBeBoughtIfXStocksCanBeBoughtOnXthDay() {
+        int[] pricesByDay;
+
+        pricesByDay = new int[]{10, 7, 19};
+        assertEquals(4, GreedyAlgorithms.maximumStocksThatCanBeBoughtIfXStocksCanBeBoughtOnXthDay(pricesByDay, 45));
+    }
 }

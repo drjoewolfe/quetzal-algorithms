@@ -661,4 +661,38 @@ public class GreedyAlgorithms {
 
         return 0;
     }
+
+    public static int maximumStocksThatCanBeBoughtIfXStocksCanBeBoughtOnXthDay(int[] pricesByDay, int maxAmount) {
+        if (pricesByDay == null || pricesByDay.length == 0 || maxAmount <= 0) {
+            return 0;
+        }
+
+        int n = pricesByDay.length;
+
+        List<IntPair> dayPrices = new ArrayList<>();
+        for (int i = 0; i < n; i++) {
+            dayPrices.add(new IntPair(i + 1, pricesByDay[i]));
+        }
+
+        dayPrices.sort(Comparator.comparingInt(IntPair::getB));
+
+        int stockCount = 0;
+        for (int i = 0; i < n; i++) {
+            var dayInfo = dayPrices.get(i);
+            int day = dayInfo.getA();
+            int cost = dayInfo.getB();
+
+            if (cost > maxAmount) {
+                // No more purchases can be made
+                break;
+            }
+
+            // Get maximum number of stock on this day, upto day count
+            int units = Math.min(maxAmount / cost, day);
+            stockCount += units;
+            maxAmount -= (units * cost);
+        }
+
+        return stockCount;
+    }
 }
