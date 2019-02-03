@@ -3555,4 +3555,47 @@ public class DynamicProgramming {
 
         return Math.min(minTimes[0][stations], minTimes[1][stations]);
     }
+
+    public static int getCostOfOptimalBinarySearchTreeForSearchFrequencies(int[] keys, int[] frequencies) {
+        // A BST to be constructed out of the keys such that the overall cost given the search frequencies is minimum.
+        // The highest frequency to be the root -> so cost of accessing it is one.
+        // Cost of a node is the frequency multiplied by its level. Root level is 1.
+
+        //  Recursion Formula:
+        //      optimalCost(i, j) = Sigma (k = i to j) frequencies[k] + min (r = i to j) (optimalCost(i, r-1) + optimalCost(r + 1, j))
+        if (keys == null || keys.length == 0 || frequencies == null || frequencies.length != keys.length) {
+            return 0;
+        }
+
+        int n = keys.length;
+        return getCostOfOptimalBinarySearchTreeForSearchFrequencies(keys, frequencies, 0, n - 1);
+    }
+
+    private static int getCostOfOptimalBinarySearchTreeForSearchFrequencies(int[] keys, int[] frequencies, int startIndex, int endIndex) {
+        if (startIndex > endIndex) {
+            return 0;
+        }
+
+        if (startIndex == endIndex) {
+            return frequencies[startIndex];
+        }
+
+        // Try with every element between (& inclusive of) startIndex & endIndex as root for optimal cost
+        // All queries to every element within the range will go through the root.
+        int frequencySum = 0;
+        for (int k = startIndex; k <= endIndex; k++) {
+            frequencySum += frequencies[k];
+        }
+
+        int minChildCost = Integer.MAX_VALUE;
+        for (int r = startIndex; r <= endIndex; r++) {
+            int childCost = 0;
+            childCost += getCostOfOptimalBinarySearchTreeForSearchFrequencies(keys, frequencies, startIndex, r - 1);
+            childCost += getCostOfOptimalBinarySearchTreeForSearchFrequencies(keys, frequencies, r + 1, endIndex);
+
+            minChildCost = Math.min(minChildCost, childCost);
+        }
+
+        return frequencySum + minChildCost;
+    }
 }

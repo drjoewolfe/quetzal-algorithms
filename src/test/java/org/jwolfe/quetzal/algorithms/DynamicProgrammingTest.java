@@ -1823,4 +1823,18 @@ class DynamicProgrammingTest {
         exitTimes = new IntPair(18, 7);
         assertEquals(35, DynamicProgramming.minTimeForCarAssemblyWithTwoAssemblyLines(stationTimes, transferTimes, entryTimes, exitTimes));
     }
+
+    @Test
+    void getCostOfOptimalBinarySearchTreeForSearchFrequencies() {
+        int[] keys;
+        int[] frequencies;
+
+        keys = new int[]{10, 12};
+        frequencies = new int[]{34, 50};
+        assertEquals(118, DynamicProgramming.getCostOfOptimalBinarySearchTreeForSearchFrequencies(keys, frequencies));
+
+        keys = new int[]{10, 12, 20};
+        frequencies = new int[]{34, 8, 50};
+        assertEquals(142, DynamicProgramming.getCostOfOptimalBinarySearchTreeForSearchFrequencies(keys, frequencies));
+    }
 }
