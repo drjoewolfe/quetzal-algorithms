@@ -1882,4 +1882,21 @@ class DynamicProgrammingTest {
         coinValues = new int[]{20, 30, 2, 2, 2, 10};
         assertEquals(42, DynamicProgramming.maxValueOfCoinsInOptimalStrategyForGameWhereFirstOrLastCoinCanBeTakenInTurn(coinValues));
     }
+
+    @Test
+    void maxValueOfCoinsInOptimalStrategyForGameWhereFirstOrLastCoinCanBeTakenInTurnRecursive() {
+        int[] coinValues;
+
+        coinValues = new int[]{5, 3, 7, 10};
+        assertEquals(15, DynamicProgramming.maxValueOfCoinsInOptimalStrategyForGameWhereFirstOrLastCoinCanBeTakenInTurnRecursive(coinValues));
+
+        coinValues = new int[]{8, 15, 3, 7};
+        assertEquals(22, DynamicProgramming.maxValueOfCoinsInOptimalStrategyForGameWhereFirstOrLastCoinCanBeTakenInTurnRecursive(coinValues));
+
+        coinValues = new int[]{2, 2, 2, 2};
+        assertEquals(4, DynamicProgramming.maxValueOfCoinsInOptimalStrategyForGameWhereFirstOrLastCoinCanBeTakenInTurnRecursive(coinValues));
+
+        coinValues = new int[]{20, 30, 2, 2, 2, 10};
+        assertEquals(42, DynamicProgramming.maxValueOfCoinsInOptimalStrategyForGameWhereFirstOrLastCoinCanBeTakenInTurnRecursive(coinValues));
+    }
 }

@@ -7,7 +7,6 @@ import org.jwolfe.quetzal.library.utilities.ActivityStartComparator;
 import org.jwolfe.quetzal.library.utilities.PairFirstSorter;
 import org.jwolfe.quetzal.library.utilities.Utilities;
 
-import java.lang.reflect.Array;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -3705,10 +3704,49 @@ public class DynamicProgramming {
         //                              Vj + min( MaxValue(i + 1, j - 1), MaxValue(i, j - 2))
 
         int n = coinValues.length;
-        return maxValueOfCoinsInOptimalStrategyForGameWhereFirstOrLastCoinCanBeTakenInTurn(coinValues, 0, n - 1);
+        int[][] maxValues = new int[n][n];
+
+        // Diagonal - Length 1
+        for (int i = 0; i < n; i++) {
+            maxValues[i][i] = coinValues[i];
+        }
+
+        // Other Lengths
+        for (int len = 2; len <= n; len++) {
+            for (int i = 0; i < n - len + 1; i++) {
+                int j = i + len - 1;
+
+                int factor1 = (i + 2) <= j ? maxValues[i + 2][j] : 0;
+                int factor2 = (i + 1) <= (j - 1) ? maxValues[i + 1][j - 1] : 0;
+                int factor3 = i <= (j - 2) ? maxValues[i][j - 2] : 0;
+
+                int iVal = coinValues[i] + Math.min(factor1, factor2);
+                int jVal = coinValues[j] + Math.min(factor2, factor3);
+
+                maxValues[i][j] = Math.max(iVal, jVal);
+            }
+        }
+
+        return maxValues[0][n - 1];
     }
 
-    private static int maxValueOfCoinsInOptimalStrategyForGameWhereFirstOrLastCoinCanBeTakenInTurn(int[] coinValues, int startIndex, int endIndex) {
+    public static int maxValueOfCoinsInOptimalStrategyForGameWhereFirstOrLastCoinCanBeTakenInTurnRecursive(int[] coinValues) {
+        if (coinValues == null || coinValues.length == 0) {
+            return 0;
+        }
+
+        // We'll take the first turn, and the opponent will take the next
+        // Note: The opponent will play so as to minimize your value in his turn
+
+        // Recursion Formula
+        //      MaxValue(i, j) = Max ( Vi + min( MaxValue(i + 2, j), MaxValue(i + 1, j - 1)),
+        //                              Vj + min( MaxValue(i + 1, j - 1), MaxValue(i, j - 2))
+
+        int n = coinValues.length;
+        return maxValueOfCoinsInOptimalStrategyForGameWhereFirstOrLastCoinCanBeTakenInTurnRecursive(coinValues, 0, n - 1);
+    }
+
+    private static int maxValueOfCoinsInOptimalStrategyForGameWhereFirstOrLastCoinCanBeTakenInTurnRecursive(int[] coinValues, int startIndex, int endIndex) {
         if (startIndex > endIndex) {
             return 0;
         }
@@ -3720,15 +3758,15 @@ public class DynamicProgramming {
         // Try taking the coin at start
         int startValue = coinValues[startIndex];
         startValue += Math.min(
-                maxValueOfCoinsInOptimalStrategyForGameWhereFirstOrLastCoinCanBeTakenInTurn(coinValues, startIndex + 2, endIndex),
-                maxValueOfCoinsInOptimalStrategyForGameWhereFirstOrLastCoinCanBeTakenInTurn(coinValues, startIndex + 1, endIndex - 1)
+                maxValueOfCoinsInOptimalStrategyForGameWhereFirstOrLastCoinCanBeTakenInTurnRecursive(coinValues, startIndex + 2, endIndex),
+                maxValueOfCoinsInOptimalStrategyForGameWhereFirstOrLastCoinCanBeTakenInTurnRecursive(coinValues, startIndex + 1, endIndex - 1)
         );
 
         // Try taking the coin at end
         int endValue = coinValues[endIndex];
         endValue += Math.min(
-                maxValueOfCoinsInOptimalStrategyForGameWhereFirstOrLastCoinCanBeTakenInTurn(coinValues, startIndex + 1, endIndex - 1),
-                maxValueOfCoinsInOptimalStrategyForGameWhereFirstOrLastCoinCanBeTakenInTurn(coinValues, startIndex, endIndex - 2)
+                maxValueOfCoinsInOptimalStrategyForGameWhereFirstOrLastCoinCanBeTakenInTurnRecursive(coinValues, startIndex + 1, endIndex - 1),
+                maxValueOfCoinsInOptimalStrategyForGameWhereFirstOrLastCoinCanBeTakenInTurnRecursive(coinValues, startIndex, endIndex - 2)
         );
 
         return Math.max(startValue, endValue);
