@@ -79,6 +79,20 @@ class DynamicProgrammingTest {
     }
 
     @Test
+    void longestIncreasingSubsequenceInCircularManner() {
+        int[] arr;
+
+        arr = new int[]{5, 4, 3, 2, 1};
+        assertEquals(2, DynamicProgramming.longestIncreasingSubsequenceInCircularManner(arr));
+
+        arr = new int[]{5, 6, 7, 1, 2, 3};
+        assertEquals(6, DynamicProgramming.longestIncreasingSubsequenceInCircularManner(arr));
+
+        arr = new int[]{1, 4, 6, 2, 3};
+        assertEquals(4, DynamicProgramming.longestIncreasingSubsequenceInCircularManner(arr));
+    }
+
+    @Test
     void getLongestIncreasingSubsequence() {
         int[] arr;
         List<Integer> lisList;

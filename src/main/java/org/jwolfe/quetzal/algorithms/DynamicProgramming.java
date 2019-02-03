@@ -7,6 +7,7 @@ import org.jwolfe.quetzal.library.utilities.ActivityStartComparator;
 import org.jwolfe.quetzal.library.utilities.PairFirstSorter;
 import org.jwolfe.quetzal.library.utilities.Utilities;
 
+import java.lang.reflect.Array;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -155,6 +156,50 @@ public class DynamicProgramming {
         }
 
         return max;
+    }
+
+    public static int longestIncreasingSubsequence(int[] arr, int startIndex, int endIndex) {
+        if (arr == null || arr.length == 0 || startIndex > endIndex) {
+            return 0;
+        }
+
+        int n = endIndex - startIndex + 1;
+        int[] lis = new int[n];
+        Arrays.fill(lis, 1);
+
+        for (int i = 1; i < n; i++) {
+            for (int j = 0; j < i; j++) {
+                if (arr[startIndex + i] > arr[startIndex + j]) {
+                    lis[i] = Math.max(lis[i], lis[j] + 1);
+                }
+            }
+        }
+
+        return Arrays.stream(lis).max().getAsInt();
+    }
+
+    public static int longestIncreasingSubsequenceInCircularManner(int[] arr) {
+        if (arr == null || arr.length == 0) {
+            return 0;
+        }
+
+        // Append the array with itself
+        int n = arr.length;
+        int[] circularArray = new int[2 * n];
+
+        for (int i = 0; i < n; i++) {
+            circularArray[i] = arr[i];
+            circularArray[n + i] = arr[i];
+        }
+
+        // For each sliding window of length n in the circular array, find lis.
+        int maxLis = 0;
+        for (int i = 0; i < n; i++) {
+            int lis = longestIncreasingSubsequence(circularArray, i, i + n - 1);
+            maxLis = Math.max(maxLis, lis);
+        }
+
+        return maxLis;
     }
 
     public static List<Integer> getLongestIncreasingSubsequence(int[] arr) {
