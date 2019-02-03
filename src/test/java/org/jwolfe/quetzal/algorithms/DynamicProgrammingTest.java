@@ -1837,4 +1837,18 @@ class DynamicProgrammingTest {
         frequencies = new int[]{34, 8, 50};
         assertEquals(142, DynamicProgramming.getCostOfOptimalBinarySearchTreeForSearchFrequencies(keys, frequencies));
     }
+
+    @Test
+    void getCostOfOptimalBinarySearchTreeForSearchFrequenciesRecursive() {
+        int[] keys;
+        int[] frequencies;
+
+        keys = new int[]{10, 12};
+        frequencies = new int[]{34, 50};
+        assertEquals(118, DynamicProgramming.getCostOfOptimalBinarySearchTreeForSearchFrequenciesRecursive(keys, frequencies));
+
+        keys = new int[]{10, 12, 20};
+        frequencies = new int[]{34, 8, 50};
+        assertEquals(142, DynamicProgramming.getCostOfOptimalBinarySearchTreeForSearchFrequenciesRecursive(keys, frequencies));
+    }
 }

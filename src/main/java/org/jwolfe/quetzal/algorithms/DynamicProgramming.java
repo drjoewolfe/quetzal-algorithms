@@ -3568,10 +3568,58 @@ public class DynamicProgramming {
         }
 
         int n = keys.length;
-        return getCostOfOptimalBinarySearchTreeForSearchFrequencies(keys, frequencies, 0, n - 1);
+
+        // Dynamic Programming implementation
+        int[][] costs = new int[n][n];
+
+        // Fill the diagonal (length = 1)
+        for (int i = 0; i < n; i++) {
+            costs[i][i] = frequencies[i];
+        }
+
+        // Fill for remaining lengths
+        for (int len = 2; len <= n; len++) {
+            for (int i = 0; i < n - len + 1; i++) {
+                int j = i + len - 1;
+
+                int frequencySum = 0;
+                for (int k = i; k <= j; k++) {
+                    frequencySum += frequencies[k];
+                }
+
+                int minCost = Integer.MAX_VALUE;
+                for (int r = i; r <= j; r++) {
+                    // Considering keys[r] as the root of the subtree
+                    int leftCost = r > i ? costs[i][r - 1] : 0;
+                    int rightCost = r < j ? costs[r + 1][j] : 0;
+                    int totalCost = leftCost + rightCost + frequencySum;
+
+                    minCost = Math.min(minCost, totalCost);
+                }
+
+                costs[i][j] = minCost;
+            }
+        }
+
+        return costs[0][n - 1];
     }
 
-    private static int getCostOfOptimalBinarySearchTreeForSearchFrequencies(int[] keys, int[] frequencies, int startIndex, int endIndex) {
+    public static int getCostOfOptimalBinarySearchTreeForSearchFrequenciesRecursive(int[] keys, int[] frequencies) {
+        // A BST to be constructed out of the keys such that the overall cost given the search frequencies is minimum.
+        // The highest frequency to be the root -> so cost of accessing it is one.
+        // Cost of a node is the frequency multiplied by its level. Root level is 1.
+
+        //  Recursion Formula:
+        //      optimalCost(i, j) = Sigma (k = i to j) frequencies[k] + min (r = i to j) (optimalCost(i, r-1) + optimalCost(r + 1, j))
+        if (keys == null || keys.length == 0 || frequencies == null || frequencies.length != keys.length) {
+            return 0;
+        }
+
+        int n = keys.length;
+        return getCostOfOptimalBinarySearchTreeForSearchFrequenciesRecursive(keys, frequencies, 0, n - 1);
+    }
+
+    private static int getCostOfOptimalBinarySearchTreeForSearchFrequenciesRecursive(int[] keys, int[] frequencies, int startIndex, int endIndex) {
         if (startIndex > endIndex) {
             return 0;
         }
@@ -3590,8 +3638,8 @@ public class DynamicProgramming {
         int minChildCost = Integer.MAX_VALUE;
         for (int r = startIndex; r <= endIndex; r++) {
             int childCost = 0;
-            childCost += getCostOfOptimalBinarySearchTreeForSearchFrequencies(keys, frequencies, startIndex, r - 1);
-            childCost += getCostOfOptimalBinarySearchTreeForSearchFrequencies(keys, frequencies, r + 1, endIndex);
+            childCost += getCostOfOptimalBinarySearchTreeForSearchFrequenciesRecursive(keys, frequencies, startIndex, r - 1);
+            childCost += getCostOfOptimalBinarySearchTreeForSearchFrequenciesRecursive(keys, frequencies, r + 1, endIndex);
 
             minChildCost = Math.min(minChildCost, childCost);
         }
