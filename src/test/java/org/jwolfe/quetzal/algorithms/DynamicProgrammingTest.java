@@ -1865,4 +1865,21 @@ class DynamicProgrammingTest {
         frequencies = new int[]{34, 8, 50};
         assertEquals(142, DynamicProgramming.getCostOfOptimalBinarySearchTreeForSearchFrequenciesRecursive(keys, frequencies));
     }
+
+    @Test
+    void maxValueOfCoinsInOptimalStrategyForGameWhereFirstOrLastCoinCanBeTakenInTurn() {
+        int[] coinValues;
+
+        coinValues = new int[]{5, 3, 7, 10};
+        assertEquals(15, DynamicProgramming.maxValueOfCoinsInOptimalStrategyForGameWhereFirstOrLastCoinCanBeTakenInTurn(coinValues));
+
+        coinValues = new int[]{8, 15, 3, 7};
+        assertEquals(22, DynamicProgramming.maxValueOfCoinsInOptimalStrategyForGameWhereFirstOrLastCoinCanBeTakenInTurn(coinValues));
+
+        coinValues = new int[]{2, 2, 2, 2};
+        assertEquals(4, DynamicProgramming.maxValueOfCoinsInOptimalStrategyForGameWhereFirstOrLastCoinCanBeTakenInTurn(coinValues));
+
+        coinValues = new int[]{20, 30, 2, 2, 2, 10};
+        assertEquals(42, DynamicProgramming.maxValueOfCoinsInOptimalStrategyForGameWhereFirstOrLastCoinCanBeTakenInTurn(coinValues));
+    }
 }

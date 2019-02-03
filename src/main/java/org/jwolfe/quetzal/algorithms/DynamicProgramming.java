@@ -3691,4 +3691,46 @@ public class DynamicProgramming {
 
         return frequencySum + minChildCost;
     }
+
+    public static int maxValueOfCoinsInOptimalStrategyForGameWhereFirstOrLastCoinCanBeTakenInTurn(int[] coinValues) {
+        if (coinValues == null || coinValues.length == 0) {
+            return 0;
+        }
+
+        // We'll take the first turn, and the opponent will take the next
+        // Note: The opponent will play so as to minimize your value in his turn
+
+        // Recursion Formula
+        //      MaxValue(i, j) = Max ( Vi + min( MaxValue(i + 2, j), MaxValue(i + 1, j - 1)),
+        //                              Vj + min( MaxValue(i + 1, j - 1), MaxValue(i, j - 2))
+
+        int n = coinValues.length;
+        return maxValueOfCoinsInOptimalStrategyForGameWhereFirstOrLastCoinCanBeTakenInTurn(coinValues, 0, n - 1);
+    }
+
+    private static int maxValueOfCoinsInOptimalStrategyForGameWhereFirstOrLastCoinCanBeTakenInTurn(int[] coinValues, int startIndex, int endIndex) {
+        if (startIndex > endIndex) {
+            return 0;
+        }
+
+        if (startIndex == endIndex) {
+            return coinValues[startIndex];
+        }
+
+        // Try taking the coin at start
+        int startValue = coinValues[startIndex];
+        startValue += Math.min(
+                maxValueOfCoinsInOptimalStrategyForGameWhereFirstOrLastCoinCanBeTakenInTurn(coinValues, startIndex + 2, endIndex),
+                maxValueOfCoinsInOptimalStrategyForGameWhereFirstOrLastCoinCanBeTakenInTurn(coinValues, startIndex + 1, endIndex - 1)
+        );
+
+        // Try taking the coin at end
+        int endValue = coinValues[endIndex];
+        endValue += Math.min(
+                maxValueOfCoinsInOptimalStrategyForGameWhereFirstOrLastCoinCanBeTakenInTurn(coinValues, startIndex + 1, endIndex - 1),
+                maxValueOfCoinsInOptimalStrategyForGameWhereFirstOrLastCoinCanBeTakenInTurn(coinValues, startIndex, endIndex - 2)
+        );
+
+        return Math.max(startValue, endValue);
+    }
 }
