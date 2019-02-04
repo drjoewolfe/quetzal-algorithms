@@ -300,6 +300,27 @@ public class DynamicProgramming {
         return lis;
     }
 
+    public static int countIncreasingSubsequences(int[] arr) {
+        if (arr == null || arr.length == 0) {
+            return 0;
+        }
+
+        int n = arr.length;
+        int[] dp = new int[n];
+        Arrays.fill(dp, 1);
+
+        for (int i = 1; i < n; i++) {
+            for (int j = 0; j < i; j++) {
+                if (arr[i] > arr[j]) {
+                    dp[i] += dp[j];
+                }
+            }
+        }
+
+        int count = Arrays.stream(dp).sum();
+        return count;
+    }
+
     public static int editDistance(String str1, String str2) {
         if (str1 == null || str2 == null)
             return 0;

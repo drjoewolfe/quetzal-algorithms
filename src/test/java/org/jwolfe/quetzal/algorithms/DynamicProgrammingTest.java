@@ -154,6 +154,20 @@ class DynamicProgrammingTest {
     }
 
     @Test
+    void countIncreasingSubsequences() {
+        int[] arr;
+
+        arr = new int[]{1, 2, 3, 4};
+        assertEquals(15, DynamicProgramming.countIncreasingSubsequences(arr));
+
+        arr = new int[]{4, 3, 6, 5};
+        assertEquals(8, DynamicProgramming.countIncreasingSubsequences(arr));
+
+        arr = new int[]{3, 2, 4, 5, 4};
+        assertEquals(14, DynamicProgramming.countIncreasingSubsequences(arr));
+    }
+
+    @Test
     void editDistance() {
         String str1, str2;
         int distance;
