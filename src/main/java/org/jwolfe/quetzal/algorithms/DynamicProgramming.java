@@ -576,11 +576,6 @@ public class DynamicProgramming {
 
         int n = str.length();
         int[][] dp = new int[n][n];
-        for (int i = 0; i < n - 1; i++) {
-            if (str.charAt(i) == str.charAt(i + 1)) {
-                dp[i][i + 1] = 1;
-            }
-        }
 
         for (int len = 2; len <= n; len++) {
             for (int i = 0; i < n - len + 1; i++) {
