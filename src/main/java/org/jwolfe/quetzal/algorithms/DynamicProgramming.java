@@ -478,6 +478,32 @@ public class DynamicProgramming {
         return subsequence.reverse().toString();
     }
 
+    public static int countPalindromicSubsequences(String str) {
+        if (str == null || str.length() == 0) {
+            return 0;
+        }
+
+        int n = str.length();
+        return countPalindromicSubsequences(str, 0, n - 1);
+    }
+
+    private static int countPalindromicSubsequences(String str, int startIndex, int endIndex) {
+        if(startIndex > endIndex) {
+            return 0;
+        }
+
+        if (startIndex == endIndex) {
+            return 1;
+        }
+
+        if (str.charAt(startIndex) == str.charAt(endIndex)) {
+            return 1 + countPalindromicSubsequences(str, startIndex + 1, endIndex) + countPalindromicSubsequences(str, startIndex, endIndex - 1);
+        } else {
+            return countPalindromicSubsequences(str, startIndex + 1, endIndex) + countPalindromicSubsequences(str, startIndex, endIndex - 1)
+                    - countPalindromicSubsequences(str, startIndex + 1, endIndex - 1);
+        }
+    }
+
     public static int longestPalindromicSubstring(String str) {
         int n = str.length();
         boolean[][] dp = new boolean[n][n];

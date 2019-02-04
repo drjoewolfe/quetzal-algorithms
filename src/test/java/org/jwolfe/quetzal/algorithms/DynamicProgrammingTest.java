@@ -256,6 +256,14 @@ class DynamicProgrammingTest {
     }
 
     @Test
+    void countPalindromicSubsequences() {
+        assertEquals(4, DynamicProgramming.countPalindromicSubsequences("abcd"));
+        assertEquals(6, DynamicProgramming.countPalindromicSubsequences("abcb"));
+        assertEquals(4, DynamicProgramming.countPalindromicSubsequences("aab"));
+        assertEquals(15, DynamicProgramming.countPalindromicSubsequences("aaaa"));
+    }
+
+    @Test
     void longestPalindromicSubstring() {
         System.out.println();
         String str = "forgeeksskeegfor";
