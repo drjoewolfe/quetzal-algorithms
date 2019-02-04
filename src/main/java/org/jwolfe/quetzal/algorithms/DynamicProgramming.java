@@ -321,6 +321,26 @@ public class DynamicProgramming {
         return count;
     }
 
+    public static int countIncreasingSubsequencesWhenArrayElementsAreDigits(int[] arr) {
+        if (arr == null || arr.length == 0) {
+            return 0;
+        }
+
+        int n = arr.length;
+
+        int[] countOfSubsequences = new int[10];
+        for (int i = 0; i < n; i++) {
+            int digit = arr[i];
+            countOfSubsequences[digit] += 1;
+
+            for (int j = digit - 1; j >= 0; j--) {
+                countOfSubsequences[digit] += countOfSubsequences[j];
+            }
+        }
+
+        return Arrays.stream(countOfSubsequences).sum();
+    }
+
     public static int editDistance(String str1, String str2) {
         if (str1 == null || str2 == null)
             return 0;
