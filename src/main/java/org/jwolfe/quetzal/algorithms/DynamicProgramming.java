@@ -570,15 +570,49 @@ public class DynamicProgramming {
     }
 
     public static int countPalindromicSubstrings(String str) {
+        if (str == null || str.length() == 0) {
+            return 0;
+        }
+
+        int n = str.length();
+        int[][] dp = new int[n][n];
+        for (int i = 0; i < n - 1; i++) {
+            if (str.charAt(i) == str.charAt(i + 1)) {
+                dp[i][i + 1] = 1;
+            }
+        }
+
+        for (int len = 2; len <= n; len++) {
+            for (int i = 0; i < n - len + 1; i++) {
+                int j = i + len - 1;
+
+                if (i == j - 1) {
+                    dp[i][j] = (str.charAt(i) == str.charAt(j)) ? 1 : 0;
+                } else if (StringAlgorithms.isPalidrome(str, i, j)) {
+                    dp[i][j] = 1 + dp[i + 1][j]
+                            + dp[i][j - 1]
+                            - dp[i + 1][j - 1];
+                } else {
+                    dp[i][j] = dp[i + 1][j]
+                            + dp[i][j - 1]
+                            - dp[i + 1][j - 1];
+                }
+            }
+        }
+
+        return dp[0][n - 1];
+    }
+
+    public static int countPalindromicSubstringsRecursive(String str) {
         if(str == null || str.length() == 0) {
             return 0;
         }
 
         int n = str.length();
-        return countPalindromicSubstrings(str, 0, n - 1);
+        return countPalindromicSubstringsRecursive(str, 0, n - 1);
     }
 
-    private static int countPalindromicSubstrings(String str, int startIndex, int endIndex) {
+    private static int countPalindromicSubstringsRecursive(String str, int startIndex, int endIndex) {
         if (startIndex >= endIndex) {
             return 0;
         }
@@ -592,13 +626,13 @@ public class DynamicProgramming {
         }
 
         if (StringAlgorithms.isPalidrome(str, startIndex, endIndex)) {
-            return 1 + countPalindromicSubstrings(str, startIndex + 1, endIndex)
-                    + countPalindromicSubstrings(str, startIndex, endIndex - 1)
-                    - countPalindromicSubstrings(str, startIndex + 1, endIndex - 1);
+            return 1 + countPalindromicSubstringsRecursive(str, startIndex + 1, endIndex)
+                    + countPalindromicSubstringsRecursive(str, startIndex, endIndex - 1)
+                    - countPalindromicSubstringsRecursive(str, startIndex + 1, endIndex - 1);
         } else {
-            return countPalindromicSubstrings(str, startIndex + 1, endIndex)
-                    + countPalindromicSubstrings(str, startIndex, endIndex - 1)
-                    - countPalindromicSubstrings(str, startIndex + 1, endIndex - 1);
+            return countPalindromicSubstringsRecursive(str, startIndex + 1, endIndex)
+                    + countPalindromicSubstringsRecursive(str, startIndex, endIndex - 1)
+                    - countPalindromicSubstringsRecursive(str, startIndex + 1, endIndex - 1);
         }
     }
 
