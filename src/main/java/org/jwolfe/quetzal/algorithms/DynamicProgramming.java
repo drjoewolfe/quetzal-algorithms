@@ -484,10 +484,36 @@ public class DynamicProgramming {
         }
 
         int n = str.length();
-        return countPalindromicSubsequences(str, 0, n - 1);
+        int[][] dp = new int[n][n];
+        for (int i = 0; i < n; i++) {
+            dp[i][i] = 1;
+        }
+
+        for (int len = 2; len <= n; len++) {
+            for (int i = 0; i < n - len + 1; i++) {
+                int j = i + len - 1;
+
+                if (str.charAt(i) == str.charAt(j)) {
+                    dp[i][j] = 1 + dp[i + 1][j] + dp[i][j - 1];
+                } else {
+                    dp[i][j] = dp[i + 1][j] + dp[i][j - 1] - dp[i + 1][j - 1];
+                }
+            }
+        }
+
+        return dp[0][n - 1];
     }
 
-    private static int countPalindromicSubsequences(String str, int startIndex, int endIndex) {
+    public static int countPalindromicSubsequencesRecursive(String str) {
+        if (str == null || str.length() == 0) {
+            return 0;
+        }
+
+        int n = str.length();
+        return countPalindromicSubsequencesRecursive(str, 0, n - 1);
+    }
+
+    private static int countPalindromicSubsequencesRecursive(String str, int startIndex, int endIndex) {
         if(startIndex > endIndex) {
             return 0;
         }
@@ -497,10 +523,10 @@ public class DynamicProgramming {
         }
 
         if (str.charAt(startIndex) == str.charAt(endIndex)) {
-            return 1 + countPalindromicSubsequences(str, startIndex + 1, endIndex) + countPalindromicSubsequences(str, startIndex, endIndex - 1);
+            return 1 + countPalindromicSubsequencesRecursive(str, startIndex + 1, endIndex) + countPalindromicSubsequencesRecursive(str, startIndex, endIndex - 1);
         } else {
-            return countPalindromicSubsequences(str, startIndex + 1, endIndex) + countPalindromicSubsequences(str, startIndex, endIndex - 1)
-                    - countPalindromicSubsequences(str, startIndex + 1, endIndex - 1);
+            return countPalindromicSubsequencesRecursive(str, startIndex + 1, endIndex) + countPalindromicSubsequencesRecursive(str, startIndex, endIndex - 1)
+                    - countPalindromicSubsequencesRecursive(str, startIndex + 1, endIndex - 1);
         }
     }
 
