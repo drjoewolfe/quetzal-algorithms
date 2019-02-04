@@ -179,6 +179,30 @@ public class StringAlgorithms {
         return true;
     }
 
+    public static boolean isPalidrome(String str, int startIndex, int endIndex) {
+        if (str == null || str.length() < 2) {
+            return false;
+        }
+
+        int n = str.length();
+        if (startIndex < 0 || endIndex >= n) {
+            return false;
+        }
+
+        int i = startIndex;
+        int j = endIndex;
+        while (i < j) {
+            if (str.charAt(i) != str.charAt(j)) {
+                return false;
+            }
+
+            i++;
+            j--;
+        }
+
+        return true;
+    }
+
     public static List<List<String>> getAllPalindromePartitions(String str) {
         if (str == null || str.length() == 0) {
             return null;

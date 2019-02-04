@@ -569,6 +569,39 @@ public class DynamicProgramming {
         return maxLength;
     }
 
+    public static int countPalindromicSubstrings(String str) {
+        if(str == null || str.length() == 0) {
+            return 0;
+        }
+
+        int n = str.length();
+        return countPalindromicSubstrings(str, 0, n - 1);
+    }
+
+    private static int countPalindromicSubstrings(String str, int startIndex, int endIndex) {
+        if (startIndex >= endIndex) {
+            return 0;
+        }
+
+        if (startIndex == endIndex - 1) {
+            if (str.charAt(startIndex) == str.charAt(endIndex)) {
+                return 1;
+            }
+
+            return 0;
+        }
+
+        if (StringAlgorithms.isPalidrome(str, startIndex, endIndex)) {
+            return 1 + countPalindromicSubstrings(str, startIndex + 1, endIndex)
+                    + countPalindromicSubstrings(str, startIndex, endIndex - 1)
+                    - countPalindromicSubstrings(str, startIndex + 1, endIndex - 1);
+        } else {
+            return countPalindromicSubstrings(str, startIndex + 1, endIndex)
+                    + countPalindromicSubstrings(str, startIndex, endIndex - 1)
+                    - countPalindromicSubstrings(str, startIndex + 1, endIndex - 1);
+        }
+    }
+
     public static int knapsack01(int[] weights, int[] values, int W) {
         int n = weights.length;
 

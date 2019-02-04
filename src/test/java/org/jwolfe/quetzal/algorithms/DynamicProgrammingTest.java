@@ -280,6 +280,12 @@ class DynamicProgrammingTest {
     }
 
     @Test
+    void countPalindromicSubstrings() {
+        assertEquals(3, DynamicProgramming.countPalindromicSubstrings("abaab"));
+        assertEquals(4, DynamicProgramming.countPalindromicSubstrings("abbaeae"));
+    }
+
+    @Test
     void knapsack01() {
         int val[] = {60, 100, 120};
         int wt[] = {10, 20, 30};
