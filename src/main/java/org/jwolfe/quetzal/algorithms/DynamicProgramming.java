@@ -3946,4 +3946,15 @@ public class DynamicProgramming {
 
         return str1Cost + str2Cost;
     }
+
+    public static int minimumInsertionsRequiredToSortAnArray(int[] arr) {
+        if (arr == null || arr.length == 0) {
+            return 0;
+        }
+
+        int n = arr.length;
+        int lisLength = longestIncreasingSubsequence(arr);
+
+        return n - lisLength;
+    }
 }

@@ -1961,4 +1961,15 @@ class DynamicProgrammingTest {
         assertEquals(30, DynamicProgramming.minimumCostToMakeTwoStringsIdentical("abcd", "acdb", 10, 20));
         assertEquals(60, DynamicProgramming.minimumCostToMakeTwoStringsIdentical("ef", "gh", 10, 20));
     }
+
+    @Test
+    void minimumInsertionsRequiredToSortAnArray() {
+        int[] arr;
+
+        arr = new int[]{2, 3, 5, 1, 4, 7, 6};
+        assertEquals(3, DynamicProgramming.minimumInsertionsRequiredToSortAnArray(arr));
+
+        arr = new int[]{4, 6, 5, 1};
+        assertEquals(2, DynamicProgramming.minimumInsertionsRequiredToSortAnArray(arr));
+    }
 }
