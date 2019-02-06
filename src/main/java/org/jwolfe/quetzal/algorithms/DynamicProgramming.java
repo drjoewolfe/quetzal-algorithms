@@ -514,7 +514,7 @@ public class DynamicProgramming {
     }
 
     private static int countPalindromicSubsequencesRecursive(String str, int startIndex, int endIndex) {
-        if(startIndex > endIndex) {
+        if (startIndex > endIndex) {
             return 0;
         }
 
@@ -599,7 +599,7 @@ public class DynamicProgramming {
     }
 
     public static int countPalindromicSubstringsRecursive(String str) {
-        if(str == null || str.length() == 0) {
+        if (str == null || str.length() == 0) {
             return 0;
         }
 
@@ -3925,5 +3925,25 @@ public class DynamicProgramming {
         );
 
         return Math.max(startValue, endValue);
+    }
+
+    public static int minimumCostToMakeTwoStringsIdentical(String str1, String str2, int str1DeletionCost, int str2DeletionCost) {
+        if (str1 == null || str2 == null) {
+            return 0;
+        }
+
+        if (str1.length() == 0 && str2.length() == 0) {
+            return 0;
+        }
+
+        int m = str1.length();
+        int n = str2.length();
+
+        int lcsLength = longestCommonSubsequence(str1, str2);
+
+        int str1Cost = str1DeletionCost * (m - lcsLength);
+        int str2Cost = str2DeletionCost * (n - lcsLength);
+
+        return str1Cost + str2Cost;
     }
 }

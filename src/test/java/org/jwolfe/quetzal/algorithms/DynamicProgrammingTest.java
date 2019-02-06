@@ -1955,4 +1955,10 @@ class DynamicProgrammingTest {
         coinValues = new int[]{20, 30, 2, 2, 2, 10};
         assertEquals(42, DynamicProgramming.maxValueOfCoinsInOptimalStrategyForGameWhereFirstOrLastCoinCanBeTakenInTurnRecursive(coinValues));
     }
+
+    @Test
+    void minimumCostToMakeTwoStringsIdentical() {
+        assertEquals(30, DynamicProgramming.minimumCostToMakeTwoStringsIdentical("abcd", "acdb", 10, 20));
+        assertEquals(60, DynamicProgramming.minimumCostToMakeTwoStringsIdentical("ef", "gh", 10, 20));
+    }
 }
