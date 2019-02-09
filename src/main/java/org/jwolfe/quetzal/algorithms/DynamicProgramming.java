@@ -1883,10 +1883,74 @@ public class DynamicProgramming {
         }
 
         int n = set.length;
+        int halfSum = sum / 2;
+
+        // dp[i][j] => true, if S(0...i) contains the sum j
+        boolean[][] dp = new boolean[n + 1][halfSum + 1];
+
+        // Non-zero is not possible for empty subset
+        for (int j = 1; j <= halfSum; j++) {
+            dp[0][j] = false;
+        }
+
+        // Zero matches for all sets
+        for (int i = 0; i <= n; i++) {
+            dp[i][0] = true;
+        }
+
+        for (int i = 1; i <= n; i++) {
+            for (int j = 1; j <= halfSum; j++) {
+                int element = set[i - 1];
+                if (element > j) {
+                    dp[i][j] = dp[i - 1][j];
+                } else {
+                    // Exclude or include
+                    dp[i][j] = dp[i - 1][j] || dp[i - 1][j - element];
+                }
+            }
+        }
+
+        if (!dp[n][halfSum]) {
+            return null;
+        }
 
         List<Integer> leftPartition = new ArrayList<>();
         List<Integer> rightPartition = new ArrayList<>();
-        generateEqualSumPartitionedSubsets(set, n, 0, leftPartition, rightPartition, 0, 0);
+
+        int i = n;
+        int j = halfSum;
+        while (i > 0 && j >= 0) {
+            int element = set[i - 1];
+            if (dp[i - 1][j]) {
+                // Current element was excluded
+                leftPartition.add(element);
+                i--;
+            } else {
+                rightPartition.add(element);
+                i--;
+                j -= element;
+            }
+        }
+
+        var result = new Pair(leftPartition, rightPartition);
+        return result;
+    }
+
+    public static Pair<List<Integer>, List<Integer>> getEqualSumPartitionedSubsetsRecursive(int[] set) {
+        if (set == null || set.length <= 1) {
+            return null;
+        }
+
+        int sum = Arrays.stream(set).sum();
+        if (sum % 2 == 1) {
+            return null;
+        }
+
+        int n = set.length;
+
+        List<Integer> leftPartition = new ArrayList<>();
+        List<Integer> rightPartition = new ArrayList<>();
+        generateEqualSumPartitionedSubsetsRecursive(set, n, 0, leftPartition, rightPartition, 0, 0);
 
         if (leftPartition.size() == 0) {
             return null;
@@ -1896,9 +1960,9 @@ public class DynamicProgramming {
         return result;
     }
 
-    private static boolean generateEqualSumPartitionedSubsets(int[] set, int length, int currentIndex,
-                                                                List<Integer> leftPartition, List<Integer> rightPartition,
-                                                                int leftSum, int rightSum) {
+    private static boolean generateEqualSumPartitionedSubsetsRecursive(int[] set, int length, int currentIndex,
+                                                                       List<Integer> leftPartition, List<Integer> rightPartition,
+                                                                       int leftSum, int rightSum) {
         if (currentIndex == length) {
             // Reached the end of the array. Verify sums
             if (leftSum == rightSum) {
@@ -1914,7 +1978,7 @@ public class DynamicProgramming {
 
         // Try include element in left partition
         leftPartition.add(element);
-        partitionSuccessful = generateEqualSumPartitionedSubsets(set, length, currentIndex + 1,
+        partitionSuccessful = generateEqualSumPartitionedSubsetsRecursive(set, length, currentIndex + 1,
                 leftPartition, rightPartition,
                 leftSum + element, rightSum);
 
@@ -1926,7 +1990,7 @@ public class DynamicProgramming {
 
         // Try include element in right partition
         rightPartition.add(element);
-        partitionSuccessful = generateEqualSumPartitionedSubsets(set, length, currentIndex + 1,
+        partitionSuccessful = generateEqualSumPartitionedSubsetsRecursive(set, length, currentIndex + 1,
                 leftPartition, rightPartition,
                 leftSum, rightSum + element);
 
