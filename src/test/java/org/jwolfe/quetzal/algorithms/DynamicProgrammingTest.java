@@ -1021,6 +1021,17 @@ class DynamicProgrammingTest {
     }
 
     @Test
+    void canSetBePartitionedIntoTwoForEqualSum() {
+        int[] set;
+
+        set = new int[]{1, 5, 11, 5};
+        assertTrue(DynamicProgramming.canSetBePartitionedIntoTwoForEqualSum(set));
+
+        set = new int[]{1, 5, 3};
+        assertFalse(DynamicProgramming.canSetBePartitionedIntoTwoForEqualSum(set));
+    }
+
+    @Test
     void maxLengthSnakeSequence() {
         int[][] grid1 = {
                 {9, 6, 5, 2},

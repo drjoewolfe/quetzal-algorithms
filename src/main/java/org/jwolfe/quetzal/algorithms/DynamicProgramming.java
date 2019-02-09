@@ -1858,6 +1858,20 @@ public class DynamicProgramming {
         return inclusive || exclusive;
     }
 
+    public static boolean canSetBePartitionedIntoTwoForEqualSum(int[] set) {
+        if (set == null || set.length <= 1) {
+            return false;
+        }
+
+        int sum = Arrays.stream(set).sum();
+        if (sum % 2 == 1) {
+            // Odd sum. Cannot be partitioned
+            return false;
+        }
+
+        return subSetSumRecursive(set, sum / 2);
+    }
+
     public static int maxLengthSnakeSequence(int[][] grid) {
         if (grid == null || grid.length == 0 || grid[0].length == 0) {
             return 0;
