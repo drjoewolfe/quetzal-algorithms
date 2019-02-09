@@ -269,6 +269,48 @@ public class DynamicProgramming {
         return lisList;
     }
 
+    public static List<Integer> getLongestIncreasingConsecutiveSubsequence(int[] arr) {
+        if (arr == null || arr.length == 0) {
+            return null;
+        }
+
+        int n = arr.length;
+
+        int[] dp = new int[n];
+        Map<Integer, Integer> map = new HashMap<>();
+
+        Arrays.fill(dp, 1);
+
+        int licsLength = 1;
+        int licsEndIndex = 0;
+
+        for (int currentIndex = 0; currentIndex < n; currentIndex++) {
+            int current = arr[currentIndex];
+            int previous = current - 1;
+
+            if (map.containsKey(previous)) {
+                int previousIndex = map.get(previous);
+                dp[currentIndex] = dp[previousIndex] + 1;
+            }
+
+            map.put(current, currentIndex);
+
+            if (dp[currentIndex] > licsLength) {
+                licsLength = dp[currentIndex];
+                licsEndIndex = currentIndex;
+            }
+        }
+
+        int licsEnd = arr[licsEndIndex];
+        int licsStart = licsEnd - licsLength + 1;
+        List<Integer> licsList = new ArrayList<>();
+        for (int i = licsStart; i <= licsEnd; i++) {
+            licsList.add(i);
+        }
+
+        return licsList;
+    }
+
     public static int longestIncreasingSubsequenceRecursive(int[] arr) {
         if (arr == null || arr.length == 0) {
             return 0;
