@@ -1869,7 +1869,73 @@ public class DynamicProgramming {
             return false;
         }
 
-        return subSetSumRecursive(set, sum / 2);
+        return subSetSum(set, sum / 2);
+    }
+
+    public static Pair<List<Integer>, List<Integer>> getEqualSumPartitionedSubsets(int[] set) {
+        if (set == null || set.length <= 1) {
+            return null;
+        }
+
+        int sum = Arrays.stream(set).sum();
+        if (sum % 2 == 1) {
+            return null;
+        }
+
+        int n = set.length;
+
+        List<Integer> leftPartition = new ArrayList<>();
+        List<Integer> rightPartition = new ArrayList<>();
+        generateEqualSumPartitionedSubsets(set, n, 0, leftPartition, rightPartition, 0, 0);
+
+        if (leftPartition.size() == 0) {
+            return null;
+        }
+
+        var result = new Pair(leftPartition, rightPartition);
+        return result;
+    }
+
+    private static boolean generateEqualSumPartitionedSubsets(int[] set, int length, int currentIndex,
+                                                                List<Integer> leftPartition, List<Integer> rightPartition,
+                                                                int leftSum, int rightSum) {
+        if (currentIndex == length) {
+            // Reached the end of the array. Verify sums
+            if (leftSum == rightSum) {
+                // Partitions are equal in sum
+                return true;
+            }
+
+            return false;
+        }
+
+        int element = set[currentIndex];
+        boolean partitionSuccessful;
+
+        // Try include element in left partition
+        leftPartition.add(element);
+        partitionSuccessful = generateEqualSumPartitionedSubsets(set, length, currentIndex + 1,
+                leftPartition, rightPartition,
+                leftSum + element, rightSum);
+
+        if (partitionSuccessful) {
+            return true;
+        }
+
+        leftPartition.remove(leftPartition.size() - 1);
+
+        // Try include element in right partition
+        rightPartition.add(element);
+        partitionSuccessful = generateEqualSumPartitionedSubsets(set, length, currentIndex + 1,
+                leftPartition, rightPartition,
+                leftSum, rightSum + element);
+
+        if (partitionSuccessful) {
+            return true;
+        }
+
+        rightPartition.remove(rightPartition.size() - 1);
+        return false;
     }
 
     public static int maxLengthSnakeSequence(int[][] grid) {

@@ -1032,6 +1032,23 @@ class DynamicProgrammingTest {
     }
 
     @Test
+    void getEqualSumPartitionedSubsets() {
+        int[] set;
+        Pair<List<Integer>, List<Integer>> partitions;
+
+        set = new int[]{1, 5, 11, 5};
+        var expectedPartition1 = Utilities.constructList(5, 5, 1);
+        var expectedPartition2 = Utilities.constructList(11);
+        partitions = DynamicProgramming.getEqualSumPartitionedSubsets(set);
+        QuetzalAssertions.assertListEquals(expectedPartition1, partitions.getFirst());
+        QuetzalAssertions.assertListEquals(expectedPartition2, partitions.getSecond());
+
+        set = new int[]{1, 5, 3};
+        partitions = DynamicProgramming.getEqualSumPartitionedSubsets(set);
+        assertNull(partitions);
+    }
+
+    @Test
     void maxLengthSnakeSequence() {
         int[][] grid1 = {
                 {9, 6, 5, 2},
