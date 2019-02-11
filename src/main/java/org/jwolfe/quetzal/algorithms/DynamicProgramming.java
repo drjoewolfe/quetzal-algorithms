@@ -1077,10 +1077,57 @@ public class DynamicProgramming {
         int m = arr1.length;
         int n = arr2.length;
 
-        return longestCommonIncreasingSubsequence(arr1, arr2, m - 1, n - 1, Integer.MAX_VALUE);
+        // DP implementation -> O(n^4)
+        int[][] lcis = new int[m][n];
+        int maxLcis = 0;
+
+        for (int j = 0; j < n; j++) {
+            if (arr1[0] == arr2[j]) {
+                lcis[0][j] = 1;
+                maxLcis = 1;
+            } else {
+                lcis[0][j] = 0;
+            }
+        }
+
+        for (int i = 1; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                if (arr1[i] == arr2[j]) {
+                    int candidateMax = 0;
+
+                    // Get max from candidate matrix
+                    for (int k = 0; k < i; k++) {
+                        for (int l = 0; l < j; l++) {
+                            if (lcis[k][l] != 0
+                                    && arr1[i] > arr1[k]) {
+                                candidateMax = Math.max(candidateMax, lcis[k][l]);
+                            }
+                        }
+                    }
+
+                    lcis[i][j] = 1 + candidateMax;
+                    maxLcis = Math.max(maxLcis, lcis[i][j]);
+                } else {
+                    lcis[i][j] = 0;
+                }
+            }
+        }
+
+        return maxLcis;
     }
 
-    private static int longestCommonIncreasingSubsequence(int[] arr1, int[] arr2, int i, int j, int previous) {
+    public static int longestCommonIncreasingSubsequenceRecursive(int[] arr1, int[] arr2) {
+        if (arr1 == null || arr1.length == 0 || arr2 == null || arr2.length == 0) {
+            return 0;
+        }
+
+        int m = arr1.length;
+        int n = arr2.length;
+
+        return longestCommonIncreasingSubsequenceRecursive(arr1, arr2, m - 1, n - 1, Integer.MAX_VALUE);
+    }
+
+    private static int longestCommonIncreasingSubsequenceRecursive(int[] arr1, int[] arr2, int i, int j, int previous) {
         if (i < 0 || j < 0) {
             return 0;
         }
@@ -1088,13 +1135,13 @@ public class DynamicProgramming {
         if (arr1[i] == arr2[j]
                 && arr1[i] < previous) {
             return Utilities.max(
-                    longestCommonIncreasingSubsequence(arr1, arr2, i - 1, j - 1, arr1[i]) + 1,
-                    longestCommonIncreasingSubsequence(arr1, arr2, i - 1, j, previous),
-                    longestCommonIncreasingSubsequence(arr1, arr2, i, j - 1, previous));
+                    longestCommonIncreasingSubsequenceRecursive(arr1, arr2, i - 1, j - 1, arr1[i]) + 1,
+                    longestCommonIncreasingSubsequenceRecursive(arr1, arr2, i - 1, j, previous),
+                    longestCommonIncreasingSubsequenceRecursive(arr1, arr2, i, j - 1, previous));
         } else {
             return Math.max(
-                    longestCommonIncreasingSubsequence(arr1, arr2, i - 1, j, previous),
-                    longestCommonIncreasingSubsequence(arr1, arr2, i, j - 1, previous));
+                    longestCommonIncreasingSubsequenceRecursive(arr1, arr2, i - 1, j, previous),
+                    longestCommonIncreasingSubsequenceRecursive(arr1, arr2, i, j - 1, previous));
         }
     }
 

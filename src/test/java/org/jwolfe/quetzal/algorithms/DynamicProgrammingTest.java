@@ -590,6 +590,24 @@ class DynamicProgrammingTest {
     }
 
     @Test
+    void longestCommonIncreasingSubsequenceRecursive() {
+        int[] arr1;
+        int[] arr2;
+
+        arr1 = new int[]{3, 4, 9, 1};
+        arr2 = new int[]{5, 3, 8, 9, 10, 2, 1};
+        assertEquals(2, DynamicProgramming.longestCommonIncreasingSubsequenceRecursive(arr1, arr2));
+
+        arr1 = new int[]{2, 3, 1, 6, 5, 4, 6};
+        arr2 = new int[]{1, 3, 5, 6};
+        assertEquals(3, DynamicProgramming.longestCommonIncreasingSubsequenceRecursive(arr1, arr2));
+
+        arr1 = new int[]{4, 3, 5, 6, 7, 1, 2};
+        arr2 = new int[]{1, 2, 3, 50, 6, 4, 7};
+        assertEquals(3, DynamicProgramming.longestCommonIncreasingSubsequenceRecursive(arr1, arr2));
+    }
+
+    @Test
     void longestCommonSubstring() {
         String str1;
         String str2;
