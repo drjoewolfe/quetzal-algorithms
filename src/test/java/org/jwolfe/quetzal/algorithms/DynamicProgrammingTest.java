@@ -2068,4 +2068,11 @@ class DynamicProgrammingTest {
         assertEquals(1, DynamicProgramming.numberOfWaysToPartitionASetIntoKSubsets(3, 1));
         assertEquals(15, DynamicProgramming.numberOfWaysToPartitionASetIntoKSubsets(5, 2));
     }
+
+    @Test
+    void numberOfWaysToPartitionASetIntoKSubsetsRecursive() {
+        assertEquals(3, DynamicProgramming.numberOfWaysToPartitionASetIntoKSubsetsRecursive(3, 2));
+        assertEquals(1, DynamicProgramming.numberOfWaysToPartitionASetIntoKSubsetsRecursive(3, 1));
+        assertEquals(15, DynamicProgramming.numberOfWaysToPartitionASetIntoKSubsetsRecursive(5, 2));
+    }
 }

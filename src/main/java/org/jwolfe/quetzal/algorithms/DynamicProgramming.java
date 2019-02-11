@@ -4209,7 +4209,44 @@ public class DynamicProgramming {
             return 0;
         }
 
-        return partitionCount * numberOfWaysToPartitionASetIntoKSubsets(setSize - 1, partitionCount)
-                + numberOfWaysToPartitionASetIntoKSubsets(setSize - 1, partitionCount - 1);
+        int[][] dp = new int[setSize + 1][partitionCount + 1];
+        dp[0][0] = 1;
+        for (int i = 1; i <= setSize; i++) {
+            dp[i][0] = 0;
+        }
+
+        for (int j = 1; j <= partitionCount; j++) {
+            dp[0][j] = 0;
+        }
+
+        for (int i = 1; i <= setSize; i++) {
+            for (int j = 1; j <= partitionCount; j++) {
+                dp[i][j] = j * dp[i - 1][j] + dp[i - 1][j - 1];
+            }
+        }
+
+        return dp[setSize][partitionCount];
+    }
+
+    public static int numberOfWaysToPartitionASetIntoKSubsetsRecursive(int setSize, int partitionCount) {
+        // Sterling numbers of the second kind.
+        // Recurrence:
+        //      S(n, k) = k * S(n - 1, k) + S(n - 1, k - 1)
+        //      S(0, 0) = 1; S(n, 0) = 0; S(0, n) = 0;
+
+        if (setSize < 0 || partitionCount < 0) {
+            return 0;
+        }
+
+        if (setSize == 0 && partitionCount == 0) {
+            return 1;
+        }
+
+        if (setSize == 0 || partitionCount == 0) {
+            return 0;
+        }
+
+        return partitionCount * numberOfWaysToPartitionASetIntoKSubsetsRecursive(setSize - 1, partitionCount)
+                + numberOfWaysToPartitionASetIntoKSubsetsRecursive(setSize - 1, partitionCount - 1);
     }
 }
