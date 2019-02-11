@@ -2061,4 +2061,11 @@ class DynamicProgrammingTest {
         arr = new int[]{4, 6, 5, 1};
         assertEquals(2, DynamicProgramming.minimumInsertionsRequiredToSortAnArray(arr));
     }
+
+    @Test
+    void numberOfWaysToPartitionASetIntoKSubsets() {
+        assertEquals(3, DynamicProgramming.numberOfWaysToPartitionASetIntoKSubsets(3, 2));
+        assertEquals(1, DynamicProgramming.numberOfWaysToPartitionASetIntoKSubsets(3, 1));
+        assertEquals(15, DynamicProgramming.numberOfWaysToPartitionASetIntoKSubsets(5, 2));
+    }
 }

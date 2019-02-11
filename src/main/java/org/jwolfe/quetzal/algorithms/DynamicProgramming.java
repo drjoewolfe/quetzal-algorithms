@@ -4190,4 +4190,26 @@ public class DynamicProgramming {
 
         return n - lisLength;
     }
+
+    public static int numberOfWaysToPartitionASetIntoKSubsets(int setSize, int partitionCount) {
+        // Sterling numbers of the second kind.
+        // Recurrence:
+        //      S(n, k) = k * S(n - 1, k) + S(n - 1, k - 1)
+        //      S(0, 0) = 1; S(n, 0) = 0; S(0, n) = 0;
+
+        if (setSize < 0 || partitionCount < 0) {
+            return 0;
+        }
+
+        if (setSize == 0 && partitionCount == 0) {
+            return 1;
+        }
+
+        if (setSize == 0 || partitionCount == 0) {
+            return 0;
+        }
+
+        return partitionCount * numberOfWaysToPartitionASetIntoKSubsets(setSize - 1, partitionCount)
+                + numberOfWaysToPartitionASetIntoKSubsets(setSize - 1, partitionCount - 1);
+    }
 }
