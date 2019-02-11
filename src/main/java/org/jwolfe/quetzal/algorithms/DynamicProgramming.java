@@ -2820,6 +2820,53 @@ public class DynamicProgramming {
         return maxSum;
     }
 
+    public static List<Integer> getMaximumSumOfIncreasingSubsequence(int[] arr) {
+        if (arr == null || arr.length == 0) {
+            return null;
+        }
+
+        int n = arr.length;
+        int[] msis = new int[n];
+        List<List<Integer>> msisLists = new ArrayList<>();
+
+        msis[0] = arr[0];
+
+        List<Integer> runningList = new ArrayList<>();
+        runningList.add(arr[0]);
+        msisLists.add(runningList);
+
+        for (int i = 1; i < n; i++) {
+            msis[i] = arr[i];
+            runningList = null;
+            for (int j = 0; j < i; j++) {
+                if (arr[i] > arr[j]
+                        && msis[i] < msis[j] + arr[i]) {
+                    msis[i] = msis[j] + arr[i];
+                    runningList = msisLists.get(j);
+                }
+            }
+
+            List<Integer> list = new ArrayList<>();
+            if (runningList != null) {
+                list.addAll(runningList);
+            }
+
+            list.add(arr[i]);
+            msisLists.add(list);
+        }
+
+        int maxIndex = 0;
+        int maxSum = arr[0];
+        for (int i = 1; i < n; i++) {
+            if (maxSum < msis[i]) {
+                maxSum = msis[i];
+                maxIndex = i;
+            }
+        }
+
+        return msisLists.get(maxIndex);
+    }
+
     public static int maximumProductOfIncreasingSubsequence(int[] arr) {
         if (arr == null || arr.length == 0) {
             return 0;

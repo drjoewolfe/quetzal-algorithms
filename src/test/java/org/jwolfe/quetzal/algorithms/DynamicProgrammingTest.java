@@ -1538,6 +1538,33 @@ class DynamicProgrammingTest {
     }
 
     @Test
+    void getMaximumSumOfIncreasingSubsequence() {
+        int[] arr;
+        List<Integer> msisList;
+        List<Integer> expectedMsisList;
+
+        arr = new int[]{1, 101, 2, 3, 100, 4, 5};
+        expectedMsisList = Utilities.constructList(1, 2, 3, 100);
+        msisList = DynamicProgramming.getMaximumSumOfIncreasingSubsequence(arr);
+        QuetzalAssertions.assertListEquals(expectedMsisList, msisList);
+
+        arr = new int[]{3, 4, 5, 10};
+        expectedMsisList = Utilities.constructList(3, 4, 5, 10);
+        msisList = DynamicProgramming.getMaximumSumOfIncreasingSubsequence(arr);
+        QuetzalAssertions.assertListEquals(expectedMsisList, msisList);
+
+        arr = new int[]{10, 5, 4, 3};
+        expectedMsisList = Utilities.constructList(10);
+        msisList = DynamicProgramming.getMaximumSumOfIncreasingSubsequence(arr);
+        QuetzalAssertions.assertListEquals(expectedMsisList, msisList);
+
+        arr = new int[]{3, 2, 6, 4, 5, 1};
+        expectedMsisList = Utilities.constructList(3, 4, 5);
+        msisList = DynamicProgramming.getMaximumSumOfIncreasingSubsequence(arr);
+        QuetzalAssertions.assertListEquals(expectedMsisList, msisList);
+    }
+
+    @Test
     void maximumProductOfIncreasingSubsequence() {
         int[] arr;
 
