@@ -1069,6 +1069,35 @@ public class DynamicProgramming {
         return dp[m][n][o];
     }
 
+    public static int longestCommonIncreasingSubsequence(int[] arr1, int[] arr2) {
+        if (arr1 == null || arr1.length == 0 || arr2 == null || arr2.length == 0) {
+            return 0;
+        }
+
+        int m = arr1.length;
+        int n = arr2.length;
+
+        return longestCommonIncreasingSubsequence(arr1, arr2, m - 1, n - 1, Integer.MAX_VALUE);
+    }
+
+    private static int longestCommonIncreasingSubsequence(int[] arr1, int[] arr2, int i, int j, int previous) {
+        if (i < 0 || j < 0) {
+            return 0;
+        }
+
+        if (arr1[i] == arr2[j]
+                && arr1[i] < previous) {
+            return Utilities.max(
+                    longestCommonIncreasingSubsequence(arr1, arr2, i - 1, j - 1, arr1[i]) + 1,
+                    longestCommonIncreasingSubsequence(arr1, arr2, i - 1, j, previous),
+                    longestCommonIncreasingSubsequence(arr1, arr2, i, j - 1, previous));
+        } else {
+            return Math.max(
+                    longestCommonIncreasingSubsequence(arr1, arr2, i - 1, j, previous),
+                    longestCommonIncreasingSubsequence(arr1, arr2, i, j - 1, previous));
+        }
+    }
+
     public static int longestCommonSubstring(String str1, String str2) {
         if (str1 == null || str2 == null) {
             return 0;
