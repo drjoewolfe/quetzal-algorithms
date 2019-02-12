@@ -1069,6 +1069,35 @@ public class DynamicProgramming {
         return dp[m][n][o];
     }
 
+    public static int longestCommonIncreasingSubsequenceOptimized(int[] arr1, int[] arr2) {
+        if (arr1 == null || arr1.length == 0 || arr2 == null || arr2.length == 0) {
+            return 0;
+        }
+
+        int m = arr1.length;
+        int n = arr2.length;
+
+        // DP implementation -> O(n^2)
+        int[] lcis = new int[n];
+
+        for (int i = 0; i < m; i++) {
+            int lcisLength = 0;
+
+            for (int j = 0; j < n; j++) {
+                int a = arr1[i];
+                int b = arr2[j];
+
+                if (a > b) {
+                    lcisLength = Math.max(lcisLength, lcis[j]);
+                } else if (a == b) {
+                    lcis[j] = Math.max(lcis[j], lcisLength + 1);
+                }
+            }
+        }
+
+        return Arrays.stream(lcis).max().getAsInt();
+    }
+
     public static int longestCommonIncreasingSubsequence(int[] arr1, int[] arr2) {
         if (arr1 == null || arr1.length == 0 || arr2 == null || arr2.length == 0) {
             return 0;
