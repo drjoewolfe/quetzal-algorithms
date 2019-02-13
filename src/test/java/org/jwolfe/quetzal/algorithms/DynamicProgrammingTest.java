@@ -2149,4 +2149,11 @@ class DynamicProgrammingTest {
         assertEquals(1, DynamicProgramming.numberOfWaysToPartitionASetIntoKSubsetsRecursive(3, 1));
         assertEquals(15, DynamicProgramming.numberOfWaysToPartitionASetIntoKSubsetsRecursive(5, 2));
     }
+
+    @Test
+    void isKPalindrome() {
+        assertTrue(DynamicProgramming.isKPalindrome("abcdecba", 1));
+        assertTrue(DynamicProgramming.isKPalindrome("abcdeca", 2));
+        assertFalse(DynamicProgramming.isKPalindrome("acdcb", 1));
+    }
 }

@@ -4400,4 +4400,32 @@ public class DynamicProgramming {
         return partitionCount * numberOfWaysToPartitionASetIntoKSubsetsRecursive(setSize - 1, partitionCount)
                 + numberOfWaysToPartitionASetIntoKSubsetsRecursive(setSize - 1, partitionCount - 1);
     }
+
+    public static boolean isKPalindrome(String str, int k) {
+        // Does string becomes a palindrome by utmost k character deletions ?
+
+        // Approach: Variant of Edit Distance
+        //      Edit Distance of string to its reverse, with only deletions allowed
+        //      Note: n, the result from edit distance, involves deletions from str1 & str2. Hence its half is to be considered
+
+        int n = str.length();
+        String reverse = StringAlgorithms.reverse(str);
+
+        int[][] deleteDistance = new int[n + 1][n + 1];
+        for (int i = 0; i <= n; i++) {
+            for (int j = 0; j <= n; j++) {
+                if (i == 0) {
+                    deleteDistance[i][j] = j;
+                } else if (j == 0) {
+                    deleteDistance[i][j] = i;
+                } else if (str.charAt(i - 1) == reverse.charAt(j - 1)) {
+                    deleteDistance[i][j] = deleteDistance[i - 1][j - 1];
+                } else {
+                    deleteDistance[i][j] = 1 + Math.min(deleteDistance[i - 1][j], deleteDistance[i][j - 1]);
+                }
+            }
+        }
+
+        return (2 * k >= deleteDistance[n][n]);
+    }
 }

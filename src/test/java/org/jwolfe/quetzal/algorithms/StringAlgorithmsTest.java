@@ -154,4 +154,11 @@ class StringAlgorithmsTest {
         partitions = StringAlgorithms.getAllPalindromePartitions(str);
         assertListOfListEquals(expectedPartitions, partitions);
     }
+
+    @Test
+    void reverse() {
+        assertEquals("cba", StringAlgorithms.reverse("abc"));
+        assertEquals("1", StringAlgorithms.reverse("1"));
+        assertEquals("abcd", StringAlgorithms.reverse("dcba"));
+    }
 }
