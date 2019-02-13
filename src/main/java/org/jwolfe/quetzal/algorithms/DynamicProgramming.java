@@ -4403,6 +4403,42 @@ public class DynamicProgramming {
 
     public static boolean isKPalindrome(String str, int k) {
         // Does string becomes a palindrome by utmost k character deletions ?
+        //
+        // Approach: Find the length of the longest palindromic subsequence (lps) in the string
+        //          for a k-palindrome, the difference between the string length & lps should be utmost k
+
+        int n = str.length();
+        int[][] lps = new int[n][n];
+
+        for (int i = 0; i < n; i++) {
+            lps[i][i] = 1;
+        }
+
+        for (int len = 2; len <= n; len++) {
+            for (int i = 0; i < n - len + 1; i++) {
+                int j = i + len - 1;
+
+                char a = str.charAt(i);
+                char b = str.charAt(j);
+
+                if (a == b && len == 2) {
+                    lps[i][j] = 2;
+                } else if (a == b) {
+                    lps[i][j] = 2 + lps[i + 1][j - 1];
+                } else {
+                    lps[i][j] = Math.max(lps[i + 1][j], lps[i][j - 1]);
+                }
+            }
+        }
+
+        int lpsLength = lps[0][n - 1];
+        int deletionsRequired = n - lpsLength;
+
+        return (k >= deletionsRequired);
+    }
+
+    public static boolean isKPalindromeUsingEditDistance(String str, int k) {
+        // Does string becomes a palindrome by utmost k character deletions ?
 
         // Approach: Variant of Edit Distance
         //      Edit Distance of string to its reverse, with only deletions allowed

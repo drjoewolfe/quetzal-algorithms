@@ -2156,4 +2156,11 @@ class DynamicProgrammingTest {
         assertTrue(DynamicProgramming.isKPalindrome("abcdeca", 2));
         assertFalse(DynamicProgramming.isKPalindrome("acdcb", 1));
     }
+
+    @Test
+    void isKPalindromeUsingEditDistances() {
+        assertTrue(DynamicProgramming.isKPalindromeUsingEditDistance("abcdecba", 1));
+        assertTrue(DynamicProgramming.isKPalindromeUsingEditDistance("abcdeca", 2));
+        assertFalse(DynamicProgramming.isKPalindromeUsingEditDistance("acdcb", 1));
+    }
 }
