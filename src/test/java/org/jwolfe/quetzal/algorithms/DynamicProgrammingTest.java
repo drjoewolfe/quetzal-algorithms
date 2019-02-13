@@ -309,6 +309,26 @@ class DynamicProgrammingTest {
     }
 
     @Test
+    void countPalindromicSubstringsForIndexRanges() {
+        String str;
+        List<Pair<Integer, Integer>> indexRanges;
+        List<Integer> counts;
+        List<Integer> expectedCounts;
+
+        str = "xyaabax";
+        indexRanges = Utilities.constructList(new Pair(3, 5));
+        expectedCounts = Utilities.constructList(4);
+        counts = DynamicProgramming.countPalindromicSubstringsForIndexRanges(str, indexRanges);
+        QuetzalAssertions.assertListEquals(expectedCounts, counts);
+
+        str = "xyaabax";
+        indexRanges = Utilities.constructList(new Pair(3, 5), new Pair(2, 3));
+        expectedCounts = Utilities.constructList(4, 3);
+        counts = DynamicProgramming.countPalindromicSubstringsForIndexRanges(str, indexRanges);
+        QuetzalAssertions.assertListEquals(expectedCounts, counts);
+    }
+
+    @Test
     void knapsack01() {
         int val[] = {60, 100, 120};
         int wt[] = {10, 20, 30};

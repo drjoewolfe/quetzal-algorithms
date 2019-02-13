@@ -673,6 +673,52 @@ public class DynamicProgramming {
         }
     }
 
+    public static List<Integer> countPalindromicSubstringsForIndexRanges(String str, List<Pair<Integer, Integer>> indexRanges) {
+        if (str == null || str.length() == 0 || indexRanges == null || indexRanges.size() == 0) {
+            return null;
+        }
+
+        int n = str.length();
+
+        // isPalindrome[i][j] = true => str(i, j) is a palindrome
+        boolean[][] isPalindrome = new boolean[n][n];
+
+        // palindromeCount[i][j] denotes the count of palindromes in the substring str(i, j)
+        int[][] palindromeCount = new int[n][n];
+
+        for (int i = n - 1; i >= 0; i--) {
+            // Single characters are palindromes
+            isPalindrome[i][i] = true;
+
+            for (int j = i + 1; j < n; j++) {
+                if (str.charAt(i) == str.charAt(j)) {
+                    isPalindrome[i][j] = (i + 1) > (j - 1) || isPalindrome[i + 1][j - 1];
+                }
+
+                // Count of palindromes of (i + 1, j) & (i, j - 1). Subtract count of (i + 1, j - 1) since they are counted twice
+                palindromeCount[i][j] = 1 + palindromeCount[i][j - 1]
+                        + palindromeCount[i + 1][j]
+                        - palindromeCount[i + 1][j - 1]
+                        + (isPalindrome[i][j] ? 1 : 0);
+            }
+        }
+
+        List<Integer> results = new ArrayList<>();
+        for (int i = 0; i < indexRanges.size(); i++) {
+            var indexes = indexRanges.get(i);
+            int x = indexes.getFirst();
+            int y = indexes.getSecond();
+
+            if (x < 0 || y >= n) {
+                results.add(-1);
+            } else {
+                results.add(palindromeCount[x][y]);
+            }
+        }
+
+        return results;
+    }
+
     public static int knapsack01(int[] weights, int[] values, int W) {
         int n = weights.length;
 
