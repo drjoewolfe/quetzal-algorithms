@@ -4529,4 +4529,28 @@ public class DynamicProgramming {
 
         return count;
     }
+
+    public static int minimumDeletionsToMakeASortedSequence(int[] arr) {
+        // Minimum deletions = Length of array - Length of LIS
+
+        if (arr == null || arr.length == 0) {
+            return 0;
+        }
+
+        int n = arr.length;
+
+        int[] lis = new int[n];
+        Arrays.fill(lis, 1);
+
+        for (int i = 1; i < n; i++) {
+            for (int j = 0; j < i; j++) {
+                if (arr[i] > arr[j]) {
+                    lis[i] = Math.max(lis[i], lis[j] + 1);
+                }
+            }
+        }
+
+        int lisLength = Arrays.stream(lis).max().getAsInt();
+        return n - lisLength;
+    }
 }

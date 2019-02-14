@@ -2170,4 +2170,15 @@ class DynamicProgrammingTest {
         assertEquals(4, DynamicProgramming.countPalindromicSubsequencesOfLengthK("aabab", 2));
         assertEquals(1, DynamicProgramming.countPalindromicSubsequencesOfLengthK("aaa", 3));
     }
+
+    @Test
+    void minimumDeletionsToMakeASortedSequence() {
+        int[] arr;
+
+        arr = new int[]{5, 6, 1, 7, 4};
+        assertEquals(2, DynamicProgramming.minimumDeletionsToMakeASortedSequence(arr));
+
+        arr = new int[]{30, 40, 2, 5, 1, 7, 45, 50, 8};
+        assertEquals(4, DynamicProgramming.minimumDeletionsToMakeASortedSequence(arr));
+    }
 }
