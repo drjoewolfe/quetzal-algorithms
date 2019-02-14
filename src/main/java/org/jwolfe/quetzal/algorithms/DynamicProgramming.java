@@ -4464,4 +4464,69 @@ public class DynamicProgramming {
 
         return (2 * k >= deleteDistance[n][n]);
     }
+
+    public static int countPalindromicSubsequencesOfLengthK(String str, int k) {
+        // Note: k <= 3; and only lower-case, alphabetic characters [a-z] present
+        // Approach:
+        //      k = 1 => count of characters
+        //      k = 2 => count(char) * ((count(char) - 1) / 2
+        //      k = 3 => count of all patterns of the form aba. Use left & right prefix arrays
+
+        if (str == null || str.length() == 0 || k <= 0 || k > 3) {
+            return 0;
+        }
+
+        int n = str.length();
+
+        // leftPrefixes[c][i] => number of occurances of c in the substring str(0...i)
+        int[][] leftPrefixes = new int[26][n];
+
+        // rightPrefixes[c][i] => number of occurances of c in the substring str(i...n-1)
+        int[][] rightPrefixes = new int[26][n];
+
+        // First character in string
+        leftPrefixes[str.charAt(0) - 'a'][0] = 1;
+
+        // Last character in string
+        rightPrefixes[str.charAt(n - 1) - 'a'][n - 1] = 1;
+
+        // Populate left-prefixes
+        for (int i = 1; i < n; i++) {
+            for (int c = 0; c < 26; c++) {
+                leftPrefixes[c][i] += leftPrefixes[c][i - 1];
+            }
+
+            leftPrefixes[str.charAt(i) - 'a'][i]++;
+        }
+
+        // Populate right-prefixes
+        for (int i = n - 2; i >= 0; i--) {
+            for (int c = 0; c < 26; c++) {
+                rightPrefixes[c][i] += rightPrefixes[c][i + 1];
+            }
+
+            rightPrefixes[str.charAt(i) - 'a'][i]++;
+        }
+
+        int count = 0;
+
+        if (k == 1) {
+            for (int c = 0; c < 26; c++) {
+                count += leftPrefixes[c][n - 1];
+            }
+        } else if (k == 2) {
+            for (int c = 0; c < 26; c++) {
+                int v = leftPrefixes[c][n - 1];
+                count += (v * (v - 1) / 2);
+            }
+        } else {
+            for (int i = 1; i < n - 1; i++) {
+                for (int c = 0; c < 26; c++) {
+                    count += (leftPrefixes[c][i - 1] * rightPrefixes[c][i + 1]);
+                }
+            }
+        }
+
+        return count;
+    }
 }

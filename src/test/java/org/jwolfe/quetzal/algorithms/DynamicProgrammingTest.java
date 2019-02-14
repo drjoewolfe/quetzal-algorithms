@@ -2158,9 +2158,16 @@ class DynamicProgrammingTest {
     }
 
     @Test
-    void isKPalindromeUsingEditDistances() {
+    void isKPalindromeUsingEditDistance() {
         assertTrue(DynamicProgramming.isKPalindromeUsingEditDistance("abcdecba", 1));
         assertTrue(DynamicProgramming.isKPalindromeUsingEditDistance("abcdeca", 2));
         assertFalse(DynamicProgramming.isKPalindromeUsingEditDistance("acdcb", 1));
+    }
+
+    @Test
+    void countPalindromicSubsequencesOfLengthK() {
+        assertEquals(5, DynamicProgramming.countPalindromicSubsequencesOfLengthK("aabab", 1));
+        assertEquals(4, DynamicProgramming.countPalindromicSubsequencesOfLengthK("aabab", 2));
+        assertEquals(1, DynamicProgramming.countPalindromicSubsequencesOfLengthK("aaa", 3));
     }
 }
