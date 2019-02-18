@@ -782,7 +782,7 @@ public class GreedyAlgorithms {
                 return 0;
             }
 
-            int j = 0;
+            int j;
             for (j = 0; j < binCount; j++) {
                 if (weight <= bins[j]) {
                     // This bin can take the weight
@@ -799,5 +799,46 @@ public class GreedyAlgorithms {
         }
 
         return binCount;
+    }
+
+    public static List<List<Integer>> getBinsForPackingUsingOnlineFirstFit(int[] itemWeights, int binCapacity) {
+        // Assumption: No single item weighs more than binCapacity
+
+        if (itemWeights == null || itemWeights.length == 0 || binCapacity < 1) {
+            return null;
+        }
+
+        List<List<Integer>> bins = new ArrayList<>();
+        List<Integer> binSizes = new ArrayList<>();
+
+        for (int i = 0; i < itemWeights.length; i++) {
+            int weight = itemWeights[i];
+
+            if (weight > binCapacity) {
+                // Invalid input
+                return null;
+            }
+
+            int j;
+            for (j = 0; j < binSizes.size(); j++) {
+                int binSize = binSizes.get(j);
+                if (weight <= binSize) {
+                    // This bin can take the weight
+                    binSizes.set(j, binSize - weight);
+                    bins.get(j).add(weight);
+                    break;
+                }
+            }
+
+            if (j == binSizes.size()) {
+                // Could not fit in an existing bin
+                binSizes.add(binCapacity - weight);
+
+                bins.add(new ArrayList<>());
+                bins.get(j).add(weight);
+            }
+        }
+
+        return bins;
     }
 }
