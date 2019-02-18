@@ -724,4 +724,40 @@ public class GreedyAlgorithms {
 
         return binCount;
     }
+
+    public static List<List<Integer>> getBinsForPackingUsingOnlineNextFit(int[] itemWeights, int binCapacity) {
+        // Assumption: No single item weighs more than binCapacity
+
+        if (itemWeights == null || itemWeights.length == 0 || binCapacity < 1) {
+            return null;
+        }
+
+        List<List<Integer>> bins = new ArrayList<>();
+        List<Integer> currentBin = new ArrayList<>();
+        bins.add(currentBin);
+
+        int remainingBinCapacity = binCapacity;
+
+        for (int i = 0; i < itemWeights.length; i++) {
+            int weight = itemWeights[i];
+
+            if (weight > binCapacity) {
+                // Invalid input
+                return null;
+            }
+
+            if (weight <= remainingBinCapacity) {
+                currentBin.add(weight);
+                remainingBinCapacity -= weight;
+            } else {
+                currentBin = new ArrayList<>();
+                bins.add(currentBin);
+
+                currentBin.add(weight);
+                remainingBinCapacity = binCapacity - weight;
+            }
+        }
+
+        return bins;
+    }
 }
