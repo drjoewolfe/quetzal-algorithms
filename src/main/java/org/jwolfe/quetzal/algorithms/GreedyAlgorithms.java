@@ -695,4 +695,33 @@ public class GreedyAlgorithms {
 
         return stockCount;
     }
+
+    public static int getBinCountForPackingUsingOnlineNextFit(int[] itemWeights, int binCapacity) {
+        // Assumption: No single item weighs more than binCapacity
+
+        if (itemWeights == null || itemWeights.length == 0 || binCapacity < 1) {
+            return 0;
+        }
+
+        int binCount = 0;
+        int remainingBinCapacity = binCapacity;
+
+        for (int i = 0; i < itemWeights.length; i++) {
+            int weight = itemWeights[i];
+
+            if (weight > binCapacity) {
+                // Invalid input
+                return 0;
+            }
+
+            if (weight <= remainingBinCapacity) {
+                remainingBinCapacity -= weight;
+            } else {
+                binCount++;
+                remainingBinCapacity = binCapacity - weight;
+            }
+        }
+
+        return binCount;
+    }
 }

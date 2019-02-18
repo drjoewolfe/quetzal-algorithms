@@ -383,4 +383,12 @@ class GreedyAlgorithmsTest {
         pricesByDay = new int[]{10, 7, 19};
         assertEquals(4, GreedyAlgorithms.maximumStocksThatCanBeBoughtIfXStocksCanBeBoughtOnXthDay(pricesByDay, 45));
     }
+
+    @Test
+    void getBinCountForPackingUsingOnlineNextFit() {
+        int[] itemWeights;
+
+        itemWeights = new int[]{4, 8, 1, 4, 2, 1};
+        assertEquals(2, GreedyAlgorithms.getBinCountForPackingUsingOnlineNextFit(itemWeights, 10));
+    }
 }
