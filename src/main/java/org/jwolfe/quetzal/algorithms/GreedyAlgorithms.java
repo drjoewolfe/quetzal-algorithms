@@ -698,6 +698,7 @@ public class GreedyAlgorithms {
 
     public static int getBinCountForPackingUsingOnlineNextFit(int[] itemWeights, int binCapacity) {
         // Assumption: No single item weighs more than binCapacity
+        // Note: Next-Fit is 2-Approximate. The final result may be utmost 2 times the optimal
 
         if (itemWeights == null || itemWeights.length == 0 || binCapacity < 1) {
             return 0;
@@ -727,6 +728,7 @@ public class GreedyAlgorithms {
 
     public static List<List<Integer>> getBinsForPackingUsingOnlineNextFit(int[] itemWeights, int binCapacity) {
         // Assumption: No single item weighs more than binCapacity
+        // Note: Next-Fit is 2-Approximate. The final result may be utmost 2 times the optimal
 
         if (itemWeights == null || itemWeights.length == 0 || binCapacity < 1) {
             return null;
@@ -759,5 +761,43 @@ public class GreedyAlgorithms {
         }
 
         return bins;
+    }
+
+    public static int getBinCountForPackingUsingOnlineFirstFit(int[] itemWeights, int binCapacity) {
+        // Assumption: No single item weighs more than binCapacity
+
+        if (itemWeights == null || itemWeights.length == 0 || binCapacity < 1) {
+            return 0;
+        }
+
+        int n = itemWeights.length;
+        int[] bins = new int[n];
+        int binCount = 0;
+
+        for (int i = 0; i < n; i++) {
+            int weight = itemWeights[i];
+
+            if (weight > binCapacity) {
+                // Invalid input
+                return 0;
+            }
+
+            int j = 0;
+            for (j = 0; j < binCount; j++) {
+                if (weight <= bins[j]) {
+                    // This bin can take the weight
+                    bins[j] -= weight;
+                    break;
+                }
+            }
+
+            if (j == binCount) {
+                // Could not fit in an existing bin
+                binCount++;
+                bins[j] = binCapacity - weight;
+            }
+        }
+
+        return binCount;
     }
 }

@@ -435,4 +435,18 @@ class GreedyAlgorithmsTest {
         bins = GreedyAlgorithms.getBinsForPackingUsingOnlineNextFit(itemWeights, 10);
         QuetzalAssertions.assertListOfListEquals(expectedBins, bins);
     }
+
+    @Test
+    void getBinCountForPackingUsingOnlineFirstFit() {
+        int[] itemWeights;
+
+        itemWeights = new int[]{4, 8, 1, 4, 2, 1};
+        assertEquals(2, GreedyAlgorithms.getBinCountForPackingUsingOnlineFirstFit(itemWeights, 10));
+
+        itemWeights = new int[]{9, 8, 2, 2, 5, 4};
+        assertEquals(4, GreedyAlgorithms.getBinCountForPackingUsingOnlineFirstFit(itemWeights, 10));
+
+        itemWeights = new int[]{2, 5, 4, 7, 1, 3, 8};
+        assertEquals(4, GreedyAlgorithms.getBinCountForPackingUsingOnlineFirstFit(itemWeights, 10));
+    }
 }
