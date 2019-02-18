@@ -703,7 +703,7 @@ public class GreedyAlgorithms {
             return 0;
         }
 
-        int binCount = 0;
+        int binCount = 1;
         int remainingBinCapacity = binCapacity;
 
         for (int i = 0; i < itemWeights.length; i++) {

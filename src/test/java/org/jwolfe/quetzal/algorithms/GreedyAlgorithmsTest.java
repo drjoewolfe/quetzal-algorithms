@@ -389,6 +389,12 @@ class GreedyAlgorithmsTest {
         int[] itemWeights;
 
         itemWeights = new int[]{4, 8, 1, 4, 2, 1};
-        assertEquals(2, GreedyAlgorithms.getBinCountForPackingUsingOnlineNextFit(itemWeights, 10));
+        assertEquals(3, GreedyAlgorithms.getBinCountForPackingUsingOnlineNextFit(itemWeights, 10));
+
+        itemWeights = new int[]{9, 8, 2, 2, 5, 4};
+        assertEquals(4, GreedyAlgorithms.getBinCountForPackingUsingOnlineNextFit(itemWeights, 10));
+
+        itemWeights = new int[]{2, 5, 4, 7, 1, 3, 8};
+        assertEquals(5, GreedyAlgorithms.getBinCountForPackingUsingOnlineNextFit(itemWeights, 10));
     }
 }
