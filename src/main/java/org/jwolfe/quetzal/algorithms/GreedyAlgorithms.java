@@ -892,7 +892,7 @@ public class GreedyAlgorithms {
 
     public static List<List<Integer>> getBinsForPackingUsingOnlineBestFit(int[] itemWeights, int binCapacity) {
         // Assumption: No single item weighs more than binCapacity
-        // Note: First-Fit never uses more than 1.7M, where M is the optimal value
+        // Note: Best-Fit never uses more than 1.7M, where M is the optimal value
 
         if (itemWeights == null || itemWeights.length == 0 || binCapacity < 1) {
             return null;
@@ -936,5 +936,45 @@ public class GreedyAlgorithms {
         }
 
         return bins;
+    }
+
+    public static int getBinCountForPackingUsingOfflineFirstFitDecreasing(int[] itemWeights, int binCapacity) {
+        // Assumption: No single item weighs more than binCapacity
+        // Sort, then use first fit
+
+        if (itemWeights == null || itemWeights.length == 0 || binCapacity < 1) {
+            return 0;
+        }
+
+        int n = itemWeights.length;
+        int[] bins = new int[n];
+        int binCount = 0;
+
+        SortingAlgorithms.quickSort(itemWeights);
+        for (int i = n - 1; i >= 0; i--) {
+            int weight = itemWeights[i];
+
+            if (weight > binCapacity) {
+                // Invalid input
+                return 0;
+            }
+
+            int binIndex = 0;
+            for (binIndex = 0; binIndex < binCount; binIndex++) {
+                if (weight <= bins[binIndex]) {
+                    // Found the first bin to put the weight to
+                    bins[binIndex] -= weight;
+                    break;
+                }
+            }
+
+            if (binIndex == binCount) {
+                // Could not find a bin to add to
+                binCount++;
+                bins[binIndex] = binCapacity - weight;
+            }
+        }
+
+        return binCount;
     }
 }
