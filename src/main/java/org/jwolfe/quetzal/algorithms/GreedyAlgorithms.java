@@ -765,6 +765,7 @@ public class GreedyAlgorithms {
 
     public static int getBinCountForPackingUsingOnlineFirstFit(int[] itemWeights, int binCapacity) {
         // Assumption: No single item weighs more than binCapacity
+        // Note: First-Fit never uses more than 1.7M, where M is the optimal value
 
         if (itemWeights == null || itemWeights.length == 0 || binCapacity < 1) {
             return 0;
@@ -803,6 +804,7 @@ public class GreedyAlgorithms {
 
     public static List<List<Integer>> getBinsForPackingUsingOnlineFirstFit(int[] itemWeights, int binCapacity) {
         // Assumption: No single item weighs more than binCapacity
+        // Note: First-Fit never uses more than 1.7M, where M is the optimal value
 
         if (itemWeights == null || itemWeights.length == 0 || binCapacity < 1) {
             return null;
@@ -840,5 +842,49 @@ public class GreedyAlgorithms {
         }
 
         return bins;
+    }
+
+    public static int getBinCountForPackingUsingOnlineBestFit(int[] itemWeights, int binCapacity) {
+        // Assumption: No single item weighs more than binCapacity
+        // Note: Best-Fit never uses more than 1.7M, where M is the optimal value
+
+        if (itemWeights == null || itemWeights.length == 0 || binCapacity < 1) {
+            return 0;
+        }
+
+        int n = itemWeights.length;
+
+        int[] bins = new int[n];
+        int binCount = 0;
+
+        for (int i = 0; i < n; i++) {
+            int weight = itemWeights[i];
+
+            if (weight > binCapacity) {
+                // Invalid input
+                return 0;
+            }
+
+            int minSizeBinIndex = -1;
+            int minSizeAvailable = Integer.MAX_VALUE;
+            for (int j = 0; j < binCount; j++) {
+                int remainingBinCapacity = bins[j];
+
+                if (weight <= remainingBinCapacity) {
+                    minSizeAvailable = Math.min(minSizeAvailable, remainingBinCapacity);
+                    minSizeBinIndex = j;
+                }
+            }
+
+            if (minSizeBinIndex == -1) {
+                // Could not find an appropriate bin
+                binCount++;
+                bins[binCount - 1] = binCapacity - weight;
+            } else {
+                bins[minSizeBinIndex] -= weight;
+            }
+        }
+
+        return binCount;
     }
 }
