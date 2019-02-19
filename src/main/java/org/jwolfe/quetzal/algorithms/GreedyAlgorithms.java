@@ -977,4 +977,48 @@ public class GreedyAlgorithms {
 
         return binCount;
     }
+
+    public static List<List<Integer>> getBinsForPackingUsingOfflineFirstFitDecreasing(int[] itemWeights, int binCapacity) {
+        // Assumption: No single item weighs more than binCapacity
+
+        if (itemWeights == null || itemWeights.length == 0 || binCapacity < 1) {
+            return null;
+        }
+
+        int n = itemWeights.length;
+
+        List<List<Integer>> bins = new ArrayList<>();
+        List<Integer> binSizes = new ArrayList<>();
+
+        SortingAlgorithms.quickSort(itemWeights);
+        for (int i = n - 1; i >= 0; i--) {
+            int weight = itemWeights[i];
+
+            if (weight > binCapacity) {
+                // Invalid input
+                return null;
+            }
+
+            int binIndex = 0;
+            for (binIndex = 0; binIndex < binSizes.size(); binIndex++) {
+                int remainingBinCapacity = binSizes.get(binIndex);
+
+                if (weight <= remainingBinCapacity) {
+                    // Found first bin to put the weight to
+                    binSizes.set(binIndex, remainingBinCapacity - weight);
+                    bins.get(binIndex).add(weight);
+                    break;
+                }
+            }
+
+            if (binIndex == binSizes.size()) {
+                // Could not find a bin to put to
+                binSizes.add(binCapacity - weight);
+                bins.add(new ArrayList<>());
+                bins.get(bins.size() - 1).add(weight);
+            }
+        }
+
+        return bins;
+    }
 }
