@@ -871,8 +871,10 @@ public class GreedyAlgorithms {
                 int remainingBinCapacity = bins[j];
 
                 if (weight <= remainingBinCapacity) {
-                    minSizeAvailable = Math.min(minSizeAvailable, remainingBinCapacity);
-                    minSizeBinIndex = j;
+                    if (minSizeAvailable > remainingBinCapacity) {
+                        minSizeAvailable = remainingBinCapacity;
+                        minSizeBinIndex = j;
+                    }
                 }
             }
 
@@ -886,5 +888,53 @@ public class GreedyAlgorithms {
         }
 
         return binCount;
+    }
+
+    public static List<List<Integer>> getBinsForPackingUsingOnlineBestFit(int[] itemWeights, int binCapacity) {
+        // Assumption: No single item weighs more than binCapacity
+        // Note: First-Fit never uses more than 1.7M, where M is the optimal value
+
+        if (itemWeights == null || itemWeights.length == 0 || binCapacity < 1) {
+            return null;
+        }
+
+        int n = itemWeights.length;
+
+        List<List<Integer>> bins = new ArrayList<>();
+        List<Integer> binSizes = new ArrayList<>();
+
+        for (int i = 0; i < n; i++) {
+            int weight = itemWeights[i];
+
+            if (weight > binCapacity) {
+                // Invalid input
+                return null;
+            }
+
+            int minSizeBinIndex = -1;
+            int minSizeBinSpace = Integer.MAX_VALUE;
+
+            for (int j = 0; j < binSizes.size(); j++) {
+                int remainingBinCapacity = binSizes.get(j);
+
+                if (weight <= remainingBinCapacity) {
+                    if (minSizeBinSpace > remainingBinCapacity) {
+                        minSizeBinSpace = remainingBinCapacity;
+                        minSizeBinIndex = j;
+                    }
+                }
+            }
+
+            if (minSizeBinIndex == -1) {
+                bins.add(new ArrayList<>());
+                bins.get(bins.size() - 1).add(weight);
+                binSizes.add(binCapacity - weight);
+            } else {
+                bins.get(minSizeBinIndex).add(weight);
+                binSizes.set(minSizeBinIndex, minSizeBinSpace - weight);
+            }
+        }
+
+        return bins;
     }
 }

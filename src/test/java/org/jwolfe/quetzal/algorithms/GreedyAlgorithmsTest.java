@@ -499,4 +499,40 @@ class GreedyAlgorithmsTest {
         itemWeights = new int[]{2, 5, 4, 7, 1, 3, 8};
         assertEquals(4, GreedyAlgorithms.getBinCountForPackingUsingOnlineBestFit(itemWeights, 10));
     }
+
+    @Test
+    void getBinsForPackingUsingOnlineBestFit() {
+        int[] itemWeights;
+        List<List<Integer>> bins;
+        List<List<Integer>> expectedBins;
+
+        itemWeights = new int[]{4, 8, 1, 4, 2, 1};
+        expectedBins = Utilities.constructList(
+                Utilities.constructList(4, 4, 2),
+                Utilities.constructList(8, 1, 1)
+        );
+        bins = GreedyAlgorithms.getBinsForPackingUsingOnlineBestFit(itemWeights, 10);
+        QuetzalAssertions.assertListOfListEquals(expectedBins, bins);
+
+
+        itemWeights = new int[]{9, 8, 2, 2, 5, 4};
+        expectedBins = Utilities.constructList(
+                Utilities.constructList(9),
+                Utilities.constructList(8, 2),
+                Utilities.constructList(2, 5),
+                Utilities.constructList(4)
+        );
+        bins = GreedyAlgorithms.getBinsForPackingUsingOnlineBestFit(itemWeights, 10);
+        QuetzalAssertions.assertListOfListEquals(expectedBins, bins);
+
+        itemWeights = new int[]{2, 5, 4, 7, 1, 3, 8};
+        expectedBins = Utilities.constructList(
+                Utilities.constructList(2, 5, 1),
+                Utilities.constructList(4),
+                Utilities.constructList(7, 3),
+                Utilities.constructList(8)
+        );
+        bins = GreedyAlgorithms.getBinsForPackingUsingOnlineBestFit(itemWeights, 10);
+        QuetzalAssertions.assertListOfListEquals(expectedBins, bins);
+    }
 }
