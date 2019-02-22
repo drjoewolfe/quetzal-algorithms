@@ -1021,4 +1021,53 @@ public class GreedyAlgorithms {
 
         return bins;
     }
+
+    public static String getShortestSuperString(String[] strings) {
+        // Greedy implementation
+        // Iterate; in each iteration, pick the 2 strings that are left & have the maximum overlap; merge & repeat
+        // Assumption: No string in strings is a proper substring of another. There can be overlaps, but not containment
+        if (strings == null || strings.length == 0) {
+            return null;
+        }
+
+        List<String> runningList = new ArrayList<>(Arrays.asList(strings));
+        int n = runningList.size();
+
+        // Run n - 1 times
+        for (int iteration = 0; iteration < n; iteration++) {
+            int size = runningList.size();
+
+            int maxOverlapLength = Integer.MIN_VALUE;
+            int overlapStringIndex1 = null;
+            int overlapStringIndex2 = null;
+
+            for (int i = 0; i < size - 1; i++) {
+                String str1 = runningList.get(i);
+
+                for (int j = i + 1; j < size; j++) {
+                    String str2 = runningList.get(j);
+                    int overlapLength = StringAlgorithms.getOverlapLength(str1, str2);
+
+                    if(maxOverlapLength < overlapLength) {
+                        maxOverlapLength = overlapLength;
+                        overlapStringIndex1 = i;
+                        overlapStringIndex2 = j;
+                    }
+                }
+            }
+
+            if(maxOverlapLength == Integer.MIN_VALUE) {
+                // No overlaps - merge first & last
+
+            }
+            else {
+                String str1 = runningList.get(overlapStringIndex1);
+                String str2 = runningList.get(overlapStringIndex2);
+                String mergedString = StringAlgorithms.mergeStrings(str1, str2);
+
+            }
+        }
+
+        return null;
+    }
 }

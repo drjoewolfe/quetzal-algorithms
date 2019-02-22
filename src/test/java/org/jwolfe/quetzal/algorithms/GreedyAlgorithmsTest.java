@@ -584,4 +584,15 @@ class GreedyAlgorithmsTest {
         bins = GreedyAlgorithms.getBinsForPackingUsingOfflineFirstFitDecreasing(itemWeights, 10);
         QuetzalAssertions.assertListOfListEquals(expectedBins, bins);
     }
+
+    @Test
+    void getShortestSuperString() {
+        String[] strings;
+
+        strings = new String[]{"live", "for", "cash"};
+        assertEquals("liveforcash", GreedyAlgorithms.getShortestSuperString(strings));
+
+        strings = new String[]{"catg", "ctaagt", "gcta", "ttca", "atgcatc"};
+        assertEquals("gctaagttcatgcatc", GreedyAlgorithms.getShortestSuperString(strings));
+    }
 }
