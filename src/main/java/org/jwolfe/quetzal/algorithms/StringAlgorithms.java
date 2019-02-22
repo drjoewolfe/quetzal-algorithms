@@ -243,4 +243,48 @@ public class StringAlgorithms {
         StringBuilder sb = new StringBuilder(str);
         return sb.reverse().toString();
     }
+
+    public static int getOverlapLength(String str1, String str2) {
+        if (str1 == null || str2 == null) {
+            return 0;
+        }
+
+        int m = str1.length();
+        int n = str2.length();
+
+        // Case: one string completely contains the other
+        if (m > n && str1.indexOf(str2) != -1) {
+            return n;
+        } else if (str2.indexOf(str1) != -1) {
+            return m;
+        }
+
+        int overlapLength = 0;
+
+        // Case: Prefix from str1 to Suffix from str2
+        for (int i = 1; i <= Math.min(m, n); i++) {
+            String subStr1 = str1.substring(0, i);
+            String subStr2 = str2.substring(n - i, n);
+
+            if (subStr1.equals(subStr2)) {
+                overlapLength = Math.max(overlapLength, i);
+            }
+        }
+
+        // Case: Suffix from str1 to Prefix from str2
+        for (int i = 1; i <= Math.min(m, n); i++) {
+            String subStr1 = str1.substring(m - i, m);
+            String subStr2 = str2.substring(0, i);
+
+            if (subStr1.equals(subStr2)) {
+                overlapLength = Math.max(overlapLength, i);
+            }
+        }
+
+        return overlapLength;
+    }
+
+    public static String mergeStrings(String str1, String str2) {
+        return null;
+    }
 }

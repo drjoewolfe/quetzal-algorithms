@@ -161,4 +161,18 @@ class StringAlgorithmsTest {
         assertEquals("1", StringAlgorithms.reverse("1"));
         assertEquals("abcd", StringAlgorithms.reverse("dcba"));
     }
+
+    @Test
+    void getOverlapLength() {
+        assertEquals(0, StringAlgorithms.getOverlapLength("abc", "def"));
+        assertEquals(2, StringAlgorithms.getOverlapLength("abc", "bcd"));
+        assertEquals(2, StringAlgorithms.getOverlapLength("xyz", "vxy"));
+        assertEquals(4, StringAlgorithms.getOverlapLength("abcdefgh", "bcde"));
+        assertEquals(3, StringAlgorithms.getOverlapLength("uvw", "stuvwxyz"));
+        assertEquals(1, StringAlgorithms.getOverlapLength("abc", "aaa"));
+    }
+
+    @Test
+    void mergeStrings() {
+    }
 }
