@@ -1034,7 +1034,7 @@ public class GreedyAlgorithms {
         int n = runningList.size();
 
         // Run n - 1 times
-        for (int iteration = 0; iteration < n; iteration++) {
+        for (int iteration = 1; iteration < n; iteration++) {
             int size = runningList.size();
 
             int maxOverlapLength = Integer.MIN_VALUE;
@@ -1056,14 +1056,14 @@ public class GreedyAlgorithms {
                 }
             }
 
-            if (maxOverlapLength == Integer.MIN_VALUE) {
-                // No overlaps - merge first & last
+            if (maxOverlapLength == 0) {
+                // No overlaps - merge first & next
                 String str1 = runningList.get(0);
-                String str2 = runningList.get(runningList.size() - 1);
+                String str2 = runningList.get(1);
                 String mergedString = StringAlgorithms.mergeStrings(str1, str2);
 
                 runningList.set(0, mergedString);
-                runningList.remove(runningList.size() - 1);
+                runningList.remove(1);
 
             } else {
                 String str1 = runningList.get(overlapStringIndex1);
