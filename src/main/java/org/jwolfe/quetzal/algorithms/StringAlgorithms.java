@@ -285,6 +285,57 @@ public class StringAlgorithms {
     }
 
     public static String mergeStrings(String str1, String str2) {
-        return null;
+        if (str1 == null && str2 == null) {
+            return null;
+        }
+
+        int m = str1.length();
+        int n = str2.length();
+
+        // Case: one string completely contains the other
+        if (m > n && str1.indexOf(str2) != -1) {
+            return str1;
+        } else if (str2.indexOf(str1) != -1) {
+            return str2;
+        }
+
+        int overlapLength = 0;
+        String mergeLeft = null;
+        String mergeRight = null;
+
+
+        // Case: Prefix from str1 to Suffix from str2
+        for (int i = 1; i <= Math.min(m, n); i++) {
+            String subStr1 = str1.substring(0, i);
+            String subStr2 = str2.substring(n - i, n);
+
+            if (subStr1.equals(subStr2)) {
+                if (overlapLength < i) {
+                    overlapLength = i;
+                    mergeLeft = str2;
+                    mergeRight = str1.substring(i, m);
+                }
+            }
+        }
+
+        // Case: Suffix from str1 to Prefix from str2
+        for (int i = 1; i <= Math.min(m, n); i++) {
+            String subStr1 = str1.substring(m - i, m);
+            String subStr2 = str2.substring(0, i);
+
+            if (subStr1.equals(subStr2)) {
+                if (overlapLength < i) {
+                    overlapLength = i;
+                    mergeLeft = str1;
+                    mergeRight = str2.substring(i, n);
+                }
+            }
+        }
+
+        if (overlapLength == 0) {
+            return str1 + str2;
+        }
+
+        return mergeLeft + mergeRight;
     }
 }

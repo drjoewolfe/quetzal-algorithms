@@ -174,5 +174,11 @@ class StringAlgorithmsTest {
 
     @Test
     void mergeStrings() {
+        assertEquals("abcdef", StringAlgorithms.mergeStrings("abc", "def"));
+        assertEquals("abcd", StringAlgorithms.mergeStrings("abc", "bcd"));
+        assertEquals("vxyz", StringAlgorithms.mergeStrings("xyz", "vxy"));
+        assertEquals("abcdefgh", StringAlgorithms.mergeStrings("abcdefgh", "bcde"));
+        assertEquals("stuvwxyz", StringAlgorithms.mergeStrings("uvw", "stuvwxyz"));
+        assertEquals("aaabc", StringAlgorithms.mergeStrings("abc", "aaa"));
     }
 }

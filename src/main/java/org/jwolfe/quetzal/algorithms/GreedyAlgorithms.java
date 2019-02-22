@@ -1038,8 +1038,8 @@ public class GreedyAlgorithms {
             int size = runningList.size();
 
             int maxOverlapLength = Integer.MIN_VALUE;
-            int overlapStringIndex1 = null;
-            int overlapStringIndex2 = null;
+            int overlapStringIndex1 = -1;
+            int overlapStringIndex2 = -1;
 
             for (int i = 0; i < size - 1; i++) {
                 String str1 = runningList.get(i);
@@ -1048,7 +1048,7 @@ public class GreedyAlgorithms {
                     String str2 = runningList.get(j);
                     int overlapLength = StringAlgorithms.getOverlapLength(str1, str2);
 
-                    if(maxOverlapLength < overlapLength) {
+                    if (maxOverlapLength < overlapLength) {
                         maxOverlapLength = overlapLength;
                         overlapStringIndex1 = i;
                         overlapStringIndex2 = j;
@@ -1056,18 +1056,25 @@ public class GreedyAlgorithms {
                 }
             }
 
-            if(maxOverlapLength == Integer.MIN_VALUE) {
+            if (maxOverlapLength == Integer.MIN_VALUE) {
                 // No overlaps - merge first & last
+                String str1 = runningList.get(0);
+                String str2 = runningList.get(runningList.size() - 1);
+                String mergedString = StringAlgorithms.mergeStrings(str1, str2);
 
-            }
-            else {
+                runningList.set(0, mergedString);
+                runningList.remove(runningList.size() - 1);
+
+            } else {
                 String str1 = runningList.get(overlapStringIndex1);
                 String str2 = runningList.get(overlapStringIndex2);
                 String mergedString = StringAlgorithms.mergeStrings(str1, str2);
 
+                runningList.set(overlapStringIndex1, mergedString);
+                runningList.remove(overlapStringIndex2);
             }
         }
 
-        return null;
+        return runningList.get(0);
     }
 }
