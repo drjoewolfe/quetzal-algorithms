@@ -4587,4 +4587,31 @@ public class DynamicProgramming {
         int lisLength = Arrays.stream(lis).max().getAsInt();
         return n - lisLength;
     }
+
+    public static int minimumNumberOfSquaresWhoseSumIsEqualToN(int n) {
+        if (n < 0) {
+            return 0;
+        }
+
+        if (n <= 3) {
+            return n;
+        }
+
+        // Max number of sum of squares will be 1^2 + 1^2 + ... n times = n
+        int minSquares = n;
+        for (int i = 1; i <= n; i++) {
+            int squareValue = i * i;
+
+            if (squareValue > n) {
+                break;
+            }
+
+            // Number of squares including current iteration value
+            int squares = 1 + minimumNumberOfSquaresWhoseSumIsEqualToN(n - squareValue);
+
+            minSquares = Math.min(minSquares, squares);
+        }
+
+        return minSquares;
+    }
 }

@@ -2192,4 +2192,14 @@ class DynamicProgrammingTest {
         arr = new int[]{30, 40, 2, 5, 1, 7, 45, 50, 8};
         assertEquals(4, DynamicProgramming.minimumDeletionsToMakeASortedSequence(arr));
     }
+
+    @Test
+    void minimumNumberOfSquaresWhoseSumIsEqualToN() {
+        assertEquals(3, DynamicProgramming.minimumNumberOfSquaresWhoseSumIsEqualToN(6));
+        assertEquals(1, DynamicProgramming.minimumNumberOfSquaresWhoseSumIsEqualToN(9));
+        assertEquals(2, DynamicProgramming.minimumNumberOfSquaresWhoseSumIsEqualToN(10));
+        assertEquals(3, DynamicProgramming.minimumNumberOfSquaresWhoseSumIsEqualToN(11));
+        assertEquals(3, DynamicProgramming.minimumNumberOfSquaresWhoseSumIsEqualToN(12));
+        assertEquals(1, DynamicProgramming.minimumNumberOfSquaresWhoseSumIsEqualToN(100));
+    }
 }
