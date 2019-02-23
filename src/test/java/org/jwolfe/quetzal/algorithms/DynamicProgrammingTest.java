@@ -2202,4 +2202,16 @@ class DynamicProgrammingTest {
         assertEquals(3, DynamicProgramming.minimumNumberOfSquaresWhoseSumIsEqualToN(12));
         assertEquals(1, DynamicProgramming.minimumNumberOfSquaresWhoseSumIsEqualToN(100));
     }
+
+    @Test
+    void minimumNumberOfSquaresWhoseSumIsEqualToNRecursive() {
+        assertEquals(3, DynamicProgramming.minimumNumberOfSquaresWhoseSumIsEqualToNRecursive(6));
+        assertEquals(1, DynamicProgramming.minimumNumberOfSquaresWhoseSumIsEqualToNRecursive(9));
+        assertEquals(2, DynamicProgramming.minimumNumberOfSquaresWhoseSumIsEqualToNRecursive(10));
+        assertEquals(3, DynamicProgramming.minimumNumberOfSquaresWhoseSumIsEqualToNRecursive(11));
+        assertEquals(3, DynamicProgramming.minimumNumberOfSquaresWhoseSumIsEqualToNRecursive(12));
+
+        // Exponential time complexity
+        //assertEquals(1, DynamicProgramming.minimumNumberOfSquaresWhoseSumIsEqualToNRecursive(100));
+    }
 }

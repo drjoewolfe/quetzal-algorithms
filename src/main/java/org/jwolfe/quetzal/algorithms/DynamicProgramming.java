@@ -4597,6 +4597,38 @@ public class DynamicProgramming {
             return n;
         }
 
+        int[] dp = new int[n + 1];
+        dp[0] = 0;
+        dp[1] = 1;
+        dp[2] = 2;
+        dp[3] = 3;
+
+        for (int i = 4; i <= n; i++) {
+            // Max number of sum of squares will be 1^2 + 1^2 + ... n times = n
+            dp[i] = i;
+
+            for (int j = 1; j <= i; j++) {
+                int squareValue = j * j;
+                if (squareValue > i) {
+                    break;
+                }
+
+                dp[i] = Math.min(dp[i], 1 + dp[i - squareValue]);
+            }
+        }
+
+        return dp[n];
+    }
+
+    public static int minimumNumberOfSquaresWhoseSumIsEqualToNRecursive(int n) {
+        if (n < 0) {
+            return 0;
+        }
+
+        if (n <= 3) {
+            return n;
+        }
+
         // Max number of sum of squares will be 1^2 + 1^2 + ... n times = n
         int minSquares = n;
         for (int i = 1; i <= n; i++) {
@@ -4607,7 +4639,7 @@ public class DynamicProgramming {
             }
 
             // Number of squares including current iteration value
-            int squares = 1 + minimumNumberOfSquaresWhoseSumIsEqualToN(n - squareValue);
+            int squares = 1 + minimumNumberOfSquaresWhoseSumIsEqualToNRecursive(n - squareValue);
 
             minSquares = Math.min(minSquares, squares);
         }
