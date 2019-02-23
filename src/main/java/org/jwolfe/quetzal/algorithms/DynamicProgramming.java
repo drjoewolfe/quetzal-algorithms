@@ -363,6 +363,40 @@ public class DynamicProgramming {
         return count;
     }
 
+    public static int countIncreasingSubsequencesOfSizeK(int[] arr, int k) {
+        if (arr == null || arr.length == 0) {
+            return 0;
+        }
+
+        int n = arr.length;
+
+        // dp[i][j] => Number of subsequences of size 'i', for the array ending at index 'j'
+        int[][] dp = new int[k + 1][n];
+
+        // Count of IS of size 1 at each index is 1
+        for (int i = 0; i < n; i++) {
+            dp[1][i] = 1;
+        }
+
+        for (int i = 2; i <= k; i++) {
+            for (int j = 0; j < n; j++) {
+
+                for (int l = 0; l < j; l++) {
+                    if (arr[l] < arr[j]) {
+                        dp[i][j] += dp[i - 1][l];
+                    }
+                }
+            }
+        }
+
+        int count = 0;
+        for (int j = 0; j < n; j++) {
+            count += dp[k][j];
+        }
+
+        return count;
+    }
+
     public static int countIncreasingSubsequencesWhenArrayElementsAreDigits(int[] arr) {
         if (arr == null || arr.length == 0) {
             return 0;

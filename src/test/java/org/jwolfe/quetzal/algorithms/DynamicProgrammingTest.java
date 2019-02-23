@@ -185,6 +185,17 @@ class DynamicProgrammingTest {
     }
 
     @Test
+    void countIncreasingSubsequencesOfSizeK() {
+        int[] arr;
+
+        arr = new int[]{2, 6, 4, 5, 7};
+        assertEquals(5, DynamicProgramming.countIncreasingSubsequencesOfSizeK(arr, 3));
+
+        arr = new int[]{12, 8, 11, 13, 10, 15, 14, 16, 20};
+        assertEquals(39, DynamicProgramming.countIncreasingSubsequencesOfSizeK(arr, 4));
+    }
+
+    @Test
     void countIncreasingSubsequencesWhenArrayElementsAreDigits() {
         int[] arr;
 
