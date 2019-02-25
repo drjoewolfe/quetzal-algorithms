@@ -2214,4 +2214,18 @@ class DynamicProgrammingTest {
         // Exponential time complexity
         //assertEquals(1, DynamicProgramming.minimumNumberOfSquaresWhoseSumIsEqualToNRecursive(100));
     }
+
+    @Test
+    void minimumAdjustmentCostForEnsuringElementDifferenceInArrayIsUtmostTarget() {
+        int[] arr;
+
+        arr = new int[]{1, 3, 0, 3};
+        assertEquals(3, DynamicProgramming.minimumAdjustmentCostForEnsuringElementDifferenceInArrayIsUtmostTarget(arr, 1));
+
+        arr = new int[]{2, 3, 2, 3};
+        assertEquals(0, DynamicProgramming.minimumAdjustmentCostForEnsuringElementDifferenceInArrayIsUtmostTarget(arr, 1));
+
+        arr = new int[]{55, 77, 52, 61, 39, 6, 25, 60, 49, 47};
+        assertEquals(75, DynamicProgramming.minimumAdjustmentCostForEnsuringElementDifferenceInArrayIsUtmostTarget(arr, 10));
+    }
 }

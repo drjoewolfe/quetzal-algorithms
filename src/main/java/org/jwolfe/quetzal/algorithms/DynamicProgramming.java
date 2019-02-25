@@ -4646,4 +4646,34 @@ public class DynamicProgramming {
 
         return minSquares;
     }
+
+    public static int minimumAdjustmentCostForEnsuringElementDifferenceInArrayIsUtmostTarget(int[] arr, int target) {
+        if (arr == null || arr.length == 0 || target < 0) {
+            return 0;
+        }
+
+        int n = arr.length;
+
+        int[][] dp = new int[n][target + 1];
+        for (int j = 0; j <= target; j++) {
+            dp[0][j] = Math.abs(j - arr[0]);
+        }
+
+        for (int i = 1; i < n; i++) {
+            for (int j = 0; j <= target; j++) {
+                dp[i][j] = Integer.MAX_VALUE;
+
+                for (int k = Math.max(j - target, 0); k <= Math.min(target, j + target); k++) {
+                    dp[i][j] = Math.min(dp[i][j], dp[i - 1][k] + Math.abs(arr[i] - j));
+                }
+            }
+        }
+
+        int cost = Integer.MAX_VALUE;
+        for (int j = 0; j <= target; j++) {
+            cost = Math.min(cost, dp[n - 1][j]);
+        }
+
+        return cost;
+    }
 }
