@@ -1,70 +1,122 @@
 package org.jwolfe.quetzal.algorithms.lc;
 
-public class RomanToInteger {
+import java.util.HashMap;
+import java.util.Map;
+
+class Solution {
+    private Map<Character, Integer> romanMappings;
+
     public int romanToInt(String s) {
         if(s == null || s.length() == 0) {
             return 0;
         }
 
-        int val = 0;
-        int i = 0;
+        initializeMappings();
+
         int n = s.length();
-        while(i < n) {
-            char c = s.charAt(i++);
-            if(i < n) {
-                char d = s.charAt(i);
-                if(c == 'I') {
-                    if(d == 'V') {
-                        val+=4;
-                        i++;
-                    } else if(d == 'X') {
-                        val+=9;
-                        i++;
-                    } else {
-                        val++;
-                    }
-                } else if(c == 'X') {
-                    if(d == 'L') {
-                        val+=40;
-                        i++;
-                    } else if(d == 'C') {
-                        val+=90;
-                        i++;
-                    } else {
-                        val+=10;
-                    }
-                } else if(c == 'C') {
-                    if(d == 'D') {
-                        val+=400;
-                        i++;
-                    } else if(d == 'M') {
-                        val+=900;
-                        i++;
-                    } else {
-                        val+=100;
-                    }
-                } else {
-                    val += getValue(c);
-                }
+        int sum = romanMappings.get(s.charAt(n - 1));
+        for(int i = n - 2; i >= 0; i--) {
+            char c = s.charAt(i);
+            char pc = s.charAt(i + 1);
+
+            int cv = romanMappings.get(c);
+            int pcv = romanMappings.get(pc);
+
+            if(cv < pcv) {
+                sum -= cv;
             } else {
-                val += getValue(c);
+                sum += cv;
             }
         }
 
-        return val;
+        return sum;
     }
 
-    private int getValue(char c) {
-        switch(c) {
-            case 'I': return 1;
-            case 'V': return 5;
-            case 'X': return 10;
-            case 'L': return 50;
-            case 'C': return 100;
-            case 'D': return 500;
-            case 'M': return 1000;
-            default: return 0;
+    private void initializeMappings() {
+        romanMappings = new HashMap<>();
+        romanMappings.put('I', 1);
+        romanMappings.put('V', 5);
+        romanMappings.put('X', 10);
+        romanMappings.put('L', 50);
+        romanMappings.put('C', 100);
+        romanMappings.put('D', 500);
+        romanMappings.put('M', 1000);
+    }
+}
+
+class Solution_Classic {
+    public int romanToInt(String s) {
+        int sum = 0;
+
+        if(s == null) {
+            return 0;
         }
+
+        int index = 0;
+        int length = s.length();
+        while(index < length) {
+            char c1 = s.charAt(index);
+
+            if(c1 == 'I') {
+                if(index < length - 1) {
+                    char c2 = s.charAt(index + 1);
+                    if(c2 == 'V') {
+                        sum+=4;
+                        index++;
+                    } else if(c2 == 'X') {
+                        sum+=9;
+                        index++;
+                    } else {
+                        sum+=1;
+                    }
+                }  else {
+                    sum+=1;
+                }
+
+            } else if(c1 == 'V') {
+                sum+=5;
+            } else if(c1 == 'X') {
+                if(index < length - 1) {
+                    char c2 = s.charAt(index + 1);
+                    if(c2 == 'L') {
+                        sum+=40;
+                        index++;
+                    } else if(c2 == 'C') {
+                        sum+=90;
+                        index++;
+                    } else {
+                        sum+=10;
+                    }
+                }  else {
+                    sum+=10;
+                }
+            } else if(c1 == 'L') {
+                sum+=50;
+            } else if(c1 == 'C') {
+                if(index < length - 1) {
+                    char c2 = s.charAt(index + 1);
+                    if(c2 == 'D') {
+                        sum+=400;
+                        index++;
+                    } else if(c2 == 'M') {
+                        sum+=900;
+                        index++;
+                    } else {
+                        sum+=100;
+                    }
+                }  else {
+                    sum+=100;
+                }
+            } else if(c1 == 'D') {
+                sum+=500;
+            } else if(c1 == 'M') {
+                sum+=1000;
+            }
+
+            index++;
+        }
+
+        return sum;
     }
 }
 
