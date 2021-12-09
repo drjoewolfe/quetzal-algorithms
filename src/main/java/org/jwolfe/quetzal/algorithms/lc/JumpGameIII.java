@@ -1,10 +1,38 @@
 package org.jwolfe.quetzal.algorithms.lc;
 
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Queue;
+import java.util.Set;
 
 public class JumpGameIII {
     class Solution {
+        public boolean canReach(int[] arr, int start) {
+            if(arr == null || arr.length == 0) {
+                return false;
+            }
+
+            return canReachZero(arr, arr.length, start, new HashSet<>());
+        }
+
+        private boolean canReachZero(int[] arr, int n, int index, Set<Integer> visitedIndexes) {
+            if(index < 0 || index >= n || visitedIndexes.contains(index)) {
+                return false;
+            }
+
+            visitedIndexes.add(index);
+            int val = arr[index];
+
+            if(val == 0) {
+                return true;
+            }
+
+            return canReachZero(arr, n, index + val, visitedIndexes)
+                    || canReachZero(arr, n, index - val, visitedIndexes);
+        }
+    }
+
+    class Solution_Correct_1 {
         public boolean canReach(int[] arr, int start) {
             if(arr == null || arr.length == 0 || start < 0 || start >= arr.length) {
                 return false;
