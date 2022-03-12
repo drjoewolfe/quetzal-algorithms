@@ -1,46 +1,204 @@
 package org.jwolfe.quetzal.algorithms.lc;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class CopyListWithRandomPointer {
-    public Node copyRandomList(Node head) {
-        if(head == null) {
-            return null;
-        }
-
-        Node anchor = new Node(-1);
-        Node prev = anchor;
-        while(head != null) {
-            prev.next = head;
-
-            Node clone = new Node(head.val);
-            clone.next = head.next;
-            head.next = clone;
-
-            head = clone.next;
-            prev = clone;
-        }
-
-        head = anchor.next;
-        while(head != null) {
-            Node clone = head.next;
-            if(head.random != null) {
-                clone.random = head.random.next;
+    class Solution {
+        public Node copyRandomList(Node head) {
+            if(head == null) {
+                return null;
             }
 
-            head = clone.next;
+            Node anchor = new Node(-1);
+            Node prev = anchor;
+            while(head != null) {
+                prev.next = head;
+
+                Node clone = new Node(head.val);
+                clone.next = head.next;
+                head.next = clone;
+
+                head = clone.next;
+                prev = clone;
+            }
+
+            head = anchor.next;
+            while(head != null) {
+                Node clone = head.next;
+                if(head.random != null) {
+                    clone.random = head.random.next;
+                }
+
+                head = clone.next;
+            }
+
+            head = anchor.next;
+            prev = anchor;
+            while(head != null) {
+                Node clone = head.next;
+                prev.next = clone;
+                prev = clone;
+
+                head.next = clone.next;
+                head = clone.next;
+            }
+
+            return anchor.next;
         }
+    }
 
-        head = anchor.next;
-        prev = anchor;
-        while(head != null) {
-            Node clone = head.next;
-            prev.next = clone;
-            prev = clone;
+    class Solution_Space {
+        public Node copyRandomList(Node head) {
+            if(head == null) {
+                return head;
+            }
 
-            head.next = clone.next;
-            head = clone.next;
+            Node anchor = new Node(-1);
+            Node prev = anchor;
+
+            Map<Node, Node> map = new HashMap<>();
+
+            Node runner = head;
+            while(runner != null) {
+                Node node = new Node(runner.val);
+                prev.next = node;
+
+                map.put(runner, node);
+
+                runner = runner.next;
+                prev = prev.next;
+            }
+
+            runner = head;
+            Node clone = anchor.next;
+            while(runner != null) {
+                if(runner.random != null) {
+                    clone.random = map.get(runner.random);
+                }
+
+                runner = runner.next;
+                clone = clone.next;
+            }
+
+            return anchor.next;
         }
+    }
 
-        return anchor.next;
+    class Solution_Correct_1 {
+        public Node copyRandomList(Node head) {
+            if(head == null) {
+                return null;
+            }
+
+            Node anchor = new Node(-1);
+            Node prev = anchor;
+            while(head != null) {
+                prev.next = head;
+
+                Node clone = new Node(head.val);
+                clone.next = head.next;
+                head.next = clone;
+
+                head = clone.next;
+                prev = clone;
+            }
+
+            head = anchor.next;
+            while(head != null) {
+                Node clone = head.next;
+                if(head.random != null) {
+                    clone.random = head.random.next;
+                }
+
+                head = clone.next;
+            }
+
+            head = anchor.next;
+            prev = anchor;
+            while(head != null) {
+                Node clone = head.next;
+                prev.next = clone;
+                prev = clone;
+
+                head.next = clone.next;
+                head = clone.next;
+            }
+
+            return anchor.next;
+        }
+    }
+
+    class Solution_Classic {
+        public Node copyRandomList(Node head) {
+            if(head == null) {
+                return null;
+            }
+
+            Map<Node, Node> map = new HashMap<>();
+
+            Node anchor = new Node(-1);
+            Node prev = anchor;
+
+            Node runner = head;
+            while(runner != null) {
+                Node clone = new Node(runner.val);
+                prev.next = clone;
+                prev = clone;
+
+                map.put(runner, clone);
+                runner = runner.next;
+            }
+
+            runner = head;
+            Node clone = anchor.next;
+            while(runner != null) {
+                Node randomNext = runner.random;
+                if(map.containsKey(randomNext)) {
+                    clone.random = map.get(randomNext);
+                }
+
+                runner = runner.next;
+                clone = clone.next;
+            }
+
+            return anchor.next;
+        }
+    }
+
+    class Solution_Incorrect {
+        public Node copyRandomList(Node head) {
+            if(head == null) {
+                return head;
+            }
+
+            Node anchor = new Node(-1);
+
+            Node runner = head;
+            Node prev = anchor;
+            while(runner != null) {
+                Node clone = new Node(runner.val);
+                clone.random = runner.random;
+                prev.next = clone;
+                prev = prev.next;
+
+                Node next = runner.next;
+                runner.next = clone;
+
+                runner = next;
+            }
+
+            runner = anchor.next;
+            while(runner != null) {
+                if(runner.random != null) {
+                    runner.random = runner.random.next;
+                }
+
+                runner = runner.next;
+            }
+
+            return anchor.next;
+        }
     }
 
     class Node {
