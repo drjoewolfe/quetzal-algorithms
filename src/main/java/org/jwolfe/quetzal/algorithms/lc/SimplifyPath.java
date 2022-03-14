@@ -4,36 +4,74 @@ import java.util.Deque;
 import java.util.LinkedList;
 
 public class SimplifyPath {
-    public String simplifyPath(String path) {
-        if(path == null || path.length() == 0) {
-            return null;
-        }
+    class Solution {
+        public String simplifyPath(String path) {
+            if(path == null || path.length() == 0) {
+                return null;
+            }
 
-        Deque<String> deque = new LinkedList<>();
-        String[] directories = path.split("/");
-        for(String dir : directories) {
-            dir = dir.trim();
-            if(dir.equals("") || dir.equals(".")) {
-                continue;
-            } else if(dir.equals("..")) {
-                if(deque.size() != 0) {
-                    deque.removeLast();
+            Deque<String> directories = new LinkedList<>();
+            String[] parts = path.split("/");
+            for(String part : parts) {
+                part = part.trim();
+                if(part.equals("") || part.equals(".")) {
+                    continue;
                 }
+
+                if(part.equals("..")) {
+                    if(directories.size() > 0) {
+                        directories.removeLast();
+                    }
+                } else {
+                    directories.addLast(part);
+                }
+            }
+
+            StringBuilder builder = new StringBuilder();
+            if(directories.size() == 0) {
+                builder.append("/");
             } else {
-                deque.addLast(dir);
+                while(directories.size() > 0) {
+                    builder.append("/" + directories.pollFirst());
+                }
             }
-        }
 
-        StringBuilder builder = new StringBuilder();
-        if(deque.size() == 0) {
-            builder.append("/");
-        } else {
-            while(deque.size() > 0) {
-                builder.append("/" + deque.pollFirst());
+            return builder.toString();
+        }
+    }
+
+    class Solution_Correct_1 {
+        public String simplifyPath(String path) {
+            if(path == null || path.length() == 0) {
+                return null;
             }
-        }
 
-        return builder.toString();
+            Deque<String> deque = new LinkedList<>();
+            String[] directories = path.split("/");
+            for(String dir : directories) {
+                dir = dir.trim();
+                if(dir.equals("") || dir.equals(".")) {
+                    continue;
+                } else if(dir.equals("..")) {
+                    if(deque.size() != 0) {
+                        deque.removeLast();
+                    }
+                } else {
+                    deque.addLast(dir);
+                }
+            }
+
+            StringBuilder builder = new StringBuilder();
+            if(deque.size() == 0) {
+                builder.append("/");
+            } else {
+                while(deque.size() > 0) {
+                    builder.append("/" + deque.pollFirst());
+                }
+            }
+
+            return builder.toString();
+        }
     }
 }
 
