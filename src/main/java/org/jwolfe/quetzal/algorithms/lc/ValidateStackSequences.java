@@ -5,38 +5,78 @@ import java.util.Set;
 import java.util.Stack;
 
 public class ValidateStackSequences {
-    public boolean validateStackSequences(int[] pushed, int[] popped) {
-        if(pushed == null && popped == null) {
-            return true;
-        }
+    class Solution {
+        public boolean validateStackSequences(int[] pushed, int[] popped) {
+            if(pushed == null && popped == null) {
+                return true;
+            }
 
-        Stack<Integer> stack = new Stack<>();
-        Set<Integer> set = new HashSet<>();
-
-        int i = 0;
-        for(int j = 0; j < popped.length; j++) {
-            int a = popped[j];
-            if(!stack.isEmpty() && stack.peek() == a) {
-                stack.pop();
-                continue;
-            } else if(set.contains(a)) {
+            if(pushed == null || popped == null || pushed.length != popped.length) {
                 return false;
-            } else {
-                while(i < pushed.length && pushed[i] != a) {
-                    stack.push(pushed[i]);
-                    set.add(pushed[i]);
+            }
+
+            if(pushed.length == 0) {
+                return true;
+            }
+
+            Stack<Integer> stack = new Stack<>();
+            int i = 0;
+            for(int j = 0; j < popped.length; j++) {
+                int val = popped[j];
+                if(!stack.isEmpty() && stack.peek() == val) {
+                    stack.pop();
+                } else {
+                    while(i < pushed.length && pushed[i] != val) {
+                        stack.push(pushed[i]);
+                        i++;
+                    }
+
+                    if(i == pushed.length) {
+                        return false;
+                    }
+
                     i++;
                 }
-
-                if(i == pushed.length) {
-                    return false;
-                }
-
-                i++;
             }
-        }
 
-        return true;
+            return true;
+        }
+    }
+
+    class Solution_Correct_1 {
+        public boolean validateStackSequences(int[] pushed, int[] popped) {
+            if(pushed == null && popped == null) {
+                return true;
+            }
+
+            Stack<Integer> stack = new Stack<>();
+            Set<Integer> set = new HashSet<>();
+
+            int i = 0;
+            for(int j = 0; j < popped.length; j++) {
+                int a = popped[j];
+                if(!stack.isEmpty() && stack.peek() == a) {
+                    stack.pop();
+                    continue;
+                } else if(set.contains(a)) {
+                    return false;
+                } else {
+                    while(i < pushed.length && pushed[i] != a) {
+                        stack.push(pushed[i]);
+                        set.add(pushed[i]);
+                        i++;
+                    }
+
+                    if(i == pushed.length) {
+                        return false;
+                    }
+
+                    i++;
+                }
+            }
+
+            return true;
+        }
     }
 }
 
