@@ -1,64 +1,128 @@
 package org.jwolfe.quetzal.algorithms.lc;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.PriorityQueue;
 
-public class TheKWeakestRowsInAMatrix {
+class Solution {
     public int[] kWeakestRows(int[][] mat, int k) {
-        if(mat == null || mat.length == 0) {
+        if(mat == null || mat.length == 0 || k < 1) {
             return new int[0];
         }
 
         int m = mat.length;
+        int n = mat[0].length;
 
-        PriorityQueue<int[]> minHeap = new PriorityQueue<>((a, b) -> {
+        List<int[]> rowMetrics = new ArrayList<>();
+
+        for(int i = 0; i < m; i++) {
+            int[] row = mat[i];
+            int soldierCount = getSoldierCount(row);
+            rowMetrics.add(new int[] {i, soldierCount});
+        }
+
+        rowMetrics.sort((a, b) -> {
             if(a[1] == b[1]) {
-                return b[0] - a[0];
+                return a[0] - b[0];
             }
 
-            return b[1] - a[1];
+            return a[1] - b[1];
         });
 
-        for(int r = 0; r < m; r++) {
-            int soldiers = getSoldierCount(mat[r]);
-            minHeap.offer(new int[] {r, soldiers});
-
-            if(minHeap.size() > k) {
-                minHeap.poll();
-            }
+        int[] rv = new int[k];
+        for(int i = 0; i < k; i++) {
+            rv[i] = rowMetrics.get(i)[0];
         }
 
-        int[] results = new int[k];
-        int i = k - 1;
-        while(!minHeap.isEmpty()) {
-            results[i--] = minHeap.poll()[0];
-        }
-
-        return results;
+        return rv;
     }
 
     private int getSoldierCount(int[] row) {
+//         for(int i = 0; i < row.length; i++) {
+//             if(row[i] == 0) {
+//                 return i;
+//             }
+//         }
+
+//         return row.length;
         int left = 0;
         int right = row.length - 1;
 
-        int soldierEnd = -1;
         while(left <= right) {
             int mid = left + (right - left) / 2;
 
             if(row[mid] == 1) {
-                soldierEnd = mid;
                 left = mid + 1;
             } else {
                 right = mid - 1;
             }
         }
 
-        if(soldierEnd == -1) {
-            return 0;
+        return left;
+    }
+
+    private void print(List<int[]> metrics) {
+        for(int[] val : metrics) {
+            System.out.print("(" + val[0] + ", " + val[1] + ") ");
         }
 
-        return soldierEnd + 1;
+        System.out.println();
     }
 }
+
+class Solution_Correct_1 {
+    public int[] kWeakestRows(int[][] mat, int k) {
+        if(mat == null || mat.length == 0 || k < 1) {
+            return new int[0];
+        }
+
+        int rowCount = mat.length;
+        int colCount = mat[0].length;
+
+        PriorityQueue<RowWithStrength> maxHeap = new PriorityQueue<>((rs1, rs2) -> {
+            if(rs2.strength != rs1.strength) {
+                return rs2.strength - rs1.strength;
+            }
+
+            return rs2.row - rs1.row;
+        });
+
+        for(int r = 0; r < rowCount; r++) {
+            int rowStrength = 0;
+            for(int c = 0; c < colCount; c++) {
+                rowStrength += mat[r][c];
+            }
+
+            maxHeap.offer(new RowWithStrength(r, rowStrength));
+
+            if(maxHeap.size() > k) {
+                maxHeap.poll();
+            }
+        }
+
+        int n = maxHeap.size();
+        int i = n - 1;
+        int[] results = new int[n];
+        while(!maxHeap.isEmpty()) {
+            results[i--] = maxHeap.poll().row;
+        }
+
+        return results;
+    }
+
+    class RowWithStrength {
+        int row;
+        int strength;
+
+        public RowWithStrength(int row, int strength) {
+            this.row = row;
+            this.strength = strength;
+        }
+    }
+}
+
+// [[1,1,0,0,0],[1,1,1,1,0],[1,0,0,0,0],[1,1,0,0,0],[1,1,1,1,1]]
+// 3
 
 //    1337. The K Weakest Rows in a Matrix
 //    Easy
