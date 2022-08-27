@@ -1,7 +1,170 @@
 package org.jwolfe.quetzal.algorithms.lc;
 
+import java.util.TreeSet;
+
 public class MaxSumOfRectangleNoLargerThanK {
     class Solution {
+        public int maxSumSubmatrix(int[][] matrix, int k) {
+            if(matrix == null || matrix.length == 0 || matrix[0].length == 0) {
+                return Integer.MIN_VALUE;
+            }
+
+            int m = matrix.length;
+            int n = matrix[0].length;
+
+            int maxSum = Integer.MIN_VALUE;
+            for(int j = 0; j < n; j++) {
+
+                int[] rowSums = new int[m];
+                for(int l = j; l < n; l++) {
+
+                    for(int i = 0; i < m; i++) {
+                        rowSums[i] += matrix[i][l];
+                    }
+
+                    TreeSet<Integer> set = new TreeSet<>();
+                    set.add(0);
+
+                    int currentSum = 0;
+                    for(int i = 0; i < m; i++) {
+                        currentSum += rowSums[i];
+
+                        Integer startSum = set.ceiling(currentSum - k);
+                        if(startSum != null) {
+                            int sum = currentSum - startSum;
+                            maxSum = Math.max(maxSum, sum);
+                        }
+
+                        set.add(currentSum);
+                    }
+                }
+            }
+
+            return maxSum;
+        }
+    }
+
+    class Solution_Correct_2 {
+        public int maxSumSubmatrix(int[][] matrix, int k) {
+            if(matrix == null || matrix.length == 0 || matrix[0].length == 0) {
+                return Integer.MIN_VALUE;
+            }
+
+            int m = matrix.length;
+            int n = matrix[0].length;
+
+            int[][] sums = new int[m][n];
+            for(int i = 0; i < m; i++) {
+                for(int j = 0; j < n; j++) {
+                    int sum = matrix[i][j];
+                    if(i > 0) {
+                        sum += sums[i - 1][j];
+                    }
+
+                    if(j > 0) {
+                        sum += sums[i][j - 1];
+                    }
+
+                    if(i > 0 && j > 0) {
+                        sum -= sums[i - 1][j - 1];
+                    }
+
+                    sums[i][j] = sum;
+                }
+            }
+
+            int maxSum = Integer.MIN_VALUE;
+            for(int top = 0; top < m; top++) {
+                for(int left = 0; left < n; left++) {
+                    for(int bottom = top; bottom < m; bottom++) {
+                        for(int right = left; right < n; right++) {
+                            int sum = sums[bottom][right];
+
+                            if(top > 0) {
+                                sum -= sums[top - 1][right];
+                            }
+
+                            if(left > 0) {
+                                sum -= sums[bottom][left - 1];
+                            }
+
+                            if(top > 0 && left > 0) {
+                                sum += sums[top - 1][left - 1];
+                            }
+
+                            if(sum <= k) {
+                                maxSum = Math.max(maxSum, sum);
+                            }
+                        }
+                    }
+
+                }
+            }
+
+            return maxSum;
+        }
+
+        private void print(int[][] matrix) {
+            for(int i = 0; i < matrix.length; i++) {
+                for(int j = 0; j < matrix[0].length; j++) {
+                    System.out.print(matrix[i][j] + " ");
+                }
+
+                System.out.println();
+            }
+
+            System.out.println();
+        }
+    }
+
+    class Solution_TLE {
+        public int maxSumSubmatrix(int[][] matrix, int k) {
+            if(matrix == null || matrix.length == 0 || matrix[0].length == 0) {
+                return Integer.MIN_VALUE;
+            }
+
+            int m = matrix.length;
+            int n = matrix[0].length;
+
+            int maxSum = Integer.MIN_VALUE;
+            for(int i = 0; i < m; i++) {
+                for(int j = 0; j < n; j++) {
+                    maxSum = Math.max(maxSum,
+                            getMaxSumFromSubmatrix(matrix, i, j, m, n, k));
+                }
+            }
+
+            return maxSum;
+        }
+
+        private int getMaxSumFromSubmatrix(int[][] matrix, int top, int left, int m, int n, int k) {
+            int maxSum = Integer.MIN_VALUE;
+
+            for(int i = top; i < m; i++) {
+                for(int j = left; j < n; j++) {
+                    int sum = getMatrixSum(matrix, top, left, i, j);
+                    if(sum <= k) {
+                        maxSum = Math.max(maxSum, sum);
+                    }
+                }
+            }
+
+            return maxSum;
+        }
+
+        private int getMatrixSum(int[][] matrix, int top, int left, int bottom, int right) {
+            int sum = 0;
+            for(int i = top; i <= bottom; i++) {
+                for(int j = left; j <= right; j++) {
+                    sum += matrix[i][j];
+                }
+            }
+
+            return sum;
+        }
+    }
+
+    class Solution_Correct_1 {
         public int maxSumSubmatrix(int[][] matrix, int k) {
             if(matrix == null || matrix.length == 0 || matrix[0].length == 0) {
                 return 0;
