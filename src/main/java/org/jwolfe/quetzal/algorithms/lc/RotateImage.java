@@ -3,6 +3,34 @@ package org.jwolfe.quetzal.algorithms.lc;
 public class RotateImage {
     class Solution {
         public void rotate(int[][] matrix) {
+            if(matrix == null || matrix.length == 0 || matrix[0].length == 0) {
+                return;
+            }
+
+            int n = matrix.length;
+
+            for(int r = 0; r < n; r++) {
+                for(int c = r; c < n; c++) {
+                    swap(matrix, r, c, c, r);
+                }
+            }
+
+            for(int r = 0; r < n; r++) {
+                for(int c = 0; c < n / 2; c++) {
+                    swap(matrix, r, c, r, n - c - 1);
+                }
+            }
+        }
+
+        private void swap(int[][] matrix, int r1, int c1, int r2, int c2) {
+            int temp = matrix[r1][c1];
+            matrix[r1][c1] = matrix[r2][c2];
+            matrix[r2][c2] = temp;
+        }
+    }
+
+    class Solution_Correct_1 {
+        public void rotate(int[][] matrix) {
             if(matrix == null || matrix.length == 0) {
                 return;
             }
