@@ -20,6 +20,30 @@ public class CountGoodNodesInBinaryTree {
      * }
      */
     class Solution {
+        int count = 0;
+
+        public int goodNodes(TreeNode root) {
+            count = 0;
+            goodNodes(root, Integer.MIN_VALUE);
+
+            return count;
+        }
+
+        private void goodNodes(TreeNode root, int maxValueInPath) {
+            if(root == null) {
+                return;
+            }
+
+            if(root.val >= maxValueInPath) {
+                count++;
+            }
+
+            goodNodes(root.left, Math.max(root.val, maxValueInPath));
+            goodNodes(root.right, Math.max(root.val, maxValueInPath));
+        }
+    }
+
+    class Solution_Correct_1 {
         int count;
         public int goodNodes(TreeNode root) {
             count = 0;
