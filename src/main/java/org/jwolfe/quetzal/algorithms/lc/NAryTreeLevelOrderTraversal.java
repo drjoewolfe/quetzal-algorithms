@@ -34,6 +34,37 @@ class Node {
 
             Queue<Node> queue = new LinkedList<>();
             queue.offer(root);
+
+            while(!queue.isEmpty()) {
+                int size = queue.size();
+                List<Integer> level = new ArrayList<>();
+                traversal.add(level);
+
+                for(int i = 0; i < size; i++) {
+                    Node node = queue.poll();
+                    level.add(node.val);
+
+                    if(node.children != null) {
+                        for(var child : node.children) {
+                            queue.offer(child);
+                        }
+                    }
+                }
+            }
+
+            return traversal;
+        }
+    }
+
+    class Solution_Correct_1 {
+        public List<List<Integer>> levelOrder(Node root) {
+            List<List<Integer>> traversal = new ArrayList<>();
+            if(root == null) {
+                return traversal;
+            }
+
+            Queue<Node> queue = new LinkedList<>();
+            queue.offer(root);
             while(!queue.isEmpty()) {
                 int size = queue.size();
                 List<Integer> level = new ArrayList<>();
