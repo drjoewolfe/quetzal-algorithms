@@ -5,6 +5,101 @@ import java.util.*;
 public class MaximumPerformanceOfATeam {
     class Solution {
         private int MOD = 1_000_000_007;
+
+        public int maxPerformance(int n, int[] speed, int[] efficiency, int k) {
+            if(speed == null || efficiency == null || speed.length != n || speed.length != efficiency.length || k < 1) {
+                return 0;
+            }
+
+            long maxPerformance = Integer.MIN_VALUE;
+
+            int[][] engineers = new int[n][2];
+            for(int i = 0; i < n; i++) {
+                engineers[i][0] = speed[i];
+                engineers[i][1] = efficiency[i];
+            }
+
+            Arrays.sort(engineers, (e1, e2) -> e2[1] - e1[1]);
+
+            long currentSpeed = 0;
+            int minEfficiency = 0;
+
+            PriorityQueue<int[]> heap = new PriorityQueue<>((e1, e2) -> e1[0] - e2[0]);
+
+            for(int i = 0; i < n; i++) {
+                int[] engineer = engineers[i];
+                currentSpeed += engineer[0];
+                minEfficiency = engineer[1];
+
+                long performance = currentSpeed * minEfficiency;
+                maxPerformance = Math.max(maxPerformance, performance);
+
+                heap.offer(engineer);
+                if(heap.size() == k) {
+                    engineer = heap.poll();
+                    currentSpeed -= engineer[0];
+                }
+            }
+
+            return (int) (maxPerformance % MOD);
+        }
+    }
+
+    class Solution_Approach2_TLE {
+        private int MOD = 1_000_000_007;
+        private int maxPerformance;
+
+        public int maxPerformance(int n, int[] speed, int[] efficiency, int k) {
+            if(speed == null || efficiency == null || speed.length != n || speed.length != efficiency.length || k < 1) {
+                return 0;
+            }
+
+            maxPerformance = Integer.MIN_VALUE;
+            for(int teamSize = 1; teamSize <= k; teamSize++) {
+                maxPerformance(n, speed, efficiency, 0, teamSize, new HashSet<>());
+            }
+
+            return maxPerformance;
+        }
+
+        private void maxPerformance(int n, int[] speed, int[] efficiency, int index, int teamSize, Set<Integer> team) {
+            if(teamSize == 0) {
+                maxPerformance = Math.max(maxPerformance, getPerformance(team, speed, efficiency));
+                return;
+            }
+
+            if(index == n) {
+                return;
+            }
+
+            // Include this engineer in team
+            team.add(index);
+            maxPerformance(n, speed, efficiency, index + 1, teamSize - 1, team);
+            team.remove(index);
+
+            // Do not include this engineer in team
+            maxPerformance(n, speed, efficiency, index + 1, teamSize, team);
+        }
+
+        private int getPerformance(Set<Integer> team, int[] speed, int[] efficiency) {
+            if(team.size() == 0) {
+                return 0;
+            }
+
+            int minEfficiency = Integer.MAX_VALUE;
+            int totalSpeed = 0;
+            for(int i : team) {
+                minEfficiency = Math.min(minEfficiency, efficiency[i]);
+                totalSpeed += speed[i];
+                totalSpeed %= MOD;
+            }
+
+            return (totalSpeed * minEfficiency) % MOD;
+        }
+    }
+
+    class Solution_Correct_1 {
+        private int MOD = 1_000_000_007;
         public int maxPerformance(int n, int[] speed, int[] efficiency, int k) {
             if(n == 0 || k == 0 || k > n || speed == null || efficiency == null || speed.length != n || efficiency.length != n) {
                 return 0;
@@ -40,6 +135,38 @@ public class MaximumPerformanceOfATeam {
             }
 
             return (int) (maxTeamPerformance % MOD);
+        }
+
+        class Player {
+            int index;
+            int speed;
+            int efficiency;
+
+            public Player(int index, int speed, int efficiency) {
+                this.index = index;
+                this.speed = speed;
+                this.efficiency = efficiency;
+            }
+
+            @Override
+            public boolean equals(Object o) {
+                if(o instanceof Player) {
+                    Player p = (Player) o;
+                    return this.index == p.index;
+                }
+
+                return false;
+            }
+
+            @Override
+            public int hashCode() {
+                return index;
+            }
+
+            @Override
+            public String toString() {
+                return "(" + speed + "," + efficiency + ")";
+            }
         }
     }
 
@@ -93,6 +220,38 @@ public class MaximumPerformanceOfATeam {
             long performance = speedComponent * efficiencyComponent;
             return performance;
         }
+
+        class Player {
+            int index;
+            int speed;
+            int efficiency;
+
+            public Player(int index, int speed, int efficiency) {
+                this.index = index;
+                this.speed = speed;
+                this.efficiency = efficiency;
+            }
+
+            @Override
+            public boolean equals(Object o) {
+                if(o instanceof Player) {
+                    Player p = (Player) o;
+                    return this.index == p.index;
+                }
+
+                return false;
+            }
+
+            @Override
+            public int hashCode() {
+                return index;
+            }
+
+            @Override
+            public String toString() {
+                return "(" + speed + "," + efficiency + ")";
+            }
+        }
     }
 
     class Solution_Recursive_TLE {
@@ -130,38 +289,6 @@ public class MaximumPerformanceOfATeam {
             team.add(index);
             maxPerformance(n, speed, efficiency, k, index + 1, team);
             team.remove(index);
-        }
-    }
-
-    static class Player {
-        int index;
-        int speed;
-        int efficiency;
-
-        public Player(int index, int speed, int efficiency) {
-            this.index = index;
-            this.speed = speed;
-            this.efficiency = efficiency;
-        }
-
-        @Override
-        public boolean equals(Object o) {
-            if(o instanceof Player) {
-                Player p = (Player) o;
-                return this.index == p.index;
-            }
-
-            return false;
-        }
-
-        @Override
-        public int hashCode() {
-            return index;
-        }
-
-        @Override
-        public String toString() {
-            return "(" + speed + "," + efficiency + ")";
         }
     }
 
