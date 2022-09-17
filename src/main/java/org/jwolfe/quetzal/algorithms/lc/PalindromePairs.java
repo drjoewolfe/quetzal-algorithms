@@ -1,11 +1,123 @@
 package org.jwolfe.quetzal.algorithms.lc;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 public class PalindromePairs {
     class Solution {
+        public List<List<Integer>> palindromePairs(String[] words) {
+            List<List<Integer>> results = new ArrayList<>();
+            if(words == null || words.length < 2) {
+                return results;
+            }
+
+            Trie trie = new Trie();
+            for(int i = 0; i < words.length; i++) {
+                String word = words[i];
+                trie.insert(word, i);
+            }
+
+            for(int i = 0; i < words.length; i++) {
+                trie.processForPalindromePairs(words, i, results);
+            }
+
+            return results;
+        }
+
+        private class Trie {
+            TrieNode root;
+
+            public Trie() {
+                root = new TrieNode();
+            }
+
+            public void insert(String word, int wordIndex) {
+                TrieNode node = root;
+                for(int i = 0; i < word.length(); i++) {
+                    node.wordsPassingHere.add(wordIndex);
+
+                    char c = word.charAt(i);
+                    int index = c - 'a';
+
+                    if(node.children[index] == null) {
+                        node.children[index] = new TrieNode();
+                    }
+
+                    node = node.children[index];
+                }
+
+                node.isWord = true;
+                node.wordsEndingHere.add(wordIndex);
+            }
+
+            private void processForPalindromePairs(String[] words, int wordIndex, List<List<Integer>> palindromePairs) {
+                String word = words[wordIndex];
+                int n = word.length();
+
+                TrieNode node = root;
+                for(int i = n - 1; i >= 0; i--) {
+                    if(node.isWord
+                            && isPalindrome(word, 0, i)) {
+                        for(Integer k : node.wordsEndingHere) {
+                            palindromePairs.add(Arrays.asList(k, wordIndex));
+                        }
+                    }
+
+                    char c = word.charAt(i);
+                    int index = c - 'a';
+
+                    if(node.children[index] == null) {
+                        return;
+                    }
+
+                    node = node.children[index];
+                }
+
+                for(Integer i : node.wordsPassingHere) {
+                    if(i == wordIndex) {
+                        continue;
+                    }
+
+                    String candidate = words[i];
+                    if(isPalindrome(candidate, n, candidate.length() - 1)) {
+                        palindromePairs.add(Arrays.asList(i, wordIndex));
+                    }
+                }
+
+                for(Integer i : node.wordsEndingHere) {
+                    if(i == wordIndex) {
+                        continue;
+                    }
+
+                    palindromePairs.add(Arrays.asList(wordIndex, i));
+                }
+            }
+
+            private boolean isPalindrome(String s, int left, int right) {
+                while(left < right) {
+                    if(s.charAt(left++) != s.charAt(right--)) {
+                        return false;
+                    }
+                }
+
+                return true;
+            }
+        }
+
+        private class TrieNode {
+            TrieNode[] children;
+            boolean isWord;
+            Set<Integer> wordsEndingHere;
+            Set<Integer> wordsPassingHere;
+
+            public TrieNode() {
+                children = new TrieNode[26];
+                wordsEndingHere = new HashSet<>();
+                wordsPassingHere = new HashSet<>();
+            }
+        }
+    }
+
+    static class Solution_Correct_1 {
         public List<List<Integer>> palindromePairs(String[] words) {
             List<List<Integer>> pairs = new ArrayList<>();
             if(words == null || words.length < 2) {
@@ -27,95 +139,95 @@ public class PalindromePairs {
 
             return pairs;
         }
-    }
 
-    static class Trie {
-        TrieNode root;
+        static class Trie {
+            TrieNode root;
 
-        public Trie() {
-            this.root = new TrieNode();
-        }
-
-        public void insert(String word, int index) {
-            TrieNode node = root;
-            for(int i = 0; i < word.length(); i++) {
-                node.wordsPassingHere.add(index);
-
-                char c = word.charAt(i);
-                int j = c - 'a';
-
-                if(node.children[j] == null) {
-                    node.children[j] = new TrieNode();
-                }
-
-                node = node.children[j];
+            public Trie() {
+                this.root = new TrieNode();
             }
 
-            node.isWord = true;
-            node.wordsEndingHere.add(index);
-        }
+            public void insert(String word, int index) {
+                TrieNode node = root;
+                for(int i = 0; i < word.length(); i++) {
+                    node.wordsPassingHere.add(index);
 
-        public void searchPalindromePairs(String word, String[] words, int index, List<List<Integer>> results) {
-            TrieNode node = root;
+                    char c = word.charAt(i);
+                    int j = c - 'a';
 
-            int n = word.length();
-            for(int i = n - 1; i >= 0; i--) {
-                if(node.isWord && isPalindrome(word, 0, i)) {
-                    for(Integer k : node.wordsEndingHere) {
-                        if(k != index) {
-                            results.add(Arrays.asList(k, index));
+                    if(node.children[j] == null) {
+                        node.children[j] = new TrieNode();
+                    }
+
+                    node = node.children[j];
+                }
+
+                node.isWord = true;
+                node.wordsEndingHere.add(index);
+            }
+
+            public void searchPalindromePairs(String word, String[] words, int index, List<List<Integer>> results) {
+                TrieNode node = root;
+
+                int n = word.length();
+                for(int i = n - 1; i >= 0; i--) {
+                    if(node.isWord && isPalindrome(word, 0, i)) {
+                        for(Integer k : node.wordsEndingHere) {
+                            if(k != index) {
+                                results.add(Arrays.asList(k, index));
+                            }
                         }
+                    }
+
+                    char c = word.charAt(i);
+                    int j = c - 'a';
+
+                    if(node.children[j] == null) {
+                        return;
+                    }
+
+                    node = node.children[j];
+                }
+
+                for(Integer k : node.wordsPassingHere) {
+                    String candidate = words[k];
+
+                    if(k != index && isPalindrome(candidate, n, candidate.length() - 1)) {
+                        results.add(Arrays.asList(k, index));
                     }
                 }
 
-                char c = word.charAt(i);
-                int j = c - 'a';
+                for(Integer k : node.wordsEndingHere) {
+                    String candidate = words[k];
 
-                if(node.children[j] == null) {
-                    return;
-                }
-
-                node = node.children[j];
-            }
-
-            for(Integer k : node.wordsPassingHere) {
-                String candidate = words[k];
-
-                if(k != index && isPalindrome(candidate, n, candidate.length() - 1)) {
-                    results.add(Arrays.asList(k, index));
+                    if(k != index && isPalindrome(candidate, n, candidate.length() - 1)) {
+                        results.add(Arrays.asList(k, index));
+                    }
                 }
             }
 
-            for(Integer k : node.wordsEndingHere) {
-                String candidate = words[k];
-
-                if(k != index && isPalindrome(candidate, n, candidate.length() - 1)) {
-                    results.add(Arrays.asList(k, index));
+            private boolean isPalindrome(String word, int i, int j) {
+                while(i < j) {
+                    if(word.charAt(i++) != word.charAt(j--)) {
+                        return false;
+                    }
                 }
+
+                return true;
             }
         }
 
-        private boolean isPalindrome(String word, int i, int j) {
-            while(i < j) {
-                if(word.charAt(i++) != word.charAt(j--)) {
-                    return false;
-                }
+        static class TrieNode {
+            private TrieNode[] children;
+            private boolean isWord;
+            private List<Integer> wordsPassingHere;
+            private List<Integer> wordsEndingHere;
+
+            public TrieNode() {
+                this.children = new TrieNode[26];
+                this.wordsPassingHere = new ArrayList<>();
+                this.wordsEndingHere = new ArrayList<>();
             }
-
-            return true;
-        }
-    }
-
-    static class TrieNode {
-        private TrieNode[] children;
-        private boolean isWord;
-        private List<Integer> wordsPassingHere;
-        private List<Integer> wordsEndingHere;
-
-        public TrieNode() {
-            this.children = new TrieNode[26];
-            this.wordsPassingHere = new ArrayList<>();
-            this.wordsEndingHere = new ArrayList<>();
         }
     }
 
