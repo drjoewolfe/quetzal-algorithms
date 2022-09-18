@@ -7,6 +7,40 @@ public class TrappingRainWater {
                 return 0;
             }
 
+            int n = height.length;
+            int[] maxFromLeft = new int[n];
+            int[] maxFromRight = new int[n];
+
+            maxFromLeft[0] = height[0];
+            for(int i = 1; i < n; i++) {
+                maxFromLeft[i] = Math.max(maxFromLeft[i - 1], height[i]);
+            }
+
+            maxFromRight[n - 1] = height[n - 1];
+            for(int i = n - 2; i >= 0; i--) {
+                maxFromRight[i] = Math.max(maxFromRight[i + 1], height[i]);
+            }
+
+            int rainWater = 0;
+            for(int i = 0; i <n; i++) {
+                int column = Math.min(maxFromLeft[i], maxFromRight[i]) - height[i];
+                if(column < 0) {
+                    column = 0;
+                }
+
+                rainWater += column;
+            }
+
+            return rainWater;
+        }
+    }
+
+    class Solution_Correct_3 {
+        public int trap(int[] height) {
+            if(height == null || height.length < 3) {
+                return 0;
+            }
+
             int length = height.length;
 
             int[] largestToRight = new int[length];
