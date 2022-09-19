@@ -13,6 +13,64 @@ public class FindDuplicateFileInSystem {
                 return duplicates;
             }
 
+            Map<String, List<FileInfo>> map = new HashMap<>();
+
+            for(String path : paths) {
+                String[] components = path.split(" ");
+
+                String directory = components[0];
+                for(int i = 1; i < components.length; i++) {
+                    String filePart = components[i];
+                    String[] fileComponents = filePart.split("\\(");
+
+                    String fileName = fileComponents[0];
+                    String fileContents = fileComponents[1].substring(0, fileComponents[1].length() - 1);
+
+                    FileInfo info = new FileInfo();
+                    info.directory = directory;
+                    info.fileName = fileName;
+                    info.fileContents = fileContents;
+                    info.filePart = filePart;
+
+                    if(!map.containsKey(fileContents)) {
+                        map.put(fileContents, new ArrayList<>());
+                    }
+
+                    map.get(fileContents).add(info);
+                }
+            }
+
+            for(List<FileInfo> fileInfoList : map.values()) {
+                if(fileInfoList.size() < 2) {
+                    continue;
+                }
+
+                List<String> group = new ArrayList<>();
+                duplicates.add(group);
+
+                for(FileInfo info : fileInfoList) {
+                    group.add(info.directory + "/" + info.fileName);
+                }
+            }
+
+            return duplicates;
+        }
+
+        private class FileInfo {
+            String directory;
+            String fileName;
+            String fileContents;
+            String filePart;
+        }
+    }
+
+    class Solution_Correct_1 {
+        public List<List<String>> findDuplicate(String[] paths) {
+            List<List<String>> duplicates = new ArrayList<>();
+            if(paths == null || paths.length == 0) {
+                return duplicates;
+            }
+
             Map<String, List<String>> map = new HashMap<>();
 
             for(String pathComponent : paths) {
@@ -51,6 +109,9 @@ public class FindDuplicateFileInSystem {
             return duplicates;
         }
     }
+
+// ["root/a 1.txt(abcd) 2.txt(efgh)","root/c 3.txt(abcd)","root/c/d 4.txt(efgh)","root 4.txt(efgh)"]
+// ["root/a 1.txt(abcd) 2.txt(efsfgh)","root/c 3.txt(abdfcd)","root/c/d 4.txt(efggdfh)"]
 }
 
 //    609. Find Duplicate File in System
