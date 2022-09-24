@@ -23,6 +23,36 @@ public class PathSumII {
     class Solution {
         public List<List<Integer>> pathSum(TreeNode root, int targetSum) {
             List<List<Integer>> pathSums = new ArrayList<>();
+            pathSum(root, targetSum, 0, pathSums, new ArrayList<>());
+
+            return pathSums;
+        }
+
+        private void pathSum(TreeNode root, int targetSum, int currentSum, List<List<Integer>> pathSums, List<Integer> currentPath) {
+            if(root == null) {
+                return;
+            }
+
+            currentSum += root.val;
+            currentPath.add(root.val);
+
+            if(root.left == null && root.right == null) {
+                // Leaf node
+                if(currentSum == targetSum) {
+                    pathSums.add(new ArrayList<>(currentPath));
+                }
+            } else {
+                pathSum(root.left, targetSum, currentSum, pathSums, currentPath);
+                pathSum(root.right, targetSum, currentSum, pathSums, currentPath);
+            }
+
+            currentPath.remove(currentPath.size() - 1);
+        }
+    }
+
+    class Solution_Correct_1 {
+        public List<List<Integer>> pathSum(TreeNode root, int targetSum) {
+            List<List<Integer>> pathSums = new ArrayList<>();
             LinkedList<Integer> currentPath = new LinkedList<>();
 
             pathSum(root, targetSum, currentPath, pathSums);
