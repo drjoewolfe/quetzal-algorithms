@@ -2,35 +2,34 @@ package org.jwolfe.quetzal.algorithms.lc;
 
 public class DesignCircularQueue {
     class MyCircularQueue {
-        int[] queue;
-        int front;
-        int rear;
-        int size;
-        int count;
+        private int[] queue;
+        private int front;
+        private int rear;
+        private int count;
+        private int capacity;
 
         public MyCircularQueue(int k) {
             queue = new int[k];
             front = -1;
             rear = -1;
-            size = k;
             count = 0;
+            capacity = k;
         }
 
         public boolean enQueue(int value) {
-            if(count == size) {
+            if(count == capacity) {
                 return false;
             }
 
             front++;
-            front %= size;
-            queue[front] = value;
+            front %= capacity;
 
+            queue[front] = value;
             if(rear == -1) {
                 rear = front;
             }
 
-            count++;;
-
+            count++;
             return true;
         }
 
@@ -40,8 +39,7 @@ public class DesignCircularQueue {
             }
 
             rear++;
-            rear %= size;
-
+            rear %= capacity;
             count--;
 
             return true;
@@ -57,6 +55,78 @@ public class DesignCircularQueue {
 
         public int Rear() {
             if(count == 0) {
+                return -1;
+            }
+
+            return queue[front];
+        }
+
+        public boolean isEmpty() {
+            return count == 0;
+        }
+
+        public boolean isFull() {
+            return count == capacity;
+        }
+    }
+
+    class MyCircularQueue_Correct_1 {
+        int[] queue;
+        int front;
+        int rear;
+        int size;
+        int count;
+
+        public MyCircularQueue_Correct_1(int k) {
+            queue = new int[k];
+            front = -1;
+            rear = -1;
+            size = k;
+            count = 0;
+        }
+
+        public boolean enQueue(int value) {
+            if (count == size) {
+                return false;
+            }
+
+            front++;
+            front %= size;
+            queue[front] = value;
+
+            if (rear == -1) {
+                rear = front;
+            }
+
+            count++;
+            ;
+
+            return true;
+        }
+
+        public boolean deQueue() {
+            if (count == 0) {
+                return false;
+            }
+
+            rear++;
+            rear %= size;
+
+            count--;
+
+            return true;
+        }
+
+        public int Front() {
+            if (count == 0) {
+                return -1;
+            }
+
+            return queue[rear];
+        }
+
+        public int Rear() {
+            if (count == 0) {
                 return -1;
             }
 
