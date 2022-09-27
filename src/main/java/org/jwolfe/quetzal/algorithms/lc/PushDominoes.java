@@ -8,6 +8,71 @@ import java.util.Queue;
 public class PushDominoes {
     class Solution {
         public String pushDominoes(String dominoes) {
+            if(dominoes == null || dominoes.length() == 0) {
+                return dominoes;
+            }
+
+            int n = dominoes.length();
+            List<DominoOrientation> orientations = new ArrayList<>();
+            orientations.add(new DominoOrientation(-1, 'L'));
+
+            for(int i = 0; i < n; i++) {
+                char c = dominoes.charAt(i);
+
+                if(c != '.') {
+                    orientations.add(new DominoOrientation(i, c));
+                }
+            }
+
+            orientations.add(new DominoOrientation(n, 'R'));
+
+            char[] results = dominoes.toCharArray();
+            for(int i = 0; i < orientations.size() - 1; i++) {
+                var leftOrientation = orientations.get(i);
+                var rightOrientation = orientations.get(i + 1);
+
+                if(leftOrientation.direction == rightOrientation.direction) {
+                    for(int k = leftOrientation.index + 1; k < rightOrientation.index; k++) {
+                        results[k] = leftOrientation.direction;
+                    }
+                } else {
+                    if(leftOrientation.direction == 'R') {
+                        int left = leftOrientation.index;
+                        int right = rightOrientation.index;
+                        for(int k = left + 1; k < right; k++) {
+                            if(k - left == right - k) {
+                                // mid point
+                                results[k] = '.';
+                            } else {
+                                if(k - left > right - k) {
+                                    results[k] = 'L';
+                                } else {
+                                    results[k] = 'R';
+                                }
+                            }
+                        }
+                    }
+
+                    // LR does not have an impact;
+                }
+            }
+
+            return String.valueOf(results);
+        }
+
+        private class DominoOrientation {
+            int index;
+            char direction;
+
+            public DominoOrientation(int index, char direction) {
+                this.index = index;
+                this.direction = direction;
+            }
+        }
+    }
+
+    class Solution_Correct_1 {
+        public String pushDominoes(String dominoes) {
             if(dominoes == null || dominoes.length() < 2) {
                 return dominoes;
             }
@@ -167,7 +232,6 @@ public class PushDominoes {
             return builder.toString();
         }
     }
-
 
 // ".L.R...LR..L.."
 }
