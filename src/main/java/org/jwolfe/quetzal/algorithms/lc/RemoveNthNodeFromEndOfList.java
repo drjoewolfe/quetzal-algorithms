@@ -15,6 +15,32 @@ public class RemoveNthNodeFromEndOfList {
     class Solution {
         public ListNode removeNthFromEnd(ListNode head, int n) {
             if (head == null || n < 1) {
+                return head;
+            }
+
+            ListNode anchor = new ListNode(-1);
+            anchor.next = head;
+
+            ListNode front = anchor;
+            for (int i = 0; i < n && front != null; i++) {
+                front = front.next;
+            }
+
+            ListNode rear = anchor;
+            while (front.next != null) {
+                front = front.next;
+                rear = rear.next;
+            }
+
+            rear.next = rear.next.next;
+
+            return anchor.next;
+        }
+    }
+
+    class Solution_Correct_1 {
+        public ListNode removeNthFromEnd(ListNode head, int n) {
+            if (head == null || n < 1) {
                 return null;
             }
 
