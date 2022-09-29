@@ -6,6 +6,104 @@ import java.util.List;
 import java.util.PriorityQueue;
 
 public class FindKClosestElements {
+    class Solution {
+        public List<Integer> findClosestElements(int[] arr, int k, int x) {
+            List<Integer> results = new ArrayList<>();
+            if(arr == null || arr.length == 0 || k < 1) {
+                return results;
+            }
+
+            int index = binarySearch(arr, x);
+
+            results.add(arr[index]);
+            int left = index - 1;
+            int right = index + 1;
+
+            int n = arr.length;
+            while(k > 1) {
+                int ld = (left >= 0 && left < n) ? Math.abs(arr[left] - x) : Integer.MAX_VALUE;
+                int rd = (right >= 0 && right < n) ? Math.abs(arr[right] - x) : Integer.MAX_VALUE;
+
+                if(ld <= rd) {
+                    results.add(arr[left--]);
+                } else {
+                    results.add(arr[right++]);
+                }
+
+                k--;
+            }
+
+            Collections.sort(results);
+            return results;
+        }
+
+        private int binarySearch(int[] arr, int x) {
+            int left = 0;
+            int right = arr.length - 1;
+            int n = arr.length;
+
+            while(left <= right) {
+                int mid = left + (right - left) / 2;
+
+                if(arr[mid] == x) {
+                    return mid;
+                } else if(arr[mid] < x) {
+                    left = mid + 1;
+                } else {
+                    right = mid - 1;
+                }
+            }
+
+            int ld = (left >= 0 && left < n) ? Math.abs(arr[left] - x) : Integer.MAX_VALUE;
+            int rd = (right >= 0 && right < n) ? Math.abs(arr[right] - x) : Integer.MAX_VALUE;
+
+            if(ld < rd) {
+                return left;
+            } else {
+                return right;
+            }
+        }
+
+        private void print(List<Integer> arr) {
+            for(int a : arr) {
+                System.out.print(a + " ");
+            }
+
+            System.out.println();
+        }
+    }
+
+    class Solution_Correct_1 {
+        public List<Integer> findClosestElements(int[] arr, int k, int x) {
+            List<Integer> results = new ArrayList<>();
+            if(arr == null || arr.length == 0 || k < 1) {
+                return results;
+            }
+
+            PriorityQueue<Integer> heap = new PriorityQueue<>((a, b) -> {
+                int ad = Math.abs(a - x);
+                int bd = Math.abs(b - x);
+
+                if(ad == bd) {
+                    return a - b;
+                }
+
+                return ad - bd;
+            });
+
+            for(int val : arr) {
+                heap.offer(val);
+            }
+
+            int n = arr.length;
+            for(int i = 0; i < k; i++) {
+                results.add(heap.poll());
+            }
+
+            Collections.sort(results);
+            return results;
+        }
+    }
 
     class Solution_Heap {
         public List<Integer> findClosestElements(int[] arr, int k, int x) {
