@@ -1,7 +1,123 @@
 package org.jwolfe.quetzal.algorithms.lc;
 
+import java.util.Arrays;
+
 public class DecodeWays {
     class Solution {
+        public int numDecodings(String s) {
+            if(s == null || s.length() == 0) {
+                return 0;
+            }
+
+            int n = s.length();
+            int[] dp = new int[n + 1];
+            dp[n] = 1;
+            dp[n - 1] = s.charAt(n - 1) == '0' ? 0 : 1;
+
+            for(int i = n - 2; i >= 0; i--) {
+                int oneDigit = s.charAt(i) - '0';
+                int twoDigits = Integer.valueOf(s.substring(i, i + 2));
+
+                // one digit
+                if(oneDigit > 0) {
+                    dp[i] += dp[i + 1];
+                }
+
+                // two digits
+                if(twoDigits >= 10 && twoDigits <= 26) {
+                    dp[i] += dp[i + 2];
+                }
+            }
+
+            return dp[0];
+        }
+    }
+
+    class Solution_Memoized {
+        public int numDecodings(String s) {
+            if(s == null || s.length() == 0) {
+                return 0;
+            }
+
+            int[] cache = new int[s.length()];
+            Arrays.fill(cache, -1);
+
+            return numDecodings(s, 0, cache);
+        }
+
+        private int numDecodings(String s, int index, int[] cache) {
+            if(index == s.length()) {
+                return 1;
+            }
+
+            if(index == s.length() - 1) {
+                char c = s.charAt(s.length() - 1);
+                return (c == '0') ? 0 : 1;
+            }
+
+            if(cache[index] != -1) {
+                return cache[index];
+            }
+
+            int ways = 0;
+
+            int oneDigit = s.charAt(index) - '0';
+            int twoDigits = Integer.valueOf(s.substring(index, index + 2));
+
+            // one digit
+            if(oneDigit > 0) {
+                ways += numDecodings(s, index + 1, cache);
+            }
+
+            // two digits
+            if(twoDigits >= 10 && twoDigits <= 26) {
+                ways += numDecodings(s, index + 2, cache);
+            }
+
+            cache[index] = ways;
+            return ways;
+        }
+    }
+
+    class Solution_Recursive {
+        public int numDecodings(String s) {
+            if(s == null || s.length() == 0) {
+                return 0;
+            }
+
+            return numDecodings(s, 0);
+        }
+
+        private int numDecodings(String s, int index) {
+            if(index == s.length()) {
+                return 1;
+            }
+
+            if(index == s.length() - 1) {
+                char c = s.charAt(s.length() - 1);
+                return (c == '0') ? 0 : 1;
+            }
+
+            int ways = 0;
+
+            int oneDigit = s.charAt(index) - '0';
+            int twoDigits = Integer.valueOf(s.substring(index, index + 2));
+
+            // one digit
+            if(oneDigit > 0) {
+                ways += numDecodings(s, index + 1);
+            }
+
+            // two digits
+            if(twoDigits >= 10 && twoDigits <= 26) {
+                ways += numDecodings(s, index + 2);
+            }
+
+            return ways;
+        }
+    }
+
+    class Solution_Correct_1 {
         public int numDecodings(String s) {
             if(s == null || s.length() == 0) {
                 return 0;
@@ -58,6 +174,8 @@ public class DecodeWays {
             return dp[n];
         }
     }
+
+// "12"
 }
 
 //    91. Decode Ways
