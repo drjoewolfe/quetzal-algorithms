@@ -1,41 +1,81 @@
 package org.jwolfe.quetzal.algorithms.lc;
 
 public class AddOneRowToTree {
-    public TreeNode addOneRow(TreeNode root, int v, int d) {
-        if(d <= 0) {
+    /**
+     * Definition for a binary tree node.
+     * public class TreeNode {
+     *     int val;
+     *     TreeNode left;
+     *     TreeNode right;
+     *     TreeNode() {}
+     *     TreeNode(int val) { this.val = val; }
+     *     TreeNode(int val, TreeNode left, TreeNode right) {
+     *         this.val = val;
+     *         this.left = left;
+     *         this.right = right;
+     *     }
+     * }
+     */
+    class Solution {
+        public TreeNode addOneRow(TreeNode root, int v, int d) {
+            if(d == 1) {
+                TreeNode node = new TreeNode(v);
+                node.left = root;
+                return node;
+            }
+
+            return addOneRow(root, v, d, 1);
+        }
+
+        private TreeNode addOneRow(TreeNode root, int v, int d, int currentDepth) {
+            if(root == null) {
+                return root;
+            }
+
+            if(currentDepth == d - 1) {
+                TreeNode leftNode = new TreeNode(v);
+                TreeNode rightNode = new TreeNode(v);
+
+                leftNode.left = root.left;
+                rightNode.right = root.right;
+
+                root.left = leftNode;
+                root.right = rightNode;
+            } else {
+                addOneRow(root.left, v, d, currentDepth + 1);
+                addOneRow(root.right, v, d, currentDepth + 1);
+            }
+
             return root;
         }
-
-        if(d == 1) {
-            TreeNode node = new TreeNode(v);
-            node.left = root;
-
-            return node;
-        }
-
-        return addOneRow(root, v, d, 1);
     }
 
-    private TreeNode addOneRow(TreeNode root, int v, int d, int cd) {
-        if(root == null) {
+    class Solution_Correct_1 {
+        public TreeNode addOneRow(TreeNode root, int v, int d) {
+            return addOneRow(root, true, v, d);
+        }
+
+        private TreeNode addOneRow(TreeNode root, boolean left, int v, int d) {
+            if(d == 1) {
+                TreeNode newRoot = new TreeNode(v);
+                if(left) {
+                    newRoot.left = root;
+                } else {
+                    newRoot.right = root;
+                }
+
+                return newRoot;
+            }
+
+            if(root == null) {
+                return root;
+            }
+
+            root.left = addOneRow(root.left, true, v, d - 1);
+            root.right = addOneRow(root.right, false, v, d - 1);
+
             return root;
         }
-
-        if(d == cd + 1) {
-            TreeNode left = new TreeNode(v);
-            left.left = root.left;
-
-            TreeNode right = new TreeNode(v);
-            right.right = root.right;
-
-            root.left = left;
-            root.right = right;
-        } else {
-            addOneRow(root.left, v, d, cd + 1);
-            addOneRow(root.right, v, d, cd + 1);
-        }
-
-        return root;
     }
 
     public class TreeNode {
