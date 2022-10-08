@@ -5,6 +5,51 @@ import java.util.Arrays;
 public class ThreeSumClosest {
     class Solution {
         public int threeSumClosest(int[] nums, int target) {
+            if(nums == null || nums.length < 3) {
+                return 0;
+            }
+
+            Arrays.sort(nums);
+
+            int n = nums.length;
+            int closestSum = 0;
+            int closestAbsDiff = Integer.MAX_VALUE;
+
+            for(int i = 0; i < n - 2; i++) {
+                int a = nums[i];
+
+                int j = i + 1;
+                int k = n - 1;
+                while(j < k) {
+                    int b = nums[j];
+                    int c = nums[k];
+
+                    int sum = a + b + c;
+                    int absDiff = Math.abs(sum - target);
+
+                    if(sum == target) {
+                        return target;
+                    } else {
+                        if(absDiff < closestAbsDiff) {
+                            closestAbsDiff = absDiff;
+                            closestSum = sum;
+                        }
+                    }
+
+                    if(sum > target) {
+                        k--;
+                    } else {
+                        j++;
+                    }
+                }
+            }
+
+            return closestSum;
+        }
+    }
+
+    class Solution_Correct_1 {
+        public int threeSumClosest(int[] nums, int target) {
             if(nums == null || nums.length == 0) {
                 return 0;
             }
@@ -41,6 +86,7 @@ public class ThreeSumClosest {
             return target - minDiff;
         }
     }
+
 
     class Solution_Brute {
         public int threeSumClosest(int[] nums, int target) {
@@ -145,6 +191,9 @@ public class ThreeSumClosest {
             return closestSum;
         }
     }
+
+// [-1,2,1,-4]
+// 1
 }
 
 //    16. 3Sum Closest
