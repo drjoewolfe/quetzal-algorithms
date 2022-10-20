@@ -1,91 +1,132 @@
 package org.jwolfe.quetzal.algorithms.lc;
 
 public class IntegerToRoman {
-    public String intToRoman(int num) {
-        if(num <= 0){
-            return "";
+    class Solution {
+        public String intToRoman(int num) {
+            if(num <= 0) {
+                return "";
+            }
+
+            StringBuilder sb = new StringBuilder();
+
+            // 1000 - M
+            // 900 - CM
+            // 500 - D
+            // 400 - CD
+            // 100 - C
+            // 90 - XC
+            // 50 - L
+            // 40 - XL
+            // 10 - X
+            // 9 - IX
+            // 5 - V
+            // 4 - IV
+            // 1 - I
+
+            int[] numbers = new int[] {1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1};
+            String[] romans = new String[] {"M", "CM", "D", "CD", "C", "XC", "L", "XL", "X", "IX", "V", "IV", "I"};
+
+            for(int i = 0; i <= 12; i++) {
+                int n = numbers[i];
+                String s = romans[i];
+
+                while(num >= n) {
+                    num -= n;
+                    sb.append(s);
+                }
+            }
+
+            return sb.toString();
         }
+    }
 
-        StringBuilder builder = new StringBuilder();
+    class Solution_Correct_1 {
+        public String intToRoman(int num) {
+            if(num <= 0){
+                return "";
+            }
 
-        int n = num / 1000;
-        num %= 1000;
-        while(n > 0) {
-            builder.append("M");
-            n--;
+            StringBuilder builder = new StringBuilder();
+
+            int n = num / 1000;
+            num %= 1000;
+            while(n > 0) {
+                builder.append("M");
+                n--;
+            }
+
+            if(num >= 900) {
+                builder.append("CM");
+                num -= 900;
+            }
+
+            n = num / 500;
+            num %= 500;
+            while(n > 0) {
+                builder.append("D");
+                n--;
+            }
+
+            if(num >= 400) {
+                builder.append("CD");
+                num -= 400;
+            }
+
+            n = num / 100;
+            num %= 100;
+            while(n > 0) {
+                builder.append("C");
+                n--;
+            }
+
+            if(num >= 90) {
+                builder.append("XC");
+                num -= 90;
+            }
+
+            n = num / 50;
+            num %= 50;
+            while(n > 0) {
+                builder.append("L");
+                n--;
+            }
+
+            if(num >= 40) {
+                builder.append("XL");
+                num -= 40;
+            }
+
+            n = num / 10;
+            num %= 10;
+            while(n > 0) {
+                builder.append("X");
+                n--;
+            }
+
+            if(num == 9) {
+                builder.append("IX");
+                num -= 9;
+            }
+
+            n = num / 5;
+            num %= 5;
+            while(n > 0) {
+                builder.append("V");
+                n--;
+            }
+
+            if(num == 4) {
+                builder.append("IV");
+                num -= 4;
+            }
+
+            while(num > 0) {
+                builder.append("I");
+                num--;
+            }
+
+            return builder.toString();
         }
-
-        if(num >= 900) {
-            builder.append("CM");
-            num -= 900;
-        }
-
-        n = num / 500;
-        num %= 500;
-        while(n > 0) {
-            builder.append("D");
-            n--;
-        }
-
-        if(num >= 400) {
-            builder.append("CD");
-            num -= 400;
-        }
-
-        n = num / 100;
-        num %= 100;
-        while(n > 0) {
-            builder.append("C");
-            n--;
-        }
-
-        if(num >= 90) {
-            builder.append("XC");
-            num -= 90;
-        }
-
-        n = num / 50;
-        num %= 50;
-        while(n > 0) {
-            builder.append("L");
-            n--;
-        }
-
-        if(num >= 40) {
-            builder.append("XL");
-            num -= 40;
-        }
-
-        n = num / 10;
-        num %= 10;
-        while(n > 0) {
-            builder.append("X");
-            n--;
-        }
-
-        if(num == 9) {
-            builder.append("IX");
-            num -= 9;
-        }
-
-        n = num / 5;
-        num %= 5;
-        while(n > 0) {
-            builder.append("V");
-            n--;
-        }
-
-        if(num == 4) {
-            builder.append("IV");
-            num -= 4;
-        }
-
-        while(num > 0) {
-            builder.append("I");
-            num--;
-        }
-
-        return builder.toString();
     }
 }
 
