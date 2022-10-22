@@ -11,6 +11,82 @@ public class MinimumWindowSubstring {
             int n = t.length();
 
             int[] patternFrequencies = getFrequencies(t);
+            int[] windowFrequencies = new int[58];
+
+            int left = 0;
+            int right = 0;
+
+            int minLength = Integer.MAX_VALUE;
+            int leftForMin = -1;
+            int rightForMin = -1;
+
+            while(right < m) {
+                char rc = s.charAt(right);
+                windowFrequencies[rc - 'A']++;
+
+                while(isSubset(patternFrequencies, windowFrequencies)) {
+                    int length = right - left + 1;
+
+                    if(minLength > length) {
+                        minLength = length;
+                        leftForMin = left;
+                        rightForMin = right;
+                    }
+
+                    char lc = s.charAt(left);
+                    windowFrequencies[lc - 'A']--;
+
+                    left++;
+                }
+
+                right++;
+            }
+
+            if(minLength == Integer.MAX_VALUE) {
+                return "";
+            }
+
+            return s.substring(leftForMin, rightForMin + 1);
+        }
+
+        private int[] getFrequencies(String s) {
+            int[] frequencies = new int[58];
+            for(int i = 0; i < s.length(); i++) {
+                frequencies[s.charAt(i) - 'A']++;
+            }
+
+            return frequencies;
+        }
+
+        private boolean isSubset(int[] frequencySet1, int[] frequencySet2) {
+            for(int i = 0; i < 58; i++) {
+                if(frequencySet1[i] > frequencySet2[i]) {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        private void print(int[] arr) {
+            for(int cell : arr) {
+                System.out.print(cell + " ");
+            }
+
+            System.out.println();
+        }
+    }
+
+    class Solution_Correct_1 {
+        public String minWindow(String s, String t) {
+            if(s == null || t == null || s.length() < t.length()) {
+                return "";
+            }
+
+            int m = s.length();
+            int n = t.length();
+
+            int[] patternFrequencies = getFrequencies(t);
             int[] subFrequencies = new int[58];
 
             int i = 0;
