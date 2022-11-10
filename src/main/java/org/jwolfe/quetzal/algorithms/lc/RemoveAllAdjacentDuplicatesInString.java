@@ -10,6 +10,32 @@ public class RemoveAllAdjacentDuplicatesInString {
             }
 
             Stack<Character> stack = new Stack<>();
+            for(int i = 0; i < S.length(); i++) {
+                char c = S.charAt(i);
+
+                if(!stack.isEmpty() && stack.peek() == c) {
+                    stack.pop();
+                } else {
+                    stack.push(c);
+                }
+            }
+
+            StringBuilder builder = new StringBuilder();
+            while(!stack.isEmpty()) {
+                builder.append(stack.pop());
+            }
+
+            return builder.reverse().toString();
+        }
+    }
+
+    class Solution_Correct_1 {
+        public String removeDuplicates(String S) {
+            if(S == null || S.length() < 2) {
+                return S;
+            }
+
+            Stack<Character> stack = new Stack<>();
             stack.push(S.charAt(0));
             for(int i = 1; i < S.length(); i++) {
                 char c = S.charAt(i);
