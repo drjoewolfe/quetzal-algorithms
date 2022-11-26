@@ -8,6 +8,38 @@ import java.util.TreeMap;
 public class MaximumProfitInJobScheduling {
     class Solution {
         public int jobScheduling(int[] startTime, int[] endTime, int[] profit) {
+            if(startTime == null || endTime == null || profit == null || startTime.length != endTime.length || startTime.length != profit.length) {
+                return 0;
+            }
+
+            int n = startTime.length;
+
+            List<int[]> jobs = new ArrayList<>();
+            for(int i = 0; i < n; i++) {
+                jobs.add(new int[] {startTime[i], endTime[i], profit[i]});
+            }
+
+            Collections.sort(jobs, (a, b) -> a[1] - b[1]);
+
+            int maxProfit = 0;
+            TreeMap<Integer, Integer> maxProfitsByTime = new TreeMap<>();
+            maxProfitsByTime.put(0, 0);
+
+            for(int i = 0; i < n; i++) {
+                int[] job = jobs.get(i);
+
+                int netProfit = maxProfitsByTime.get(maxProfitsByTime.floorKey(job[0])) + job[2];
+                maxProfit = Math.max(maxProfit, netProfit);
+
+                maxProfitsByTime.put(job[1], maxProfit);
+            }
+
+            return maxProfit;
+        }
+    }
+
+    class Solution_Correct_1 {
+        public int jobScheduling(int[] startTime, int[] endTime, int[] profit) {
             if(startTime == null || endTime == null || profit == null
                     || startTime.length != endTime.length || endTime.length != profit.length) {
                 return 0;
