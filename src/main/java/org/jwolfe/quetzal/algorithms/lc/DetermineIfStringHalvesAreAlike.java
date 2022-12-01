@@ -1,7 +1,37 @@
 package org.jwolfe.quetzal.algorithms.lc;
 
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
+
 public class DetermineIfStringHalvesAreAlike {
     class Solution {
+        public boolean halvesAreAlike(String s) {
+            if(s == null || s.length() == 0 || s.length() % 2 != 0) {
+                return false;
+            }
+
+            Set<Character> set = new HashSet<>(Arrays.asList(new Character[] {'a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U'}));
+
+            int n = s.length();
+            int count = 0;
+            for(int i = 0; i < n / 2; i++) {
+                if(set.contains(s.charAt(i))) {
+                    count++;
+                }
+            }
+
+            for(int i = n / 2; i < n; i++) {
+                if(set.contains(s.charAt(i))) {
+                    count--;
+                }
+            }
+
+            return count == 0;
+        }
+    }
+
+    class Solution_Correct_1 {
         public boolean halvesAreAlike(String s) {
             if(s == null || s.length() == 0 || s.length() % 2 != 0) {
                 return false;
