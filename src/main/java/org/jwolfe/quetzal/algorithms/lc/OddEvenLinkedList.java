@@ -13,7 +13,37 @@ public class OddEvenLinkedList {
      */
     class Solution {
         public ListNode oddEvenList(ListNode head) {
-            if (head == null || head.next == null) {
+            if(head == null || head.next == null) {
+                return head;
+            }
+
+            ListNode oddAnchor = new ListNode();
+            ListNode evenAnchor = new ListNode();
+
+            ListNode odd = oddAnchor;
+            ListNode even = evenAnchor;
+
+            while(head != null) {
+                odd.next = head;
+                odd = odd.next;
+                head = head.next;
+
+                if(head != null) {
+                    even.next = head;
+                    even = even.next;
+                    head = head.next;
+                }
+            }
+
+            even.next = null;
+            odd.next = evenAnchor.next;
+            return oddAnchor.next;
+        }
+    }
+
+    class Solution_Correct_2 {
+        public ListNode oddEvenList(ListNode head) {
+            if(head == null || head.next == null) {
                 return head;
             }
 
@@ -24,8 +54,8 @@ public class OddEvenLinkedList {
             ListNode even = evenAnchor;
 
             boolean oddMode = true;
-            while (head != null) {
-                if (oddMode) {
+            while(head != null) {
+                if(oddMode) {
                     odd.next = head;
                     head = head.next;
                     odd = odd.next;
@@ -47,7 +77,7 @@ public class OddEvenLinkedList {
 
     class Solution_Correct_1 {
         public ListNode oddEvenList(ListNode head) {
-            if (head == null || head.next == null) {
+            if(head == null || head.next == null) {
                 return head;
             }
 
@@ -55,7 +85,7 @@ public class OddEvenLinkedList {
             ListNode even = head.next;
             ListNode evenHead = even;
 
-            while (even != null && even.next != null) {
+            while(even != null && even.next != null) {
                 odd.next = even.next;
                 odd = odd.next;
 
