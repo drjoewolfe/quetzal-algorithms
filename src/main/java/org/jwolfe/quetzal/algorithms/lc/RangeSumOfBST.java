@@ -17,6 +17,29 @@ public class RangeSumOfBST {
      * }
      */
     class Solution {
+        public int rangeSumBST(TreeNode root, int low, int high) {
+            if(root == null) {
+                return 0;
+            }
+
+            int sum = 0;
+            if(root.val >= low && root.val <= high) {
+                sum += root.val;
+            }
+
+            if(root.val > low) {
+                sum += rangeSumBST(root.left, low, high);
+            }
+
+            if(root.val < high) {
+                sum += rangeSumBST(root.right, low, high);
+            }
+
+            return sum;
+        }
+    }
+
+    class Solution_Correct_2 {
         int sum;
 
         public int rangeSumBST(TreeNode root, int low, int high) {
@@ -27,19 +50,19 @@ public class RangeSumOfBST {
         }
 
         private void rangeSumBSTHelper(TreeNode root, int low, int high) {
-            if (root == null) {
+            if(root == null) {
                 return;
             }
 
-            if (root.val >= low && root.val <= high) {
+            if(root.val >= low && root.val <= high) {
                 sum += root.val;
             }
 
-            if (root.val >= low) {
+            if(root.val >= low) {
                 rangeSumBSTHelper(root.left, low, high);
             }
 
-            if (root.val <= high) {
+            if(root.val <= high) {
                 rangeSumBSTHelper(root.right, low, high);
             }
         }
