@@ -21,7 +21,49 @@ public class MaximumProductOfSplittedBinaryTree {
         int MOD = 1_000_000_007;
 
         public int maxProduct(TreeNode root) {
-            if (root == null) {
+            if(root == null) {
+                return 0;
+            }
+
+            int sum = getSum(root);
+            max = 0;
+            computeMaxProduct(root, sum);
+
+            return (int) (max % MOD);
+        }
+
+        private long computeMaxProduct(TreeNode root, int sum) {
+            if(root == null) {
+                return 0;
+            }
+
+            long leftSum = computeMaxProduct(root.left, sum);
+            long rightSum = computeMaxProduct(root.right, sum);
+
+            long subTreeSum = leftSum + rightSum + root.val;
+            long otherTreeSum = sum - subTreeSum;
+
+            long product = subTreeSum * otherTreeSum;
+            max = Math.max(max, product);
+
+            return subTreeSum;
+        }
+
+        private int getSum(TreeNode root) {
+            if(root == null) {
+                return 0;
+            }
+
+            return root.val + getSum(root.left) + getSum(root.right);
+        }
+    }
+
+    class Solution_Correct_1 {
+        long max;
+        int MOD = 1_000_000_007;
+
+        public int maxProduct(TreeNode root) {
+            if(root == null) {
                 return 0;
             }
 
@@ -34,7 +76,7 @@ public class MaximumProductOfSplittedBinaryTree {
         }
 
         private long computeMaxProduct(TreeNode root, long sum) {
-            if (root == null) {
+            if(root == null) {
                 return 0;
             }
 
@@ -51,7 +93,7 @@ public class MaximumProductOfSplittedBinaryTree {
         }
 
         private long getSum(TreeNode root) {
-            if (root == null) {
+            if(root == null) {
                 return 0;
             }
 
