@@ -10,6 +10,34 @@ public class DailyTemperatures {
                 return new int[0];
             }
 
+            Stack<Integer> stack = new Stack<>();
+            int n = T.length;
+            int[] results = new int[n];
+
+            for(int i = n - 1; i >= 0; i--) {
+                int val = T[i];
+
+                while(!stack.isEmpty()
+                        && T[stack.peek()] <= val) {
+                    stack.pop();
+                }
+
+                int j = !stack.isEmpty() ? stack.peek() : i;
+                results[i] = j - i;
+
+                stack.push(i);
+            }
+
+            return results;
+        }
+    }
+
+    class Solution_Correct_2 {
+        public int[] dailyTemperatures(int[] T) {
+            if(T == null || T.length == 0) {
+                return new int[0];
+            }
+
             int n = T.length;
             int[] days = new int[n];
 
