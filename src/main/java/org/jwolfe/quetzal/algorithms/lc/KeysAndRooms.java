@@ -9,6 +9,33 @@ public class KeysAndRooms {
                 return false;
             }
 
+            Set<Integer> visited = new HashSet<>();
+            int n = rooms.size();
+
+            Queue<Integer> queue = new LinkedList<>();
+            queue.offer(0);
+
+            while(!queue.isEmpty()) {
+                int room = queue.poll();
+                visited.add(room);
+
+                for(var key : rooms.get(room)) {
+                    if(!visited.contains(key)) {
+                        queue.offer(key);
+                    }
+                }
+            }
+
+            return visited.size() == n;
+        }
+    }
+
+    class Solution_Correct_1 {
+        public boolean canVisitAllRooms(List<List<Integer>> rooms) {
+            if(rooms == null || rooms.size() == 0) {
+                return false;
+            }
+
             int numRooms = rooms.size();
             boolean[] visitedRooms = new boolean[numRooms];
 
