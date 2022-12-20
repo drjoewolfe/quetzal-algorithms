@@ -1,6 +1,6 @@
 package org.jwolfe.quetzal.algorithms.lc;
 
-import java.util.List;
+import java.util.*;
 
 public class KeysAndRooms {
     class Solution {
