@@ -10,6 +10,56 @@ public class LongestSubsequenceWithLimitedSum {
                 return new int[0];
             }
 
+            int n = nums.length;
+            Arrays.sort(nums);
+
+            int[] prefixSums = new int[n];
+            prefixSums[0] = nums[0];
+            for(int i = 1; i < n; i++) {
+                prefixSums[i] = prefixSums[i - 1] + nums[i];
+            }
+
+            int m = queries.length;
+            int[] results = new int[m];
+            for(int i = 0; i < m; i++) {
+                int query = queries[i];
+                int index = binarySearchForLesserOrEqual(prefixSums, query);
+
+                if(index != -1) {
+                    results[i] = index + 1;
+                }
+            }
+
+            return results;
+        }
+
+        private int binarySearchForLesserOrEqual(int[] arr, int number) {
+            int left = 0;
+            int right = arr.length - 1;
+            int index = -1;
+
+            while(left <= right) {
+                int mid = left + (right - left) / 2;
+                int val = arr[mid];
+
+                if(val <= number) {
+                    index = mid;
+                    left = mid + 1;
+                } else {
+                    right = mid - 1;
+                }
+            }
+
+            return index;
+        }
+    }
+
+    class Solution_Correct_1 {
+        public int[] answerQueries(int[] nums, int[] queries) {
+            if(nums == null || nums.length == 0 || queries == null || queries.length == 0) {
+                return new int[0];
+            }
+
             Arrays.sort(nums);
 
             int n = nums.length;
