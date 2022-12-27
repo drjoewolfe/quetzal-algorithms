@@ -9,6 +9,43 @@ public class MaximumBagsWithFullCapacityOfRocks {
                 return 0;
             }
 
+            PriorityQueue<Integer> heap = new PriorityQueue<>();
+            int n = capacity.length;
+
+            int fullBags = 0;
+            for(int i = 0; i < n; i++) {
+                int c = capacity[i];
+                int r = rocks[i];
+
+                if(c == r) {
+                    fullBags++;
+                } else {
+                    int free = c - r;
+                    heap.offer(free);
+                }
+            }
+
+            while(!heap.isEmpty()) {
+                int free = heap.poll();
+
+                if(additionalRocks < free) {
+                    break;
+                }
+
+                fullBags++;
+                additionalRocks -= free;
+            }
+
+            return fullBags;
+        }
+    }
+
+    class Solution_Correect_1 {
+        public int maximumBags(int[] capacity, int[] rocks, int additionalRocks) {
+            if(capacity == null || rocks == null || capacity.length == 0 || capacity.length != rocks.length) {
+                return 0;
+            }
+
             int n = capacity.length;
             int fullBags = 0;
             PriorityQueue<Integer> heap = new PriorityQueue<>();
