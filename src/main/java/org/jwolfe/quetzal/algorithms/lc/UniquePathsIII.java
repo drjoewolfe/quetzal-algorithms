@@ -2,6 +2,64 @@ package org.jwolfe.quetzal.algorithms.lc;
 
 public class UniquePathsIII {
     class Solution {
+        public int uniquePathsIII(int[][] grid) {
+            if(grid == null || grid.length == 0 || grid[0].length == 0) {
+                return 0;
+            }
+
+            int m = grid.length;
+            int n = grid[0].length;
+
+            int startRow = 0;
+            int startColumn = 0;
+            int emptyCellCount = 0;
+
+            for(int i = 0; i < m; i++) {
+                for(int j = 0; j < n; j++) {
+                    if(grid[i][j] == 1) {
+                        startRow = i;
+                        startColumn = j;
+
+                        emptyCellCount++;
+                    } else if(grid[i][j] == 0) {
+                        emptyCellCount++;
+                    }
+                }
+            }
+
+            boolean[][] visited = new boolean[m][n];
+            return uniquePaths(grid, startRow, startColumn, visited, emptyCellCount, 0);
+        }
+
+        private int uniquePaths(int[][] grid, int row, int col, boolean[][] visited, int emptyCellCount, int visitedCellCount) {
+            if(row < 0 || row == grid.length || col < 0 || col == grid[0].length
+                    || grid[row][col] == -1
+                    || visited[row][col]) {
+                return 0;
+            }
+
+            if(grid[row][col] == 2) {
+                if(emptyCellCount == visitedCellCount) {
+                    return 1;
+                }
+
+                return 0;
+            }
+
+            visited[row][col] = true;
+
+            int count = 0;
+            count += uniquePaths(grid, row + 1, col, visited, emptyCellCount, visitedCellCount + 1);
+            count += uniquePaths(grid, row - 1, col, visited, emptyCellCount, visitedCellCount + 1);
+            count += uniquePaths(grid, row, col + 1, visited, emptyCellCount, visitedCellCount + 1);
+            count += uniquePaths(grid, row, col - 1, visited, emptyCellCount, visitedCellCount + 1);
+            visited[row][col] = false;
+
+            return count;
+        }
+    }
+
+    class Solution_Correct_1 {
         int uniquePathCount;
 
         public int uniquePathsIII(int[][] grid) {
@@ -81,6 +139,9 @@ public class UniquePathsIII {
             int emptyCellCount;
         }
     }
+
+// [[1,0,0,0],[0,0,0,0],[0,0,2,-1]]
+// [[1,0,0,0],[0,0,0,0],[0,0,0,2]]
 }
 
 //    980. Unique Paths III
