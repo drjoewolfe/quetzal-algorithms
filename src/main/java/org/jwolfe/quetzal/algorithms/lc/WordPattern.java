@@ -6,31 +6,68 @@ import java.util.Map;
 public class WordPattern {
     class Solution {
         public boolean wordPattern(String pattern, String str) {
-            if(pattern == null && str == null) {
+            if (pattern == null && str == null) {
                 return true;
             }
 
-            if(pattern == null || str == null) {
+            if (pattern == null || str == null) {
                 return false;
             }
 
             String[] words = str.split(" ");
-            if(words.length != pattern.length()) {
+            if (words.length != pattern.length()) {
+                return false;
+            }
+
+            Map<Character, String> patternToStringMap = new HashMap<>();
+            Map<String, Character> stringToPatternMap = new HashMap<>();
+
+            for (int i = 0; i < pattern.length(); i++) {
+                char c = pattern.charAt(i);
+                String word = words[i];
+
+                if ((patternToStringMap.containsKey(c)
+                        && !patternToStringMap.get(c).equals(word))
+                        || (stringToPatternMap.containsKey(word)
+                        && !stringToPatternMap.get(word).equals(c))) {
+                    return false;
+                }
+
+                patternToStringMap.put(c, word);
+                stringToPatternMap.put(word, c);
+            }
+
+            return true;
+        }
+    }
+
+    class Solution_Correct_2 {
+        public boolean wordPattern(String pattern, String str) {
+            if (pattern == null && str == null) {
+                return true;
+            }
+
+            if (pattern == null || str == null) {
+                return false;
+            }
+
+            String[] words = str.split(" ");
+            if (words.length != pattern.length()) {
                 return false;
             }
 
             Map<Character, String> patternMappings = new HashMap<>();
             Map<String, Character> wordMappings = new HashMap<>();
 
-            for(int i = 0; i < pattern.length(); i++) {
+            for (int i = 0; i < pattern.length(); i++) {
                 char c = pattern.charAt(i);
                 String w = words[i];
 
-                if(patternMappings.containsKey(c) && !patternMappings.get(c).equals(w)) {
+                if (patternMappings.containsKey(c) && !patternMappings.get(c).equals(w)) {
                     return false;
                 }
 
-                if(wordMappings.containsKey(w) && !wordMappings.get(w).equals(c)) {
+                if (wordMappings.containsKey(w) && !wordMappings.get(w).equals(c)) {
                     return false;
                 }
 
@@ -44,27 +81,27 @@ public class WordPattern {
 
     class Solution_Correct_1 {
         public boolean wordPattern(String pattern, String str) {
-            if(pattern == null || pattern.length() == 0 || str == null || str.length() == 0) {
+            if (pattern == null || pattern.length() == 0 || str == null || str.length() == 0) {
                 return false;
             }
 
             String[] words = str.split(" ");
-            if(words.length != pattern.length()) {
+            if (words.length != pattern.length()) {
                 return false;
             }
 
             Map<Character, String> charMappings = new HashMap<>();
             Map<String, Character> wordMappings = new HashMap<>();
 
-            for(int i = 0; i < words.length; i++) {
+            for (int i = 0; i < words.length; i++) {
                 String w = words[i];
                 char c = pattern.charAt(i);
 
-                if(charMappings.containsKey(c) && !charMappings.get(c).equals(w)) {
+                if (charMappings.containsKey(c) && !charMappings.get(c).equals(w)) {
                     return false;
                 }
 
-                if(wordMappings.containsKey(w) && wordMappings.get(w) != c) {
+                if (wordMappings.containsKey(w) && wordMappings.get(w) != c) {
                     return false;
                 }
 
