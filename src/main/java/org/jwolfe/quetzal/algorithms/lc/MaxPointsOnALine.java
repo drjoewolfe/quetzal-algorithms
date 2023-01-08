@@ -10,6 +10,52 @@ public class MaxPointsOnALine {
                 return 0;
             }
 
+            int maxPoints = 1;
+            int n = points.length;
+
+            for(int i = 0; i < n - 1; i++) {
+                int[] point1 = points[i];
+
+                Map<String, Integer> map = new HashMap<>();
+                for(int j = i + 1; j < n; j++) {
+                    int[] point2 = points[j];
+
+                    String slopeMemento = getSlope(point1, point2);
+                    map.put(slopeMemento, map.getOrDefault(slopeMemento, 0) + 1);
+
+                    maxPoints = Math.max(maxPoints, map.get(slopeMemento) + 1);
+                }
+            }
+
+            return maxPoints;
+        }
+
+        private String getSlope(int[] p1, int[] p2) {
+            int numerator = p1[1] - p2[1];
+            int denominator = p1[0] - p2[0];
+
+            int gcd = getGcd(numerator, denominator);
+            numerator /= gcd;
+            denominator /= gcd;
+
+            return Integer.toString(numerator) + ":" + Integer.toString(denominator);
+        }
+
+        private int getGcd(int x, int y) {
+            if(y == 0) {
+                return x;
+            }
+
+            return getGcd(y, x % y);
+        }
+    }
+
+    class Solution_Correct_1 {
+        public int maxPoints(int[][] points) {
+            if(points == null || points.length == 0) {
+                return 0;
+            }
+
             int maxCount = 1;
             for(int i = 0; i < points.length - 1; i++) {
                 maxCount = Math.max(maxCount,
