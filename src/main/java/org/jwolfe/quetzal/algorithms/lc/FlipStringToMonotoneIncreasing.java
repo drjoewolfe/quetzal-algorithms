@@ -7,6 +7,36 @@ public class FlipStringToMonotoneIncreasing {
                 return 0;
             }
 
+            int zeros = 0;
+            for(int i = 0; i < s.length(); i++) {
+                if(s.charAt(i) == '0') {
+                    zeros++;
+                }
+            }
+
+            int leftOnes = 0;
+            int rightZeros = zeros;
+            int flips = rightZeros;
+            for(int i = 0; i < s.length(); i++) {
+                if(s.charAt(i) == '0') {
+                    rightZeros--;
+                } else {
+                    leftOnes++;
+                }
+
+                flips = Math.min(flips, leftOnes + rightZeros);
+            }
+
+            return flips;
+        }
+    }
+
+    class Solution_Correct_3 {
+        public int minFlipsMonoIncr(String s) {
+            if(s == null || s.length() < 2) {
+                return 0;
+            }
+
             int n = s.length();
             int[] prefixSums = new int[n + 1];
             for(int i = 0; i < n; i++) {
