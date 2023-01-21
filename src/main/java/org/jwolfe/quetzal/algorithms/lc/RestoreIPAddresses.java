@@ -7,6 +7,68 @@ public class RestoreIPAddresses {
     class Solution {
         public List<String> restoreIpAddresses(String s) {
             List<String> ipAddresses = new ArrayList<>();
+            if(s == null || s.length() < 3) {
+                return ipAddresses;
+            }
+
+            generateIpAddresses(s, 0, new ArrayList<>(), ipAddresses);
+            return ipAddresses;
+        }
+
+        private void generateIpAddresses(String s, int index, List<Integer> parts, List<String> ipAddresses) {
+            if(index == s.length()) {
+                if(parts.size() == 4) {
+                    ipAddresses.add(getIpAddress(parts));
+                }
+
+                return;
+            }
+
+            if(parts.size() == 4) {
+                return;
+            }
+
+            if(s.charAt(index) == '0') {
+                parts.add(0);
+                generateIpAddresses(s, index + 1, parts, ipAddresses);
+
+                parts.remove(parts.size() - 1);
+            } else {
+                int n = s.length();
+                int part = 0;
+                for(int i = index; i < Math.min(i + 3, n); i++) {
+                    char c = s.charAt(i);
+                    int val = c - '0';
+
+                    part *= 10;
+                    part += val;
+
+                    if(part > 255) {
+                        return;
+                    }
+
+                    parts.add(part);
+                    generateIpAddresses(s, i + 1, parts, ipAddresses);
+
+                    parts.remove(parts.size() - 1);
+                }
+            }
+        }
+
+        private String getIpAddress(List<Integer> parts) {
+            StringBuilder builder = new StringBuilder();
+            builder.append(parts.get(0)
+                    + "." + parts.get(1)
+                    + "." + parts.get(2)
+                    + "." + parts.get(3));
+
+            return builder.toString();
+        }
+    }
+
+    class Solution_Correct_1 {
+        public List<String> restoreIpAddresses(String s) {
+            List<String> ipAddresses = new ArrayList<>();
             if(s == null || s.length() < 4) {
                 return ipAddresses;
             }
