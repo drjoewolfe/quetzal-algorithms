@@ -11,6 +11,44 @@ public class PalindromePartitioning {
                 return palindromePartitions;
             }
 
+            int n = s.length();
+            boolean[][] dp = new boolean[n][n];
+            generatePalindromePartitions(s, 0, new ArrayList<>(), dp, palindromePartitions);
+
+            return palindromePartitions;
+        }
+
+        private void generatePalindromePartitions(String s, int start, List<String> current, boolean[][] dp, List<List<String>> palindromePartitions) {
+            if(start == s.length()) {
+                // Completed partitioning
+                palindromePartitions.add(new ArrayList<>(current));
+                return;
+            }
+
+            char a = s.charAt(start);
+            for(int end = start; end < s.length(); end++) {
+                char b = s.charAt(end);
+
+                if(a == b && (end - start <= 2 || dp[start + 1][end - 1])) {
+                    dp[start][end] = true;
+
+                    String str = s.substring(start, end + 1);
+                    current.add(str);
+                    generatePalindromePartitions(s, end + 1, current, dp, palindromePartitions);
+
+                    current.remove(current.size() - 1);
+                }
+            }
+        }
+    }
+
+    class Solution_Correct_2 {
+        public List<List<String>> partition(String s) {
+            List<List<String>> palindromePartitions = new ArrayList<>();
+            if(s == null || s.length() == 0) {
+                return palindromePartitions;
+            }
+
             partition(s, 0, new ArrayList<>(), palindromePartitions);
             return palindromePartitions;
         }
