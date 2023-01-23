@@ -12,6 +12,33 @@ public class FindTheTownJudge {
                 return 1;
             }
 
+            int[] trustMeter = new int[N + 1];
+            int judge = -1;
+
+            for(int[] trustInfo : trust) {
+                int u = trustInfo[0];
+                int v = trustInfo[1];
+
+                trustMeter[u]--;
+                trustMeter[v]++;
+            }
+
+            for(int i = 1; i <= N; i++) {
+                if(trustMeter[i] == N - 1) {
+                    return i;
+                }
+            }
+
+            return -1;
+        }
+    }
+
+    class Solution_Correct_2 {
+        public int findJudge(int N, int[][] trust) {
+            if(N == 1) {
+                return 1;
+            }
+
             Set<Integer> trusters = new HashSet<>();
             Map<Integer, Integer> trustMeter = new HashMap<>();
             for(int[] pair : trust) {
