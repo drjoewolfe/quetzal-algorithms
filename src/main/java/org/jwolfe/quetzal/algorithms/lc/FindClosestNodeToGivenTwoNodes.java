@@ -18,6 +18,54 @@ public class FindClosestNodeToGivenTwoNodes {
 
             int minMaxDistance = Integer.MAX_VALUE;
             int minMaxNode = -1;
+
+            for(int i = 0; i < n; i++) {
+                int distance1 = traversal1.containsKey(i) ? traversal1.get(i) : Integer.MAX_VALUE;;
+                int distance2 = traversal2.containsKey(i) ? traversal2.get(i) : Integer.MAX_VALUE;
+
+                int maxDistance = Math.max(distance1, distance2);
+                if(maxDistance < minMaxDistance) {
+                    minMaxDistance = maxDistance;
+                    minMaxNode = i;
+                }
+            }
+
+            return minMaxNode;
+        }
+
+        private Map<Integer, Integer> traverse(int[] edges, int node) {
+            Map<Integer, Integer> traversal = new HashMap<>();
+            Set<Integer> visited = new HashSet<>();
+
+            int distance = 0;
+            while(node != -1) {
+                if(visited.contains(node)) {
+                    break;
+                }
+
+                traversal.put(node, distance);
+                visited.add(node);
+
+                node = edges[node];
+                distance++;
+            }
+
+            return traversal;
+        }
+    }
+
+    class Solution_Correct_1 {
+        public int closestMeetingNode(int[] edges, int node1, int node2) {
+            if(edges == null || edges.length == 0) {
+                return 0;
+            }
+
+            int n = edges.length;
+            var traversal1 = traverse(edges, node1);
+            var traversal2 = traverse(edges, node2);
+
+            int minMaxDistance = Integer.MAX_VALUE;
+            int minMaxNode = -1;
             for(int i = 0; i < n; i++) {
                 int distance1 = traversal1.containsKey(i) ? traversal1.get(i) : Integer.MAX_VALUE;
                 int distance2 = traversal2.containsKey(i) ? traversal2.get(i) : Integer.MAX_VALUE;
