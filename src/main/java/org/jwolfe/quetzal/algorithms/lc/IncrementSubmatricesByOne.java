@@ -7,6 +7,42 @@ public class IncrementSubmatricesByOne {
                 return new int[0][0];
             }
 
+            int[][] sums = new int[n][n + 1];
+            for(int[] query : queries) {
+                int top = query[0];
+                int left = query[1];
+                int bottom = query[2];
+                int right = query[3];
+
+                for(int i = top; i <= bottom; i++) {
+                    sums[i][left]++;
+                    sums[i][right + 1]--;
+                }
+            }
+
+            for(int i = 0; i < n; i++) {
+                for(int j = 1; j < n; j++) {
+                    sums[i][j] += sums[i][j - 1];
+                }
+            }
+
+            int[][] matrix = new int[n][n];
+            for(int i = 0; i < n; i++) {
+                for(int j = 0; j < n; j++) {
+                    matrix[i][j] = sums[i][j];
+                }
+            }
+
+            return matrix;
+        }
+    }
+
+    class Solution_Correct_1 {
+        public int[][] rangeAddQueries(int n, int[][] queries) {
+            if(n < 1) {
+                return new int[0][0];
+            }
+
             int[][] matrix = new int[n][n];
             for(int[] query : queries) {
                 int top = query[0];
