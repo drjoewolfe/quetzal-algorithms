@@ -6,6 +6,64 @@ import java.util.Map;
 public class VerifyingAnAlienDictionary {
     class Solution {
         public boolean isAlienSorted(String[] words, String order) {
+            if(words == null || words.length == 0 || order == null || order.length() == 0) {
+                return true;
+            }
+
+            Map<Character, Integer> map = new HashMap<>();
+            for(int i = 0; i < order.length(); i++) {
+                map.put(order.charAt(i), i);
+            }
+
+            for(int i = 1; i < words.length; i++) {
+                String first = words[i - 1];
+                String second = words[i];
+
+                if(compare(first, second, map) > 0) {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        private int compare(String word1, String word2, Map<Character, Integer> map) {
+            int n1 = word1.length();
+            int n2 = word2.length();
+
+            int i1 = 0;
+            int i2 = 0;
+
+            while(i1 < n1 && i2 < n2) {
+                char c1 = word1.charAt(i1++);
+                char c2 = word2.charAt(i2++);
+
+                int p1 = map.get(c1);
+                int p2 = map.get(c2);
+
+                if(p1 < p2) {
+                    return -1;
+                }
+
+                if(p1 > p2) {
+                    return 1;
+                }
+            }
+
+            if(i1 < n1) {
+                return 1;
+            }
+
+            if(i2 < n2) {
+                return -1;
+            }
+
+            return 0;
+        }
+    }
+
+    class Solution_Correct_1 {
+        public boolean isAlienSorted(String[] words, String order) {
             if(words == null || words.length == 0 || order == null || order.length() != 26) {
                 return false;
             }
