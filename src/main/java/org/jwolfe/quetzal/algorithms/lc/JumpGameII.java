@@ -5,6 +5,63 @@ import java.util.Arrays;
 public class JumpGameII {
     class Solution {
         public int jump(int[] nums) {
+            if(nums == null || nums.length < 2) {
+                return 0;
+            }
+
+            int n = nums.length;
+            int currMaxReach = 0;
+            int currEnd = 0;
+            int jumps = 0;
+
+            for(int i = 0; i < n - 1; i++) {
+                currMaxReach = Math.max(currMaxReach, i + nums[i]);
+
+                if(i == currEnd) {
+                    jumps++;
+                    currEnd = currMaxReach;
+                }
+            }
+
+            return jumps;
+        }
+    }
+
+    class Solution_Correct_2 {
+        public int jump(int[] nums) {
+            if(nums == null || nums.length < 2) {
+                return 0;
+            }
+
+            int n = nums.length;
+            int[] minJumps = new int[n];
+            Arrays.fill(minJumps, Integer.MAX_VALUE);
+            minJumps[n - 1] = 0;
+
+            for(int i = n - 2; i >= 0; i--) {
+                int reach = i + nums[i];
+
+                for(int j = i + 1; j < n && j <= reach; j++) {
+                    if(minJumps[j] != Integer.MAX_VALUE) {
+                        minJumps[i] = Math.min(minJumps[i], 1 + minJumps[j]);
+                    }
+                }
+            }
+
+            return minJumps[0];
+        }
+
+        private void print(int[] arr) {
+            for(int a : arr) {
+                System.out.print(a + " ");
+            }
+
+            System.out.println();
+        }
+    }
+
+    class Solution_Correct_1 {
+        public int jump(int[] nums) {
             if(nums == null || nums.length < 2 || nums[0] == 0) {
                 return 0;
             }
@@ -51,6 +108,8 @@ public class JumpGameII {
     }
 
 // [2,3,1,1,4]
+// [2,3,0,1,4]
+
 }
 
 //    45. Jump Game II
