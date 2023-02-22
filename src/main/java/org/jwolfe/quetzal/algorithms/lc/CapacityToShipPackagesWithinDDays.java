@@ -9,6 +9,58 @@ public class CapacityToShipPackagesWithinDDays {
 
             int sum = 0;
             int min = Integer.MAX_VALUE;
+            for(int weight : weights) {
+                sum += weight;
+                min = Math.min(min, weight);
+            }
+
+            int left = min;
+            int right = sum;
+            int minCapacity = sum;
+
+            while(left <= right) {
+                int mid = left + (right - left) / 2;
+
+                if(canShipWithCapacity(weights, days, mid)) {
+                    minCapacity = mid;
+                    right = mid - 1;
+                } else {
+                    left = mid + 1;
+                }
+            }
+
+            return minCapacity;
+        }
+
+        private boolean canShipWithCapacity(int[] weights, int days, int capacity) {
+            int index = 0;
+            int n = weights.length;
+
+            for(int d = 1; d <= days; d++) {
+                int current = 0;
+                while(index < n
+                        && current + weights[index] <= capacity) {
+                    current += weights[index];
+                    index++;
+                }
+            }
+
+            if(index != n) {
+                return false;
+            }
+
+            return true;
+        }
+    }
+
+    class Solution_Correct_1 {
+        public int shipWithinDays(int[] weights, int days) {
+            if(weights == null || weights.length == 0 || days < 1) {
+                return 0;
+            }
+
+            int sum = 0;
+            int min = Integer.MAX_VALUE;
             for(int w : weights) {
                 sum += w;
                 min = Math.min(min, w);
