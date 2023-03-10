@@ -16,6 +16,34 @@ public class LinkedListRandomNode {
      * }
      */
     class Solution {
+        ListNode head;
+
+        /** @param head The linked list's head.
+        Note that the head is guaranteed to be not null, so it contains at least one node. */
+        public Solution(ListNode head) {
+            this.head = head;
+        }
+
+        /** Returns a random node's value. */
+        public int getRandom() {
+            int scope = 1;
+            ListNode node = head;
+            ListNode selected = head;
+
+            while(node != null) {
+                if(Math.random() < 1.0 / scope) {
+                    selected = node;
+                }
+
+                scope++;
+                node = node.next;
+            }
+
+            return selected.val;
+        }
+    }
+
+    class Solution_Space {
         private Map<Integer, ListNode> map;
         private int length;
         private ListNode head;
@@ -24,7 +52,7 @@ public class LinkedListRandomNode {
 
         /** @param head The linked list's head.
         Note that the head is guaranteed to be not null, so it contains at least one node. */
-        public Solution(ListNode head) {
+        public Solution_Space(ListNode head) {
             map = new HashMap<>();
             this.head = head;
 
