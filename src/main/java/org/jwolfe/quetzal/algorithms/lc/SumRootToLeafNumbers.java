@@ -15,6 +15,27 @@ public class SumRootToLeafNumbers {
      */
 
     class Solution {
+        public int sumNumbers(TreeNode root) {
+            return sumNumbers(root, 0);
+        }
+
+        private int sumNumbers(TreeNode root, int number) {
+            if(root == null) {
+                return 0;
+            }
+
+            number *= 10;
+            number += root.val;
+
+            if(root.left == null && root.right == null) {
+                return number;
+            }
+
+            return sumNumbers(root.left, number) + sumNumbers(root.right, number);
+        }
+    }
+
+    class Solution_Correct_2 {
         int sum;
 
         public int sumNumbers(TreeNode root) {
