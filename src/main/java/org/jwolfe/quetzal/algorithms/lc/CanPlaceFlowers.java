@@ -3,6 +3,56 @@ package org.jwolfe.quetzal.algorithms.lc;
 public class CanPlaceFlowers {
     class Solution {
         public boolean canPlaceFlowers(int[] flowerbed, int n) {
+            if(n < 1) {
+                return true;
+            }
+
+            if(flowerbed == null || flowerbed.length < n) {
+                return false;
+            }
+
+            for(int i = 0; i < flowerbed.length; i++) {
+                if(flowerbed[i] == 1) {
+                    continue;
+                }
+
+                if(canPlace(flowerbed, i)) {
+                    flowerbed[i] = 1;
+                    n--;
+                }
+
+                if(n == 0) {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        private boolean canPlace(int[] flowerbed, int index) {
+            if(index == 0) {
+                return (index == flowerbed.length - 1) || (flowerbed[index + 1] == 0);
+            }
+
+            if(index == flowerbed.length - 1) {
+                return (flowerbed[index - 1] == 0);
+            }
+
+            return (flowerbed[index - 1] == 0)
+                    && (flowerbed[index + 1] == 0);
+        }
+
+        private void print(int[] arr) {
+            for(int a : arr) {
+                System.out.print(a + " ");
+            }
+
+            System.out.println();
+        }
+    }
+
+    class Solution_Correct_2 {
+        public boolean canPlaceFlowers(int[] flowerbed, int n) {
             if(n == 0) {
                 return true;
             }
