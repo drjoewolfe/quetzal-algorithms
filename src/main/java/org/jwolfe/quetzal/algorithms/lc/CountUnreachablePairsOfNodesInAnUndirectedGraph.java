@@ -5,6 +5,75 @@ import java.util.*;
 public class CountUnreachablePairsOfNodesInAnUndirectedGraph {
     class Solution {
         public long countPairs(int n, int[][] edges) {
+            if(n < 1) {
+                return 0;
+            }
+
+            DisjointSets sets = new DisjointSets(n);
+            for(int[] edge : edges) {
+                sets.union(edge[0], edge[1]);
+            }
+
+            Map<Integer, Integer> componentSizes = new HashMap<>();
+            for(int u = 0; u < n; u++) {
+                int pu = sets.find(u);
+                componentSizes.put(pu, componentSizes.getOrDefault(pu, 0) + 1);
+            }
+
+            long pairCounts = 0;
+            int alreadyCounted = 0;
+
+            for(var entry : componentSizes.entrySet()) {
+                int nodesInComponent = entry.getValue();
+                int nodesOutsideComponent = n - nodesInComponent - alreadyCounted;
+
+                pairCounts += (1L * nodesInComponent * nodesOutsideComponent);
+                alreadyCounted += nodesInComponent;
+            }
+
+            return pairCounts;
+        }
+
+        private class DisjointSets {
+            int[] parent;
+            int[] rank;
+
+            public DisjointSets(int n) {
+                parent = new int[n];
+                rank = new int[n];
+
+                for(int i = 0; i < n; i++) {
+                    parent[i] = i;
+                    rank[i] = 1;
+                }
+            }
+
+            public void union(int u, int v) {
+                int pu = find(u);
+                int pv = find(v);
+
+                if(rank[pu] < rank[pv]) {
+                    parent[pu] = pv;
+                } else if(rank[pu] > rank[pv]) {
+                    parent[pv] = pu;
+                } else {
+                    parent[pu] = pv;
+                    rank[pv]++;
+                }
+            }
+
+            public int find(int u) {
+                if(u != parent[u]) {
+                    parent[u] = find(parent[u]);
+                }
+
+                return parent[u];
+            }
+        }
+    }
+
+    class Solution_Correct_DFS_1 {
+        public long countPairs(int n, int[][] edges) {
             if(n < 0) {
                 return 0;
             }
