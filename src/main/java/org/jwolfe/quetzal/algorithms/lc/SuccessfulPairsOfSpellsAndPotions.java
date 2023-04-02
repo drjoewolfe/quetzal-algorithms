@@ -5,6 +5,47 @@ import java.util.Arrays;
 public class SuccessfulPairsOfSpellsAndPotions {
     class Solution {
         public int[] successfulPairs(int[] spells, int[] potions, long success) {
+            if(spells == null || potions == null || spells.length == 0 || potions.length == 0 || success < 1) {
+                return new int[0];
+            }
+
+            int n = spells.length;
+            int[] pairs = new int[n];
+
+            Arrays.sort(potions);
+            for(int i = 0; i < n; i++) {
+                int count = binarySearch(potions, spells[i], success);
+                pairs[i] = count;
+            }
+
+            return pairs;
+        }
+
+        private int binarySearch(int[] potions, int spell, long success) {
+            int n = potions.length;
+
+            int left = 0;
+            int right = n - 1;
+
+            while(left <= right) {
+                int mid = left + (right - left) / 2;
+
+                int potion = potions[mid];
+                long product = 1L * spell * potion;
+
+                if(product >= success) {
+                    right = mid - 1;
+                } else {
+                    left = mid + 1;
+                }
+            }
+
+            return n - left;
+        }
+    }
+
+    class Solution_Correct_1 {
+        public int[] successfulPairs(int[] spells, int[] potions, long success) {
             if(spells == null || spells.length == 0 || potions == null || potions.length == 0 || success < 1) {
                 return new int[0];
             }
