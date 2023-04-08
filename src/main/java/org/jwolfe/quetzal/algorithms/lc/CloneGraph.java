@@ -8,7 +8,33 @@ import java.util.Map;
 public class CloneGraph {
     class Solution {
         public Node cloneGraph(Node node) {
-            if (node == null) {
+            if(node == null) {
+                return node;
+            }
+
+            Map<Node, Node> cloneMap = new HashMap<>();
+            return cloneGraph(node, cloneMap);
+        }
+
+        private Node cloneGraph(Node node, Map<Node, Node> cloneMap) {
+            if(cloneMap.containsKey(node)) {
+                return cloneMap.get(node);
+            }
+
+            Node clone = new Node(node.val);
+            cloneMap.put(node, clone);
+
+            for(var neighbour : node.neighbors) {
+                clone.neighbors.add(cloneGraph(neighbour, cloneMap));
+            }
+
+            return clone;
+        }
+    }
+
+    class Solution_Correct_2 {
+        public Node cloneGraph(Node node) {
+            if(node == null) {
                 return null;
             }
 
@@ -16,14 +42,14 @@ public class CloneGraph {
         }
 
         private Node cloneGraph(Node node, Map<Node, Node> cloneMap) {
-            if (cloneMap.containsKey(node)) {
+            if(cloneMap.containsKey(node)) {
                 return cloneMap.get(node);
             }
 
             Node clone = new Node(node.val);
             cloneMap.put(node, clone);
 
-            for (Node neighbor : node.neighbors) {
+            for(Node neighbor : node.neighbors) {
                 clone.neighbors.add(cloneGraph(neighbor, cloneMap));
             }
 
@@ -33,7 +59,7 @@ public class CloneGraph {
 
     class Solution_Correct_1 {
         public Node cloneGraph(Node node) {
-            if (node == null) {
+            if(node == null) {
                 return node;
             }
 
@@ -42,14 +68,14 @@ public class CloneGraph {
         }
 
         private Node cloneGraph(Node node, Map<Node, Node> cloneMap) {
-            if (cloneMap.containsKey(node)) {
+            if(cloneMap.containsKey(node)) {
                 return cloneMap.get(node);
             }
 
             Node clone = new Node(node.val);
             cloneMap.put(node, clone);
 
-            for (Node child : node.neighbors) {
+            for(Node child : node.neighbors) {
                 clone.neighbors.add(cloneGraph(child, cloneMap));
             }
 
