@@ -19,6 +19,30 @@ public class RemovingStarsFromAString {
                 if(c == '*') {
                     j--;
                 } else {
+                    sb[j++] = c;
+                }
+            }
+
+            return String.valueOf(sb).substring(0, j);
+        }
+    }
+
+    class Solution_Correct_1 {
+        public String removeStars(String s) {
+            if(s == null || s.length() == 0) {
+                return s;
+            }
+
+            int n = s.length();
+            char[] sb = s.toCharArray();
+
+            int j = 0;
+            for(int i = 0; i < n; i++) {
+                char c = s.charAt(i);
+
+                if(c == '*') {
+                    j--;
+                } else {
                     sb[j] = c;
                     j++;
                 }
