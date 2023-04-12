@@ -7,6 +7,41 @@ public class SimplifyPath {
     class Solution {
         public String simplifyPath(String path) {
             if(path == null || path.length() == 0) {
+                return path;
+            }
+
+            Deque<String> deque = new LinkedList<>();
+
+            String[] parts = path.split("/");
+            for(String part : parts) {
+                part = part.trim();
+
+                if(part.equals("") || part.equals(".")) {
+                    continue;
+                } else if(part.equals("..")) {
+                    deque.pollLast();
+                } else {
+                    deque.offerLast(part);
+                }
+            }
+
+            if(deque.size() == 0) {
+                return "/";
+            }
+
+            StringBuilder builder = new StringBuilder();
+            while(!deque.isEmpty()) {
+                builder.append("/");
+                builder.append(deque.pollFirst());
+            }
+
+            return builder.toString();
+        }
+    }
+
+    class Solution_Correct_2 {
+        public String simplifyPath(String path) {
+            if(path == null || path.length() == 0) {
                 return null;
             }
 
