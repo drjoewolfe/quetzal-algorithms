@@ -20,6 +20,47 @@ public class ValidateStackSequences {
             }
 
             Stack<Integer> stack = new Stack<>();
+            int n = pushed.length;
+            int i = 0;
+
+            for(int j = 0; j < n; j++) {
+                int val = popped[j];
+
+                if(!stack.isEmpty() && stack.peek() == val) {
+                    stack.pop();
+                } else {
+                    while(i < n && pushed[i] != val) {
+                        stack.push(pushed[i]);
+                        i++;
+                    }
+
+                    if(i == n) {
+                        return false;
+                    }
+
+                    i++;
+                }
+            }
+
+            return true;
+        }
+    }
+
+    class Solution_Correct_2 {
+        public boolean validateStackSequences(int[] pushed, int[] popped) {
+            if(pushed == null && popped == null) {
+                return true;
+            }
+
+            if(pushed == null || popped == null || pushed.length != popped.length) {
+                return false;
+            }
+
+            if(pushed.length == 0) {
+                return true;
+            }
+
+            Stack<Integer> stack = new Stack<>();
             int i = 0;
             for(int j = 0; j < popped.length; j++) {
                 int val = popped[j];
