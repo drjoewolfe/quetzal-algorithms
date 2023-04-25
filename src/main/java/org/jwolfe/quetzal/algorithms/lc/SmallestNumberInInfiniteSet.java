@@ -1,14 +1,47 @@
 package org.jwolfe.quetzal.algorithms.lc;
 
+import java.util.HashSet;
+import java.util.PriorityQueue;
+import java.util.Set;
 import java.util.TreeSet;
 
 public class  SmallestNumberInInfiniteSet {
     class SmallestInfiniteSet {
+        PriorityQueue<Integer> heap;
+        Set<Integer> set;
+        int nextSmallest;
+
+        public SmallestInfiniteSet() {
+            nextSmallest = 1;
+            heap = new PriorityQueue<>();
+            set = new HashSet<>();
+        }
+
+        public int popSmallest() {
+            if(!heap.isEmpty()) {
+                var val = heap.poll();
+                set.remove(val);
+                return val;
+            }
+
+            return nextSmallest++;
+        }
+
+        public void addBack(int num) {
+            if(num < nextSmallest
+                    && !set.contains(num)) {
+                heap.offer(num);
+                set.add(num);
+            }
+        }
+    }
+
+    class SmallestInfiniteSet_Correct_1 {
 
         int nextSmallestNumber;
         TreeSet<Integer> addedNumbers;
 
-        public SmallestInfiniteSet() {
+        public SmallestInfiniteSet_Correct_1() {
             nextSmallestNumber = 1;
             addedNumbers = new TreeSet<>();
         }
@@ -39,6 +72,9 @@ public class  SmallestNumberInInfiniteSet {
  * int param_1 = obj.popSmallest();
  * obj.addBack(num);
  */
+
+// ["SmallestInfiniteSet","addBack","popSmallest","popSmallest","popSmallest","addBack","popSmallest","popSmallest","popSmallest"]
+// [[],[2],[],[],[],[1],[],[],[]]
 }
 
 //    2336. Smallest Number in Infinite Set
