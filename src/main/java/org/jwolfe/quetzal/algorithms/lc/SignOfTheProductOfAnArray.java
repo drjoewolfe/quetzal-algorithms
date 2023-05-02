@@ -8,6 +8,26 @@ public class SignOfTheProductOfAnArray {
             }
 
             int negativeCount = 0;
+            for(int i = 0; i < nums.length; i++) {
+                int val = nums[i];
+                if(val == 0) {
+                    return 0;
+                } else if(val < 0) {
+                    negativeCount++;
+                }
+            }
+
+            return (negativeCount % 2 == 0) ? 1 : -1;
+        }
+    }
+
+    class Solution_Correct_1 {
+        public int arraySign(int[] nums) {
+            if(nums == null || nums.length == 0) {
+                return 0;
+            }
+
+            int negativeCount = 0;
             for(int val : nums) {
                 if(val == 0) {
                     return 0;
