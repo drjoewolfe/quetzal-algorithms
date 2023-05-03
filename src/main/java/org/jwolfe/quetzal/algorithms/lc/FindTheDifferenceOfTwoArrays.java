@@ -10,6 +10,41 @@ public class FindTheDifferenceOfTwoArrays {
         public List<List<Integer>> findDifference(int[] nums1, int[] nums2) {
             List<List<Integer>> results = new ArrayList<>();
 
+            Set<Integer> set1 = new HashSet<>();
+            Set<Integer> set2 = new HashSet<>();
+
+            for(int val : nums1) {
+                set1.add(val);
+            }
+
+            for(int val : nums2) {
+                set2.add(val);
+            }
+
+            List<Integer> set1Elements = new ArrayList<>();
+            results.add(set1Elements);
+            for(var val : set1) {
+                if(!set2.contains(val)) {
+                    set1Elements.add(val);
+                }
+            }
+
+            List<Integer> set2Elements = new ArrayList<>();
+            results.add(set2Elements);
+            for(var val : set2) {
+                if(!set1.contains(val)) {
+                    set2Elements.add(val);
+                }
+            }
+
+            return results;
+        }
+    }
+
+    class Solution_Correct_1 {
+        public List<List<Integer>> findDifference(int[] nums1, int[] nums2) {
+            List<List<Integer>> results = new ArrayList<>();
+
             results.add(getDistinctFromSource(nums1, nums2));
             results.add(getDistinctFromSource(nums2, nums1));
 
