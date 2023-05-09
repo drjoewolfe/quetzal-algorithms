@@ -6,6 +6,86 @@ import java.util.List;
 public class SpiralMatrix {
     class Solution {
         public List<Integer> spiralOrder(int[][] matrix) {
+            List<Integer> spiralOrder = new ArrayList<>();
+            if(matrix == null || matrix.length == 0 || matrix[0].length == 0) {
+                return spiralOrder;
+            }
+
+            int m = matrix.length;
+            int n = matrix[0].length;
+
+            char direction = 'R';
+
+            int left = 0;
+            int top = 0;
+            int right = n - 1;
+            int bottom = m - 1;
+
+            int r = 0;
+            int c = 0;
+
+            while(top <= bottom && left <= right) {
+                spiralOrder.add(matrix[r][c]);
+
+                switch(direction) {
+                    case 'R':
+                        c++;
+
+                        if(c > right) {
+                            r++;
+                            c = right;
+
+                            top++;
+                            direction = 'D';
+                        }
+
+                        break;
+                    case 'D':
+                        r++;
+
+                        if(r > bottom) {
+                            r = bottom;
+                            c--;
+
+                            right--;
+                            direction = 'L';
+                        }
+
+                        break;
+                    case 'L':
+                        c--;
+
+                        if(c < left) {
+                            r--;
+                            c = left;
+
+                            bottom--;
+                            direction = 'T';
+                        }
+
+                        break;
+                    case 'T':
+                        r--;
+
+                        if(r < top) {
+                            r = top;
+                            c++;
+
+                            left++;
+                            direction = 'R';
+                        }
+
+                        break;
+
+                }
+            }
+
+            return spiralOrder;
+        }
+    }
+
+    class Solution_Correct_3 {
+        public List<Integer> spiralOrder(int[][] matrix) {
             List<Integer> spiral = new ArrayList<>();
             if(matrix == null || matrix.length == 0 || matrix[0].length == 0) {
                 return spiral;
