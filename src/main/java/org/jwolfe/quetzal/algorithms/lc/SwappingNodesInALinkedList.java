@@ -4,7 +4,34 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SwappingNodesInALinkedList {
-   public static class Solution {
+    class Solution {
+        public ListNode swapNodes(ListNode head, int k) {
+            if(head == null || k < 1) {
+                return head;
+            }
+
+            ListNode ptr = head;
+            for(int i = 0; i < k - 1; i++) {
+                ptr = ptr.next;
+            }
+
+            ListNode left = ptr;
+            ListNode right = head;
+
+            while(ptr.next != null) {
+                ptr = ptr.next;
+                right = right.next;
+            }
+
+            int temp = left.val;
+            left.val = right.val;
+            right.val = temp;
+
+            return head;
+        }
+    }
+
+    class Solution_Correct_1 {
         public ListNode swapNodes(ListNode head, int k) {
             if(head == null || k < 1) {
                 return head;
