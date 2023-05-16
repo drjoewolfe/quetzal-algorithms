@@ -13,8 +13,29 @@ public class SwapNodesInPairs {
         public ListNode swapPairs(ListNode head) {
             ListNode anchor = new ListNode(-1);
             anchor.next = head;
+
             ListNode curr = anchor;
-            while (curr.next != null && curr.next.next != null) {
+            while(curr.next != null && curr.next.next != null) {
+                ListNode first = curr.next;
+                ListNode second = curr.next.next;
+
+                first.next = second.next;
+                second.next = first;
+                curr.next = second;
+
+                curr = first;
+            }
+
+            return anchor.next;
+        }
+    }
+
+    class Solution_Correct_2 {
+        public ListNode swapPairs(ListNode head) {
+            ListNode anchor = new ListNode(-1);
+            anchor.next = head;
+            ListNode curr = anchor;
+            while(curr.next != null && curr.next.next != null) {
                 ListNode first = curr.next;
                 ListNode second = curr.next.next;
 
@@ -38,7 +59,7 @@ public class SwapNodesInPairs {
             ListNode first = null;
             ListNode second = null;
 
-            while (curr.next != null && curr.next.next != null) {
+            while(curr.next != null && curr.next.next != null) {
                 first = curr.next;
                 second = curr.next.next;
 
