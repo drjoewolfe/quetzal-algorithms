@@ -4,24 +4,49 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MinimumNumberOfVerticesToReachAllNodes {
-    public List<Integer> findSmallestSetOfVertices(int n, List<List<Integer>> edges) {
-        List<Integer> minVertices = new ArrayList<>();
-        if(edges == null || edges.size() == 0) {
+    class Solution {
+        public List<Integer> findSmallestSetOfVertices(int n, List<List<Integer>> edges) {
+            List<Integer> minVertices = new ArrayList<>();
+            if(edges == null || edges.size() == 0) {
+                return minVertices;
+            }
+
+            int[] incomingEdges = new int[n];
+            for(var edge : edges) {
+                int v = edge.get(1);
+                incomingEdges[v]++;
+            }
+
+            for(int i = 0; i < n; i++) {
+                if(incomingEdges[i] == 0) {
+                    minVertices.add(i);
+                }
+            }
+
             return minVertices;
         }
+    }
 
-        int[] incomingEdges = new int[n];
-        for(var edge : edges) {
-            incomingEdges[edge.get(1)]++;
-        }
-
-        for(int i = 0; i < n; i++) {
-            if(incomingEdges[i] == 0) {
-                minVertices.add(i);
+    class Solution_Correct_1 {
+        public List<Integer> findSmallestSetOfVertices(int n, List<List<Integer>> edges) {
+            List<Integer> minVertices = new ArrayList<>();
+            if(edges == null || edges.size() == 0) {
+                return minVertices;
             }
-        }
 
-        return minVertices;
+            int[] incomingEdges = new int[n];
+            for(var edge : edges) {
+                incomingEdges[edge.get(1)]++;
+            }
+
+            for(int i = 0; i < n; i++) {
+                if(incomingEdges[i] == 0) {
+                    minVertices.add(i);
+                }
+            }
+
+            return minVertices;
+        }
     }
 }
 
