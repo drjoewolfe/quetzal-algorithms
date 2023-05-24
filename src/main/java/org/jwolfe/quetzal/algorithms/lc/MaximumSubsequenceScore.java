@@ -8,6 +8,48 @@ import java.util.PriorityQueue;
 public class MaximumSubsequenceScore {
     class Solution {
         public long maxScore(int[] nums1, int[] nums2, int k) {
+            if(nums1 == null || nums2 == null || nums1.length == 0 || nums1.length != nums2.length || k < 1) {
+                return 0;
+            }
+
+            int n = nums1.length;
+            List<int[]> list = new ArrayList<>();
+
+            for(int i = 0; i < n; i++) {
+                int a = nums1[i];
+                int b = nums2[i];
+
+                list.add(new int[] {a, b});
+            }
+
+            Collections.sort(list, (a, b) -> a[1] - b[1]);
+
+            long sum = 0;
+            long maxScore = 0;
+            PriorityQueue<Integer> heap = new PriorityQueue<>();
+
+            for(int i = n - 1; i >= 0; i--) {
+                int[] pair = list.get(i);
+                int a = pair[0];
+                int b = pair[1];
+
+                sum += a;
+                heap.offer(a);
+
+                if(heap.size() == k) {
+                    long score = sum * b;
+                    maxScore = Math.max(maxScore, score);
+
+                    sum -= heap.poll();
+                }
+            }
+
+            return maxScore;
+        }
+    }
+
+    class Solution_Correct_1 {
+        public long maxScore(int[] nums1, int[] nums2, int k) {
             if(nums1 == null || nums1.length == 0 || nums1.length != nums2.length || k < 1 || k > nums1.length) {
                 return 0;
             }
@@ -100,6 +142,10 @@ public class MaximumSubsequenceScore {
 
 // [1,3,3,2]
 // [2,1,3,4]
+// 3
+
+// [2,1,14,12]
+// [11,7,13,6]
 // 3
 
 // [93,463,179,2488,619,2006,1561,137,53,1765,2304,1459,1768,450,1938,2054,466,331,670,1830,1550,1534,2164,1280,2277,2312,1509,867,2223,1482,2379,1032,359,1746,966,232,67,1203,2474,944,1740,1775,1799,1156,1982,1416,511,1167,1334,2344]
