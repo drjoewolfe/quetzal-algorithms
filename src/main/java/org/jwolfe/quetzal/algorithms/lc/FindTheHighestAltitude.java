@@ -9,6 +9,23 @@ public class FindTheHighestAltitude {
 
             int altitude = 0;
             int maxAltitude = 0;
+            for(int i = 0; i < gain.length; i++) {
+                altitude += gain[i];
+                maxAltitude = Math.max(maxAltitude, altitude);
+            }
+
+            return maxAltitude;
+        }
+    }
+
+    class Solution_Correct_1 {
+        public int largestAltitude(int[] gain) {
+            if(gain == null || gain.length == 0) {
+                return 0;
+            }
+
+            int altitude = 0;
+            int maxAltitude = 0;
             for(var val : gain) {
                 altitude += val;
                 maxAltitude = Math.max(maxAltitude, altitude);
