@@ -3,6 +3,28 @@ package org.jwolfe.quetzal.algorithms.lc;
 public class BestTimeToBuyAndSellStockWithTransactionFee {
     class Solution {
         public int maxProfit(int[] prices, int fee) {
+            if(prices == null || prices.length < 2 || fee < 0) {
+                return 0;
+            }
+
+            int n = prices.length;
+
+            int[] hold = new int[n];
+            int[] free = new int[n];
+
+            hold[0] -= prices[0];
+
+            for(int i = 1; i < n; i++) {
+                hold[i] = Math.max(hold[i - 1], free[i - 1] - prices[i]);
+                free[i] = Math.max(free[i - 1], hold[i - 1] + prices[i] - fee);
+            }
+
+            return free[n - 1];
+        }
+    }
+
+    class Solution_Correct_1 {
+        public int maxProfit(int[] prices, int fee) {
             if(prices == null || prices.length == 0 || fee < 0) {
                 return 0;
             }
