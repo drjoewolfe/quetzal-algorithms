@@ -5,6 +5,52 @@ import java.util.PriorityQueue;
 public class TotalCostToHireKWorkers {
     class Solution {
         public long totalCost(int[] costs, int k, int candidates) {
+            if(costs == null || costs.length == 0 || k < 1 || candidates < 1 || costs.length < k) {
+                return 0;
+            }
+
+            long totalCost = 0;
+
+            PriorityQueue<int[]> heap = new PriorityQueue<>((a, b) -> {
+                if(a[0] == b[0]) {
+                    return a[1] - b[1];
+                } else {
+                    return a[0] - b[0];
+                }});
+
+            int n = costs.length;
+            int left = 0;
+            int right = costs.length - 1;
+
+            for(; left < candidates; left++) {
+                heap.offer(new int[] {costs[left], 0});
+            }
+
+            for(; right >= 0 && right >= left && n - right <= candidates; right--) {
+                heap.offer(new int[] {costs[right], 1});
+            }
+
+            for(int i = 0; i < k; i++) {
+                int[] selection = heap.poll();
+                totalCost += selection[0];
+
+                if(left <= right) {
+                    if(selection[1] == 0) {
+                        heap.offer(new int[] {costs[left], 0});
+                        left++;
+                    } else {
+                        heap.offer(new int[] {costs[right], 1});
+                        right--;
+                    }
+                }
+            }
+
+            return totalCost;
+        }
+    }
+
+    class Solution_Correct_1 {
+        public long totalCost(int[] costs, int k, int candidates) {
             if(costs == null || costs.length == 0 || k == 0 || candidates == 0) {
                 return 0;
             }
