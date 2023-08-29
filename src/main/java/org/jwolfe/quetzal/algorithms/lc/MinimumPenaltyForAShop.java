@@ -7,6 +7,42 @@ public class MinimumPenaltyForAShop {
                 return 0;
             }
 
+            int n = customers.length();
+            int penality = 0;
+            for(int i = 0; i < n; i++) {
+                char c = customers.charAt(i);
+                if(c == 'Y') {
+                    penality++;
+                }
+            }
+
+            int minPenality = penality;
+            int hourToClose = 0;
+            for(int i = 0; i < n; i++) {
+                char c = customers.charAt(i);
+
+                if(c == 'Y') {
+                    penality--;
+                } else {
+                    penality++;
+                }
+
+                if(penality < minPenality) {
+                    minPenality = penality;
+                    hourToClose = i + 1;
+                }
+            }
+
+            return hourToClose;
+        }
+    }
+
+    class Solution_Correct_1 {
+        public int bestClosingTime(String customers) {
+            if(customers == null || customers.length() == 0) {
+                return 0;
+            }
+
             int penality = 0;
             int n = customers.length();
 
