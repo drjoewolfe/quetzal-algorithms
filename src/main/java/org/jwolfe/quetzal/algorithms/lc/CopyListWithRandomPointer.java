@@ -7,6 +7,63 @@ public class CopyListWithRandomPointer {
     class Solution {
         public Node copyRandomList(Node head) {
             if(head == null) {
+                return head;
+            }
+
+            Node anchor = new Node(-1);
+            Node prev = anchor;
+
+            // Interweave
+            while(head != null) {
+                prev.next = head;
+
+                Node clone = new Node(head.val);
+                clone.next = head.next;
+                head.next = clone;
+
+                head = clone.next;
+                prev = clone;
+            }
+
+            // Set random
+            head = anchor.next;
+            while(head != null) {
+                Node clone = head.next;
+                if(head.random != null) {
+                    clone.random = head.random.next;
+                }
+
+                head = clone.next;
+            }
+
+            // Fix lists
+            prev = anchor;
+            head = anchor.next;
+            while(head != null) {
+                Node clone = head.next;
+                prev.next = clone;
+                prev = clone;
+
+                head.next = clone.next;
+                head = clone.next;
+            }
+
+            return anchor.next;
+        }
+
+        private void print(Node head) {
+            while(head != null) {
+                System.out.print(head.val + " -> ");
+                head = head.next;
+            }
+
+            System.out.println();
+        }
+    }
+
+    class Solution_Correct_2 {
+        public Node copyRandomList(Node head) {
+            if(head == null) {
                 return null;
             }
 
