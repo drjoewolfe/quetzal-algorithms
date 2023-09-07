@@ -17,6 +17,45 @@ public class ReverseLinkedListII {
                 return head;
             }
 
+            ListNode anchor = new ListNode(-1);
+            anchor.next = head;
+
+            ListNode curr = anchor;
+            for(int i = 1; i < m && curr != null; i++) {
+                curr = curr.next;
+            }
+
+            if(curr == null) {
+                return anchor.next;
+            }
+
+            ListNode left = curr;
+            curr = curr.next;
+
+            ListNode prev = null;
+            ListNode next = null;
+            ListNode last = curr;
+
+            for(int i = m; i <= n && curr != null; i++) {
+                next = curr.next;
+                curr.next = prev;
+                prev = curr;
+                curr = next;
+            }
+
+            left.next = prev;
+            last.next = curr;
+
+            return anchor.next;
+        }
+    }
+
+    class Solution_Correct_3 {
+        public ListNode reverseBetween(ListNode head, int m, int n) {
+            if(head == null) {
+                return head;
+            }
+
             ListNode dummy = new ListNode();
             dummy.next = head;
 
