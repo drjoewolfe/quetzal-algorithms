@@ -7,6 +7,54 @@ import java.util.TreeSet;
 public class RemoveDuplicateLetters {
     class Solution {
         public String removeDuplicateLetters(String s) {
+            if(s == null || s.length() == 0) {
+                return s;
+            }
+
+            int n = s.length();
+            int[] lastIndexes = new int[26];
+            for(int i = 0; i < n; i++) {
+                char c = s.charAt(i);
+                int index = c - 'a';
+                lastIndexes[index] = i;
+            }
+
+            boolean[] visited = new boolean[26];
+            Stack<Character> stack = new Stack<>();
+            for(int i = 0; i < n; i++) {
+                char c = s.charAt(i);
+                int index = c - 'a';
+
+                if(visited[index]) {
+                    continue;
+                }
+
+                while(!stack.isEmpty() && stack.peek() > c) {
+                    char sc = stack.peek();
+                    int scIndex = sc - 'a';
+                    if(lastIndexes[scIndex] > i) {
+                        stack.pop();
+                        visited[scIndex] = false;
+                    } else {
+                        break;
+                    }
+                }
+
+                stack.push(c);
+                visited[index] = true;
+            }
+
+            StringBuilder sb = new StringBuilder();
+            while(!stack.isEmpty()) {
+                sb.insert(0, stack.pop());
+            }
+
+            return sb.toString();
+        }
+    }
+
+    class Solution_Correct_2 {
+        public String removeDuplicateLetters(String s) {
             if(s == null || s.length() < 2) {
                 return s;
             }
