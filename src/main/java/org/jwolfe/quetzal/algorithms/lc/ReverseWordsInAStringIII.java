@@ -3,6 +3,46 @@ package org.jwolfe.quetzal.algorithms.lc;
 public class ReverseWordsInAStringIII {
     class Solution {
         public String reverseWords(String s) {
+            if(s == null || s.length() < 2) {
+                return s;
+            }
+
+            int n = s.length();
+            int left = 0;
+            int right = 0;
+
+            StringBuilder sb = new StringBuilder(s);
+            for(; right < n; right++) {
+                char c = s.charAt(right);
+
+                if(c == ' ') {
+                    reverse(sb, left, right - 1);
+                    left = right + 1;
+                }
+            }
+
+            if(left < right) {
+                reverse(sb, left, right - 1);
+            }
+
+            return sb.toString();
+        }
+
+        private void reverse(StringBuilder sb, int left, int right) {
+            while(left < right) {
+                swap(sb, left++, right--);
+            }
+        }
+
+        private void swap(StringBuilder sb, int i, int j) {
+            char temp = sb.charAt(i);
+            sb.setCharAt(i, sb.charAt(j));
+            sb.setCharAt(j, temp);
+        }
+    }
+
+    class Solution_Correct_2 {
+        public String reverseWords(String s) {
             if(s == null || s.length() == 0) {
                 return s;
             }
