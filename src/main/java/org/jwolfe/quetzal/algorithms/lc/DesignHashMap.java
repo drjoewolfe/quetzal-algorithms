@@ -5,14 +5,75 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class DesignHashMap {
-    public static class MyHashMap {
+    class MyHashMap {
+        int capacity = 1000;
+        List<LinkedList<int[]>> map;
+
+        /** Initialize your data structure here. */
+        public MyHashMap() {
+            map = new ArrayList<>();
+            for(int i = 0; i < capacity; i++) {
+                map.add(new LinkedList<>());
+            }
+        }
+
+        /** value will always be non-negative. */
+        public void put(int key, int value) {
+            int hash = key % capacity;
+            var list = map.get(hash);
+            for(int[] entry : list) {
+                if(entry[0] == key) {
+                    entry[1] = value;
+                    return;
+                }
+            }
+
+            list.add(new int[] {key, value});
+        }
+
+        /** Returns the value to which the specified key is mapped, or -1 if this map contains no mapping for the key */
+        public int get(int key) {
+            int hash = key % capacity;
+            var list = map.get(hash);
+            for(int[] entry : list) {
+                if(entry[0] == key) {
+                    return entry[1];
+                }
+            }
+
+            return -1;
+        }
+
+        /** Removes the mapping of the specified value key if this map contains a mapping for the key */
+        public void remove(int key) {
+            int hash = key % capacity;
+            var list = map.get(hash);
+
+            int index = -1;
+            int i = 0;
+            for(int[] entry : list) {
+                if(entry[0] == key) {
+                    index = i;
+                    break;
+                }
+
+                i++;
+            }
+
+            if(index != -1) {
+                list.remove(index);
+            }
+        }
+    }
+
+    class MyHashMap_Correct_1 {
 
         private List<LinkedList<Entry>> map;
 
         private int capacity = 1000;
 
         /** Initialize your data structure here. */
-        public MyHashMap() {
+        public MyHashMap_Correct_1() {
             map = new ArrayList<>();
             for(int i = 0; i < capacity; i++) {
                 map.add(new LinkedList<>());
