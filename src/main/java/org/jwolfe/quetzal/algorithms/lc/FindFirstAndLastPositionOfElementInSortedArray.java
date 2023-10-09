@@ -3,6 +3,66 @@ package org.jwolfe.quetzal.algorithms.lc;
 public class FindFirstAndLastPositionOfElementInSortedArray {
     class Solution {
         public int[] searchRange(int[] nums, int target) {
+            if(nums == null || nums.length == 0) {
+                return new int[] {-1, -1};
+            }
+
+            int[] results = new int[2];
+            results[0] = getLeft(nums, target);
+            results[1] = getRight(nums, target);
+
+            return results;
+        }
+
+        private int getLeft(int[] nums, int target) {
+            int index = -1;
+
+            int left = 0;
+            int right = nums.length - 1;
+
+            while(left <= right) {
+                int mid = left + (right - left) / 2;
+                int val = nums[mid];
+
+                if(val == target) {
+                    index = mid;
+                    right = mid - 1;
+                } else if(val > target) {
+                    right = mid - 1;
+                } else {
+                    left = mid + 1;
+                }
+            }
+
+            return index;
+        }
+
+        private int getRight(int[] nums, int target) {
+            int index = -1;
+
+            int left = 0;
+            int right = nums.length - 1;
+
+            while(left <= right) {
+                int mid = left + (right - left) / 2;
+                int val = nums[mid];
+
+                if(val == target) {
+                    index = mid;
+                    left = mid + 1;
+                } else if(val > target) {
+                    right = mid - 1;
+                } else {
+                    left = mid + 1;
+                }
+            }
+
+            return index;
+        }
+    }
+
+    class Solution_Correct_1 {
+        public int[] searchRange(int[] nums, int target) {
             int[] result = new int[] {-1, -1};
             if(nums == null || nums.length == 0) {
                 return result;
@@ -124,6 +184,12 @@ public class FindFirstAndLastPositionOfElementInSortedArray {
             return index;
         }
     }
+
+// [5,7,7,8,8,10]
+// 8
+
+// [5,7,7,8,8,10]
+// 6
 }
 
 //    34. Find First and Last Position of Element in Sorted Array
