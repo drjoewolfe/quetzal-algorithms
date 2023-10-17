@@ -1,9 +1,74 @@
 package org.jwolfe.quetzal.algorithms.lc;
 
-import java.util.Arrays;
+import java.util.*;
 
 public class ValidateBinaryTreeNodes {
     class Solution {
+        public boolean validateBinaryTreeNodes(int n, int[] leftChild, int[] rightChild) {
+            if(n < 1 || leftChild == null || leftChild.length != n || rightChild == null || rightChild.length != n) {
+                return false;
+            }
+
+            int root = findRoot(n, leftChild, rightChild);
+            if(root == -1) {
+                return false;
+            }
+
+            Queue<Integer> queue = new LinkedList<>();
+            Set<Integer> set = new HashSet<>();
+            queue.offer(root);
+            set.add(root);
+            int count = 0;
+
+            while(!queue.isEmpty()) {
+                int node = queue.poll();
+                count++;
+
+                int left = leftChild[node];
+                if(left != -1) {
+                    if(set.contains(left)) {
+                        return false;
+                    }
+
+                    queue.offer(left);
+                    set.add(left);
+                }
+
+                int right = rightChild[node];
+                if(right != -1) {
+                    if(set.contains(right)) {
+                        return false;
+                    }
+
+                    queue.offer(right);
+                    set.add(right);
+                }
+            }
+
+            return count == n;
+        }
+
+        private int findRoot(int n, int[] leftChild, int[] rightChild) {
+            Set<Integer> children = new HashSet<>();
+            for(int left : leftChild) {
+                children.add(left);
+            }
+
+            for(int right : rightChild) {
+                children.add(right);
+            }
+
+            for(int node = 0; node < n; node++) {
+                if(!children.contains(node)) {
+                    return node;
+                }
+            }
+
+            return -1;
+        }
+    }
+
+    class Solution_Corrrect_1 {
         public boolean validateBinaryTreeNodes(int n, int[] leftChild, int[] rightChild) {
             if(n < 1 || leftChild == null || rightChild == null || leftChild.length != n || rightChild.length != n) {
                 return false;
