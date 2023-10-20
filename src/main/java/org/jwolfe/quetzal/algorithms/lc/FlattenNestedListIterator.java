@@ -23,10 +23,61 @@ public class FlattenNestedListIterator {
      * }
      */
     public class NestedIterator implements Iterator<Integer> {
+        Stack<NestedInteger> stack;
+
+        public NestedIterator(List<NestedInteger> nestedList) {
+            stack = new Stack<>();
+            for(int i = nestedList.size() - 1; i >= 0; i--) {
+                stack.push(nestedList.get(i));
+            }
+        }
+
+        @Override
+        public Integer next() {
+            processTopElement();
+
+            if(!stack.isEmpty()) {
+                return stack.pop().getInteger();
+            }
+
+            return null;
+        }
+
+        @Override
+        public boolean hasNext() {
+            processTopElement();
+
+            return !stack.isEmpty();
+        }
+
+        private void processTopElement() {
+            if(stack.isEmpty()) {
+                return;
+            }
+
+            var item = stack.peek();
+            while(!item.isInteger()) {
+                item = stack.pop();
+
+                var list = item.getList();
+                for(int i = list.size() - 1; i >= 0; i--) {
+                    stack.push(list.get(i));
+                }
+
+                if(stack.isEmpty()) {
+                    break;
+                }
+
+                item = stack.peek();
+            }
+        }
+    }
+
+    class NestedIterator_Correct_1 implements Iterator<Integer> {
 
         private Stack<NestedInteger> stack;
 
-        public NestedIterator(List<NestedInteger> nestedList) {
+        public NestedIterator_Correct_1(List<NestedInteger> nestedList) {
             stack = new Stack<>();
 
             for(int i = nestedList.size() - 1; i >= 0; i--) {
@@ -76,6 +127,12 @@ public class FlattenNestedListIterator {
         }
     }
 
+    /**
+     * Your NestedIterator object will be instantiated and called as such:
+     * NestedIterator i = new NestedIterator(nestedList);
+     * while (i.hasNext()) v[f()] = i.next();
+     */
+
     public interface NestedInteger {
 
          // @return true if this NestedInteger holds a single integer, rather than a nested list.
@@ -89,12 +146,6 @@ public class FlattenNestedListIterator {
          // Return null if this NestedInteger holds a single integer
          public List<NestedInteger> getList();
     }
-
-/**
- * Your NestedIterator object will be instantiated and called as such:
- * NestedIterator i = new NestedIterator(nestedList);
- * while (i.hasNext()) v[f()] = i.next();
- */
 }
 
 //    341. Flatten Nested List Iterator
