@@ -6,6 +6,47 @@ import java.util.Map;
 
 public class BinaryTreesWithFactors {
     class Solution {
+        private int MOD = 1_000_000_007;
+
+        public int numFactoredBinaryTrees(int[] arr) {
+            if(arr == null || arr.length == 0) {
+                return 0;
+            }
+
+            Arrays.sort(arr);
+
+            long count = 0;
+            int n = arr.length;
+
+            Map<Integer, Long> map = new HashMap<>();
+
+            for(int i = 0; i < n; i++) {
+                int a = arr[i];
+                long ac = 1;
+
+                for(int j = 0; j < i; j++) {
+                    int b = arr[j];
+
+                    if(a % b == 0) {
+                        int c = a / b;
+
+                        if(map.containsKey(c)) {
+                            ac += map.get(b) * map.get(c);
+                            ac %= MOD;
+                        }
+                    }
+                }
+
+                map.put(a, ac);
+                count += ac;
+                count %= MOD;
+            }
+
+            return (int) count;
+        }
+    }
+
+    class Solution_Correct_1 {
         public int numFactoredBinaryTrees(int[] arr) {
             if(arr == null || arr.length == 0) {
                 return 0;
