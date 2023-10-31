@@ -9,6 +9,27 @@ public class FindTheOriginalArrayOfPrefixXor {
 
             int n = pref.length;
             int[] arr = new int[n];
+
+            arr[0] = pref[0];
+            int xor = arr[0];
+
+            for(int i = 1; i < n; i++) {
+                arr[i] = xor ^ pref[i];
+                xor ^= arr[i];
+            }
+
+            return arr;
+        }
+    }
+
+    class Solution_Correct_1 {
+        public int[] findArray(int[] pref) {
+            if(pref == null || pref.length < 2) {
+                return pref;
+            }
+
+            int n = pref.length;
+            int[] arr = new int[n];
             arr[0] = pref[0];
             int xor = arr[0];
             for(int i = 1; i < n; i++) {
