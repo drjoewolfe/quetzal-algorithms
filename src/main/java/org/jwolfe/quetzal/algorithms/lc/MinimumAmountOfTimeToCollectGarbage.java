@@ -1,7 +1,56 @@
 package org.jwolfe.quetzal.algorithms.lc;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class MinimumAmountOfTimeToCollectGarbage {
     class Solution {
+        public int garbageCollection(String[] garbage, int[] travel) {
+            if(garbage == null || garbage.length == 0 || travel == null || travel.length != garbage.length - 1) {
+                return 0;
+            }
+
+            int n = garbage.length;
+            Map<Character, Integer> lastGarbageIndex = new HashMap<>();
+            Map<Character, Integer> garbageCount = new HashMap<>();
+
+            int[] travelPrefixSums = new int[n];
+            for(int i = 0; i < n - 1; i++) {
+                travelPrefixSums[i + 1] = travelPrefixSums[i] + travel[i];
+            }
+
+            for(int i = 0; i < n; i++) {
+                String houseGarbage = garbage[i];
+                for(int j = 0; j < houseGarbage.length(); j++) {
+                    char c = houseGarbage.charAt(j);
+                    lastGarbageIndex.put(c, i);
+                    garbageCount.put(c, garbageCount.getOrDefault(c, 0) + 1);
+                }
+            }
+
+            int time = 0;
+
+            // Metal
+            if(garbageCount.containsKey('M')) {
+                time += garbageCount.get('M') + travelPrefixSums[lastGarbageIndex.get('M')];
+            }
+
+            // Glass
+            if(garbageCount.containsKey('G')) {
+                time += garbageCount.get('G') + travelPrefixSums[lastGarbageIndex.get('G')];
+            }
+
+
+            // Paper
+            if(garbageCount.containsKey('P')) {
+                time += garbageCount.get('P') + travelPrefixSums[lastGarbageIndex.get('P')];
+            }
+
+            return time;
+        }
+    }
+
+    class Solution_Correct_1 {
         public int garbageCollection(String[] garbage, int[] travel) {
             if(garbage == null || travel == null || garbage.length != travel.length + 1) {
                 return 0;
