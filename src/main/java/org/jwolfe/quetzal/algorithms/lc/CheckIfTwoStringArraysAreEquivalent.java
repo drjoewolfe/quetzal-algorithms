@@ -3,6 +3,54 @@ package org.jwolfe.quetzal.algorithms.lc;
 public class CheckIfTwoStringArraysAreEquivalent {
     class Solution {
         public boolean arrayStringsAreEqual(String[] word1, String[] word2) {
+            if(word1 == null && word2 == null) {
+                return true;
+            }
+
+            if(word1 == null || word2 == null) {
+                return false;
+            }
+
+            int m = word1.length;
+            int n = word2.length;
+
+            int i1 = 0;
+            int i2 = 0;
+
+            int j1 = 0;
+            int j2 = 0;
+
+            while(i1 < m && i2 < n) {
+                char c1 = word1[i1].charAt(j1);
+                char c2 = word2[i2].charAt(j2);
+
+                if(c1 != c2) {
+                    return false;
+                }
+
+                j1++;
+                if(j1 == word1[i1].length()) {
+                    i1++;
+                    j1 = 0;
+                }
+
+                j2++;
+                if(j2 == word2[i2].length()) {
+                    i2++;
+                    j2 = 0;
+                }
+            }
+
+            if(i1 < m || i2 < n) {
+                return false;
+            }
+
+            return true;
+        }
+    }
+
+    class Solution_Correct_2 {
+        public boolean arrayStringsAreEqual(String[] word1, String[] word2) {
             if(word1 == null || word2 == null || word1.length == 0 || word2.length == 0) {
                 return false;
             }
@@ -42,6 +90,7 @@ public class CheckIfTwoStringArraysAreEquivalent {
             return true;
         }
     }
+
 
     class Solution_Correct_1 {
         public boolean arrayStringsAreEqual(String[] word1, String[] word2) {
