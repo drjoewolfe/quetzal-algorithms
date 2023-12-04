@@ -7,6 +7,32 @@ public class Largest3SameDigitNumberInString {
                 return "";
             }
 
+            int n = num.length();
+            char mc = ' ';
+            for(int i = 2; i < n; i++) {
+                char c1 = num.charAt(i - 2);
+                char c2 = num.charAt(i - 1);
+                char c3 = num.charAt(i);
+
+                if(c1 == c2 && c2 == c3) {
+                    // Good
+
+                    if(mc < c1) {
+                        mc = c1;
+                    }
+                }
+            }
+
+            return mc == ' ' ? "" : String.valueOf(new char[] {mc, mc, mc});
+        }
+    }
+
+    class Solution_Correct_1 {
+        public String largestGoodInteger(String num) {
+            if(num == null || num.length() < 3) {
+                return "";
+            }
+
             int largestGood = Integer.MIN_VALUE;
             char[] largestGoodChars = new char[3];
             for(int i = 0; i <= num.length() - 3; i++) {
