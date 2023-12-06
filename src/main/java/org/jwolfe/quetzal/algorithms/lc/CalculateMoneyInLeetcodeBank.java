@@ -7,6 +7,28 @@ public class CalculateMoneyInLeetcodeBank {
                 return 0;
             }
 
+            int wholeWeeks = n / 7;
+            int remainingDays = n % 7;
+
+            int totalAmount = 0;
+            if(wholeWeeks > 0) {
+                totalAmount += wholeWeeks * 28 + (int) ((1d * wholeWeeks / 2 * (wholeWeeks - 1) * 7));
+            }
+
+            if(remainingDays > 0) {
+                totalAmount += ((remainingDays) * (remainingDays - 1) / 2) + (wholeWeeks + 1) * remainingDays;
+            }
+
+            return totalAmount;
+        }
+    }
+
+    class Solution_Correct_1 {
+        public int totalMoney(int n) {
+            if(n < 1) {
+                return 0;
+            }
+
             int totalAmount = 0;
 
             // In 1 week, 1+2+3+4+5+6+7 = 28
@@ -23,6 +45,7 @@ public class CalculateMoneyInLeetcodeBank {
             return totalAmount;
         }
     }
+
 
     class Solution_Approach_1 {
         public int totalMoney(int n) {
@@ -46,6 +69,8 @@ public class CalculateMoneyInLeetcodeBank {
             return totalAmount;
         }
     }
+
+// 4
 }
 
 //    1716. Calculate Money in Leetcode Bank
