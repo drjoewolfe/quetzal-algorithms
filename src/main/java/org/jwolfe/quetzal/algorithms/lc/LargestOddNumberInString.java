@@ -7,6 +7,25 @@ public class LargestOddNumberInString {
                 return "";
             }
 
+            int n = num.length();
+            for(int i = n - 1; i >= 0; i--) {
+                int val = num.charAt(i) - '0';
+                if(val % 2 == 1) {
+                    // Odd
+                    return num.substring(0, i + 1);
+                }
+            }
+
+            return "";
+        }
+    }
+
+    class Solution_Correct_1 {
+        public String largestOddNumber(String num) {
+            if(num == null || num.length() == 0) {
+                return "";
+            }
+
             int i = num.length() - 1;
             for(; i >= 0; i--) {
                 int val = num.charAt(i) - '0';
