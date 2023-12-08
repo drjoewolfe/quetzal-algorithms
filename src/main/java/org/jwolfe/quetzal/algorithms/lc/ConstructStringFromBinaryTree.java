@@ -23,6 +23,35 @@ public class ConstructStringFromBinaryTree {
             return builder.toString();
         }
 
+        private void tree2str(TreeNode root, StringBuilder builder) {
+            if(root == null) {
+                return;
+            }
+
+            builder.append(root.val);
+            if(root.left == null && root.right == null) {
+                return;
+            }
+
+            builder.append("(");
+            tree2str(root.left, builder);
+            builder.append(")");
+
+            if(root.right != null) {
+                builder.append("(");
+                tree2str(root.right, builder);
+                builder.append(")");
+            }
+        }
+    }
+
+    class Solution_Correct_2 {
+        public String tree2str(TreeNode t) {
+            StringBuilder builder = new StringBuilder();
+            tree2str(t, builder);
+            return builder.toString();
+        }
+
         private void tree2str(TreeNode t, StringBuilder builder) {
             if(t == null) {
                 return;
