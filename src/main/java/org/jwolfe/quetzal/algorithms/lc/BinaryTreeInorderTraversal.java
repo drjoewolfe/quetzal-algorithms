@@ -24,6 +24,46 @@ public class BinaryTreeInorderTraversal {
     class Solution {
         public List<Integer> inorderTraversal(TreeNode root) {
             List<Integer> traversal = new ArrayList<>();
+            Stack<TreeNode> stack = new Stack<>();
+
+            while(root != null || !stack.isEmpty()) {
+                while(root != null) {
+                    stack.push(root);
+                    root = root.left;
+                }
+
+                root = stack.pop();
+                traversal.add(root.val);
+
+                root = root.right;
+            }
+
+            return traversal;
+        }
+    }
+
+    class Solution_Recursive_2 {
+        public List<Integer> inorderTraversal(TreeNode root) {
+            List<Integer> traversal = new ArrayList<>();
+            inorderTraversal(root, traversal);
+
+            return traversal;
+        }
+
+        private void inorderTraversal(TreeNode root, List<Integer> traversal) {
+            if(root == null) {
+                return;
+            }
+
+            inorderTraversal(root.left, traversal);
+            traversal.add(root.val);
+            inorderTraversal(root.right, traversal);
+        }
+    }
+
+    class Solution_Correct_2 {
+        public List<Integer> inorderTraversal(TreeNode root) {
+            List<Integer> traversal = new ArrayList<>();
 
             Stack<TreeNode> stack = new Stack();
             while(root != null || !stack.isEmpty()) {
