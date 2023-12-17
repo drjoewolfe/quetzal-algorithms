@@ -6,11 +6,79 @@ import java.util.TreeSet;
 
 public class DesignAFoodRatingSystem {
     class FoodRatings {
+        Map<String, FoodRating> foodRatingMap;
+        Map<String, String> foodCuisineMap;
+        Map<String, TreeSet<FoodRating>> cuisineFoodRatingMap;
+
+        public FoodRatings(String[] foods, String[] cuisines, int[] ratings) {
+            int n = foods.length;
+
+            foodRatingMap = new HashMap<>();
+            foodCuisineMap = new HashMap<>();
+            cuisineFoodRatingMap = new HashMap<>();
+
+            for(int i = 0; i < n; i++) {
+                String food = foods[i];
+                String cuisine = cuisines[i];
+                int rating = ratings[i];
+
+                FoodRating foodRating = new FoodRating(food, rating);
+
+                foodRatingMap.put(food, foodRating);
+                foodCuisineMap.put(food, cuisine);
+                if(!cuisineFoodRatingMap.containsKey(cuisine)) {
+                    cuisineFoodRatingMap.put(cuisine, new TreeSet<>());
+                }
+
+                cuisineFoodRatingMap.get(cuisine).add(foodRating);
+            }
+        }
+
+        public void changeRating(String food, int newRating) {
+            String cuisine = foodCuisineMap.get(food);
+            var foodRating = foodRatingMap.get(food);
+            var set = cuisineFoodRatingMap.get(cuisine);
+
+            set.remove(foodRating);
+            foodRating.rating = newRating;
+            set.add(foodRating);
+        }
+
+        public String highestRated(String cuisine) {
+            return cuisineFoodRatingMap.get(cuisine).last().food;
+        }
+
+        private class FoodRating implements Comparable<FoodRating> {
+            String food;
+            int rating;
+
+            public FoodRating(String food, int rating) {
+                this.food = food;
+                this.rating = rating;
+            }
+
+            @Override
+            public int compareTo(FoodRating other) {
+                if(this.rating == other.rating) {
+                    return other.food.compareTo(this.food);
+                }
+
+                return this.rating - other.rating;
+            }
+
+            @Override
+            public String toString() {
+                return "(" + this.food + ", " + this.rating + ")";
+            }
+        }
+    }
+
+    class FoodRatings_Correct_1 {
         Map<String, TreeSet<FoodRating>> cuisineMap;
         Map<String, String> foodCuisineMap;
         Map<String, FoodRating> foodRatingMap;
 
-        public FoodRatings(String[] foods, String[] cuisines, int[] ratings) {
+        public FoodRatings_Correct_1(String[] foods, String[] cuisines, int[] ratings) {
             cuisineMap = new HashMap<>();
             foodCuisineMap = new HashMap<>();
             foodRatingMap = new HashMap<>();
@@ -138,6 +206,9 @@ public class DesignAFoodRatingSystem {
 
 // ["FoodRatings","highestRated","highestRated","changeRating","highestRated","changeRating","highestRated"]
 // [[["kimchi","miso","sushi","moussaka","ramen","bulgogi"],["korean","japanese","japanese","greek","japanese","korean"],[9,12,8,15,14,7]],["korean"],["japanese"],["sushi",16],["japanese"],["ramen",16],["japanese"]]
+
+// ["FoodRatings","changeRating","highestRated","changeRating","changeRating","highestRated"]
+// [[["czopaaeyl","lxoozsbh","kbaxapl"],["dmnuqeatj","dmnuqeatj","dmnuqeatj"],[11,2,15]],["czopaaeyl",12],["dmnuqeatj"],["kbaxapl",8],["lxoozsbh",5],["dmnuqeatj"]]
 }
 
 //    2353. Design a Food Rating System
