@@ -9,6 +9,37 @@ public class MaximumProductDifferenceBetweenTwoPairs {
                 return 0;
             }
 
+            int a = Integer.MIN_VALUE;
+            int b = Integer.MIN_VALUE;
+            int c = Integer.MAX_VALUE;
+            int d = Integer.MAX_VALUE;
+
+            for(int val : nums) {
+                if(val > a) {
+                    b = a;
+                    a = val;
+                } else if(val > b) {
+                    b = val;
+                }
+
+                if(val < d) {
+                    c = d;
+                    d = val;
+                } else if(val < c) {
+                    c = val;
+                }
+            }
+
+            return (a * b) - (c * d);
+        }
+    }
+
+    class Solution_Corect_1 {
+        public int maxProductDifference(int[] nums) {
+            if(nums == null || nums.length < 4) {
+                return 0;
+            }
+
             int a = Integer.MAX_VALUE;
             int b = Integer.MAX_VALUE;
             int c = Integer.MIN_VALUE;
