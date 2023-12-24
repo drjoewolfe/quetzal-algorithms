@@ -7,6 +7,47 @@ public class MinimumChangesToMakeAlternatingBinaryString {
                 return 0;
             }
 
+            int operationsForStart0 = 0;
+            int operationsForStart1 = 0;
+
+            for(int i = 0; i < s.length(); i++) {
+                char c = s.charAt(i);
+
+                if(i % 2 == 0) {
+                    // even indexes -> 0, 2, 4, 6
+
+                    // For start-0, entries should be 0
+                    // For start-1, entries should be 1
+
+                    if(c == '0') {
+                        operationsForStart1++;
+                    } else {
+                        operationsForStart0++;
+                    }
+                } else {
+                    // odd indexes -> 1, 3, 5, 7
+
+                    // For start-0, entries should be 1
+                    // For start-1, entries should be 0;
+
+                    if(c == '0') {
+                        operationsForStart0++;
+                    } else {
+                        operationsForStart1++;
+                    }
+                }
+            }
+
+            return Math.min(operationsForStart0, operationsForStart1);
+        }
+    }
+
+    class Solution_Correct_1 {
+        public int minOperations(String s) {
+            if(s == null || s.length() < 2) {
+                return 0;
+            }
+
             int n = s.length();
             int operations = 0;
 
@@ -79,6 +120,7 @@ public class MinimumChangesToMakeAlternatingBinaryString {
 
 // "0100"
 // "1111"
+// "10"
 }
 
 //    1758. Minimum Changes To Make Alternating Binary String
