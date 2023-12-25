@@ -15,6 +15,37 @@ public class DecodeWays {
             dp[n - 1] = s.charAt(n - 1) == '0' ? 0 : 1;
 
             for(int i = n - 2; i >= 0; i--) {
+                int d1 = s.charAt(i) - '0';
+                int d2 = s.charAt(i + 1) - '0';
+
+                int oneDigit = d1;
+                int twoDigits = d1 * 10 + d2;
+
+                if(oneDigit > 0) {
+                    dp[i] += dp[i + 1];
+                }
+
+                if(twoDigits >= 10 && twoDigits <= 26) {
+                    dp[i] += dp[i + 2];
+                }
+            }
+
+            return dp[0];
+        }
+    }
+
+    class Solution_Correct_3 {
+        public int numDecodings(String s) {
+            if(s == null || s.length() == 0) {
+                return 0;
+            }
+
+            int n = s.length();
+            int[] dp = new int[n + 1];
+            dp[n] = 1;
+            dp[n - 1] = s.charAt(n - 1) == '0' ? 0 : 1;
+
+            for(int i = n - 2; i >= 0; i--) {
                 int oneDigit = s.charAt(i) - '0';
                 int twoDigits = Integer.valueOf(s.substring(i, i + 2));
 
