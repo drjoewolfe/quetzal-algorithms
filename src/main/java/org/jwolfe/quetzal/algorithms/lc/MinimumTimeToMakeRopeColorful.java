@@ -1,7 +1,75 @@
 package org.jwolfe.quetzal.algorithms.lc;
 
+import java.util.Arrays;
+
 public class MinimumTimeToMakeRopeColorful {
     class Solution {
+        public int minCost(String s, int[] cost) {
+            if(s == null || s.length() < 2 || cost == null || cost.length != s.length()) {
+                return 0;
+            }
+
+            int n = s.length();
+            int[] memo = new int[n];
+            Arrays.fill(memo, -1);
+
+            return minCost(s, cost, n - 1, '*', cost[n - 1], memo);
+        }
+
+        private int minCost(String s, int[] cost, int index, char prevColor, int prevTime, int[] memo) {
+            if(index < 0) {
+                return 0;
+            }
+
+            if(memo[index] != -1) {
+                return memo[index];
+            }
+
+            char color = s.charAt(index);
+            int time = cost[index];
+            int netCost = -1;
+
+            if(color == prevColor) {
+                netCost = Math.min(prevTime, time)
+                        + minCost(s, cost, index - 1, color, Math.max(prevTime, time), memo);
+            } else {
+                netCost = minCost(s, cost, index - 1, color, time, memo);
+            }
+
+            memo[index] = netCost;
+            return netCost;
+        }
+    }
+
+    class Solution_Recursive {
+        public int minCost(String s, int[] cost) {
+            if(s == null || s.length() < 2 || cost == null || cost.length != s.length()) {
+                return 0;
+            }
+
+            int n = s.length();
+
+            return minCost(s, cost, n - 1, '*', cost[n - 1]);
+        }
+
+        private int minCost(String s, int[] cost, int index, char prevColor, int prevTime) {
+            if(index < 0) {
+                return 0;
+            }
+
+            char color = s.charAt(index);
+            int time = cost[index];
+
+            if(color == prevColor) {
+                return Math.min(prevTime, time)
+                        + minCost(s, cost, index - 1, color, Math.max(prevTime, time));
+            } else {
+                return minCost(s, cost, index - 1, color, time);
+            }
+        }
+    }
+
+    class Solution_Correct_2 {
         public int minCost(String s, int[] cost) {
             if(s == null || s.length() == 0 || cost == null || cost.length != s.length()) {
                 return 0;
@@ -67,6 +135,12 @@ public class MinimumTimeToMakeRopeColorful {
             return minCost;
         }
     }
+
+// "abaac"
+// [1,2,3,4,5]
+
+// "bbbaaa"
+// [4,9,3,8,8,9]
 }
 
 //    1578. Minimum Time to Make Rope Colorful
