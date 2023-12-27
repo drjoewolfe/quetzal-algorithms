@@ -4,6 +4,38 @@ import java.util.Arrays;
 
 public class NumberOfDiceRollsWithTargetSum {
     class Solution {
+        private int MOD = 1_000_000_007;
+
+        public int numRollsToTarget(int n, int k, int target) {
+            if(n < 1 || k < 1 || target < n) {
+                return 0;
+            }
+
+            int[][] dp = new int[n + 1][target + 1];
+
+            // 1 Dice
+            for(int sum = 1; sum <= Math.min(k, target); sum++) {
+                dp[1][sum] = 1;
+            }
+
+            // 2+ Dices
+            for(int dice = 2; dice <= n; dice++) {
+                for(int sum = 1; sum <= target; sum++) {
+
+                    for(int face = 1; face <= k; face++) {
+                        if(sum >= face) {
+                            dp[dice][sum] += dp[dice - 1][sum - face];
+                            dp[dice][sum] %= MOD;
+                        }
+                    }
+                }
+            }
+
+            return dp[n][target];
+        }
+    }
+
+    class Solution_Correct_2 {
 
         private int MOD = 1_000_000_007;
 
