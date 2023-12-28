@@ -18,6 +18,67 @@ public class StringCompressionII {
             return getLengthOfOptimalCompression(s, n, 0, k, dp);
         }
 
+        private int getLengthOfOptimalCompression(String s, int n, int index, int k, int[][] dp) {
+            if(k < 0) {
+                return n;
+            }
+
+            if(n <= index + k) {
+                return 0;
+            }
+
+            if(dp[index][k] != -1) {
+                return dp[index][k];
+            }
+
+            // Delete current character
+            int deleteLength = getLengthOfOptimalCompression(s, n, index + 1, k - 1, dp);
+
+            // Keep current character
+            char curr = s.charAt(index);
+            int diff = 0;
+            int same = 0;
+            int length = 0;
+            int keepLength = n;
+
+            for(int i = index; i < n && diff <= k; i++) {
+                int next = s.charAt(i);
+
+                if(curr == next) {
+                    same++;
+
+                    if(same <= 2 || same == 10 || same == 100) {
+                        length++;
+                    }
+                } else {
+                    diff++;
+                }
+
+                keepLength = Math.min(keepLength,
+                        length + getLengthOfOptimalCompression(s, n, i + 1, k - diff, dp));
+            }
+
+            int ans = Math.min(deleteLength, keepLength);
+            dp[index][k] = ans;
+            return ans;
+        }
+    }
+
+    class Solution_Correct_1 {
+        public int getLengthOfOptimalCompression(String s, int k) {
+            if(s == null || s.length() <= k) {
+                return 0;
+            }
+
+            int n = s.length();
+            int[][] dp = new int[n][k + 1];
+            for(int[] row : dp) {
+                Arrays.fill(row, -1);
+            }
+
+            return getLengthOfOptimalCompression(s, n, 0, k, dp);
+        }
+
         private int getLengthOfOptimalCompression(String s, int n, int i, int k, int[][] dp) {
             if(k < 0) {
                 return n;
@@ -308,6 +369,7 @@ public class StringCompressionII {
 
 // "jejjflbakmfdbkadfjdmhlfbeiidib"
 // 29
+
 }
 
 //    1531. String Compression II
