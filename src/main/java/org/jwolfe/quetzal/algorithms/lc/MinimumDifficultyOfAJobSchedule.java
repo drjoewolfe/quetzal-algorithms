@@ -5,6 +5,50 @@ import java.util.Arrays;
 public class MinimumDifficultyOfAJobSchedule {
     class Solution {
         public int minDifficulty(int[] jobDifficulty, int d) {
+            if(jobDifficulty == null || jobDifficulty.length < d || d < 1) {
+                return -1;
+            }
+
+            int n = jobDifficulty.length;
+            int[][] dp = new int[d + 1][n];
+            dp[1][0] = jobDifficulty[0];
+
+            for(int i = 1; i < n; i++) {
+                dp[1][i] = Math.max(jobDifficulty[i], dp[1][i - 1]);
+            }
+
+            for(int day = 2; day <= d; day++) {
+                for(int i = day - 1; i < n; i++) {
+                    int maxDifficulty = jobDifficulty[i];
+                    int minSchedule = jobDifficulty[i] + dp[day - 1][i - 1];
+
+                    for(int j = i - 1; j >= day - 1; j--) {
+                        maxDifficulty = Math.max(maxDifficulty, jobDifficulty[j]);
+                        minSchedule = Math.min(minSchedule, maxDifficulty + dp[day - 1][j - 1]);
+                    }
+
+                    dp[day][i] = minSchedule;
+                }
+            }
+
+            return dp[d][n - 1];
+        }
+
+        private void print(int[][] dp) {
+            for(int[] row : dp) {
+                for(int a : row) {
+                    System.out.print(a + " ");
+                }
+
+                System.out.println();
+            }
+
+            System.out.println();
+        }
+    }
+
+    class Solution_Memoized_Correct_1 {
+        public int minDifficulty(int[] jobDifficulty, int d) {
             if(jobDifficulty == null || d < 0 || jobDifficulty.length < d) {
                 return -1;
             }
@@ -103,6 +147,12 @@ public class MinimumDifficultyOfAJobSchedule {
 
 // [380,302,102,681,863,676,243,671,651,612,162,561,394,856,601,30,6,257,921,405,716,126,158,476,889,699,668,930,139,164,641,801,480,756,797,915,275,709,161,358,461,938,914,557,121,964,315]
 // 10
+
+// [9,9,9]
+// 4
+
+// [11,111,22,222,33,333,44,444]
+// 6
 }
 
 //    1335. Minimum Difficulty of a Job Schedule
