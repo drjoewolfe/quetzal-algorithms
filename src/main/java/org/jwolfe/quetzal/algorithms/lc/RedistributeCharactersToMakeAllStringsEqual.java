@@ -11,6 +11,31 @@ public class RedistributeCharactersToMakeAllStringsEqual {
             int[] frequencies = new int[26];
             for(String word : words) {
                 for(int i = 0; i < word.length(); i++) {
+                    char c = word.charAt(i);
+                    frequencies[c - 'a']++;
+                }
+            }
+
+            for(int i = 0; i < 26; i++) {
+                if(frequencies[i] % n != 0) {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+    }
+
+    class Solution_Correct_1 {
+        public boolean makeEqual(String[] words) {
+            if(words == null || words.length < 2) {
+                return true;
+            }
+
+            int n = words.length;
+            int[] frequencies = new int[26];
+            for(String word : words) {
+                for(int i = 0; i < word.length(); i++) {
                     frequencies[word.charAt(i) - 'a']++;
                 }
             }
