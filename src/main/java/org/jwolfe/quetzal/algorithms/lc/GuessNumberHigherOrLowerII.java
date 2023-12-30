@@ -9,6 +9,47 @@ public class GuessNumberHigherOrLowerII {
                 return -1;
             }
 
+            int[][] dp = new int[n + 1][n + 1];
+            for(int len = 2; len <= n; len++) {
+                for(int start = 1; start + len - 1 <= n; start++) {
+                    int end = start + len - 1;
+
+                    int minCost = Integer.MAX_VALUE;
+                    for(int guess = start; guess < end; guess++) {
+                        int cost = guess + Math.max(
+                                dp[start][guess - 1],
+                                dp[guess + 1][end]
+                        );
+
+                        minCost = Math.min(minCost, cost);
+                    }
+
+                    dp[start][end] = minCost;
+                }
+            }
+
+            return dp[1][n];
+        }
+
+        private void print(int[][] arr) {
+            for(int[] row : arr) {
+                for(int cell : row) {
+                    System.out.print(cell + " ");
+                }
+
+                System.out.println();
+            }
+
+            System.out.println();
+        }
+    }
+
+    class Solution_Memoized {
+        public int getMoneyAmount(int n) {
+            if(n < 1) {
+                return -1;
+            }
+
             int[][] memo = new int[n + 1][n + 1];
             for(int[] row : memo) {
                 Arrays.fill(row, -1);
