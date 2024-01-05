@@ -12,6 +12,77 @@ public class LongestIncreasingSubsequence {
             }
 
             int n = nums.length;
+
+            List<Integer> lis = new ArrayList<>();
+            lis.add(nums[0]);
+
+            for(int i = 1; i < n; i++) {
+                int val = nums[i];
+
+                if(val > lis.get(lis.size() - 1)) {
+                    lis.add(val);
+                } else {
+                    int index = getNextGreaterIndex(lis, val);
+                    lis.set(index, val);
+                }
+            }
+
+            return lis.size();
+        }
+
+        private int getNextGreaterIndex(List<Integer> lis, int target) {
+            int left = 0;
+            int right = lis.size() - 1;
+
+            while(left < right) {
+                int mid = left + (right - left) / 2;
+
+                int val = lis.get(mid);
+                if(val == target) {
+                    return mid;
+                } else if(val > target) {
+                    right = mid;
+                } else {
+                    left = mid + 1;
+                }
+            }
+
+            return left;
+        }
+    }
+
+    class Solution_Correct_4 {
+        public int lengthOfLIS(int[] nums) {
+            if(nums == null || nums.length == 0) {
+                return 0;
+            }
+
+            int n = nums.length;
+            int[] lis = new int[n];
+            Arrays.fill(lis, 1);
+
+            int maxLength = 1;
+            for(int i = 1; i < n; i++) {
+                for(int j = i - 1; j >= 0; j--) {
+                    if(nums[j] < nums[i]
+                            && lis[j] + 1 > lis[i]) {
+                        lis[i] = lis[j] + 1;
+                        maxLength = Math.max(maxLength, lis[i]);
+                    }
+                }
+            }
+
+            return maxLength;
+        }
+    }
+
+    class Solution_Correct_3 {
+        public int lengthOfLIS(int[] nums) {
+            if(nums == null || nums.length == 0) {
+                return 0;
+            }
+
+            int n = nums.length;
             List<Integer> lis = new ArrayList<>();
             lis.add(nums[0]);
 
@@ -107,6 +178,7 @@ public class LongestIncreasingSubsequence {
     }
 
 // [10,9,2,5,3,7,101,18]
+// [4,10,4,3,8,9]
 }
 
 //    300. Longest Increasing Subsequence
