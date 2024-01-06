@@ -21,6 +21,44 @@ public class MaximumProfitInJobScheduling {
 
             Collections.sort(jobs, (a, b) -> a[1] - b[1]);
 
+            TreeMap<Integer, Integer> maxProfitsByTime = new TreeMap<>();
+            maxProfitsByTime.put(0, 0);
+
+            int maxProfit = 0;
+            for(int i = 0; i < n; i++) {
+                int[] job = jobs.get(i);
+
+                int start = job[0];
+                int end = job[1];
+                int p = job[2];
+
+                var lastTime = maxProfitsByTime.floorKey(start);
+                var lastProfit = maxProfitsByTime.get(lastTime);
+                int netProfit = lastProfit + p;
+                maxProfit = Math.max(maxProfit, netProfit);
+
+                maxProfitsByTime.put(end, maxProfit);
+            }
+
+            return maxProfit;
+        }
+    }
+
+    class Solution_Correct_2 {
+        public int jobScheduling(int[] startTime, int[] endTime, int[] profit) {
+            if(startTime == null || endTime == null || profit == null || startTime.length != endTime.length || startTime.length != profit.length) {
+                return 0;
+            }
+
+            int n = startTime.length;
+
+            List<int[]> jobs = new ArrayList<>();
+            for(int i = 0; i < n; i++) {
+                jobs.add(new int[] {startTime[i], endTime[i], profit[i]});
+            }
+
+            Collections.sort(jobs, (a, b) -> a[1] - b[1]);
+
             int maxProfit = 0;
             TreeMap<Integer, Integer> maxProfitsByTime = new TreeMap<>();
             maxProfitsByTime.put(0, 0);
