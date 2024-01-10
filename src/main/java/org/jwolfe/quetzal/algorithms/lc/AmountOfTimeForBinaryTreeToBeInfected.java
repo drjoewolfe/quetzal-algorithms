@@ -6,21 +6,60 @@ public class AmountOfTimeForBinaryTreeToBeInfected {
     /**
      * Definition for a binary tree node.
      * public class TreeNode {
-     * int val;
-     * TreeNode left;
-     * TreeNode right;
-     * TreeNode() {}
-     * TreeNode(int val) { this.val = val; }
-     * TreeNode(int val, TreeNode left, TreeNode right) {
-     * this.val = val;
-     * this.left = left;
-     * this.right = right;
-     * }
+     *     int val;
+     *     TreeNode left;
+     *     TreeNode right;
+     *     TreeNode() {}
+     *     TreeNode(int val) { this.val = val; }
+     *     TreeNode(int val, TreeNode left, TreeNode right) {
+     *         this.val = val;
+     *         this.left = left;
+     *         this.right = right;
+     *     }
      * }
      */
     class Solution {
+
+        int maxDistance;
+
         public int amountOfTime(TreeNode root, int start) {
-            if (root == null) {
+            maxDistance = 0;
+            traverse(root, start);
+            return maxDistance;
+        }
+
+        private int traverse(TreeNode root, int start) {
+            if(root == null) {
+                return 0;
+            }
+
+            int leftDepth = traverse(root.left, start);
+            int rightDepth = traverse(root.right, start);
+
+            if(root.val == start) {
+                int distance = Math.max(leftDepth, rightDepth);
+                maxDistance = Math.max(maxDistance, distance);
+
+                return -1;
+
+            } else if(leftDepth >= 0 && rightDepth >= 0) {
+                int depth = Math.max(leftDepth, rightDepth) + 1;
+                return depth;
+
+            } else {
+                // subtree (left or right) contains the start node
+                int distance = Math.abs(leftDepth) + Math.abs(rightDepth);
+                maxDistance = Math.max(maxDistance, distance);
+
+                int depth = Math.min(leftDepth, rightDepth) - 1;
+                return depth;
+            }
+        }
+    }
+
+    class Solution_Correct_1 {
+        public int amountOfTime(TreeNode root, int start) {
+            if(root == null) {
                 return 0;
             }
 
@@ -33,14 +72,14 @@ public class AmountOfTimeForBinaryTreeToBeInfected {
             Set<Integer> visited = new HashSet<>();
             int time = -1;
 
-            while (!queue.isEmpty()) {
+            while(!queue.isEmpty()) {
                 int size = queue.size();
-                for (int i = 0; i < size; i++) {
+                for(int i = 0; i < size; i++) {
                     int u = queue.poll();
                     visited.add(u);
 
-                    for (Integer v : graph.get(u)) {
-                        if (!visited.contains(v)) {
+                    for(Integer v : graph.get(u)) {
+                        if(!visited.contains(v)) {
                             queue.offer(v);
                         }
                     }
@@ -53,7 +92,7 @@ public class AmountOfTimeForBinaryTreeToBeInfected {
         }
 
         private void constructGraph(TreeNode node, Map<Integer, Set<Integer>> graph) {
-            if (node == null) {
+            if(node == null) {
                 return;
             }
 
@@ -63,12 +102,12 @@ public class AmountOfTimeForBinaryTreeToBeInfected {
             Set<Integer> set = new HashSet<>();
             graph.put(node.val, set);
 
-            if (node.left != null) {
+            if(node.left != null) {
                 set.add(node.left.val);
                 graph.get(node.left.val).add(node.val);
             }
 
-            if (node.right != null) {
+            if(node.right != null) {
                 set.add(node.right.val);
                 graph.get(node.right.val).add(node.val);
             }
