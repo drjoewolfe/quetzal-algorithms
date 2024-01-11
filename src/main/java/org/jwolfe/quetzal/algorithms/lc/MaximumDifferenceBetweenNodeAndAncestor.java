@@ -21,6 +21,34 @@ public class MaximumDifferenceBetweenNodeAndAncestor {
      */
     class Solution {
         public int maxAncestorDiff(TreeNode root) {
+            return maxAncestorDiff(root, root.val, root.val);
+        }
+
+        private int maxAncestorDiff(TreeNode root, int min, int max) {
+            if(root == null) {
+                return 0;
+            }
+
+            int maxDiffHere = Math.max(
+                    Math.abs(min - root.val),
+                    Math.abs(max - root.val)
+            );
+
+            min = Math.min(min, root.val);
+            max = Math.max(max, root.val);
+
+            int leftMaxDiff = maxAncestorDiff(root.left, min, max);
+            int rightMaxDiff = maxAncestorDiff(root.right, min, max);
+
+            return Math.max(maxDiffHere,
+                    Math.max(leftMaxDiff,
+                            rightMaxDiff)
+            );
+        }
+    }
+
+    class Solution_Corect_3 {
+        public int maxAncestorDiff(TreeNode root) {
             if(root == null) {
                 return 0;
             }
