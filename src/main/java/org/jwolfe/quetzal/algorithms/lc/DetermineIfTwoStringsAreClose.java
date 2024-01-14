@@ -5,7 +5,39 @@ import java.util.*;
 public class DetermineIfTwoStringsAreClose {
     class Solution {
         public boolean closeStrings(String word1, String word2) {
-            if(word1 == null || word2 == null || word1.length() != word2.length()) {
+            if (word1 == null || word2 == null || word1.length() != word2.length()) {
+                return false;
+            }
+
+            Set<Character> set1 = new HashSet<>();
+            Set<Character> set2 = new HashSet<>();
+
+            int[] counts1 = new int[26];
+            int[] counts2 = new int[26];
+
+            int n = word1.length();
+
+            for (int i = 0; i < n; i++) {
+                char c1 = word1.charAt(i);
+                char c2 = word2.charAt(i);
+
+                counts1[c1 - 'a']++;
+                counts2[c2 - 'a']++;
+
+                set1.add(c1);
+                set2.add(c2);
+            }
+
+            Arrays.sort(counts1);
+            Arrays.sort(counts2);
+
+            return set1.equals(set2) && Arrays.equals(counts1, counts2);
+        }
+    }
+
+    class Solution_Correct_2 {
+        public boolean closeStrings(String word1, String word2) {
+            if (word1 == null || word2 == null || word1.length() != word2.length()) {
                 return false;
             }
 
@@ -14,7 +46,7 @@ public class DetermineIfTwoStringsAreClose {
 
             int[] frequencies1 = new int[26];
             int[] frequencies2 = new int[26];
-            for(int i = 0; i < word1.length(); i++) {
+            for (int i = 0; i < word1.length(); i++) {
                 char c1 = word1.charAt(i);
                 char c2 = word2.charAt(i);
 
@@ -32,7 +64,7 @@ public class DetermineIfTwoStringsAreClose {
         }
 
         private void print(int[] arr) {
-            for(int a : arr) {
+            for (int a : arr) {
                 System.out.print(a + " ");
             }
 
@@ -42,19 +74,19 @@ public class DetermineIfTwoStringsAreClose {
 
     class Solution_Correct_1 {
         public boolean closeStrings(String word1, String word2) {
-            if(word1 == null || word2 == null || word1.length() != word2.length()) {
+            if (word1 == null || word2 == null || word1.length() != word2.length()) {
                 return false;
             }
 
             int n = word1.length();
-            if(n < 1) {
+            if (n < 1) {
                 return true;
             }
 
             Map<Character, Integer> aCounters = new HashMap<>();
             Map<Character, Integer> bCounters = new HashMap<>();
 
-            for(int i = 0; i < n; i++) {
+            for (int i = 0; i < n; i++) {
                 char a = word1.charAt(i);
                 aCounters.put(a, aCounters.getOrDefault(a, 0) + 1);
 
@@ -63,9 +95,9 @@ public class DetermineIfTwoStringsAreClose {
             }
 
             Map<Integer, Integer> checks = new HashMap<>();
-            for(var aEntry : aCounters.entrySet()) {
+            for (var aEntry : aCounters.entrySet()) {
                 Character key = aEntry.getKey();
-                if(!bCounters.containsKey(key)) {
+                if (!bCounters.containsKey(key)) {
                     return false;
                 }
 
@@ -73,13 +105,13 @@ public class DetermineIfTwoStringsAreClose {
                 checks.put(count, checks.getOrDefault(count, 0) + 1);
             }
 
-            for(var bEntry : bCounters.entrySet()) {
+            for (var bEntry : bCounters.entrySet()) {
                 Integer count = bEntry.getValue();
                 checks.put(count, checks.getOrDefault(count, 0) - 1);
             }
 
-            for(var entry : checks.entrySet()) {
-                if(entry.getValue() != 0) {
+            for (var entry : checks.entrySet()) {
+                if (entry.getValue() != 0) {
                     return false;
                 }
             }
