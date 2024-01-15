@@ -10,6 +10,40 @@ public class FindPlayersWithZeroOrOneLosses {
                 return results;
             }
 
+            Map<Integer, Integer> loseCounts = new TreeMap<>();
+            for(int[] match : matches) {
+                int winner = match[0];
+                int loser = match[1];
+
+                loseCounts.put(winner, loseCounts.getOrDefault(winner, 0));
+                loseCounts.put(loser, loseCounts.getOrDefault(loser, 0) + 1);
+            }
+
+            List<Integer> noLoses = new ArrayList<>();
+            List<Integer> oneLose = new ArrayList<>();
+
+            for(var entry : loseCounts.entrySet()) {
+                if(entry.getValue() == 0) {
+                    noLoses.add(entry.getKey());
+                } else if(entry.getValue() == 1) {
+                    oneLose.add(entry.getKey());
+                }
+            }
+
+            results.add(noLoses);
+            results.add(oneLose);
+
+            return results;
+        }
+    }
+
+    class Solution_Correct_1 {
+        public List<List<Integer>> findWinners(int[][] matches) {
+            List<List<Integer>> results = new ArrayList<>();
+            if(matches == null || matches.length == 0) {
+                return results;
+            }
+
             Set<Integer> players = new TreeSet<>();
             Map<Integer, Integer> loseCounts = new HashMap<>();
             for(int[] match : matches) {
