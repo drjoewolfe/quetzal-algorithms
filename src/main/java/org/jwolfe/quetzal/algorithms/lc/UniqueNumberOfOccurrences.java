@@ -19,6 +19,31 @@ public class UniqueNumberOfOccurrences {
 
             Set<Integer> set = new HashSet<>();
             for(var entry : map.entrySet()) {
+                var count = entry.getValue();
+                if(set.contains(count)) {
+                    return false;
+                }
+
+                set.add(count);
+            }
+
+            return true;
+        }
+    }
+
+    class Solution_Correct_2 {
+        public boolean uniqueOccurrences(int[] arr) {
+            if(arr == null || arr.length < 2) {
+                return true;
+            }
+
+            Map<Integer, Integer> map = new HashMap<>();
+            for(int a : arr) {
+                map.put(a, map.getOrDefault(a, 0) + 1);
+            }
+
+            Set<Integer> set = new HashSet<>();
+            for(var entry : map.entrySet()) {
                 int count = entry.getValue();
                 if(set.contains(count)) {
                     return false;
