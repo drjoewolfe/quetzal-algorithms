@@ -11,6 +11,44 @@ public class MinimumFallingPathSum {
             int n = matrix[0].length;
 
             int[][] dp = new int[m][n];
+            for(int j = 0; j < n; j++) {
+                dp[m - 1][j] = matrix[m - 1][j];
+            }
+
+            for(int i = m - 2; i >= 0; i--) {
+                for(int j = 0; j < n; j++) {
+                    int minPath = dp[i + 1][j];
+                    if(j > 0) {
+                        minPath = Math.min(minPath, dp[i + 1][j - 1]);
+                    }
+
+                    if(j < n - 1) {
+                        minPath = Math.min(minPath, dp[i + 1][j + 1]);
+                    }
+
+                    dp[i][j] = matrix[i][j] + minPath;
+                }
+            }
+
+            int minSum = dp[0][0];
+            for(int j = 1; j < n; j++) {
+                minSum = Math.min(minSum, dp[0][j]);
+            }
+
+            return minSum;
+        }
+    }
+
+    class Solution_Correct_2 {
+        public int minFallingPathSum(int[][] matrix) {
+            if(matrix == null || matrix.length == 0 || matrix[0].length == 0) {
+                return 0;
+            }
+
+            int m = matrix.length;
+            int n = matrix[0].length;
+
+            int[][] dp = new int[m][n];
             for(int c = 0; c < n; c++) {
                 dp[m - 1][c] = matrix[m - 1][c];
             }
