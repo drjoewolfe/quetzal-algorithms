@@ -7,6 +7,33 @@ public class SetMismatch {
                 return new int[0];
             }
 
+            int repeatedNumber = -1;
+
+            int n = nums.length;
+            int sum = 0;
+            for(int i = 0; i < n; i++) {
+                int val = Math.abs(nums[i]);
+                sum += val;
+
+                int j = val - 1;
+                if(nums[j] < 0) {
+                    repeatedNumber = val;
+                } else {
+                    nums[j] *= -1;
+                }
+            }
+
+            int missingNumber = (n * (n + 1) / 2) - (sum - repeatedNumber);
+            return new int[] {repeatedNumber, missingNumber};
+        }
+    }
+
+    class Solution_Correct_2 {
+        public int[] findErrorNums(int[] nums) {
+            if(nums == null || nums.length < 2) {
+                return new int[0];
+            }
+
             int n = nums.length;
 
             int sum = 0;
@@ -58,6 +85,8 @@ public class SetMismatch {
             return new int[] {repeatedNumber, missingNumber};
         }
     }
+
+// [1,2,2,4]
 }
 
 //    645. Set Mismatch
