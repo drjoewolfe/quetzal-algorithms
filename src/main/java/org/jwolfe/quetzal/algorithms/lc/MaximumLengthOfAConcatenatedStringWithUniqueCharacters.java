@@ -20,6 +20,60 @@ public class MaximumLengthOfAConcatenatedStringWithUniqueCharacters {
                 return getLength(mask);
             }
 
+            boolean canInclude = true;
+
+            int mergedMask = mask;
+            String str = arr.get(index);
+            for(int i = 0; i < str.length(); i++) {
+                char c = str.charAt(i);
+                int number = c - 'a';
+
+                if((mergedMask & (1 << number)) > 0) {
+                    canInclude = false;
+                    break;
+                }
+
+                mergedMask |= (1 << number);
+            }
+
+            int length = 0;
+            if(canInclude) {
+                // Include
+                length = maxLength(arr, index + 1, mergedMask);
+            }
+
+            // Exclude
+            length = Math.max(length, maxLength(arr, index + 1, mask));
+
+            return length;
+        }
+
+        private int getLength(int mask) {
+            int length = 0;
+
+            while(mask > 0) {
+                length += mask & 1;
+                mask >>= 1;
+            }
+
+            return length;
+        }
+    }
+
+    class Solution_Correct_2 {
+        public int maxLength(List<String> arr) {
+            if(arr == null || arr.size() == 0) {
+                return 0;
+            }
+
+            return maxLength(arr, 0, 0);
+        }
+
+        private int maxLength(List<String> arr, int index, int mask) {
+            if(index == arr.size()) {
+                return getLength(mask);
+            }
+
             String str = arr.get(index);
             boolean canInclude = true;
             int mergedMask = mask;
