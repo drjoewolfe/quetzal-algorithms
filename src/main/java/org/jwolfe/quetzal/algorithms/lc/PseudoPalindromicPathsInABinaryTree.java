@@ -22,8 +22,55 @@ public class PseudoPalindromicPathsInABinaryTree {
      * }
      */
     class Solution {
-        public int pseudoPalindromicPaths(TreeNode root) {
-            if (root == null) {
+        public int pseudoPalindromicPaths (TreeNode root) {
+            if(root == null) {
+                return 0;
+            }
+
+            Map<Integer, Integer> nodeCounts = new HashMap<>();
+            return pseudoPalindromicPaths(root, nodeCounts);
+        }
+
+        private int pseudoPalindromicPaths(TreeNode root, Map<Integer, Integer> nodeCounts) {
+            if(root == null) {
+                return 0;
+            }
+
+            int val = root.val;
+            nodeCounts.put(val, nodeCounts.getOrDefault(val, 0) + 1);
+
+            int pathCounts = 0;
+            if(root.left == null && root.right == null) {
+                // Leaf node
+                if(isPalindromePath(nodeCounts)) {
+                    pathCounts++;
+                }
+            } else {
+                pathCounts += pseudoPalindromicPaths(root.left, nodeCounts);
+                pathCounts += pseudoPalindromicPaths(root.right, nodeCounts);
+            }
+
+            nodeCounts.put(val, nodeCounts.get(val) - 1);
+            return pathCounts;
+        }
+
+        private boolean isPalindromePath(Map<Integer, Integer> nodeCounts) {
+            int oddCount = 0;
+            for(var entry : nodeCounts.entrySet()) {
+                int count = entry.getValue();
+
+                if(count % 2 == 1) {
+                    oddCount++;
+                }
+            }
+
+            return oddCount < 2;
+        }
+    }
+
+    class Solution_Correct_2 {
+        public int pseudoPalindromicPaths (TreeNode root) {
+            if(root == null) {
                 return 0;
             }
 
@@ -32,14 +79,14 @@ public class PseudoPalindromicPathsInABinaryTree {
         }
 
         private int pseudoPalindromicPaths(TreeNode root, Map<Integer, Integer> pathMap) {
-            if (root == null) {
+            if(root == null) {
                 return 0;
             }
 
             pathMap.put(root.val, pathMap.getOrDefault(root.val, 0) + 1);
 
             int pathCount = 0;
-            if (root.left == null && root.right == null) {
+            if(root.left == null && root.right == null) {
                 // Leaf node
                 pathCount = isPalindromicPath(pathMap) ? 1 : 0;
             } else {
@@ -53,11 +100,11 @@ public class PseudoPalindromicPathsInABinaryTree {
 
         private boolean isPalindromicPath(Map<Integer, Integer> pathMap) {
             int oddCount = 0;
-            for (var entry : pathMap.entrySet()) {
+            for(var entry : pathMap.entrySet()) {
                 Integer key = entry.getKey();
                 Integer count = entry.getValue();
 
-                if (count % 2 != 0) {
+                if(count % 2 != 0) {
                     oddCount++;
                 }
             }
