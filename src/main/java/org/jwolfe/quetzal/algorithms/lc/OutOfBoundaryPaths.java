@@ -4,6 +4,53 @@ import java.util.Arrays;
 
 public class OutOfBoundaryPaths {
     class Solution {
+        private int[][] directions = new int[][] {{1, 0}, {-1, 0}, {0, 1}, {0, -1}};
+        private int MOD = 1_000_000_007;
+
+        public int findPaths(int m, int n, int N, int i, int j) {
+            if(m <1 || n < 1 || N < 1 || i < 0 || j < 0 || i >= m || j >= n) {
+                return 0;
+            }
+
+            int count = m * n;
+            int[][] memo = new int[count][N+1];
+            for(int[] row : memo) {
+                Arrays.fill(row, -1);
+            }
+
+            return computeOutOfBoundaryPaths(m, n, N, i, j, memo);
+        }
+
+        private int computeOutOfBoundaryPaths(int m, int n, int movesLeft, int row, int col, int[][] memo) {
+            if(row < 0 || col < 0 || row == m || col == n) {
+                // Out of boundary
+                return 1;
+            }
+
+            if(movesLeft == 0) {
+                return 0;
+            }
+
+            int cell = (row * n) + col;
+            if(memo[cell][movesLeft] != -1) {
+                return memo[cell][movesLeft];
+            }
+
+            int ways = 0;
+            for(int[] direction : directions) {
+                int nextRow = row + direction[0];
+                int nextCol = col + direction[1];
+
+                ways += computeOutOfBoundaryPaths(m, n, movesLeft - 1, nextRow, nextCol, memo);
+                ways %= MOD;
+            }
+
+            memo[cell][movesLeft] = ways;
+            return ways;
+        }
+    }
+
+    class Solution_Correct_1 {
         private int[][] directions = new int[][] {{0, -1}, {0, 1}, {-1, 0}, {1, 0}};
         int MOD = 1_000_000_007;
 
