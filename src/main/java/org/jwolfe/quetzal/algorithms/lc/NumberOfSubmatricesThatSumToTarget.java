@@ -1,7 +1,60 @@
 package org.jwolfe.quetzal.algorithms.lc;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class NumberOfSubmatricesThatSumToTarget {
     class Solution {
+        public int numSubmatrixSumTarget(int[][] matrix, int target) {
+            if(matrix == null || matrix.length == 0 || matrix[0].length == 0) {
+                return 0;
+            }
+
+            int m = matrix.length;
+            int n = matrix[0].length;
+
+            int[][] prefixSums = new int[m][n];
+
+            for(int r = 0; r < m; r++) {
+                for(int c = 0; c < n; c++) {
+                    if(c == 0) {
+                        prefixSums[r][c] = matrix[r][c];
+                    } else {
+                        prefixSums[r][c] = prefixSums[r][c - 1] + matrix[r][c];
+                    }
+                }
+            }
+
+            int count = 0;
+
+            for(int c1 = 0; c1 < n; c1++) {
+                for(int c2 = c1; c2 < n; c2++) {
+                    Map<Integer, Integer> sumCounts = new HashMap<>();
+                    sumCounts.put(0, 1);
+
+                    int matrixSum = 0;
+
+                    for(int r = 0; r < m; r++) {
+                        int rowSum = prefixSums[r][c2] - ((c1 > 0) ? prefixSums[r][c1 - 1] : 0);
+                        matrixSum += rowSum;
+
+                        int remainingSum = matrixSum - target;
+
+                        if(sumCounts.containsKey(remainingSum)) {
+                            count += sumCounts.get(remainingSum);
+                        }
+
+                        sumCounts.put(matrixSum, sumCounts.getOrDefault(matrixSum, 0) + 1);
+                        System.out.println(sumCounts);
+                    }
+                }
+            }
+
+            return count;
+        }
+    }
+
+    class Solution_Correct_1 {
         public int numSubmatrixSumTarget(int[][] matrix, int target) {
             if(matrix == null || matrix.length == 0 || matrix[0].length == 0) {
                 return 0;
