@@ -5,39 +5,81 @@ import java.util.Stack;
 public class EvaluateReversePolishNotation {
     class Solution {
         public int evalRPN(String[] tokens) {
-            if(tokens == null || tokens.length == 0) {
+            if (tokens == null || tokens.length == 0) {
                 return 0;
             }
 
             Stack<Integer> stack = new Stack<>();
 
-            for(String t : tokens) {
-                if(t.equals("+")) {
-                    if(stack.size() < 2) {
+            for (String token : tokens) {
+                if (token.equals("+")) {
+                    var b = stack.pop();
+                    var a = stack.pop();
+
+                    var c = a + b;
+                    stack.push(c);
+                } else if (token.equals("-")) {
+                    var b = stack.pop();
+                    var a = stack.pop();
+
+                    var c = a - b;
+                    stack.push(c);
+                } else if (token.equals("*")) {
+                    var b = stack.pop();
+                    var a = stack.pop();
+
+                    var c = a * b;
+                    stack.push(c);
+                } else if (token.equals("/")) {
+                    var b = stack.pop();
+                    var a = stack.pop();
+
+                    var c = a / b;
+                    stack.push(c);
+                } else {
+                    stack.push(Integer.valueOf(token));
+                }
+            }
+
+            return stack.pop();
+        }
+    }
+
+    class Solution_Correct_1 {
+        public int evalRPN(String[] tokens) {
+            if (tokens == null || tokens.length == 0) {
+                return 0;
+            }
+
+            Stack<Integer> stack = new Stack<>();
+
+            for (String t : tokens) {
+                if (t.equals("+")) {
+                    if (stack.size() < 2) {
                         return 0;
                     }
 
                     int b = stack.pop();
                     int a = stack.pop();
                     stack.push(a + b);
-                } else if(t.equals("-")) {
-                    if(stack.size() < 2) {
+                } else if (t.equals("-")) {
+                    if (stack.size() < 2) {
                         return 0;
                     }
 
                     int b = stack.pop();
                     int a = stack.pop();
                     stack.push(a - b);
-                } else if(t.equals("*")) {
-                    if(stack.size() < 2) {
+                } else if (t.equals("*")) {
+                    if (stack.size() < 2) {
                         return 0;
                     }
 
                     int b = stack.pop();
                     int a = stack.pop();
                     stack.push(a * b);
-                } else if(t.equals("/")) {
-                    if(stack.size() < 2) {
+                } else if (t.equals("/")) {
+                    if (stack.size() < 2) {
                         return 0;
                     }
 
@@ -50,7 +92,7 @@ public class EvaluateReversePolishNotation {
                 }
             }
 
-            if(stack.size() > 1) {
+            if (stack.size() > 1) {
                 return 0;
             }
 
@@ -60,15 +102,15 @@ public class EvaluateReversePolishNotation {
 
     class Solution_A2 {
         public int evalRPN(String[] tokens) {
-            if(tokens == null || tokens.length == 0) {
+            if (tokens == null || tokens.length == 0) {
                 return 0;
             }
 
             Stack<Integer> stack = new Stack<>();
-            for(String token : tokens) {
+            for (String token : tokens) {
                 int a;
                 int b;
-                switch(token) {
+                switch (token) {
                     case "+":
                         b = stack.pop();
                         a = stack.pop();
@@ -95,7 +137,7 @@ public class EvaluateReversePolishNotation {
                 }
             }
 
-            if(stack.size() != 1) {
+            if (stack.size() != 1) {
                 throw new RuntimeException("Invalid input");
             }
 
