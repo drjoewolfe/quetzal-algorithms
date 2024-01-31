@@ -6,7 +6,32 @@ import java.util.Stack;
 public class DailyTemperatures {
     class Solution {
         public int[] dailyTemperatures(int[] T) {
-            if(T == null || T.length == 0) {
+            if (T == null || T.length == 0) {
+                return new int[0];
+            }
+
+            int n = T.length;
+            int[] results = new int[n];
+
+            Stack<Integer> stack = new Stack<>();
+            for (int i = n - 1; i >= 0; i--) {
+                int temperature = T[i];
+                while (!stack.isEmpty()
+                        && T[stack.peek()] <= temperature) {
+                    stack.pop();
+                }
+
+                results[i] = stack.isEmpty() ? 0 : (stack.peek() - i);
+                stack.push(i);
+            }
+
+            return results;
+        }
+    }
+
+    class Solution_Correct_3 {
+        public int[] dailyTemperatures(int[] T) {
+            if (T == null || T.length == 0) {
                 return new int[0];
             }
 
@@ -14,10 +39,10 @@ public class DailyTemperatures {
             int n = T.length;
             int[] results = new int[n];
 
-            for(int i = n - 1; i >= 0; i--) {
+            for (int i = n - 1; i >= 0; i--) {
                 int val = T[i];
 
-                while(!stack.isEmpty()
+                while (!stack.isEmpty()
                         && T[stack.peek()] <= val) {
                     stack.pop();
                 }
@@ -34,7 +59,7 @@ public class DailyTemperatures {
 
     class Solution_Correct_2 {
         public int[] dailyTemperatures(int[] T) {
-            if(T == null || T.length == 0) {
+            if (T == null || T.length == 0) {
                 return new int[0];
             }
 
@@ -42,10 +67,10 @@ public class DailyTemperatures {
             int[] days = new int[n];
 
             Stack<Integer> stack = new Stack<>();
-            for(int i = n - 1; i >= 0; i--) {
+            for (int i = n - 1; i >= 0; i--) {
                 int temp = T[i];
 
-                while(!stack.isEmpty()
+                while (!stack.isEmpty()
                         && T[stack.peek()] <= temp) {
                     stack.pop();
                 }
@@ -62,15 +87,15 @@ public class DailyTemperatures {
 
     class Solution_Correct_1 {
         public int[] dailyTemperatures(int[] T) {
-            if(T == null || T.length == 0) {
+            if (T == null || T.length == 0) {
                 return new int[0];
             }
 
             int n = T.length;
             int[] days = new int[n];
             Stack<Integer> stack = new Stack<>();
-            for(int i = n - 1; i >= 0; i--) {
-                while(!stack.isEmpty() && T[stack.peek()] <= T[i]) {
+            for (int i = n - 1; i >= 0; i--) {
+                while (!stack.isEmpty() && T[stack.peek()] <= T[i]) {
                     stack.pop();
                 }
 
@@ -84,7 +109,7 @@ public class DailyTemperatures {
 
     class Solution_Standard {
         public int[] dailyTemperatures(int[] T) {
-            if(T == null || T.length == 0) {
+            if (T == null || T.length == 0) {
                 return new int[0];
             }
 
@@ -94,12 +119,12 @@ public class DailyTemperatures {
             Arrays.fill(tempIndexes, Integer.MIN_VALUE);
             tempIndexes[T[n - 1]] = n - 1;
 
-            for(int i = n - 2; i >= 0; i--) {
+            for (int i = n - 2; i >= 0; i--) {
                 int t = T[i];
                 int minDays = Integer.MAX_VALUE;
 
-                for(int nt = t + 1; nt <= 100; nt++) {
-                    if(tempIndexes[nt] > i) {
+                for (int nt = t + 1; nt <= 100; nt++) {
+                    if (tempIndexes[nt] > i) {
                         minDays = Math.min(minDays, tempIndexes[nt] - i);
                     }
                 }
@@ -116,15 +141,15 @@ public class DailyTemperatures {
 
     class Solution_Brute {
         public int[] dailyTemperatures(int[] T) {
-            if(T == null || T.length == 0) {
+            if (T == null || T.length == 0) {
                 return new int[0];
             }
 
             int n = T.length;
             int[] days = new int[n];
-            for(int i = 0; i < n - 1; i++) {
-                for(int j = i + 1; j < n; j++) {
-                    if(T[j] > T[i]) {
+            for (int i = 0; i < n - 1; i++) {
+                for (int j = i + 1; j < n; j++) {
+                    if (T[j] > T[i]) {
                         days[i] = j - i;
                         break;
                     }
