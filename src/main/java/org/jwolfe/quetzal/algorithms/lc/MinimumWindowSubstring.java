@@ -3,6 +3,76 @@ package org.jwolfe.quetzal.algorithms.lc;
 public class MinimumWindowSubstring {
     class Solution {
         public String minWindow(String s, String t) {
+            if(s == null || t == null || t.length() == 0 || s.length() < t.length()) {
+                return "";
+            }
+
+            int n = s.length();
+
+            int left = 0;
+            int right = 0;
+
+            int[] patternFrequencies = getFrequencies(t);
+            int[] stringFrequencies = new int[58];
+
+            int minWindowSize = Integer.MAX_VALUE;
+            int minWindowLeft = -1;
+            int minWindowRight = -1;
+
+            while(right < n) {
+                char c = s.charAt(right);
+                int ci = c - 'A';
+
+                stringFrequencies[ci]++;
+
+                while(isSubset(stringFrequencies, patternFrequencies)) {
+                    int length = right - left + 1;
+                    if(minWindowSize > length) {
+                        minWindowSize = length;
+                        minWindowLeft = left;
+                        minWindowRight = right;
+                    }
+
+                    char lc = s.charAt(left);
+                    int lci = lc - 'A';
+
+                    stringFrequencies[lci]--;
+                    left++;
+                }
+
+                right++;
+            }
+
+            if(minWindowSize == Integer.MAX_VALUE) {
+                return "";
+            }
+
+            return s.substring(minWindowLeft, minWindowRight + 1);
+        }
+
+        private int[] getFrequencies(String str) {
+            int[] frequencies = new int[58];
+            for(int i = 0; i < str.length(); i++) {
+                char c = str.charAt(i);
+                frequencies[c - 'A']++;
+            }
+
+            return frequencies;
+        }
+
+        private boolean isSubset(int[] superSet, int[] candidateSet) {
+            for(int i = 0; i < 58; i++) {
+                if(candidateSet[i] > superSet[i]) {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+    }
+
+    class Solution_Correct_2 {
+        public String minWindow(String s, String t) {
             if(s == null || t == null || s.length() < t.length()) {
                 return "";
             }
