@@ -10,6 +10,35 @@ public class FirstUniqueCharacterInAString {
                 return -1;
             }
 
+            int n = s.length();
+            int[] counts = new int[26];
+            int[] indexes = new int[26];
+
+            for(int i = 0; i < n; i++) {
+                char c = s.charAt(i);
+                int ci = c - 'a';
+
+                counts[ci]++;
+                indexes[ci] = i;
+            }
+
+            int minIndex = n;
+            for(int i = 0; i < 26; i++) {
+                if(counts[i] == 1) {
+                    minIndex = Math.min(minIndex, indexes[i]);
+                }
+            }
+
+            return minIndex == n ? -1 : minIndex;
+        }
+    }
+
+    class Solution_Correct_2 {
+        public int firstUniqChar(String s) {
+            if(s == null || s.length() == 0) {
+                return -1;
+            }
+
             Map<Character, Integer> map = new HashMap<>();
             for(int i = 0; i < s.length(); i++) {
                 char c = s.charAt(i);
