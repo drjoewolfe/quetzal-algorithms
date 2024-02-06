@@ -5,6 +5,39 @@ import java.util.*;
 public class GroupAnagrams {
     class Solution {
         public List<List<String>> groupAnagrams(String[] strs) {
+            List<List<String>> groupedAnagrams = new ArrayList<>();
+            if(strs == null || strs.length == 0) {
+                return groupedAnagrams;
+            }
+
+            Map<String, List<String>> map = new HashMap<>();
+            for(String str : strs) {
+                String sstr = sort(str);
+
+                if(!map.containsKey(sstr)) {
+                    map.put(sstr, new ArrayList<>());
+                }
+
+                map.get(sstr).add(str);
+            }
+
+            for(var entry : map.entrySet()) {
+                groupedAnagrams.add(entry.getValue());
+            }
+
+            return groupedAnagrams;
+        }
+
+        private String sort(String str) {
+            char[] arr = str.toCharArray();
+            Arrays.sort(arr);
+
+            return new String(arr);
+        }
+    }
+
+    class Solution_Correct_3 {
+        public List<List<String>> groupAnagrams(String[] strs) {
             List<List<String>> results = new ArrayList<>();
             if(strs == null || strs.length == 0) {
                 return results;
