@@ -7,6 +7,35 @@ public class PerfectSquares {
                 return 0;
             }
 
+            if(n <= 3) {
+                return n;
+            }
+
+            int[] dp = new int[n + 1];
+            for(int i = 1; i <= n; i++) {
+                dp[i] = i;
+            }
+
+            for(int val = 4; val <= n; val++) {
+                double sqrt = Math.sqrt(val);
+
+                for(int f = 1; f <= sqrt; f++) {
+                    int square = f * f;
+
+                    dp[val] = Math.min(dp[val], 1 + dp[val - square]);
+                }
+            }
+
+            return dp[n];
+        }
+    }
+
+    class Solution_Correct_2 {
+        public int numSquares(int n) {
+            if(n <= 0) {
+                return 0;
+            }
+
             if(n < 4) {
                 return n;
             }
