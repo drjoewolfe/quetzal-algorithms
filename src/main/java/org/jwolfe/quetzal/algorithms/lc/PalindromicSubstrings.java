@@ -3,35 +3,35 @@ package org.jwolfe.quetzal.algorithms.lc;
 public class PalindromicSubstrings {
     class Solution {
         public int countSubstrings(String s) {
-            if (s == null || s.length() == 0) {
+            if(s == null || s.length() == 0) {
                 return 0;
             }
 
             int n = s.length();
-
             int[][] dp = new int[n][n];
+
             int count = 0;
 
-            // Length 1
-            for (int i = 0; i < n; i++) {
+            // Length = 1
+            for(int i = 0; i < n; i++) {
                 dp[i][i] = 1;
                 count++;
             }
 
-            // Length 2
-            for (int i = 0; i < n - 1; i++) {
-                if (s.charAt(i) == s.charAt(i + 1)) {
+            // Length = 2
+            for(int i = 0; i < n - 1; i++) {
+                if(s.charAt(i) == s.charAt(i + 1)) {
                     dp[i][i + 1] = 1;
                     count++;
                 }
             }
 
-            // Length 3 & more
-            for (int l = 3; l <= n; l++) {
-                for (int i = 0; i + l <= n; i++) {
+            // Length = 3+
+            for(int l = 3; l <= n; l++) {
+                for(int i = 0; i + l <= n; i++) {
                     int j = i + l - 1;
 
-                    if (s.charAt(i) == s.charAt(j) && dp[i + 1][j - 1] == 1) {
+                    if(s.charAt(i) == s.charAt(j) && dp[i + 1][j - 1] == 1) {
                         dp[i][j] = 1;
                         count++;
                     }
@@ -41,6 +41,50 @@ public class PalindromicSubstrings {
             return count;
         }
     }
+
+    class Solution_Correct_1 {
+        public int countSubstrings(String s) {
+            if(s == null || s.length() == 0) {
+                return 0;
+            }
+
+            int n = s.length();
+
+            int[][] dp = new int[n][n];
+            int count = 0;
+
+            // Length 1
+            for(int i = 0; i < n; i++) {
+                dp[i][i] = 1;
+                count++;
+            }
+
+            // Length 2
+            for(int i = 0; i < n - 1; i++) {
+                if(s.charAt(i) == s.charAt(i + 1)) {
+                    dp[i][i + 1] = 1;
+                    count++;
+                }
+            }
+
+            // Length 3 & more
+            for(int l = 3; l <= n; l++) {
+                for(int i = 0; i + l <= n; i++) {
+                    int j = i + l - 1;
+
+                    if(s.charAt(i) == s.charAt(j) && dp[i + 1][j - 1] == 1) {
+                        dp[i][j] = 1;
+                        count++;
+                    }
+                }
+            }
+
+            return count;
+        }
+    }
+
+// "abc"
+// "aaa"
 }
 
 //    647. Palindromic Substrings
