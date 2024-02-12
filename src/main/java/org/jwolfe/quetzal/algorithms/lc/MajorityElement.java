@@ -14,6 +14,40 @@ public class MajorityElement {
             int n = nums.length;
             int candidate = nums[0];
             int count = 1;
+
+            for(int i = 1; i < n; i++) {
+                int val = nums[i];
+
+                if(candidate == val) {
+                    count++;
+                } else if(count == 0) {
+                    candidate = val;
+                    count = 1;
+                } else {
+                    count--;
+                }
+            }
+
+            count = 0;
+            for(int i = 0; i < n; i++) {
+                if(nums[i] == candidate) {
+                    count++;
+                }
+            }
+
+            return count >= (n / 2) ? candidate : -1;
+        }
+    }
+
+    class Solution_Correct_2 {
+        public int majorityElement(int[] nums) {
+            if(nums == null || nums.length == 0) {
+                return -1;
+            }
+
+            int n = nums.length;
+            int candidate = nums[0];
+            int count = 1;
             for(int i = 1; i < n; i++) {
                 int current = nums[i];
                 if(current == candidate) {
@@ -109,6 +143,9 @@ public class MajorityElement {
             return -1;
         }
     }
+
+// [3,2,3]
+// [3,3,4]
 }
 
 //    169. Majority Element
