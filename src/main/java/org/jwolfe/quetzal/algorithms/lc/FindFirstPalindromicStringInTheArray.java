@@ -3,6 +3,35 @@ package org.jwolfe.quetzal.algorithms.lc;
 public class FindFirstPalindromicStringInTheArray {
     class Solution {
         public String firstPalindrome(String[] words) {
+            if(words == null || words.length == 0) {
+                return "";
+            }
+
+            for(String word : words) {
+                if(isPalindrome(word)) {
+                    return word;
+                }
+            }
+
+            return "";
+        }
+
+        private boolean isPalindrome(String word) {
+            int left = 0;
+            int right = word.length() - 1;
+
+            while(left < right) {
+                if(word.charAt(left++) != word.charAt(right--)) {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+    }
+
+    class Solution_Correct_1 {
+        public String firstPalindrome(String[] words) {
             for(String word : words) {
                 if(isPalindrome(word)) {
                     return word;
