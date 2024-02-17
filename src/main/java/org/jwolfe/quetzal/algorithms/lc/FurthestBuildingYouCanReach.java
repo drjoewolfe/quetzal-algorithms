@@ -9,6 +9,40 @@ public class FurthestBuildingYouCanReach {
                 return -1;
             }
 
+            PriorityQueue<Integer> heap = new PriorityQueue<>((a, b) -> b - a);
+
+            int i = 0;
+            int n = heights.length;
+            for(; i < n - 1; i++) {
+                int diff = heights[i + 1] - heights[i];
+
+                if(diff <= 0) {
+                    continue;
+                }
+
+                bricks -= diff;
+                heap.offer(diff);
+
+                if(bricks < 0) {
+                    bricks += heap.poll();
+                    ladders--;
+                }
+
+                if(ladders < 0) {
+                    break;
+                }
+            }
+
+            return i;
+        }
+    }
+
+    class Solution_Correct_1 {
+        public int furthestBuilding(int[] heights, int bricks, int ladders) {
+            if(heights == null || heights.length == 0) {
+                return -1;
+            }
+
             int n = heights.length;
 
             PriorityQueue<Integer> queue = new PriorityQueue<>((a, b) -> b - a);
