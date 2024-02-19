@@ -11,6 +11,17 @@ public class PowerOfTwo {
         }
     }
 
+    class Solution_Correct_2 {
+        public boolean isPowerOfTwo(int n) {
+            if(n <= 0) {
+                return false;
+            }
+
+            return (n & (n - 1)) == 0;
+        }
+    }
+
+
     class Solution_Correct_1 {
         public boolean isPowerOfTwo(int n) {
             if(n <= 0) {
