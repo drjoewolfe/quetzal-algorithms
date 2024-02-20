@@ -1,19 +1,37 @@
 package org.jwolfe.quetzal.algorithms.lc;
 
+import java.util.Arrays;
+
 public class MissingNumber {
-    public int missingNumber(int[] nums) {
-        if(nums == null || nums.length == 0) {
-            return 0;
-        }
+    class Solution {
+        public int missingNumber(int[] nums) {
+            if(nums == null || nums.length == 0) {
+                return 0;
+            }
 
-        int n = nums.length;
-        int sum = 0;
-        for(int i = 0; i < n; i++) {
-            sum += nums[i];
-        }
+            int n = nums.length;
+            int sum = Arrays.stream(nums).sum();
+            int requiredSum = n * (n + 1) / 2;
 
-        int requiredSum = n * (n + 1) / 2;
-        return requiredSum - sum;
+            return requiredSum - sum;
+        }
+    }
+
+    class Solution_Correct_1 {
+        public int missingNumber(int[] nums) {
+            if(nums == null || nums.length == 0) {
+                return 0;
+            }
+
+            int n = nums.length;
+            int sum = 0;
+            for(int i = 0; i < n; i++) {
+                sum += nums[i];
+            }
+
+            int requiredSum = n * (n + 1) / 2;
+            return requiredSum - sum;
+        }
     }
 }
 
