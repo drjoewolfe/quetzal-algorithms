@@ -13,6 +13,32 @@ public class FindTheTownJudge {
             }
 
             int[] trustMeter = new int[N + 1];
+
+            for(int i = 0; i < trust.length; i++) {
+                int u = trust[i][0];
+                int v = trust[i][1];
+
+                trustMeter[v]++;
+                trustMeter[u]--;
+            }
+
+            for(int i = 1; i <= N; i++) {
+                if(trustMeter[i] == N - 1) {
+                    return i;
+                }
+            }
+
+            return -1;
+        }
+    }
+
+    class Solution_Correct_3 {
+        public int findJudge(int N, int[][] trust) {
+            if(N == 1) {
+                return 1;
+            }
+
+            int[] trustMeter = new int[N + 1];
             int judge = -1;
 
             for(int[] trustInfo : trust) {
