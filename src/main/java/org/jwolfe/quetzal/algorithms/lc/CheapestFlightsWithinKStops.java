@@ -1,9 +1,71 @@
 package org.jwolfe.quetzal.algorithms.lc;
 
+import org.jwolfe.quetzal.library.general.Pair;
+
 import java.util.*;
 
 public class CheapestFlightsWithinKStops {
     class Solution {
+        public int findCheapestPrice(int n, int[][] flights, int src, int dst, int K) {
+            if(n < 1 || flights == null || flights.length == 0 || src < 0 || dst < 0 || src >= n || dst >= n || K < 0) {
+                return 0;
+            }
+
+            Map<Integer, Map<Integer, Integer>> graph = new HashMap<>();
+            for(int u = 0; u < n; u++) {
+                graph.put(u, new HashMap<>());
+            }
+
+            for(int[] flight : flights) {
+                int u = flight[0];
+                int v = flight[1];
+                int c = flight[2];
+
+                graph.get(u).put(v, c);
+            }
+
+            Queue<Pair<Integer, Integer>> queue = new LinkedList<>();
+            queue.offer(new Pair<>(src, 0));
+
+            int round = 0;
+            int[] cost = new int[n];
+            Arrays.fill(cost, Integer.MAX_VALUE);
+            cost[src] = 0;
+
+            while(!queue.isEmpty() && round <= K) {
+                int size = queue.size();
+                for(int i = 0; i < size; i++) {
+                    var node = queue.poll();
+                    var u = node.getKey();
+                    var c = node.getValue();
+
+                    for(var childNode : graph.get(u).entrySet()) {
+                        var v = childNode.getKey();
+                        var vc = childNode.getValue();
+
+                        if(c + vc < cost[v]) {
+                            cost[v] = c + vc;
+                            queue.offer(new Pair<>(v, cost[v]));
+                        }
+                    }
+                }
+
+                round++;
+            }
+
+            return cost[dst] == Integer.MAX_VALUE ?  -1 : cost[dst];
+        }
+
+        private void print(int[] arr) {
+            for(int a : arr) {
+                System.out.print(a + " ");
+            }
+
+            System.out.println();
+        }
+    }
+
+    class Solution_Correct_2 {
         public int findCheapestPrice(int n, int[][] flights, int src, int dst, int K) {
             if(n < 1 || flights == null || flights.length == 0 || src < 0 || dst < 0 || src >= n || dst >= n || K < 0) {
                 return -1;
