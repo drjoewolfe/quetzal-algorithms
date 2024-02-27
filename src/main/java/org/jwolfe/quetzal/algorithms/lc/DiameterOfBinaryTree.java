@@ -15,6 +15,31 @@ public class DiameterOfBinaryTree {
 
         public int diameterOfBinaryTree(TreeNode root) {
             diameter = 0;
+            computeDiameter(root);
+
+            return diameter;
+        }
+
+        private int computeDiameter(TreeNode root) {
+            if(root == null) {
+                return 0;
+            }
+
+            int maxLeftLength = computeDiameter(root.left);
+            int maxRightLength = computeDiameter(root.right);
+
+            int lengthIncludingRoot = maxLeftLength + maxRightLength;
+            diameter = Math.max(diameter, lengthIncludingRoot);
+
+            return Math.max(maxLeftLength, maxRightLength) + 1;
+        }
+    }
+
+    class Solution_Correct_2 {
+        private int diameter;
+
+        public int diameterOfBinaryTree(TreeNode root) {
+            diameter = 0;
             computeDiameterOfBinaryTree(root);
             return diameter;
         }
