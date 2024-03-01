@@ -3,6 +3,37 @@ package org.jwolfe.quetzal.algorithms.lc;
 public class MaximumOddBinaryNumber {
     class Solution {
         public String maximumOddBinaryNumber(String s) {
+            if(s == null || s.length() == 0) {
+                return s;
+            }
+
+            int count = 0;
+            int n = s.length();
+            for(int i = 0; i < n; i++) {
+                if(s.charAt(i) == '1') {
+                    count++;
+                }
+            }
+
+            StringBuilder builder = new StringBuilder();
+            for(int i = count; i > 1; i--) {
+                builder.append('1');
+            }
+
+            for(int i = 0; i < n - count; i++) {
+                builder.append('0');
+            }
+
+            if(count > 0) {
+                builder.append('1');
+            }
+
+            return builder.toString();
+        }
+    }
+
+    class Solution_Correct_1 {
+        public String maximumOddBinaryNumber(String s) {
             if(s == null || s.length() < 2) {
                 return s;
             }
