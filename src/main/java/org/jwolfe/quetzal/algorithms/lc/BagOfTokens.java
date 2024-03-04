@@ -11,6 +11,45 @@ public class BagOfTokens {
                 return 0;
             }
 
+            int score = 0;
+            int maxScore = 0;
+
+            Arrays.sort(tokens);
+            int low = 0;
+            int high = tokens.length - 1;
+            int power = P;
+
+            while(low <= high) {
+                // Face-up
+                while(low <= high && power >= tokens[low]) {
+                    power -= tokens[low];
+
+                    score++;
+                    low++;
+                }
+
+                maxScore = Math.max(maxScore, score);
+
+                // Face-down
+                if(low <= high && score > 0) {
+                    power += tokens[high];
+                    score--;
+                    high--;
+                } else {
+                    break;
+                }
+            }
+
+            return maxScore;
+        }
+    }
+
+    class Solution_Correct_1 {
+        public int bagOfTokensScore(int[] tokens, int P) {
+            if(tokens == null || tokens.length == 0 || P < 0) {
+                return 0;
+            }
+
             Arrays.sort(tokens);
 
             int maxScore = 0;
