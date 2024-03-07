@@ -23,7 +23,7 @@ public class MiddleOfTheLinkedList {
         }
     }
 
-    class Solution_Correct_2 {
+    class Solution_Correct_3 {
         public ListNode middleNode(ListNode head) {
             ListNode fast = head;
             ListNode slow = head;
