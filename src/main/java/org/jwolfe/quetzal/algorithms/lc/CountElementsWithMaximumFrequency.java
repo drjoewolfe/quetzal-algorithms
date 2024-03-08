@@ -7,6 +7,30 @@ public class CountElementsWithMaximumFrequency {
                 return 0;
             }
 
+            int maxFrequency = 0;
+            int[] frequencies = new int[101];
+            for(int val : nums) {
+                frequencies[val]++;
+                maxFrequency = Math.max(maxFrequency, frequencies[val]);
+            }
+
+            int sum = 0;
+            for(int i = 1; i < 101; i++) {
+                if(frequencies[i] == maxFrequency) {
+                    sum += maxFrequency;
+                }
+            }
+
+            return sum;
+        }
+    }
+
+    class Solution_Correct_1 {
+        public int maxFrequencyElements(int[] nums) {
+            if(nums == null || nums.length == 0) {
+                return 0;
+            }
+
             int[] frequencies = new int[101];
             int maxFrequency = 0;
             for(int val : nums) {
