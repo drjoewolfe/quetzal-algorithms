@@ -3,6 +3,45 @@ package org.jwolfe.quetzal.algorithms.lc;
 public class CustomSortString {
     class Solution {
         public String customSortString(String order, String str) {
+            if(order == null || order.length() == 0 || str == null || str.length() == 0) {
+                return str;
+            }
+
+            int[] frequencies = new int[26];
+            for(int i = 0; i < str.length(); i++) {
+                char c = str.charAt(i);
+                frequencies[c - 'a']++;
+            }
+
+            StringBuilder builder = new StringBuilder();
+            for(int i = 0; i < order.length(); i++) {
+                char c = order.charAt(i);
+                int index = c - 'a';
+
+                while(frequencies[index] > 0) {
+                    builder.append(c);
+                    frequencies[index]--;
+                }
+            }
+
+            for(int i = 0; i < 26; i++) {
+                if(frequencies[i] == 0) {
+                    continue;
+                }
+
+                char c = (char) ('a' + i);
+                while(frequencies[i] > 0) {
+                    builder.append(c);
+                    frequencies[i]--;
+                }
+            }
+
+            return builder.toString();
+        }
+    }
+
+    class Solution_Correct_1 {
+        public String customSortString(String order, String str) {
             if(order == null || order.length() == 0) {
                 return str;
             }
