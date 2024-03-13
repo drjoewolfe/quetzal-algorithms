@@ -11,6 +11,32 @@ public class FindThePivotInteger {
                 return 1;
             }
 
+            int total = n * (n + 1) / 2;
+            int leftSum = 1;
+            for(int candidate = 2; candidate <= n; candidate++) {
+                int rightSum = total - leftSum - candidate;
+
+                if(leftSum == rightSum) {
+                    return candidate;
+                }
+
+                leftSum += candidate;
+            }
+
+            return -1;
+        }
+    }
+
+    class Solution_Correct_1 {
+        public int pivotInteger(int n) {
+            if(n < 1) {
+                return -1;
+            }
+
+            if(n == 1) {
+                return 1;
+            }
+
             int totalSum = n * (n + 1) / 2;
             int leftSum = 1;
             for(int pivot = 2; pivot <= n; pivot++) {
