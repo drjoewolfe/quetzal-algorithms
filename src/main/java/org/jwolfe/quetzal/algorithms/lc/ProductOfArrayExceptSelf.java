@@ -4,6 +4,31 @@ public class ProductOfArrayExceptSelf {
     class Solution {
         public int[] productExceptSelf(int[] nums) {
             if(nums == null || nums.length == 0) {
+                return nums;
+            }
+
+            int n = nums.length;
+            int[] products = new int[n];
+
+            int runningProduct = 1;
+            for(int i = 0; i < n; i++) {
+                products[i] = runningProduct;
+                runningProduct *= nums[i];
+            }
+
+            runningProduct = 1;
+            for(int i = n - 1; i >= 0; i--) {
+                products[i] *= runningProduct;
+                runningProduct *= nums[i];
+            }
+
+            return products;
+        }
+    }
+
+    class Solution_Correct_2 {
+        public int[] productExceptSelf(int[] nums) {
+            if(nums == null || nums.length == 0) {
                 return new int[0];
             }
 
