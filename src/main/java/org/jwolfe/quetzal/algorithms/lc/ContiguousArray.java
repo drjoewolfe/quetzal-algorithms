@@ -11,6 +11,33 @@ public class ContiguousArray {
             }
 
             int n = nums.length;
+            Map<Integer, Integer> prefixSumMap = new HashMap<>();
+            prefixSumMap.put(0, -1);
+
+            int maxLength = 0;
+            int sum = 0;
+            for(int i = 0; i < n; i++) {
+                int val = nums[i];
+                sum += (val == 0 ? -1 : 1);
+
+                if(prefixSumMap.containsKey(sum)) {
+                    maxLength = Math.max(maxLength, i - prefixSumMap.get(sum));
+                } else {
+                    prefixSumMap.put(sum, i);
+                }
+            }
+
+            return maxLength;
+        }
+    }
+
+    class Solution_Correct_2 {
+        public int findMaxLength(int[] nums) {
+            if(nums == null || nums.length < 2) {
+                return 0;
+            }
+
+            int n = nums.length;
 
             int maxLength = 0;
             Map<Integer, Integer> map = new HashMap<>();
