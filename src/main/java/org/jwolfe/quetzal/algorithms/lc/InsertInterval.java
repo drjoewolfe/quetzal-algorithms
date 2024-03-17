@@ -6,6 +6,41 @@ import java.util.List;
 public class InsertInterval {
     class Solution {
         public int[][] insert(int[][] intervals, int[] newInterval) {
+            if(intervals == null) {
+                return intervals;
+            }
+
+            if(intervals.length == 0) {
+                return new int[][] {{newInterval[0], newInterval[1]}};
+            }
+
+            int n = intervals.length;
+            List<int[]> mergedIntervals = new ArrayList<>();
+
+            int i = 0;
+            while(i < n && intervals[i][1] < newInterval[0]) {
+                mergedIntervals.add(intervals[i++]);
+            }
+
+            int[] interval = new int[] {newInterval[0], newInterval[1]};
+            mergedIntervals.add(interval);
+            while(i < n && intervals[i][0] <= newInterval[1]) {
+                interval[0] = Math.min(interval[0], intervals[i][0]);
+                interval[1] = Math.max(interval[1], intervals[i][1]);
+
+                i++;
+            }
+
+            while(i < n) {
+                mergedIntervals.add(intervals[i++]);
+            }
+
+            return mergedIntervals.toArray(new int[mergedIntervals.size()][2]);
+        }
+    }
+
+    class Solution_Correct_2 {
+        public int[][] insert(int[][] intervals, int[] newInterval) {
             if(newInterval == null) {
                 return intervals;
             }
