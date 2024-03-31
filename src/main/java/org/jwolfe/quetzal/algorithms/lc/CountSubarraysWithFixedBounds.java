@@ -3,6 +3,46 @@ package org.jwolfe.quetzal.algorithms.lc;
 public class CountSubarraysWithFixedBounds {
     class Solution {
         public long countSubarrays(int[] nums, int minK, int maxK) {
+            if(nums == null || nums.length == 0) {
+                return 0;
+            }
+
+            long count = 0;
+            int n = nums.length;
+
+            int leftBound = -1;
+            int minIndex = -1;
+            int maxIndex = -1;
+
+            for(int i = 0; i < n; i++) {
+                int val = nums[i];
+
+                if(val < minK || val > maxK) {
+                    leftBound = i;
+                    minIndex = -1;
+                    maxIndex = -1;
+                } else {
+                    if(val == minK) {
+                        minIndex = i;
+                    }
+
+                    if(val == maxK) {
+                        maxIndex = i;
+                    }
+                }
+
+                if(minIndex != -1 && maxIndex != -1) {
+                    long arrayCount = Math.min(minIndex, maxIndex) - leftBound;
+                    count += arrayCount;
+                }
+            }
+
+            return count;
+        }
+    }
+
+    class Solution_Correct_1 {
+        public long countSubarrays(int[] nums, int minK, int maxK) {
             if(nums == null || nums.length < 1 || minK > maxK) {
                 return 0;
             }
@@ -34,6 +74,14 @@ public class CountSubarraysWithFixedBounds {
             return count;
         }
     }
+
+// [1,3,5,2,7,5]
+// 1
+// 5
+
+// [1,1,1,1]
+// 1
+// 1
 }
 
 //    2444. Count Subarrays With Fixed Bounds
