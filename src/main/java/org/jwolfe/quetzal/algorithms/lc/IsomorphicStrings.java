@@ -17,6 +17,41 @@ public class IsomorphicStrings {
             }
 
             Map<Character, Character> mappings = new HashMap<>();
+            Set<Character> slottedTargetCharacters = new HashSet<>();
+
+            for(int i = 0; i < s.length(); i++) {
+                char sc = s.charAt(i);
+                char tc = t.charAt(i);
+
+                if(!mappings.containsKey(sc)) {
+                    if(slottedTargetCharacters.contains(tc)) {
+                        return false;
+                    }
+
+                    mappings.put(sc, tc);
+                    slottedTargetCharacters.add(tc);
+                } else {
+                    if(mappings.get(sc) != tc) {
+                        return false;
+                    }
+                }
+            }
+
+            return true;
+        }
+    }
+
+    class Solution_Correct_3 {
+        public boolean isIsomorphic(String s, String t) {
+            if(s == null && t == null) {
+                return true;
+            }
+
+            if(s == null || t == null || s.length() != t.length()) {
+                return false;
+            }
+
+            Map<Character, Character> mappings = new HashMap<>();
             Set<Character> slottedCharacters = new HashSet<>();
             for(int i = 0; i < s.length(); i++) {
                 char sc = s.charAt(i);
