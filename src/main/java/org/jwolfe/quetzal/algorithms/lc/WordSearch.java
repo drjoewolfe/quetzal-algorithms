@@ -6,6 +6,57 @@ import java.util.Set;
 public class WordSearch {
     class Solution {
         public boolean exist(char[][] board, String word) {
+            if(board == null || board.length == 0 || board[0].length == 0 || word == null || word.length() == 0) {
+                return false;
+            }
+
+            int m = board.length;
+            int n = board[0].length;
+
+            if(m * n < word.length()) {
+                return false;
+            }
+
+            boolean[][] visited = new boolean[m][n];
+
+            for(int i = 0; i < m; i++) {
+                for(int j = 0; j < n; j++) {
+                    if(search(board, i, j, word, 0, visited)) {
+                        return true;
+                    }
+                }
+            }
+
+            return false;
+        }
+
+        private boolean search(char[][] board, int row, int col, String word, int index, boolean[][] visited) {
+            if(index == word.length()) {
+                return true;
+            }
+
+            if(row < 0 || row == board.length || col < 0 || col == board[0].length || visited[row][col]) {
+                return false;
+            }
+
+            if(word.charAt(index) != board[row][col]) {
+                return false;
+            }
+
+            visited[row][col] = true;
+            boolean found = search(board, row - 1, col, word, index + 1, visited)
+                    || search(board, row + 1, col, word, index + 1, visited)
+                    || search(board, row, col - 1, word, index + 1, visited)
+                    || search(board, row, col + 1, word, index + 1, visited);
+
+            visited[row][col] = false;
+
+            return found;
+        }
+    }
+
+    class Solution_Correct_2 {
+        public boolean exist(char[][] board, String word) {
             if(board == null || board.length == 0) {
                 return false;
             }
