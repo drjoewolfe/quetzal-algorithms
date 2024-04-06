@@ -8,6 +8,45 @@ public class MinimumRemoveToMakeValidParentheses {
     class Solution {
         public String minRemoveToMakeValid(String s) {
             if(s == null || s.length() == 0) {
+                return s;
+            }
+
+            int n = s.length();
+            Set<Integer> indicesToRemove = new HashSet<>();
+            Stack<Integer> stack = new Stack<>();
+
+            for(int i = 0; i < n; i++) {
+                char c = s.charAt(i);
+
+                if(c == '(') {
+                    stack.push(i);
+                } else if(c == ')') {
+                    if(stack.isEmpty()) {
+                        indicesToRemove.add(i);
+                    } else {
+                        stack.pop();
+                    }
+                }
+            }
+
+            while(!stack.isEmpty()) {
+                indicesToRemove.add(stack.pop());
+            }
+
+            StringBuilder builder = new StringBuilder();
+            for(int i = 0; i < n; i++) {
+                if(!indicesToRemove.contains(i)) {
+                    builder.append(s.charAt(i));
+                }
+            }
+
+            return builder.toString();
+        }
+    }
+
+    class Solution_Correct_2 {
+        public String minRemoveToMakeValid(String s) {
+            if(s == null || s.length() == 0) {
                 return "";
             }
 
