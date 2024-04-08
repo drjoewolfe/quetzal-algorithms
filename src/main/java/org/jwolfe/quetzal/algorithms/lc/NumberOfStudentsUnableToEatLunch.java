@@ -6,6 +6,47 @@ import java.util.Deque;
 public class NumberOfStudentsUnableToEatLunch {
     class Solution {
         public int countStudents(int[] students, int[] sandwiches) {
+            if(students == null || sandwiches == null || students.length == 0 || students.length != sandwiches.length) {
+                return 0;
+            }
+
+            int circleStudents = 0;
+            int squareStudents = 0;
+
+            int n = sandwiches.length;
+
+            for(int i = 0; i < n; i++) {
+                if(students[i] == 0) {
+                    circleStudents++;
+                } else {
+                    squareStudents++;
+                }
+            }
+
+            for(int i = 0; i < n; i++) {
+                int sandwich = sandwiches[i];
+
+                if(sandwich == 0) {
+                    if(circleStudents == 0) {
+                        return squareStudents;
+                    }
+
+                    circleStudents--;
+                } else {
+                    if(squareStudents == 0) {
+                        return circleStudents;
+                    }
+
+                    squareStudents--;
+                }
+            }
+
+            return 0;
+        }
+    }
+
+    class Solution_Approach_2 {
+        public int countStudents(int[] students, int[] sandwiches) {
             if(students == null || students.length == 0 || sandwiches == null || sandwiches.length != students.length) {
                 return 0;
             }
