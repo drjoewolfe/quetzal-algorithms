@@ -8,6 +8,30 @@ public class TimeNeededToBuyTickets {
             }
 
             int n = tickets.length;
+            int time = 0;
+            int target = tickets[k];
+
+            for(int i = 0; i < n; i++) {
+                int current = tickets[i];
+
+                if(i <= k) {
+                    time += Math.min(current, target);
+                } else {
+                    time += Math.min(current, target - 1);
+                }
+            }
+
+            return time;
+        }
+    }
+
+    class Solution_Correct_1 {
+        public int timeRequiredToBuy(int[] tickets, int k) {
+            if(tickets == null || k < 0 || tickets.length < k) {
+                return 0;
+            }
+
+            int n = tickets.length;
             int target = tickets[k];
             int time = 0;
             for(int i = 0; i < n; i++) {
