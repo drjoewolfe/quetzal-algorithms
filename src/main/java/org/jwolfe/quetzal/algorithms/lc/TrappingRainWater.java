@@ -8,6 +8,37 @@ public class TrappingRainWater {
             }
 
             int n = height.length;
+            int[] largestToRight = new int[n];
+
+            largestToRight[n - 1] = height[n - 1];
+            for(int i = n - 2; i >= 0; i--) {
+                largestToRight[i] = Math.max(largestToRight[i + 1], height[i]);
+            }
+
+            int volume = 0;
+            int largestToLeft = height[0];
+
+            for(int i = 1; i < n - 1; i++) {
+                int currentHeight = height[i];
+                int currentColumnVolume = Math.max(
+                        Math.min(largestToLeft, largestToRight[i]) - currentHeight,
+                        0);
+
+                volume += currentColumnVolume;
+                largestToLeft = Math.max(largestToLeft, currentHeight);
+            }
+
+            return volume;
+        }
+    }
+
+    class Solution_Correct_4 {
+        public int trap(int[] height) {
+            if(height == null || height.length < 3) {
+                return 0;
+            }
+
+            int n = height.length;
             int[] maxFromLeft = new int[n];
             int[] maxFromRight = new int[n];
 
