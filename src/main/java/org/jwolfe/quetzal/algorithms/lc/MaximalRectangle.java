@@ -9,6 +9,69 @@ public class MaximalRectangle {
                 return 0;
             }
 
+            int maxArea = 0;
+
+            int m = matrix.length;
+            int n = matrix[0].length;
+
+            int[] histogram = new int[n + 1];
+            for(int i = 0; i < m; i++) {
+                for(int j = 0; j < n; j++) {
+                    char c = matrix[i][j];
+
+                    if(c == '0') {
+                        histogram[j] = 0;
+                    } else {
+                        histogram[j]++;
+                    }
+                }
+
+                int maxAreaInCurrentHistogram = getMaxArea(histogram);
+                maxArea = Math.max(maxArea, maxAreaInCurrentHistogram);
+            }
+
+            return maxArea;
+        }
+
+        private int getMaxArea(int[] histogram) {
+            int maxArea = 0;
+
+            Stack<Integer> stack = new Stack<>();
+            for(int i = 0; i < histogram.length; i++) {
+                int currentHeight = histogram[i];
+
+                while(!stack.isEmpty()
+                        && histogram[stack.peek()] >= currentHeight) {
+                    int j = stack.pop();
+
+                    int minHeight = histogram[j];
+                    int width = stack.isEmpty() ? i : i - stack.peek() - 1;
+                    int area = minHeight * width;
+
+                    maxArea = Math.max(maxArea, area);
+                }
+
+                stack.push(i);
+            }
+
+            return maxArea;
+        }
+
+        private void print(int[] arr) {
+            for(int i = 0; i < arr.length; i++) {
+                System.out.print(arr[i] + " ");
+            }
+
+            System.out.println();
+        }
+    }
+
+    class Solution_Correct_1 {
+        public int maximalRectangle(char[][] matrix) {
+            if(matrix == null || matrix.length == 0 || matrix[0].length == 0) {
+                return 0;
+            }
+
             int m = matrix.length;
             int n = matrix[0].length;
 
@@ -86,6 +149,9 @@ public class MaximalRectangle {
             System.out.println();
         }
     }
+
+// [["1","0","1","0","0"],["1","0","1","1","1"],["1","1","1","1","1"],["1","0","0","1","0"]]
+// [["1"]]
 }
 
 //    85. Maximal Rectangle
