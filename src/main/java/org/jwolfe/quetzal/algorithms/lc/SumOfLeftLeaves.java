@@ -22,6 +22,32 @@ public class SumOfLeftLeaves {
             return sumOfLeftLeaves(root, null);
         }
 
+        private int sumOfLeftLeaves(TreeNode root, TreeNode parent) {
+            if(root == null) {
+                return 0;
+            }
+
+            int sum = 0;
+            if(root.left == null && root.right == null) {
+                if(parent == null || root != parent.left) {
+                    return 0;
+                }
+
+                sum += root.val;
+            } else {
+                sum += sumOfLeftLeaves(root.left, root);
+                sum += sumOfLeftLeaves(root.right, root);
+            }
+
+            return sum;
+        }
+    }
+
+    class Solution_Correct_2 {
+        public int sumOfLeftLeaves(TreeNode root) {
+            return sumOfLeftLeaves(root, null);
+        }
+
         private int sumOfLeftLeaves(TreeNode node, TreeNode parent) {
             if(node == null) {
                 return 0;
