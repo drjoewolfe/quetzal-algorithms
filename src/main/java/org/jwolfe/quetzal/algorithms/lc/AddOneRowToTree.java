@@ -21,6 +21,41 @@ public class AddOneRowToTree {
             if(d == 1) {
                 TreeNode node = new TreeNode(v);
                 node.left = root;
+
+                return node;
+            }
+
+            return addOneRow(root, v, d, 1);
+        }
+
+        private TreeNode addOneRow(TreeNode root, int v, int d, int currentDepth) {
+            if(root == null) {
+                return null;
+            }
+
+            if(currentDepth == d - 1) {
+                TreeNode leftNode = new TreeNode(v);
+                leftNode.left = root.left;
+
+                TreeNode rightNode = new TreeNode(v);
+                rightNode.right = root.right;
+
+                root.left = leftNode;
+                root.right = rightNode;
+            } else {
+                addOneRow(root.left, v, d, currentDepth + 1);
+                addOneRow(root.right, v, d, currentDepth + 1);
+            }
+
+            return root;
+        }
+    }
+
+    class Solution_Correct_2 {
+        public TreeNode addOneRow(TreeNode root, int v, int d) {
+            if(d == 1) {
+                TreeNode node = new TreeNode(v);
+                node.left = root;
                 return node;
             }
 
