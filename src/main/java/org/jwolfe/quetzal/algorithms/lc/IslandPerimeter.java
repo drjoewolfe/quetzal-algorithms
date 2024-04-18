@@ -13,6 +13,50 @@ public class IslandPerimeter {
             int perimeter = 0;
             for(int i = 0; i < m; i++) {
                 for(int j = 0; j < n; j++) {
+                    if(grid[i][j] == 1) {
+                        perimeter += getPerimeter(grid, m, n, i, j);
+                    }
+                }
+            }
+
+            return perimeter;
+        }
+
+        private int getPerimeter(int[][] grid, int m, int n, int row, int col) {
+            int perimeter = 0;
+
+            if(row == 0 || (row > 0 && grid[row - 1][col] == 0)) {
+                perimeter++;
+            }
+
+            if(row == m - 1 || (row < m - 1 && grid[row + 1][col] == 0)) {
+                perimeter++;
+            }
+
+            if(col == 0 || (col > 0 && grid[row][col - 1] == 0)) {
+                perimeter++;
+            }
+
+            if(col == n - 1 || (col < n - 1 && grid[row][col + 1] == 0)) {
+                perimeter++;
+            }
+
+            return perimeter;
+        }
+    }
+
+    class Solution_Correct_2 {
+        public int islandPerimeter(int[][] grid) {
+            if(grid == null || grid.length == 0 || grid[0].length == 0) {
+                return 0;
+            }
+
+            int m = grid.length;
+            int n = grid[0].length;
+
+            int perimeter = 0;
+            for(int i = 0; i < m; i++) {
+                for(int j = 0; j < n; j++) {
                     if(grid[i][j] == 0) {
                         continue;
                     }
