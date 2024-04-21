@@ -5,6 +5,53 @@ import java.util.*;
 public class FindIfPathExistsInGraph {
     class Solution {
         public boolean validPath(int n, int[][] edges, int source, int destination) {
+            if(n < 1 || source < 0 || destination < 0 || source >= n || destination >= n) {
+                return false;
+            }
+
+            if(source == destination) {
+                return true;
+            }
+
+            if(edges == null || edges.length == 0) {
+                return false;
+            }
+
+            Map<Integer, Set<Integer>> graph = new HashMap<>();
+            for(int u = 0; u < n; u++) {
+                graph.put(u, new HashSet<>());
+            }
+
+            for(int[] edge : edges) {
+                int u = edge[0];
+                int v = edge[1];
+
+                graph.get(u).add(v);
+                graph.get(v).add(u);
+            }
+
+            return dfs(graph, source, destination, new HashSet<>());
+        }
+
+        private boolean dfs(Map<Integer, Set<Integer>> graph, int u, int target, Set<Integer> visited) {
+            if(u == target) {
+                return true;
+            }
+
+            visited.add(u);
+            for(var v : graph.get(u)) {
+                if(!visited.contains(v)
+                        && dfs(graph, v, target, visited)) {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+    }
+
+    class Solution_Correct_1 {
+        public boolean validPath(int n, int[][] edges, int source, int destination) {
             if(n < 1 || source < 0 || source >= n || destination < 0 || destination >= n) {
                 return false;
             }
