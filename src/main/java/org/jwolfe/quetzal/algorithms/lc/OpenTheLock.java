@@ -8,17 +8,18 @@ import java.util.Set;
 public class OpenTheLock {
     class Solution {
         public int openLock(String[] deadends, String target) {
-            if(target == null || target.length() < 4 || target.equals("0000")) {
+            if (target == null || target.length() != 4 || target.equals("0000")) {
                 return 0;
             }
 
-            Set<String> deadEndSet = new HashSet<>();
-            for(String de : deadends) {
-                deadEndSet.add(de);
+            Set<String> deadendSet = new HashSet<>();
+            for (String combination : deadends) {
+                deadendSet.add(combination);
             }
 
             String start = "0000";
-            if(deadEndSet.contains(start)) {
+
+            if (deadendSet.contains(start) || deadendSet.contains(target)) {
                 return -1;
             }
 
@@ -29,25 +30,112 @@ public class OpenTheLock {
             visited.add(start);
 
             int turns = 0;
-            while(!queue.isEmpty()) {
+            while (!queue.isEmpty()) {
                 turns++;
                 int size = queue.size();
-                for(int i = 0; i < size; i++) {
+                while (size > 0) {
+                    String currentCombination = queue.poll();
+
+                    for (int i = 0; i < 4; i++) {
+                        // Up
+                        String upCombination = getUp(currentCombination, i);
+                        if (!deadendSet.contains(upCombination) && !visited.contains(upCombination)) {
+                            if (upCombination.equals(target)) {
+                                return turns;
+                            }
+
+                            queue.offer(upCombination);
+                            visited.add(upCombination);
+                        }
+
+                        // Down
+                        String downCombination = getDown(currentCombination, i);
+                        if (!deadendSet.contains(downCombination) && !visited.contains(downCombination)) {
+                            if (downCombination.equals(target)) {
+                                return turns;
+                            }
+
+                            queue.offer(downCombination);
+                            visited.add(downCombination);
+                        }
+                    }
+
+                    size--;
+                }
+            }
+
+            return -1;
+        }
+
+        private String getUp(String combination, int index) {
+            char[] arr = combination.toCharArray();
+            char c = arr[index];
+
+            if (c == '9') {
+                arr[index] = '0';
+            } else {
+                arr[index] = (char) (c + 1);
+            }
+
+            return new String(arr);
+        }
+
+        private String getDown(String combination, int index) {
+            char[] arr = combination.toCharArray();
+            char c = arr[index];
+
+            if (c == '0') {
+                arr[index] = '9';
+            } else {
+                arr[index] = (char) (c - 1);
+            }
+
+            return new String(arr);
+        }
+    }
+
+    class Solution_Correct_1 {
+        public int openLock(String[] deadends, String target) {
+            if (target == null || target.length() < 4 || target.equals("0000")) {
+                return 0;
+            }
+
+            Set<String> deadEndSet = new HashSet<>();
+            for (String de : deadends) {
+                deadEndSet.add(de);
+            }
+
+            String start = "0000";
+            if (deadEndSet.contains(start)) {
+                return -1;
+            }
+
+            Queue<String> queue = new LinkedList<>();
+            Set<String> visited = new HashSet<>();
+
+            queue.offer(start);
+            visited.add(start);
+
+            int turns = 0;
+            while (!queue.isEmpty()) {
+                turns++;
+                int size = queue.size();
+                for (int i = 0; i < size; i++) {
                     String comb = queue.poll();
 
                     char[] combArray = comb.toCharArray();
-                    for(int j = 0; j < 4; j++) {
+                    for (int j = 0; j < 4; j++) {
                         char c = combArray[j];
                         // Up
-                        if(c == '9') {
+                        if (c == '9') {
                             combArray[j] = '0';
                         } else {
                             combArray[j] = (char) (c + 1);
                         }
 
                         String upComb = new String(combArray);
-                        if(!deadEndSet.contains(upComb) && !visited.contains(upComb)) {
-                            if(upComb.equals(target)) {
+                        if (!deadEndSet.contains(upComb) && !visited.contains(upComb)) {
+                            if (upComb.equals(target)) {
                                 return turns;
                             }
 
@@ -56,15 +144,15 @@ public class OpenTheLock {
                         }
 
                         // Down
-                        if(c == '0') {
+                        if (c == '0') {
                             combArray[j] = '9';
                         } else {
                             combArray[j] = (char) (c - 1);
                         }
 
                         String downComb = new String(combArray);
-                        if(!deadEndSet.contains(downComb) && !visited.contains(downComb)) {
-                            if(downComb.equals(target)) {
+                        if (!deadEndSet.contains(downComb) && !visited.contains(downComb)) {
+                            if (downComb.equals(target)) {
                                 return turns;
                             }
 
