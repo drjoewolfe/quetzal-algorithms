@@ -6,6 +6,77 @@ public class MinimumHeightTrees {
     class Solution {
         public List<Integer> findMinHeightTrees(int n, int[][] edges) {
             List<Integer> minHeightTrees = new ArrayList<>();
+            if(n < 1) {
+                return minHeightTrees;
+            }
+
+            if(edges == null || edges.length == 0) {
+                for(int u = 0; u < n; u++) {
+                    minHeightTrees.add(u);
+                    return minHeightTrees;
+                }
+            }
+
+            Map<Integer, Set<Integer>> graph = new HashMap<>();
+            for(int u = 0; u < n; u++) {
+                graph.put(u, new HashSet<>());
+            }
+
+            for(int[] edge : edges) {
+                int u = edge[0];
+                int v = edge[1];
+
+                graph.get(u).add(v);
+                graph.get(v).add(u);
+            }
+
+            Queue<Integer> leaves = new LinkedList<>();
+            int[] indegrees = new int[n];
+            boolean[] processed = new boolean[n];
+
+            for(var entry : graph.entrySet()) {
+                var u = entry.getKey();
+                var neighbours = entry.getValue();
+
+                indegrees[u] = neighbours.size();
+                if(indegrees[u] == 1) {
+                    leaves.offer(u);
+                    processed[u] = true;
+                }
+            }
+
+            int remaining = n;
+            while(remaining > 2) {
+                int size = leaves.size();
+                remaining -= size;
+
+                while(size > 0) {
+                    var u = leaves.poll();
+
+                    for(var v : graph.get(u)) {
+                        if(processed[v]) {
+                            continue;
+                        }
+
+                        indegrees[v]--;
+                        if(indegrees[v] == 1) {
+                            leaves.offer(v);
+                            processed[v] = true;
+                        }
+                    }
+
+                    size--;
+                }
+            }
+
+            minHeightTrees.addAll(leaves);
+            return minHeightTrees;
+        }
+    }
+
+    class Solution_Correct_2 {
+        public List<Integer> findMinHeightTrees(int n, int[][] edges) {
+            List<Integer> minHeightTrees = new ArrayList<>();
             if(n == 0) {
                 return minHeightTrees;
             }
@@ -200,6 +271,8 @@ public class MinimumHeightTrees {
 // 4
 // [[1,0],[1,2],[1,3]]
 
+// 3
+// [[0,1],[0,2]]
 }
 
 //    310. Minimum Height Trees
