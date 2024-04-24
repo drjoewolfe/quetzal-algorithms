@@ -5,18 +5,44 @@ import java.util.Arrays;
 public class NThTribonacciNumber {
     class Solution {
         public int tribonacci(int n) {
-            if(n < 1) {
+            if (n < 1) {
                 return 0;
             }
 
-            if(n < 3) {
+            if (n < 3) {
                 return 1;
             }
 
             int a = 0;
             int b = 1;
             int c = 1;
-            for(int i = 3; i <= n; i++) {
+
+            for (int i = 3; i <= n; i++) {
+                int d = c + b + a;
+
+                a = b;
+                b = c;
+                c = d;
+            }
+
+            return c;
+        }
+    }
+
+    class Solution_Correct_3 {
+        public int tribonacci(int n) {
+            if (n < 1) {
+                return 0;
+            }
+
+            if (n < 3) {
+                return 1;
+            }
+
+            int a = 0;
+            int b = 1;
+            int c = 1;
+            for (int i = 3; i <= n; i++) {
                 int d = c + b + a;
 
                 a = b;
@@ -30,11 +56,11 @@ public class NThTribonacciNumber {
 
     class Solution_Correct_1 {
         public int tribonacci(int n) {
-            if(n <= 0) {
+            if (n <= 0) {
                 return 0;
             }
 
-            if(n <= 2) {
+            if (n <= 2) {
                 return 1;
             }
 
@@ -44,7 +70,7 @@ public class NThTribonacciNumber {
             dp[1] = 1;
             dp[2] = 1;
 
-            for(int i = 3; i <= n; i++) {
+            for (int i = 3; i <= n; i++) {
                 dp[i] = dp[i - 1] + dp[i - 2] + dp[i - 3];
             }
 
@@ -61,17 +87,17 @@ public class NThTribonacciNumber {
         }
 
         public int tribonacci(int n, int[] memo) {
-            if(memo[n] != -1) {
+            if (memo[n] != -1) {
                 return memo[n];
             }
 
             int value = 0;
 
-            if(n <= 0) {
+            if (n <= 0) {
                 value = 0;
-            } else if(n == 1) {
+            } else if (n == 1) {
                 value = 1;
-            } else if(n == 2) {
+            } else if (n == 2) {
                 value = 1;
             } else {
                 value = tribonacci(n - 1, memo) + tribonacci(n - 2, memo) + tribonacci(n - 3, memo);
@@ -82,7 +108,7 @@ public class NThTribonacciNumber {
         }
 
         private void printArray(int[] arr) {
-            for(int n : arr) {
+            for (int n : arr) {
                 System.out.print(n + " ");
             }
 
@@ -92,15 +118,15 @@ public class NThTribonacciNumber {
 
     class Solution_Classic {
         public int tribonacci(int n) {
-            if(n <= 0) {
+            if (n <= 0) {
                 return 0;
             }
 
-            if(n == 1) {
+            if (n == 1) {
                 return 1;
             }
 
-            if(n == 2) {
+            if (n == 2) {
                 return 1;
             }
 
@@ -110,11 +136,11 @@ public class NThTribonacciNumber {
 
     class Solution_Correct_2 {
         public int tribonacci(int n) {
-            if(n <= 0) {
+            if (n <= 0) {
                 return 0;
             }
 
-            if(n < 3) {
+            if (n < 3) {
                 return 1;
             }
 
@@ -123,7 +149,7 @@ public class NThTribonacciNumber {
             int a = 1;
 
 
-            for(int i = 3; i <= n; i++) {
+            for (int i = 3; i <= n; i++) {
                 int x = a + b + c;
 
                 c = b;
@@ -137,19 +163,19 @@ public class NThTribonacciNumber {
 
     class Solution_Classic_1 {
         public int tribonacci(int n) {
-            if(n <= 0) {
+            if (n <= 0) {
                 return 0;
             }
 
-            if(n < 3) {
+            if (n < 3) {
                 return 1;
             }
 
             int[] dp = new int[n + 1];
-            dp[1]= 1;
+            dp[1] = 1;
             dp[2] = 1;
 
-            for(int i = 3; i <= n; i++) {
+            for (int i = 3; i <= n; i++) {
                 dp[i] = dp[i - 1] + dp[i - 2] + dp[i - 3];
             }
 
@@ -159,11 +185,11 @@ public class NThTribonacciNumber {
 
     class Solution_Brute {
         public int tribonacci(int n) {
-            if(n <= 0) {
+            if (n <= 0) {
                 return 0;
             }
 
-            if(n < 3) {
+            if (n < 3) {
                 return 1;
             }
 
