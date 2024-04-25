@@ -11,6 +11,67 @@ public class LongestIdealSubsequence {
 
             int n = s.length();
 
+            int maxLength = 1;
+            int[] dp = new int[26];
+            for(int i = 0; i < n; i++) {
+                char c = s.charAt(i);
+                int j = c - 'a';
+
+                int left = Math.max(j - k, 0);
+                int right = Math.min(j + k, 25);
+
+                int maxPrevLength = 0;
+                for(int index = left; index <= right; index++) {
+                    maxPrevLength = Math.max(maxPrevLength, dp[index]);
+                }
+
+                dp[j] = 1 + maxPrevLength;
+            }
+
+            for(int i = 0; i < 26; i++) {
+                maxLength = Math.max(maxLength, dp[i]);
+            }
+
+            return maxLength;
+        }
+    }
+
+    class Solution_TLE {
+        public int longestIdealString(String s, int k) {
+            if(s == null || s.length() == 0) {
+                return 0;
+            }
+
+            int n = s.length();
+
+            int maxLength = 1;
+            int[] dp = new int[n];
+            Arrays.fill(dp, 1);
+
+            for(int i = 1; i < n; i++) {
+                char a = s.charAt(i);
+
+                for(int j = 0; j < i; j++) {
+                    char b = s.charAt(j);
+                    if(Math.abs(a - b) <= k) {
+                        dp[i] = Math.max(dp[i], dp[j] + 1);
+                        maxLength = Math.max(maxLength, dp[i]);
+                    }
+                }
+            }
+
+            return maxLength;
+        }
+    }
+
+    class Solution_Correct_1 {
+        public int longestIdealString(String s, int k) {
+            if(s == null || s.length() == 0) {
+                return 0;
+            }
+
+            int n = s.length();
+
             // For every alphabet; the length of the largest subsequence ending at a character
             int[] dp = new int[26];
             for(int i = 0; i < s.length(); i++) {
