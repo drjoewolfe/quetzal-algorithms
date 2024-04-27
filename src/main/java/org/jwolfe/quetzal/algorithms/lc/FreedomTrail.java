@@ -5,11 +5,63 @@ import java.util.Arrays;
 public class FreedomTrail {
     class Solution {
         public int findRotateSteps(String ring, String key) {
-            if(key == null || key.length() == 0) {
+            if (key == null || key.length() == 0) {
                 return 0;
             }
 
-            if(ring == null || ring.length() == 0) {
+            if (ring == null || ring.length() == 0) {
+                return -1;
+            }
+
+            int m = ring.length();
+            int n = key.length();
+
+            int[][] dp = new int[m][n + 1];
+            for (int[] row : dp) {
+                Arrays.fill(row, Integer.MAX_VALUE);
+            }
+
+            for (int i = 0; i < m; i++) {
+                dp[i][n] = 0;
+            }
+
+            for (int keyIndex = n - 1; keyIndex >= 0; keyIndex--) {
+                int keyChar = key.charAt(keyIndex);
+
+                for (int startRingIndex = 0; startRingIndex < m; startRingIndex++) {
+
+                    for (int endRingIndex = 0; endRingIndex < m; endRingIndex++) {
+                        char ringChar = ring.charAt(endRingIndex);
+
+                        if (ringChar == keyChar) {
+                            int stepsToChar = getSteps(ring, startRingIndex, endRingIndex) + 1;
+                            int remainingSteps = dp[endRingIndex][keyIndex + 1];
+                            int totalSteps = stepsToChar + remainingSteps;
+
+                            dp[startRingIndex][keyIndex] = Math.min(dp[startRingIndex][keyIndex], totalSteps);
+                        }
+                    }
+                }
+            }
+
+            return dp[0][0];
+        }
+
+        private int getSteps(String ring, int startIndex, int endIndex) {
+            int stepsBetween = Math.abs(startIndex - endIndex);
+            int stepsAround = ring.length() - stepsBetween;
+
+            return Math.min(stepsBetween, stepsAround);
+        }
+    }
+
+    class Solution_Memoized {
+        public int findRotateSteps(String ring, String key) {
+            if (key == null || key.length() == 0) {
+                return 0;
+            }
+
+            if (ring == null || ring.length() == 0) {
                 return -1;
             }
 
@@ -17,7 +69,7 @@ public class FreedomTrail {
             int n = key.length();
 
             int[][] memo = new int[m][n];
-            for(int[] row : memo) {
+            for (int[] row : memo) {
                 Arrays.fill(row, -1);
             }
 
@@ -25,21 +77,21 @@ public class FreedomTrail {
         }
 
         private int findRotateSteps(String ring, int ringIndex, String key, int keyIndex, int[][] memo) {
-            if(keyIndex == key.length()) {
+            if (keyIndex == key.length()) {
                 return 0;
             }
 
-            if(memo[ringIndex][keyIndex] != -1) {
+            if (memo[ringIndex][keyIndex] != -1) {
                 return memo[ringIndex][keyIndex];
             }
 
             char k = key.charAt(keyIndex);
             int minSteps = Integer.MAX_VALUE;
 
-            for(int i = 0; i < ring.length(); i++) {
+            for (int i = 0; i < ring.length(); i++) {
                 char r = ring.charAt(i);
 
-                if(k == r) {
+                if (k == r) {
                     int stepsToR = getSteps(ring, ringIndex, i) + 1;
                     int remainingSteps = findRotateSteps(ring, i, key, keyIndex + 1, memo);
                     int totalSteps = stepsToR + remainingSteps;
@@ -62,11 +114,11 @@ public class FreedomTrail {
 
     class Solution_Recursive_TLE {
         public int findRotateSteps(String ring, String key) {
-            if(key == null || key.length() == 0) {
+            if (key == null || key.length() == 0) {
                 return 0;
             }
 
-            if(ring == null || ring.length() == 0) {
+            if (ring == null || ring.length() == 0) {
                 return -1;
             }
 
@@ -74,17 +126,17 @@ public class FreedomTrail {
         }
 
         private int findRotateSteps(String ring, int ringIndex, String key, int keyIndex) {
-            if(keyIndex == key.length()) {
+            if (keyIndex == key.length()) {
                 return 0;
             }
 
             char k = key.charAt(keyIndex);
             int minSteps = Integer.MAX_VALUE;
 
-            for(int i = 0; i < ring.length(); i++) {
+            for (int i = 0; i < ring.length(); i++) {
                 char r = ring.charAt(i);
 
-                if(k == r) {
+                if (k == r) {
                     int stepsToR = getSteps(ring, ringIndex, i) + 1;
                     int remainingSteps = findRotateSteps(ring, i, key, keyIndex + 1);
                     int totalSteps = stepsToR + remainingSteps;
