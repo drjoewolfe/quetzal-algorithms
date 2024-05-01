@@ -3,28 +3,68 @@ package org.jwolfe.quetzal.algorithms.lc;
 public class ReversePrefixOfWord {
     class Solution {
         public String reversePrefix(String word, char ch) {
-            if(word == null || word.length() == 0) {
+            if (word == null || word.length() < 2) {
                 return word;
             }
 
+            int n = word.length();
             int index = -1;
-            for(int i = 0; i < word.length(); i++) {
-                if(word.charAt(i) == ch) {
+
+            for (int i = 0; i < n; i++) {
+                char c = word.charAt(i);
+
+                if (c == ch) {
                     index = i;
                     break;
                 }
             }
 
-            if(index == -1) {
+            if (index == -1) {
+                return word;
+            }
+
+            char[] letters = word.toCharArray();
+            reverse(letters, 0, index);
+
+            return new String(letters);
+        }
+
+        private void reverse(char[] letters, int left, int right) {
+            while (left < right) {
+                char temp = letters[left];
+                letters[left] = letters[right];
+                letters[right] = temp;
+
+                left++;
+                right--;
+            }
+        }
+    }
+
+    class Solution_Correct_1 {
+        public String reversePrefix(String word, char ch) {
+            if (word == null || word.length() == 0) {
+                return word;
+            }
+
+            int index = -1;
+            for (int i = 0; i < word.length(); i++) {
+                if (word.charAt(i) == ch) {
+                    index = i;
+                    break;
+                }
+            }
+
+            if (index == -1) {
                 return word;
             }
 
             StringBuilder builder = new StringBuilder();
-            for(int i = index; i >= 0; i--) {
+            for (int i = index; i >= 0; i--) {
                 builder.append(word.charAt(i));
             }
 
-            if(index < word.length()) {
+            if (index < word.length()) {
                 builder.append(word.substring(index + 1));
             }
 
