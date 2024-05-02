@@ -14,6 +14,28 @@ public class LargestPositiveIntegerThatExistsWithItsNegative {
 
             Set<Integer> set = new HashSet<>();
             for(int val : nums) {
+                int inv = (-1) * val;
+                if(set.contains(inv)) {
+                    maxVal = Math.max(maxVal, Math.abs(val));
+                }
+
+                set.add(val);
+            }
+
+            return maxVal;
+        }
+    }
+
+    class Solution_Correct_1 {
+        public int findMaxK(int[] nums) {
+            if(nums == null || nums.length < 2) {
+                return -1;
+            }
+
+            int maxVal = -1;
+
+            Set<Integer> set = new HashSet<>();
+            for(int val : nums) {
                 int check = (-1) * val;
                 if(set.contains(check)) {
                     maxVal = Math.max(maxVal, Math.abs(val));
