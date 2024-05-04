@@ -7,7 +7,42 @@ import java.util.Set;
 public class BoatsToSavePeople {
     class Solution {
         public int numRescueBoats(int[] people, int limit) {
-            if(people == null || people.length == 0 || limit < 1) {
+            if (people == null || people.length == 0 || limit < 1) {
+                return -1;
+            }
+
+            Arrays.sort(people);
+            int n = people.length;
+
+            if (people[n - 1] > limit) {
+                return -1;
+            }
+
+            int boats = 0;
+            int left = 0;
+            int right = n - 1;
+
+            while (left <= right) {
+                int p1 = people[left];
+                int p2 = people[right];
+
+                if (p1 + p2 <= limit) {
+                    left++;
+                    right--;
+                } else {
+                    right--;
+                }
+
+                boats++;
+            }
+
+            return boats;
+        }
+    }
+
+    class Solution_Correct_2 {
+        public int numRescueBoats(int[] people, int limit) {
+            if (people == null || people.length == 0 || limit < 1) {
                 return 0;
             }
 
@@ -18,11 +53,11 @@ public class BoatsToSavePeople {
             int right = n - 1;
 
             int boats = 0;
-            while(left <= right) {
+            while (left <= right) {
                 int a = people[left];
                 int b = people[right];
 
-                if(a + b <= limit) {
+                if (a + b <= limit) {
                     left++;
                     right--;
                 } else {
@@ -38,7 +73,7 @@ public class BoatsToSavePeople {
 
     class Solution_Correct_1 {
         public int numRescueBoats(int[] people, int limit) {
-            if(people == null || people.length == 0 || limit < 1) {
+            if (people == null || people.length == 0 || limit < 1) {
                 return 0;
             }
 
@@ -47,11 +82,11 @@ public class BoatsToSavePeople {
 
             int i = 0;
             int j = people.length - 1;
-            while(i <= j) {
+            while (i <= j) {
                 int a = people[j];
                 int b = people[i];
 
-                if(b + a <= limit) {
+                if (b + a <= limit) {
                     i++;
                     j--;
                 } else {
@@ -67,22 +102,22 @@ public class BoatsToSavePeople {
 
     class Solution_IncorrectAgain {
         public int numRescueBoats(int[] people, int limit) {
-            if(people == null || people.length == 0 || limit < 1) {
+            if (people == null || people.length == 0 || limit < 1) {
                 return 0;
             }
 
             int boats = 0;
             Arrays.sort(people);
             Set<Integer> indicesToIgnore = new HashSet<>();
-            for(int i = people.length - 1; i >= 0; i--) {
-                if(indicesToIgnore.contains(i)) {
+            for (int i = people.length - 1; i >= 0; i--) {
+                if (indicesToIgnore.contains(i)) {
                     continue;
                 }
 
                 int a = people[i];
-                if(i > 0) {
+                if (i > 0) {
                     int j = binarySearchForLessThanOrEqual(people, limit - a, i - 1, indicesToIgnore);
-                    if(j != -1 && !indicesToIgnore.contains(j)) {
+                    if (j != -1 && !indicesToIgnore.contains(j)) {
                         indicesToIgnore.add(j);
                     }
 
@@ -101,17 +136,17 @@ public class BoatsToSavePeople {
             int index = -1;
 
             System.out.println(indicesToIgnore);
-            while(left <= right) {
+            while (left <= right) {
                 int mid = left + (right - left) / 2;
 
-                if(nums[mid] == val) {
-                    if(!indicesToIgnore.contains(mid)) {
+                if (nums[mid] == val) {
+                    if (!indicesToIgnore.contains(mid)) {
                         return mid;
                     }
 
                     right = mid - 1;
-                } else if(nums[mid] < val) {
-                    if(!indicesToIgnore.contains(mid)) {
+                } else if (nums[mid] < val) {
+                    if (!indicesToIgnore.contains(mid)) {
                         index = mid;
                     }
 
@@ -127,15 +162,15 @@ public class BoatsToSavePeople {
 
     class Solution_Wrong {
         public int numRescueBoats(int[] people, int limit) {
-            if(people == null || people.length == 0 || limit < 1) {
+            if (people == null || people.length == 0 || limit < 1) {
                 return 0;
             }
 
             Arrays.sort(people);
             int boats = 0;
-            for(int i = people.length - 1; i >= 0; i--) {
+            for (int i = people.length - 1; i >= 0; i--) {
                 int a = people[i];
-                if(i > 0 && limit - a >= people[i - 1]) {
+                if (i > 0 && limit - a >= people[i - 1]) {
                     i--;
                 }
 
