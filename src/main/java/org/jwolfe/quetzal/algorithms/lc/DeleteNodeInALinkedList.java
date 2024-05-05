@@ -11,7 +11,18 @@ public class DeleteNodeInALinkedList {
      */
     class Solution {
         public void deleteNode(ListNode node) {
-            if (node == null) {
+            if(node == null) {
+                return;
+            }
+
+            node.val = node.next.val;
+            node.next = node.next.next;
+        }
+    }
+
+    class Solution_Correct_2 {
+        public void deleteNode(ListNode node) {
+            if(node == null) {
                 return;
             }
 
