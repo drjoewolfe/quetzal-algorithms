@@ -2,20 +2,55 @@ package org.jwolfe.quetzal.algorithms.lc;
 
 public class LargestLocalValuesInAMatrix {
     class Solution {
+        private int[] dimensions = new int[]{-1, 0, 1};
+
         public int[][] largestLocal(int[][] grid) {
-            if(grid == null || grid.length == 0 || grid.length != grid[0].length) {
+            if (grid == null || grid.length == 0 || grid[0].length == 0) {
+                return new int[0][0];
+            }
+
+            int n = grid.length;
+            int[][] results = new int[n - 2][n - 2];
+            for (int i = 0; i < n - 2; i++) {
+                for (int j = 0; j < n - 2; j++) {
+                    results[i][j] = findMax(grid, i + 1, j + 1);
+                }
+            }
+
+            return results;
+        }
+
+        private int findMax(int[][] grid, int row, int col) {
+            int max = Integer.MIN_VALUE;
+
+            for (int rd : dimensions) {
+                for (int cd : dimensions) {
+                    int i = row + rd;
+                    int j = col + cd;
+
+                    max = Math.max(max, grid[i][j]);
+                }
+            }
+
+            return max;
+        }
+    }
+
+    class Solution_Correct_1 {
+        public int[][] largestLocal(int[][] grid) {
+            if (grid == null || grid.length == 0 || grid.length != grid[0].length) {
                 return new int[0][0];
             }
 
             int n = grid.length;
             int[][] results = new int[n - 2][n - 2];
 
-            for(int i = 0; i < n - 2; i++) {
-                for(int j = 0; j < n - 2; j++) {
+            for (int i = 0; i < n - 2; i++) {
+                for (int j = 0; j < n - 2; j++) {
 
                     int localMax = Integer.MIN_VALUE;
-                    for(int k = 0; k < 3; k++) {
-                        for(int l = 0; l < 3; l++) {
+                    for (int k = 0; k < 3; k++) {
+                        for (int l = 0; l < 3; l++) {
                             localMax = Math.max(localMax, grid[i + k][j + l]);
                         }
                     }
