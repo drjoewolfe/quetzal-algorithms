@@ -5,10 +5,27 @@ import java.util.List;
 
 public class SumOfAllSubsetXORTotals {
     class Solution {
+        public int subsetXORSum(int[] nums) {
+            if (nums == null || nums.length == 0) {
+                return 0;
+            }
+
+            int n = nums.length;
+            int result = 0;
+            for (int val : nums) {
+                result |= val;
+            }
+
+            result <<= (n - 1);
+            return result;
+        }
+    }
+
+    class Solution_Correct_2 {
         int xorSum;
 
         public int subsetXORSum(int[] nums) {
-            if(nums == null || nums.length == 0) {
+            if (nums == null || nums.length == 0) {
                 return 0;
             }
 
@@ -19,7 +36,7 @@ public class SumOfAllSubsetXORTotals {
         }
 
         private void subsetXORSum(int[] nums, int index, Integer currentXOR) {
-            if(index == nums.length) {
+            if (index == nums.length) {
                 xorSum += currentXOR;
                 return;
             }
@@ -36,7 +53,7 @@ public class SumOfAllSubsetXORTotals {
         int xorSum;
 
         public int subsetXORSum(int[] nums) {
-            if(nums == null || nums.length == 0) {
+            if (nums == null || nums.length == 0) {
                 return 0;
             }
 
@@ -47,9 +64,9 @@ public class SumOfAllSubsetXORTotals {
         }
 
         private void subsetXORSum(int[] nums, int index, List<Integer> currentSet) {
-            if(index == nums.length) {
+            if (index == nums.length) {
                 int sum = 0;
-                for(var element : currentSet) {
+                for (var element : currentSet) {
                     sum ^= element;
                 }
 
