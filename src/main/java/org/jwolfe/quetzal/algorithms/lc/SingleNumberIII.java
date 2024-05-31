@@ -6,86 +6,117 @@ import java.util.Map;
 public class SingleNumberIII {
     class Solution {
         public int[] singleNumber(int[] nums) {
-            if(nums == null || nums.length < 2) {
+            if (nums == null || nums.length < 2 || nums.length % 2 != 0) {
                 return new int[0];
             }
 
             int xor = 0;
-            for(int a : nums) {
+            for (int a : nums) {
+                xor ^= a;
+            }
+
+            int first = 0;
+            int firstSetBit = 0;
+            for (int i = 31; i >= 0; i--) {
+                if (((xor >> i) & 1) == 1) {
+                    firstSetBit = i;
+                    break;
+                }
+            }
+
+            for (int a : nums) {
+                if (((a >> firstSetBit) & 1) == 1) {
+                    first ^= a;
+                }
+            }
+
+            int second = first ^ xor;
+            return new int[]{first, second};
+        }
+    }
+
+    class Solution_Correct_2 {
+        public int[] singleNumber(int[] nums) {
+            if (nums == null || nums.length < 2) {
+                return new int[0];
+            }
+
+            int xor = 0;
+            for (int a : nums) {
                 xor ^= a;
             }
 
             int firstSetBit = 0;
-            for(int i = 31; i >= 0; i--) {
-                if((xor & (1 << i)) > 1) {
+            for (int i = 31; i >= 0; i--) {
+                if ((xor & (1 << i)) > 1) {
                     firstSetBit = i;
                     break;
                 }
             }
 
             int first = 0;
-            for(int a : nums) {
-                if((a & (1 << firstSetBit)) > 1) {
+            for (int a : nums) {
+                if ((a & (1 << firstSetBit)) > 1) {
                     first ^= a;
                 }
             }
 
             int second = first ^ xor;
-            return new int[] {first, second};
+            return new int[]{first, second};
         }
     }
 
     class Solution_Correct_1 {
         public int[] singleNumber(int[] nums) {
-            if(nums == null || nums.length < 2) {
+            if (nums == null || nums.length < 2) {
                 return new int[0];
             }
 
             int xor = 0;
-            for(int a : nums) {
+            for (int a : nums) {
                 xor ^= a;
             }
 
             // Duplicates eliminated. xor is first ^ second
             // Get first set bit
             int firstSetBit = 0;
-            for(int i = 0; i < 32; i++) {
-                if(((xor >> i) & 1) == 1) {
+            for (int i = 0; i < 32; i++) {
+                if (((xor >> i) & 1) == 1) {
                     firstSetBit = i;
                 }
             }
 
             int first = 0;
             int second = 0;
-            for(int a : nums) {
-                if(((a >> firstSetBit) & 1) == 1) {
+            for (int a : nums) {
+                if (((a >> firstSetBit) & 1) == 1) {
                     first ^= a;
                 }
             }
 
             second = first ^ xor;
-            return new int[] {first, second};
+            return new int[]{first, second};
         }
     }
 
     class Solution_Map {
         public int[] singleNumber(int[] nums) {
-            if(nums == null || nums.length < 2) {
+            if (nums == null || nums.length < 2) {
                 return new int[0];
             }
 
             Map<Integer, Integer> frequencies = new HashMap<>();
-            for(int a : nums) {
+            for (int a : nums) {
                 frequencies.put(a, frequencies.getOrDefault(a, 0) + 1);
             }
 
             int[] result = new int[2];
             int index = 0;
-            for(var entry : frequencies.entrySet()) {
-                if(entry.getValue() == 1) {
+            for (var entry : frequencies.entrySet()) {
+                if (entry.getValue() == 1) {
                     result[index++] = entry.getKey();
 
-                    if(index > 1) {
+                    if (index > 1) {
                         break;
                     }
                 }
