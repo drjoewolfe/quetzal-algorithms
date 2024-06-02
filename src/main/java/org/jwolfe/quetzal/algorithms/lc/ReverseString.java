@@ -3,7 +3,29 @@ package org.jwolfe.quetzal.algorithms.lc;
 public class ReverseString {
     class Solution {
         public void reverseString(char[] s) {
-            if(s == null || s.length < 2) {
+            if (s == null || s.length < 2) {
+                return;
+            }
+
+            int n = s.length;
+            int left = 0;
+            int right = n - 1;
+
+            while (left < right) {
+                swap(s, left++, right--);
+            }
+        }
+
+        private void swap(char[] s, int left, int right) {
+            char temp = s[left];
+            s[left] = s[right];
+            s[right] = temp;
+        }
+    }
+
+    class Solution_Correct_2 {
+        public void reverseString(char[] s) {
+            if (s == null || s.length < 2) {
                 return;
             }
 
@@ -12,7 +34,7 @@ public class ReverseString {
             int left = 0;
             int right = n - 1;
 
-            while(left < right) {
+            while (left < right) {
                 swap(s, left++, right--);
             }
         }
@@ -26,14 +48,14 @@ public class ReverseString {
 
     class Solution_Correct {
         public void reverseString(char[] s) {
-            if(s == null || s.length == 0) {
+            if (s == null || s.length == 0) {
                 return;
             }
 
             int left = 0;
             int right = s.length - 1;
 
-            while(left < right) {
+            while (left < right) {
                 swap(s, left++, right--);
             }
         }
