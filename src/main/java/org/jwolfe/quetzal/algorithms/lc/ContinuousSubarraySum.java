@@ -10,6 +10,32 @@ public class ContinuousSubarraySum {
                 return false;
             }
 
+            Map<Integer, Integer> modMap = new HashMap<>();
+            modMap.put(0, -1);
+            int prefixMod = 0;
+            for(int i = 0; i < nums.length; i++) {
+                prefixMod = (prefixMod + nums[i]) % k;
+
+                if(modMap.containsKey(prefixMod)) {
+                    int j = modMap.get(prefixMod);
+                    if(i - j > 1) {
+                        return true;
+                    }
+                } else {
+                    modMap.put(prefixMod, i);
+                }
+            }
+
+            return false;
+        }
+    }
+
+    class Solution_Correct_1 {
+        public boolean checkSubarraySum(int[] nums, int k) {
+            if(nums == null || nums.length < 2 || k < 1) {
+                return false;
+            }
+
             int n = nums.length;
             Map<Integer, Integer> map = new HashMap<>();
             map.put(0, 0);
