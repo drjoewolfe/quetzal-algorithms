@@ -5,7 +5,48 @@ import java.util.Arrays;
 public class MinimumNumberOfMovesToSeatEveryone {
     class Solution {
         public int minMovesToSeat(int[] seats, int[] students) {
-            if(seats == null || students == null || seats.length != students.length) {
+            if (seats == null || students == null || seats.length != students.length) {
+                return 0;
+            }
+
+            int seatMax = getMax(seats);
+            int studentMax = getMax(students);
+            int maxPosition = Math.max(seatMax, studentMax);
+
+            int[] positions = new int[maxPosition + 1];
+
+            for (int pos : seats) {
+                positions[pos]++;
+            }
+
+            for (int pos : students) {
+                positions[pos]--;
+            }
+
+            int moves = 0;
+            int unmatched = 0;
+
+            for (int pos : positions) {
+                moves += Math.abs(unmatched);
+                unmatched += pos;
+            }
+
+            return moves;
+        }
+
+        private int getMax(int[] arr) {
+            int max = 0;
+            for (int val : arr) {
+                max = Math.max(max, val);
+            }
+
+            return max;
+        }
+    }
+
+    class Solution_Correct_1 {
+        public int minMovesToSeat(int[] seats, int[] students) {
+            if (seats == null || students == null || seats.length != students.length) {
                 return 0;
             }
 
@@ -13,7 +54,7 @@ public class MinimumNumberOfMovesToSeatEveryone {
             Arrays.sort(seats);
 
             int moves = 0;
-            for(int i = 0; i < students.length; i++) {
+            for (int i = 0; i < students.length; i++) {
                 int studentPosition = students[i];
                 int seatPosition = seats[i];
 
