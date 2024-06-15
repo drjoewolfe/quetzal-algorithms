@@ -5,31 +5,63 @@ import java.util.PriorityQueue;
 public class IPO {
     class Solution {
         public int findMaximizedCapital(int k, int w, int[] profits, int[] capital) {
-            if(k < 1) {
+            if (k < 1 || profits == null || capital == null || profits.length != capital.length) {
                 return w;
             }
 
-            if(profits == null || capital == null || profits.length != capital.length) {
+            int maxCapital = w;
+            int n = profits.length;
+
+            PriorityQueue<int[]> projectsByCapital = new PriorityQueue<>((a, b) -> a[1] - b[1]);
+            for (int i = 0; i < n; i++) {
+                projectsByCapital.offer(new int[]{profits[i], capital[i]});
+            }
+
+            PriorityQueue<int[]> projectsByProfit = new PriorityQueue<>((a, b) -> b[0] - a[0]);
+            for (int i = 1; i <= k; i++) {
+                while (!projectsByCapital.isEmpty()
+                        && projectsByCapital.peek()[1] <= maxCapital) {
+                    projectsByProfit.offer(projectsByCapital.poll());
+                }
+
+                if (projectsByProfit.size() == 0) {
+                    break;
+                }
+
+                maxCapital += projectsByProfit.poll()[0];
+            }
+
+            return maxCapital;
+        }
+    }
+
+    class Solution_Correct_1 {
+        public int findMaximizedCapital(int k, int w, int[] profits, int[] capital) {
+            if (k < 1) {
+                return w;
+            }
+
+            if (profits == null || capital == null || profits.length != capital.length) {
                 return w;
             }
 
             int n = profits.length;
 
             PriorityQueue<Project> projectsByCapital = new PriorityQueue<>((a, b) -> a.capital - b.capital);
-            for(int i = 0; i < n; i++) {
+            for (int i = 0; i < n; i++) {
                 projectsByCapital.offer(new Project(profits[i], capital[i]));
             }
 
             PriorityQueue<Project> availableProjects = new PriorityQueue<>((a, b) -> b.profit - a.profit);
 
-            while(k > 0) {
+            while (k > 0) {
 
-                while(!projectsByCapital.isEmpty()
+                while (!projectsByCapital.isEmpty()
                         && projectsByCapital.peek().capital <= w) {
                     availableProjects.offer(projectsByCapital.poll());
                 }
 
-                if(availableProjects.size() == 0) {
+                if (availableProjects.size() == 0) {
                     break;
                 }
 
