@@ -8,11 +8,38 @@ import java.util.Set;
 public class PatchingArray {
     class Solution {
         public int minPatches(int[] nums, int n) {
-            if(n <= 0) {
+            if (nums == null || nums.length == 0 || n <= 0) {
                 return 0;
             }
 
-            if(nums == null || nums.length == 0) {
+            long next = 1;
+            int patches = 0;
+            int i = 0;
+
+            while (next <= n) {
+                if (i < nums.length
+                        && nums[i] <= next) {
+                    // Use current
+                    next += nums[i];
+                    i++;
+                } else {
+                    // Patch
+                    patches++;
+                    next += next;
+                }
+            }
+
+            return patches;
+        }
+    }
+
+    class Solution_Correct_1 {
+        public int minPatches(int[] nums, int n) {
+            if (n <= 0) {
+                return 0;
+            }
+
+            if (nums == null || nums.length == 0) {
                 return n;
             }
 
@@ -21,13 +48,13 @@ public class PatchingArray {
             int i = 0;
             int size = nums.length;
 
-            while(reach < n) {
-                if(i >= size) {
+            while (reach < n) {
+                if (i >= size) {
                     patches++;
                     reach += (reach + 1);
                 } else {
                     int val = nums[i];
-                    if(val <= (reach + 1)) {
+                    if (val <= (reach + 1)) {
                         reach += val;
                         i++;
                     } else {
@@ -43,11 +70,11 @@ public class PatchingArray {
 
     class Solution_Brute {
         public int minPatches(int[] nums, int n) {
-            if(n <= 0) {
+            if (n <= 0) {
                 return 0;
             }
 
-            if(nums == null || nums.length == 0) {
+            if (nums == null || nums.length == 0) {
                 return n;
             }
 
@@ -55,15 +82,15 @@ public class PatchingArray {
             generateSums(nums, 0, new ArrayList<>(), sums);
 
             int patches = 0;
-            for(int val = 1; val <= n; val++) {
-                if(sums.contains(val)) {
+            for (int val = 1; val <= n; val++) {
+                if (sums.contains(val)) {
                     continue;
                 }
 
                 patches++;
                 List<Integer> current = new ArrayList<>(sums);
                 sums.add(val);
-                for(int sum : current) {
+                for (int sum : current) {
                     sums.add(sum + val);
                 }
             }
@@ -72,9 +99,9 @@ public class PatchingArray {
         }
 
         private void generateSums(int[] nums, int index, List<Integer> current, Set<Integer> sums) {
-            if(index == nums.length) {
+            if (index == nums.length) {
                 int sum = 0;
-                for(int val : current) {
+                for (int val : current) {
                     sum += val;
                 }
 
