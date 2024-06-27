@@ -3,14 +3,33 @@ package org.jwolfe.quetzal.algorithms.lc;
 public class FindCenterOfStarGraph {
     class Solution {
         public int findCenter(int[][] edges) {
-            if(edges == null || edges.length == 0) {
+            if (edges == null || edges.length < 2) {
+                return -1;
+            }
+
+            int[] edge1 = edges[0];
+            int u = edge1[0];
+            int v = edge1[1];
+
+            int[] edge2 = edges[1];
+            if (edge2[0] == u || edge2[1] == u) {
+                return u;
+            }
+
+            return v;
+        }
+    }
+
+    class Solution_Correct_1 {
+        public int findCenter(int[][] edges) {
+            if (edges == null || edges.length == 0) {
                 return -1;
             }
 
             int a = edges[0][0];
             int b = edges[0][1];
 
-            if(edges[1][0] == a || edges[1][1] == a) {
+            if (edges[1][0] == a || edges[1][1] == a) {
                 return a;
             }
 
@@ -20,19 +39,19 @@ public class FindCenterOfStarGraph {
 
     class Solution_Approach_1 {
         public int findCenter(int[][] edges) {
-            if(edges == null || edges.length == 0) {
+            if (edges == null || edges.length == 0) {
                 return -1;
             }
 
             int n = edges.length + 1;
             int[] counts = new int[n];
-            for(int[] edge : edges) {
+            for (int[] edge : edges) {
                 counts[edge[0] - 1]++;
                 counts[edge[1] - 1]++;
             }
 
-            for(int i = 0; i < n; i++) {
-                if(counts[i] == n - 1) {
+            for (int i = 0; i < n; i++) {
+                if (counts[i] == n - 1) {
                     return i + 1;
                 }
             }
