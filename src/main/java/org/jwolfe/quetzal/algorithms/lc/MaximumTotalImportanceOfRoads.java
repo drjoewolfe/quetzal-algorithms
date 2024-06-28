@@ -8,19 +8,44 @@ import java.util.List;
 public class MaximumTotalImportanceOfRoads {
     class Solution {
         public long maximumImportance(int n, int[][] roads) {
-            if(n < 1) {
+            if (n < 1) {
                 return 0;
             }
 
             int[] degrees = new int[n];
-            for(int[] road : roads) {
+            for (int[] road : roads) {
+                int u = road[0];
+                int v = road[1];
+
+                degrees[u]++;
+                degrees[v]++;
+            }
+
+            Arrays.sort(degrees);
+            long maxTotalImportance = 0;
+            for (int i = 0; i < n; i++) {
+                maxTotalImportance += 1L * degrees[i] * (i + 1);
+            }
+
+            return maxTotalImportance;
+        }
+    }
+
+    class Solution_Correct_2 {
+        public long maximumImportance(int n, int[][] roads) {
+            if (n < 1) {
+                return 0;
+            }
+
+            int[] degrees = new int[n];
+            for (int[] road : roads) {
                 degrees[road[0]]++;
                 degrees[road[1]]++;
             }
 
             Arrays.sort(degrees);
             long total = 0;
-            for(int i = 0; i < n; i++) {
+            for (int i = 0; i < n; i++) {
                 total += 1L * degrees[i] * (i + 1);
             }
 
@@ -30,12 +55,12 @@ public class MaximumTotalImportanceOfRoads {
 
     class Solution_Correct_1 {
         public long maximumImportance(int n, int[][] roads) {
-            if(n < 1) {
+            if (n < 1) {
                 return 0;
             }
 
             int[] edgeCounts = new int[n];
-            for(int[] road : roads) {
+            for (int[] road : roads) {
                 int u = road[0];
                 int v = road[1];
 
@@ -44,22 +69,22 @@ public class MaximumTotalImportanceOfRoads {
             }
 
             List<int[]> list = new ArrayList<>();
-            for(int u = 0; u < n; u++) {
+            for (int u = 0; u < n; u++) {
                 int c = edgeCounts[u];
 
-                list.add(new int[] {u, c});
+                list.add(new int[]{u, c});
             }
 
             Collections.sort(list, (a, b) -> a[1] - b[1]);
             int[] importances = new int[n];
             int importance = 1;
-            for(int i = 0; i < n; i++) {
+            for (int i = 0; i < n; i++) {
                 int u = list.get(i)[0];
                 importances[u] = importance++;
             }
 
             long total = 0;
-            for(int[] road : roads) {
+            for (int[] road : roads) {
                 int u = road[0];
                 int v = road[1];
 
