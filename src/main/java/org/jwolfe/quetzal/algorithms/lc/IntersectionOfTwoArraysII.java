@@ -8,19 +8,47 @@ import java.util.Map;
 public class IntersectionOfTwoArraysII {
     class Solution {
         public int[] intersect(int[] nums1, int[] nums2) {
-            if(nums1 == null || nums1.length == 0 || nums2 == null || nums2.length == 0) {
+            if (nums1 == null || nums1.length == 0 || nums2 == null || nums2.length == 0) {
+                return new int[0];
+            }
+
+            int[] frequencies = new int[1001];
+            for (int a : nums1) {
+                frequencies[a]++;
+            }
+
+            List<Integer> intersection = new ArrayList<>();
+            for (int a : nums2) {
+                if (frequencies[a] > 0) {
+                    intersection.add(a);
+                    frequencies[a]--;
+                }
+            }
+
+            int[] results = new int[intersection.size()];
+            for (int i = 0; i < intersection.size(); i++) {
+                results[i] = intersection.get(i);
+            }
+
+            return results;
+        }
+    }
+
+    class Solution_Correct_3 {
+        public int[] intersect(int[] nums1, int[] nums2) {
+            if (nums1 == null || nums1.length == 0 || nums2 == null || nums2.length == 0) {
                 return new int[0];
             }
 
             Map<Integer, Integer> frequencies = new HashMap<>();
-            for(int a : nums1) {
+            for (int a : nums1) {
                 frequencies.put(a, frequencies.getOrDefault(a, 0) + 1);
             }
 
             List<Integer> intersection = new ArrayList<>();
 
-            for(int a : nums2) {
-                if(frequencies.containsKey(a) && frequencies.get(a) > 0) {
+            for (int a : nums2) {
+                if (frequencies.containsKey(a) && frequencies.get(a) > 0) {
                     intersection.add(a);
 
                     frequencies.put(a, frequencies.get(a) - 1);
@@ -29,7 +57,7 @@ public class IntersectionOfTwoArraysII {
 
             int n = intersection.size();
             int[] result = new int[n];
-            for(int i = 0; i < n; i++) {
+            for (int i = 0; i < n; i++) {
                 result[i] = intersection.get(i);
             }
 
@@ -39,21 +67,21 @@ public class IntersectionOfTwoArraysII {
 
     class Solution_Correct_2 {
         public int[] intersect(int[] nums1, int[] nums2) {
-            if(nums1 == null || nums2 == null || nums1.length == 0 || nums2.length == 0) {
+            if (nums1 == null || nums2 == null || nums1.length == 0 || nums2.length == 0) {
                 return new int[0];
             }
 
             Map<Integer, Integer> frequencies = new HashMap<>();
-            for(int a : nums1) {
+            for (int a : nums1) {
                 frequencies.put(a, frequencies.getOrDefault(a, 0) + 1);
             }
 
             List<Integer> intersection = new ArrayList<>();
-            for(int a : nums2) {
-                if(frequencies.containsKey(a)) {
+            for (int a : nums2) {
+                if (frequencies.containsKey(a)) {
                     intersection.add(a);
 
-                    if(frequencies.get(a) > 1) {
+                    if (frequencies.get(a) > 1) {
                         frequencies.put(a, frequencies.get(a) - 1);
                     } else {
                         frequencies.remove(a);
@@ -62,7 +90,7 @@ public class IntersectionOfTwoArraysII {
             }
 
             int[] rv = new int[intersection.size()];
-            for(int i = 0; i < intersection.size(); i++) {
+            for (int i = 0; i < intersection.size(); i++) {
                 rv[i] = intersection.get(i);
             }
 
