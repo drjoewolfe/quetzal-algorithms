@@ -3,10 +3,29 @@ package org.jwolfe.quetzal.algorithms.lc;
 public class PassThePillow {
     class Solution {
         public int passThePillow(int n, int time) {
+            if (n < 0 || time < 0) {
+                return -1;
+            }
+
+            int completedRounds = time / (n - 1);
+            int lastLine = time % (n - 1);
+
+            if (completedRounds % 2 == 0) {
+                // Last line is left to right
+                return lastLine + 1;
+            } else {
+                // Last line is right to left
+                return n - lastLine;
+            }
+        }
+    }
+
+    class Solution_Correct_1 {
+        public int passThePillow(int n, int time) {
             int rounds = time / (n - 1);
             int line = time % (n - 1);
 
-            if(rounds % 2 == 0) {
+            if (rounds % 2 == 0) {
                 return line + 1;
             } else {
                 return n - line;
