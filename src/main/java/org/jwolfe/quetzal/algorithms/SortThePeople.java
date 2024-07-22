@@ -5,19 +5,41 @@ import java.util.*;
 public class SortThePeople {
     class Solution {
         public String[] sortPeople(String[] names, int[] heights) {
-            if(names == null || heights == null || names.length != heights.length) {
+            if (names == null || names.length == 0 || heights == null || heights.length != names.length) {
+                return names;
+            }
+
+            int n = names.length;
+            Integer[] indices = new Integer[n];
+            for (int i = 0; i < n; i++) {
+                indices[i] = i;
+            }
+
+            Arrays.sort(indices, (a, b) -> heights[b] - heights[a]);
+            String[] results = new String[n];
+            for (int i = 0; i < n; i++) {
+                results[i] = names[indices[i]];
+            }
+
+            return results;
+        }
+    }
+
+    class Solution_Correct_2 {
+        public String[] sortPeople(String[] names, int[] heights) {
+            if (names == null || heights == null || names.length != heights.length) {
                 return names;
             }
 
             int n = names.length;
 
             Map<Integer, String> map = new HashMap<>();
-            for(int i = 0; i < n; i++) {
+            for (int i = 0; i < n; i++) {
                 map.put(heights[i], names[i]);
             }
 
             Arrays.sort(heights);
-            for(int i = n - 1; i >= 0; i--) {
+            for (int i = n - 1; i >= 0; i--) {
                 names[n - i - 1] = map.get(heights[i]);
             }
 
@@ -27,20 +49,20 @@ public class SortThePeople {
 
     class Solution_Correct_1 {
         public String[] sortPeople(String[] names, int[] heights) {
-            if(names == null || heights == null || names.length != heights.length) {
+            if (names == null || heights == null || names.length != heights.length) {
                 return names;
             }
 
             int n = names.length;
 
             List<Person> list = new ArrayList<>();
-            for(int i = 0; i < n; i++) {
+            for (int i = 0; i < n; i++) {
                 list.add(new Person(names[i], heights[i]));
             }
 
             Collections.sort(list, (a, b) -> b.height - a.height);
             String[] sorted = new String[n];
-            for(int i = 0; i < n; i++) {
+            for (int i = 0; i < n; i++) {
                 sorted[i] = list.get(i).name;
             }
 
