@@ -6,8 +6,26 @@ public class NumberComplement {
             int complement = 0;
             int position = 1;
 
-            while(num != 0) {
-                if((num & 1) == 0) {
+            while (num != 0) {
+                if ((num & 1) == 0) {
+                    complement |= position;
+                }
+
+                position <<= 1;
+                num >>= 1;
+            }
+
+            return complement;
+        }
+    }
+
+    class Solution_Correct_2 {
+        public int findComplement(int num) {
+            int complement = 0;
+            int position = 1;
+
+            while (num != 0) {
+                if ((num & 1) == 0) {
                     complement |= position;
                 }
 
@@ -24,8 +42,8 @@ public class NumberComplement {
             int complement = 0;
             int bitPosition = 1;
 
-            while(num != 0) {
-                if((num & 1) == 0) {
+            while (num != 0) {
+                if ((num & 1) == 0) {
                     complement |= bitPosition;
                 }
 
