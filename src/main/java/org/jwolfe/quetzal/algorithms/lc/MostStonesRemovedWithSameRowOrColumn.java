@@ -5,12 +5,62 @@ import java.util.*;
 public class MostStonesRemovedWithSameRowOrColumn {
     class Solution {
         public int removeStones(int[][] stones) {
-            if(stones == null || stones.length < 2) {
+            if (stones == null || stones.length == 0) {
+                return 0;
+            }
+
+            int n = stones.length;
+
+            Map<Integer, List<Integer>> graph = new HashMap<>();
+            for (int u = 0; u < n; u++) {
+                graph.put(u, new ArrayList<>());
+            }
+
+            for (int u = 0; u < n; u++) {
+                for (int v = 0; v < n; v++) {
+                    if (u == v) {
+                        continue;
+                    }
+
+                    if (stones[u][0] == stones[v][0]
+                            || stones[u][1] == stones[v][1]) {
+                        graph.get(u).add(v);
+                        graph.get(v).add(u);
+                    }
+                }
+            }
+
+            boolean[] visited = new boolean[n];
+            int components = 0;
+            for (int u = 0; u < n; u++) {
+                if (!visited[u]) {
+                    dfs(graph, u, visited);
+                    components++;
+                }
+            }
+
+            return n - components;
+        }
+
+        private void dfs(Map<Integer, List<Integer>> graph, int u, boolean[] visited) {
+            visited[u] = true;
+
+            for (var v : graph.get(u)) {
+                if (!visited[v]) {
+                    dfs(graph, v, visited);
+                }
+            }
+        }
+    }
+
+    class Solution_Correct_1 {
+        public int removeStones(int[][] stones) {
+            if (stones == null || stones.length < 2) {
                 return 0;
             }
 
             var uf = new UnionFind();
-            for(int[] stone : stones) {
+            for (int[] stone : stones) {
                 int u = stone[0];
                 int v = 10001 + stone[1];
 
@@ -35,12 +85,12 @@ public class MostStonesRemovedWithSameRowOrColumn {
             }
 
             public Integer find(Integer u) {
-                if(!parent.containsKey(u)) {
+                if (!parent.containsKey(u)) {
                     parent.put(u, u);
                 }
 
                 var pu = parent.get(u);
-                if(u != pu) {
+                if (u != pu) {
                     return find(pu);
                 }
 
@@ -49,11 +99,11 @@ public class MostStonesRemovedWithSameRowOrColumn {
 
             public int getSetCount() {
                 Set<Integer> set = new HashSet<>();
-                for(var entry : parent.entrySet()) {
+                for (var entry : parent.entrySet()) {
                     var u = entry.getKey();
                     var pu = find(u);
 
-                    if(!set.contains(pu)) {
+                    if (!set.contains(pu)) {
                         set.add(pu);
                     }
                 }
@@ -66,23 +116,23 @@ public class MostStonesRemovedWithSameRowOrColumn {
 
     class Solution_BFS {
         public int removeStones(int[][] stones) {
-            if(stones == null || stones.length < 1) {
+            if (stones == null || stones.length < 1) {
                 return 0;
             }
 
             int n = stones.length;
             Map<Integer, List<Integer>> graph = new HashMap<>();
-            for(int u = 0; u < n; u++) {
+            for (int u = 0; u < n; u++) {
                 graph.put(u, new ArrayList<>());
             }
 
-            for(int u = 0; u < n; u++) {
-                for(int v = 0; v < n; v++) {
-                    if(u == v) {
+            for (int u = 0; u < n; u++) {
+                for (int v = 0; v < n; v++) {
+                    if (u == v) {
                         continue;
                     }
 
-                    if(stones[u][0] == stones[v][0]
+                    if (stones[u][0] == stones[v][0]
                             || stones[u][1] == stones[v][1]) {
                         graph.get(u).add(v);
                     }
@@ -92,19 +142,19 @@ public class MostStonesRemovedWithSameRowOrColumn {
             Set<Integer> visited = new HashSet<>();
             int components = 0;
 
-            for(int i = 0; i < n; i++) {
-                if(!visited.contains(i)) {
+            for (int i = 0; i < n; i++) {
+                if (!visited.contains(i)) {
                     components++;
                 }
 
                 Queue<Integer> queue = new LinkedList<>();
                 queue.offer(i);
-                while(!queue.isEmpty()) {
+                while (!queue.isEmpty()) {
                     var u = queue.poll();
                     visited.add(u);
 
-                    for(var v : graph.get(u)) {
-                        if(!visited.contains(v)) {
+                    for (var v : graph.get(u)) {
+                        if (!visited.contains(v)) {
                             queue.offer(v);
                         }
                     }
@@ -117,20 +167,20 @@ public class MostStonesRemovedWithSameRowOrColumn {
 
     class Solution_DFS_Array {
         public int removeStones(int[][] stones) {
-            if(stones == null || stones.length < 1) {
+            if (stones == null || stones.length < 1) {
                 return 0;
             }
 
             int n = stones.length;
             boolean[][] graph = new boolean[n][n];
 
-            for(int u = 0; u < n; u++) {
-                for(int v = 0; v < n; v++) {
-                    if(u == v) {
+            for (int u = 0; u < n; u++) {
+                for (int v = 0; v < n; v++) {
+                    if (u == v) {
                         continue;
                     }
 
-                    if(stones[u][0] == stones[v][0]
+                    if (stones[u][0] == stones[v][0]
                             || stones[u][1] == stones[v][1]) {
                         graph[u][v] = true;
                     }
@@ -139,8 +189,8 @@ public class MostStonesRemovedWithSameRowOrColumn {
 
             boolean[] visited = new boolean[n];
             int components = 0;
-            for(int u = 0; u < n; u++) {
-                if(!visited[u]) {
+            for (int u = 0; u < n; u++) {
+                if (!visited[u]) {
                     components++;
                 }
 
@@ -153,12 +203,12 @@ public class MostStonesRemovedWithSameRowOrColumn {
         private void dfs(boolean[][] graph, int u, boolean[] visited) {
             visited[u] = true;
 
-            for(int v = 0; v < graph.length; v++) {
-                if(v == u) {
+            for (int v = 0; v < graph.length; v++) {
+                if (v == u) {
                     continue;
                 }
 
-                if(graph[u][v]
+                if (graph[u][v]
                         && !visited[v]) {
                     dfs(graph, v, visited);
                 }
@@ -169,23 +219,23 @@ public class MostStonesRemovedWithSameRowOrColumn {
 
     class Solution_DFS {
         public int removeStones(int[][] stones) {
-            if(stones == null || stones.length < 1) {
+            if (stones == null || stones.length < 1) {
                 return 0;
             }
 
             int n = stones.length;
             Map<Integer, List<Integer>> graph = new HashMap<>();
-            for(int u = 0; u < n; u++) {
+            for (int u = 0; u < n; u++) {
                 graph.put(u, new ArrayList<>());
             }
 
-            for(int u = 0; u < n; u++) {
-                for(int v = 0; v < n; v++) {
-                    if(u == v) {
+            for (int u = 0; u < n; u++) {
+                for (int v = 0; v < n; v++) {
+                    if (u == v) {
                         continue;
                     }
 
-                    if(stones[u][0] == stones[v][0]
+                    if (stones[u][0] == stones[v][0]
                             || stones[u][1] == stones[v][1]) {
                         graph.get(u).add(v);
                     }
@@ -194,8 +244,8 @@ public class MostStonesRemovedWithSameRowOrColumn {
 
             Set<Integer> visited = new HashSet<>();
             int components = 0;
-            for(int u = 0; u < n; u++) {
-                if(!visited.contains(u)) {
+            for (int u = 0; u < n; u++) {
+                if (!visited.contains(u)) {
                     components++;
                 }
 
@@ -208,8 +258,8 @@ public class MostStonesRemovedWithSameRowOrColumn {
         private void dfs(Map<Integer, List<Integer>> graph, int u, Set<Integer> visited) {
             visited.add(u);
 
-            for(var v : graph.get(u)) {
-                if(!visited.contains(v)) {
+            for (var v : graph.get(u)) {
+                if (!visited.contains(v)) {
                     dfs(graph, v, visited);
                 }
             }
