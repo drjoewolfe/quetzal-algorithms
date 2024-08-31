@@ -14,6 +14,40 @@ public class PathWithMaximumProbability {
                 return 0d;
             }
 
+            // Bellman Ford
+            double[] maxProbabilities = new double[n];
+            maxProbabilities[start] = 1d;
+
+            for (int i = 0; i < n - 1; i++) {
+
+                for (int j = 0; j < edges.length; j++) {
+                    int[] edge = edges[j];
+
+                    int u = edge[0];
+                    int v = edge[1];
+                    double p = succProb[j];
+
+                    if (maxProbabilities[u] * p > maxProbabilities[v]) {
+                        maxProbabilities[v] = maxProbabilities[u] * p;
+                    }
+
+                    if (maxProbabilities[v] * p > maxProbabilities[u]) {
+                        maxProbabilities[u] = maxProbabilities[v] * p;
+                    }
+                }
+
+            }
+
+            return maxProbabilities[end];
+        }
+    }
+
+    class Solution_Correct_1 {
+        public double maxProbability(int n, int[][] edges, double[] succProb, int start, int end) {
+            if (n < 1 || edges == null || edges.length == 0 || succProb == null || succProb.length != edges.length || start < 0 || start >= n || end < 0 || end >= n) {
+                return 0d;
+            }
+
             Map<Integer, List<Pair<Integer, Double>>> graph = new HashMap<>();
             for (int u = 0; u < n; u++) {
                 graph.put(u, new ArrayList<>());
