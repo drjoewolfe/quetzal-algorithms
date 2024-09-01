@@ -3,15 +3,33 @@ package org.jwolfe.quetzal.algorithms.lc;
 public class Convert1DArrayInto2DArray {
     class Solution {
         public int[][] construct2DArray(int[] original, int m, int n) {
-            if(original == null || original.length == 0 || original.length != m * n) {
+            if (original == null || m < 1 || n < 1 || original.length != m * n) {
+                return new int[0][0];
+            }
+
+            int[][] results = new int[m][n];
+            int index = 0;
+            for (int r = 0; r < m; r++) {
+                for (int c = 0; c < n; c++) {
+                    results[r][c] = original[index++];
+                }
+            }
+
+            return results;
+        }
+    }
+
+    class Solution_Correct_1 {
+        public int[][] construct2DArray(int[] original, int m, int n) {
+            if (original == null || original.length == 0 || original.length != m * n) {
                 return new int[0][0];
             }
 
             int[][] results = new int[m][n];
 
             int index = 0;
-            for(int i = 0; i < m; i++) {
-                for(int j = 0; j < n; j++) {
+            for (int i = 0; i < m; i++) {
+                for (int j = 0; j < n; j++) {
                     results[i][j] = original[index++];
                 }
             }
