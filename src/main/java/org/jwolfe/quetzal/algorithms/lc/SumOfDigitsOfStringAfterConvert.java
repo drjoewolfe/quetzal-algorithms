@@ -3,12 +3,43 @@ package org.jwolfe.quetzal.algorithms.lc;
 public class SumOfDigitsOfStringAfterConvert {
     class Solution {
         public int getLucky(String s, int k) {
-            if(s == null || s.length() == 0 || k < 1) {
+            if (s == null || s.length() == 0 || k < 0) {
+                return 0;
+            }
+
+            int number = 0;
+            for (int i = 0; i < s.length(); i++) {
+                char c = s.charAt(i);
+                int val = c - 'a' + 1;
+
+                while (val > 0) {
+                    number += (val % 10);
+                    val /= 10;
+                }
+            }
+
+            for (int i = 1; i < k; i++) {
+                int sum = 0;
+                while (number > 0) {
+                    sum += number % 10;
+                    number /= 10;
+                }
+
+                number = sum;
+            }
+
+            return number;
+        }
+    }
+
+    class Solution_Correct_1 {
+        public int getLucky(String s, int k) {
+            if (s == null || s.length() == 0 || k < 1) {
                 return 0;
             }
 
             StringBuilder builder = new StringBuilder();
-            for(int i = 0; i < s.length(); i++) {
+            for (int i = 0; i < s.length(); i++) {
                 char c = s.charAt(i);
                 int x = (c - 'a') + 1;
                 builder.append(x);
@@ -17,9 +48,9 @@ public class SumOfDigitsOfStringAfterConvert {
             s = builder.toString();
 
             int sum = 0;
-            for(int i = 0; i < k; i++) {
+            for (int i = 0; i < k; i++) {
                 sum = 0;
-                for(int j = 0; j < s.length(); j++) {
+                for (int j = 0; j < s.length(); j++) {
                     sum += (s.charAt(j) - '0');
                 }
 
