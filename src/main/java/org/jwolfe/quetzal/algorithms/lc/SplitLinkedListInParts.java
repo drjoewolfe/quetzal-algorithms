@@ -4,29 +4,84 @@ public class SplitLinkedListInParts {
     /**
      * Definition for singly-linked list.
      * public class ListNode {
-     *     int val;
-     *     ListNode next;
-     *     ListNode() {}
-     *     ListNode(int val) { this.val = val; }
-     *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+     * int val;
+     * ListNode next;
+     * ListNode() {}
+     * ListNode(int val) { this.val = val; }
+     * ListNode(int val, ListNode next) { this.val = val; this.next = next; }
      * }
      */
     class Solution {
         public ListNode[] splitListToParts(ListNode root, int k) {
-            if(k < 1) {
+            if (k < 1) {
                 return new ListNode[0];
             }
 
             ListNode[] parts = new ListNode[k];
-            if(root == null) {
+            if (root == null) {
+                return parts;
+            }
+
+            int length = getLength(root);
+            if (length <= k) {
+                for (int i = 0; i < length; i++) {
+                    parts[i] = root;
+                    root = root.next;
+                    parts[i].next = null;
+                }
+
+                return parts;
+            }
+
+            int size = length / k;
+            int overflow = length % k;
+
+            for (int i = 0; i < k; i++) {
+                ListNode tail = root;
+                for (int j = 1; j < size; j++) {
+                    tail = tail.next;
+                }
+
+                if (overflow > 0) {
+                    tail = tail.next;
+                    overflow--;
+                }
+
+                parts[i] = root;
+                root = tail.next;
+                tail.next = null;
+            }
+
+            return parts;
+        }
+
+        private int getLength(ListNode root) {
+            int length = 0;
+            while (root != null) {
+                length++;
+                root = root.next;
+            }
+
+            return length;
+        }
+    }
+
+    class Solution_Correct_3 {
+        public ListNode[] splitListToParts(ListNode root, int k) {
+            if (k < 1) {
+                return new ListNode[0];
+            }
+
+            ListNode[] parts = new ListNode[k];
+            if (root == null) {
                 return parts;
             }
 
             int length = getLength(root);
 
             ListNode node = root;
-            if(length <= k) {
-                for(int i = 0; i < length; i++) {
+            if (length <= k) {
+                for (int i = 0; i < length; i++) {
                     parts[i] = node;
                     node = node.next;
                     parts[i].next = null;
@@ -40,13 +95,13 @@ public class SplitLinkedListInParts {
             parts[0] = node;
             ListNode prev = null;
 
-            for(int i = 1; i < k; i++) {
-                for(int j = 1; j <= size; j++) {
+            for (int i = 1; i < k; i++) {
+                for (int j = 1; j <= size; j++) {
                     prev = node;
                     node = node.next;
                 }
 
-                if(rem > 0) {
+                if (rem > 0) {
                     prev = node;
                     node = node.next;
 
@@ -62,7 +117,7 @@ public class SplitLinkedListInParts {
 
         private int getLength(ListNode root) {
             int length = 0;
-            while(root != null) {
+            while (root != null) {
                 length++;
                 root = root.next;
             }
@@ -73,18 +128,18 @@ public class SplitLinkedListInParts {
 
     class Solution_Correct_2 {
         public ListNode[] splitListToParts(ListNode head, int k) {
-            if(k == 0) {
+            if (k == 0) {
                 return new ListNode[0];
             }
 
             ListNode[] partitions = new ListNode[k];
-            if(head == null) {
+            if (head == null) {
                 return partitions;
             }
 
             int length = getLength(head);
-            if(length <= k) {
-                for(int i = 0; i < length; i++) {
+            if (length <= k) {
+                for (int i = 0; i < length; i++) {
                     partitions[i] = head;
                     head = head.next;
 
@@ -97,13 +152,13 @@ public class SplitLinkedListInParts {
             int size = length / k;
             int overflow = length % k;
 
-            for(int i = 0; i < k; i++) {
+            for (int i = 0; i < k; i++) {
                 ListNode tail = head;
-                for(int j = 1; j < size; j++) {
+                for (int j = 1; j < size; j++) {
                     tail = tail.next;
                 }
 
-                if(overflow > 0) {
+                if (overflow > 0) {
                     tail = tail.next;
                     overflow--;
                 }
@@ -119,7 +174,7 @@ public class SplitLinkedListInParts {
 
         private int getLength(ListNode head) {
             int length = 0;
-            while(head != null) {
+            while (head != null) {
                 length++;
                 head = head.next;
             }
@@ -131,9 +186,18 @@ public class SplitLinkedListInParts {
     public class ListNode {
         int val;
         ListNode next;
-        ListNode() {}
-        ListNode(int val) { this.val = val; }
-        ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+
+        ListNode() {
+        }
+
+        ListNode(int val) {
+            this.val = val;
+        }
+
+        ListNode(int val, ListNode next) {
+            this.val = val;
+            this.next = next;
+        }
     }
 
 // [1,2,3,4]
