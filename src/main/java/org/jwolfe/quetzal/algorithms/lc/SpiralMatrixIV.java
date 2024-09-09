@@ -24,6 +24,119 @@ public class SpiralMatrixIV {
                 Arrays.fill(row, -1);
             }
 
+            int i = 0;
+            int j = 0;
+            int d = 0;
+            int[][] movements = new int[][]{
+                    {0, 1},
+                    {1, 0},
+                    {0, -1},
+                    {-1, 0}
+            };
+
+            while (head != null) {
+                matrix[i][j] = head.val;
+
+                int[] movement = movements[d];
+                int ni = i + movement[0];
+                int nj = j + movement[1];
+
+                if (ni < 0 || nj < 0 || ni >= m || nj >= n || matrix[ni][nj] != -1) {
+                    d = (d + 1) % 4;
+                }
+
+                movement = movements[d];
+                i += movement[0];
+                j += movement[1];
+
+                head = head.next;
+            }
+
+            return matrix;
+        }
+    }
+
+    class Solution_Correct_2 {
+        public int[][] spiralMatrix(int m, int n, ListNode head) {
+            if (m < 1 || n < 1) {
+                return new int[0][0];
+            }
+
+            int[][] matrix = new int[m][n];
+            for (int[] row : matrix) {
+                Arrays.fill(row, -1);
+            }
+
+            int i = 0;
+            int j = 0;
+
+            int top = 0;
+            int left = 0;
+            int right = n - 1;
+            int bottom = m - 1;
+
+            int direction = 0;
+
+            while (head != null) {
+                matrix[i][j] = head.val;
+
+                if (direction == 0) {
+                    j++;
+                    if (j > right) {
+                        i++;
+                        j = right;
+                        direction = 1;
+                        top++;
+                    }
+                } else if (direction == 1) {
+                    i++;
+
+                    if (i > bottom) {
+                        i = bottom;
+                        j--;
+                        direction = 2;
+                        right--;
+                    }
+                } else if (direction == 2) {
+                    j--;
+
+                    if (j < left) {
+                        i--;
+                        j = left;
+                        direction = 3;
+                        bottom--;
+                    }
+
+                } else {
+                    i--;
+
+                    if (i < top) {
+                        i = top;
+                        j++;
+                        direction = 0;
+                        left++;
+                    }
+                }
+
+                head = head.next;
+            }
+
+
+            return matrix;
+        }
+    }
+
+    class Solution_Correct_1 {
+        public int[][] spiralMatrix(int m, int n, ListNode head) {
+            if (m < 1 || n < 1) {
+                return new int[0][0];
+            }
+
+            int[][] matrix = new int[m][n];
+            for (int[] row : matrix) {
+                Arrays.fill(row, -1);
+            }
+
             int top = 0;
             int left = 0;
             int bottom = m - 1;
@@ -75,24 +188,28 @@ public class SpiralMatrixIV {
 
             return matrix;
         }
+    }
 
-        public class ListNode {
-            int val;
-            ListNode next;
+    public class ListNode {
+        int val;
+        ListNode next;
 
-            ListNode() {
-            }
+        ListNode() {
+        }
 
-            ListNode(int val) {
-                this.val = val;
-            }
+        ListNode(int val) {
+            this.val = val;
+        }
 
-            ListNode(int val, ListNode next) {
-                this.val = val;
-                this.next = next;
-            }
+        ListNode(int val, ListNode next) {
+            this.val = val;
+            this.next = next;
         }
     }
+
+// 3
+// 5
+// [3,0,2,6,8,1,7,9,4,2,5,5,0]
 }
 
 //    2326. Spiral Matrix IV
