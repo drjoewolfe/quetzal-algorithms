@@ -3,14 +3,31 @@ package org.jwolfe.quetzal.algorithms.lc;
 public class MinimumBitFlipsToConvertNumber {
     class Solution {
         public int minBitFlips(int start, int goal) {
-            if(start == goal) {
+            if (start == goal) {
+                return 0;
+            }
+
+            int xor = start ^ goal;
+            int flips = 0;
+            while (xor != 0) {
+                flips += (xor & 1);
+                xor >>= 1;
+            }
+
+            return flips;
+        }
+    }
+
+    class Solution_Correct_1 {
+        public int minBitFlips(int start, int goal) {
+            if (start == goal) {
                 return 0;
             }
 
             int flips = 0;
-            for(int i = 0; i < 32; i++) {
+            for (int i = 0; i < 32; i++) {
                 int mask = (1 << i);
-                if((start & mask) != (goal & mask)) {
+                if ((start & mask) != (goal & mask)) {
                     flips++;
                 }
             }
