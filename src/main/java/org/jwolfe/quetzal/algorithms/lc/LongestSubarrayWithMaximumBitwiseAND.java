@@ -3,20 +3,48 @@ package org.jwolfe.quetzal.algorithms.lc;
 public class LongestSubarrayWithMaximumBitwiseAND {
     class Solution {
         public int longestSubarray(int[] nums) {
-            if(nums == null || nums.length == 0) {
+            if (nums == null || nums.length == 0) {
+                return 0;
+            }
+
+            int max = 0;
+            int maxLength = 0;
+            int streak = 0;
+
+            for (int val : nums) {
+                if (val > max) {
+                    max = val;
+                    streak = 1;
+                    maxLength = 1;
+                } else if (val == max) {
+                    streak++;
+                } else {
+                    streak = 0;
+                }
+
+                maxLength = Math.max(maxLength, streak);
+            }
+
+            return maxLength;
+        }
+    }
+
+    class Solution_Correct_1 {
+        public int longestSubarray(int[] nums) {
+            if (nums == null || nums.length == 0) {
                 return 0;
             }
 
             int n = nums.length;
             int maxVal = 0;
-            for(int val : nums) {
+            for (int val : nums) {
                 maxVal = Math.max(maxVal, val);
             }
 
             int maxLength = 0;
             int length = 0;
-            for(int val : nums) {
-                if(val == maxVal) {
+            for (int val : nums) {
+                if (val == maxVal) {
                     length++;
                     maxLength = Math.max(maxLength, length);
                 } else {
@@ -30,26 +58,26 @@ public class LongestSubarrayWithMaximumBitwiseAND {
 
     class Solution_Brute_TLE {
         public int longestSubarray(int[] nums) {
-            if(nums == null || nums.length == 0) {
+            if (nums == null || nums.length == 0) {
                 return 0;
             }
 
             int n = nums.length;
             int maxBand = 0;
-            for(int i = 0; i < n; i++) {
+            for (int i = 0; i < n; i++) {
                 int band = nums[i];
-                for(int j = i; j < n; j++) {
+                for (int j = i; j < n; j++) {
                     band &= nums[j];
                     maxBand = Math.max(maxBand, band);
                 }
             }
 
             int maxLength = 1;
-            for(int i = 0; i < n; i++) {
+            for (int i = 0; i < n; i++) {
                 int band = nums[i];
-                for(int j = i; j < n; j++) {
+                for (int j = i; j < n; j++) {
                     band &= nums[j];
-                    if(band == maxBand) {
+                    if (band == maxBand) {
                         maxLength = Math.max(maxLength, j - i + 1);
                     }
                 }
@@ -60,6 +88,7 @@ public class LongestSubarrayWithMaximumBitwiseAND {
     }
 
 // [1,2,3,3,2,2]
+// [96317,96317,96317,96317,96317,96317,96317,96317,96317,279979]
 }
 
 //    2419. Longest Subarray With Maximum Bitwise AND
