@@ -7,12 +7,63 @@ import java.util.List;
 public class MinimumTimeDifference {
     class Solution {
         public int findMinDifference(List<String> timePoints) {
-            if(timePoints == null || timePoints.size() < 2) {
+            if (timePoints == null || timePoints.size() < 2) {
+                return 0;
+            }
+
+            int n = 24 * 60;
+            int[] timeLine = new int[n];
+            for (String timePoint : timePoints) {
+                int hour = Integer.valueOf(timePoint.substring(0, 2));
+                int minutes = Integer.valueOf(timePoint.substring(3));
+
+                int point = hour * 60 + minutes;
+                timeLine[point]++;
+            }
+
+            int prev = -1;
+            int first = -1;
+            int last = -1;
+
+            int minDifference = Integer.MAX_VALUE;
+
+            for (int curr = 0; curr < n; curr++) {
+                int point = timeLine[curr];
+
+                if (point == 0) {
+                    continue;
+                }
+
+                if (point > 1) {
+                    return 0;
+                }
+
+                if (prev != -1) {
+                    minDifference = Math.min(minDifference, curr - prev);
+                }
+
+                if (first == -1) {
+                    first = curr;
+                }
+
+                prev = curr;
+                last = curr;
+            }
+
+            minDifference = Math.min(minDifference, n - last + first);
+            return minDifference;
+        }
+    }
+
+
+    class Solution_Correct_2 {
+        public int findMinDifference(List<String> timePoints) {
+            if (timePoints == null || timePoints.size() < 2) {
                 return 0;
             }
 
             int[] timeline = new int[1440];
-            for(String timePoint : timePoints) {
+            for (String timePoint : timePoints) {
                 int hour = Integer.valueOf(timePoint.substring(0, 2));
                 int minutes = Integer.valueOf(timePoint.substring(3));
 
@@ -25,20 +76,20 @@ public class MinimumTimeDifference {
             int first = -1;
             int last = -1;
 
-            for(int curr = 0; curr < 1440; curr++) {
-                if(timeline[curr] == 0) {
+            for (int curr = 0; curr < 1440; curr++) {
+                if (timeline[curr] == 0) {
                     continue;
                 }
 
-                if(timeline[curr] > 1) {
+                if (timeline[curr] > 1) {
                     return 0;
                 }
 
-                if(prev != -1) {
+                if (prev != -1) {
                     minDifference = Math.min(minDifference, curr - prev);
                 }
 
-                if(first == -1) {
+                if (first == -1) {
                     first = curr;
                 }
 
@@ -53,12 +104,12 @@ public class MinimumTimeDifference {
 
     class Solution_Correct_1 {
         public int findMinDifference(List<String> timePoints) {
-            if(timePoints == null || timePoints.size() < 2) {
+            if (timePoints == null || timePoints.size() < 2) {
                 return 0;
             }
 
             List<Integer> netMinutes = new ArrayList<>();
-            for(String timePoint : timePoints) {
+            for (String timePoint : timePoints) {
                 int hour = Integer.valueOf(timePoint.substring(0, 2));
                 int minutes = Integer.valueOf(timePoint.substring(3));
 
@@ -67,7 +118,7 @@ public class MinimumTimeDifference {
 
             Collections.sort(netMinutes);
             int minDifference = Integer.MAX_VALUE;
-            for(int i = 1; i < netMinutes.size(); i++) {
+            for (int i = 1; i < netMinutes.size(); i++) {
                 minDifference = Math.min(minDifference, (netMinutes.get(i) - netMinutes.get(i - 1)));
             }
 
