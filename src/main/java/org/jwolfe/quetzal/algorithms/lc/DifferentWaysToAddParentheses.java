@@ -9,27 +9,72 @@ public class DifferentWaysToAddParentheses {
             return computeWays(input, 0, input.length() - 1);
         }
 
-        public List<Integer> computeWays(String input, int start, int end) {
-            List<Integer> ways = new ArrayList<>();
-            if(start == end) {
-                ways.add(Integer.valueOf(input.charAt(start) - '0'));
-                return ways;
+        private List<Integer> computeWays(String input, int start, int end) {
+            List<Integer> results = new ArrayList<>();
+
+            if (start == end) {
+                int number = Integer.valueOf(input.charAt(start) - '0');
+                results.add(number);
+
+                return results;
             }
 
-            for(int i = start; i <= end; i++) {
+            for (int i = start; i <= end; i++) {
                 char c = input.charAt(i);
-                if(!(c == '+' || c == '-' || c == '*')) {
+                if (!(c == '+' || c == '-' || c == '*')) {
                     continue;
                 }
 
                 var leftWays = computeWays(input, start, i - 1);
                 var rightWays = computeWays(input, i + 1, end);
 
-                for(var left : leftWays) {
-                    for(var right : rightWays) {
-                        if(c == '+') {
+                for (var left : leftWays) {
+                    for (var right : rightWays) {
+                        if (c == '+') {
+                            results.add(left + right);
+                        } else if (c == '-') {
+                            results.add(left - right);
+                        } else if (c == '*') {
+                            results.add(left * right);
+                        }
+                    }
+                }
+            }
+
+            if (results.size() == 0) {
+                results.add(Integer.valueOf(input.substring(start, end + 1)));
+            }
+
+            return results;
+        }
+    }
+
+    class Solution_Correct_1 {
+        public List<Integer> diffWaysToCompute(String input) {
+            return computeWays(input, 0, input.length() - 1);
+        }
+
+        public List<Integer> computeWays(String input, int start, int end) {
+            List<Integer> ways = new ArrayList<>();
+            if (start == end) {
+                ways.add(Integer.valueOf(input.charAt(start) - '0'));
+                return ways;
+            }
+
+            for (int i = start; i <= end; i++) {
+                char c = input.charAt(i);
+                if (!(c == '+' || c == '-' || c == '*')) {
+                    continue;
+                }
+
+                var leftWays = computeWays(input, start, i - 1);
+                var rightWays = computeWays(input, i + 1, end);
+
+                for (var left : leftWays) {
+                    for (var right : rightWays) {
+                        if (c == '+') {
                             ways.add(left + right);
-                        } else if(c == '-') {
+                        } else if (c == '-') {
                             ways.add(left - right);
                         } else {
                             ways.add(left * right);
@@ -38,7 +83,7 @@ public class DifferentWaysToAddParentheses {
                 }
             }
 
-            if(ways.size() == 0) {
+            if (ways.size() == 0) {
                 ways.add(Integer.valueOf(input.substring(start, end + 1)));
             }
 
