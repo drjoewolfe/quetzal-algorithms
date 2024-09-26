@@ -7,9 +7,31 @@ import java.util.TreeMap;
 public class MyCalendarI {
     class MyCalendar {
 
-        TreeMap<Integer,Integer> bookings;
+        TreeMap<Integer, Integer> bookings = new TreeMap<>();
 
         public MyCalendar() {
+            bookings = new TreeMap<>();
+        }
+
+        public boolean book(int start, int end) {
+            var prev = bookings.floorKey(start);
+            var next = bookings.ceilingKey(start);
+
+            if ((prev == null || bookings.get(prev) <= start)
+                    && (next == null || next >= end)) {
+                bookings.put(start, end);
+                return true;
+            }
+
+            return false;
+        }
+    }
+
+    class MyCalendar_Correct_1 {
+
+        TreeMap<Integer, Integer> bookings;
+
+        public MyCalendar_Correct_1() {
             bookings = new TreeMap<>();
         }
 
@@ -17,7 +39,7 @@ public class MyCalendarI {
             Integer prev = bookings.floorKey(start);
             Integer next = bookings.ceilingKey(start);
 
-            if((prev == null || bookings.get(prev) <= start)
+            if ((prev == null || bookings.get(prev) <= start)
                     && (next == null || next >= end)) {
                 bookings.put(start, end);
                 return true;
@@ -36,13 +58,13 @@ public class MyCalendarI {
         }
 
         public boolean book(int start, int end) {
-            for(int[] booking : bookings) {
-                if(checkOverlap(booking, start, end)) {
+            for (int[] booking : bookings) {
+                if (checkOverlap(booking, start, end)) {
                     return false;
                 }
             }
 
-            bookings.add(new int[] {start, end});
+            bookings.add(new int[]{start, end});
             return true;
         }
 
@@ -53,7 +75,7 @@ public class MyCalendarI {
             boolean a = (s2 >= e1);
             boolean b = (s1 >= e2);
 
-            if(!(a || b)) {
+            if (!(a || b)) {
                 return true;
             }
 
