@@ -5,7 +5,45 @@ import java.util.Arrays;
 public class DividePlayersIntoTeamsOfEqualSkill {
     class Solution {
         public long dividePlayers(int[] skill) {
-            if(skill == null || skill.length < 2 || skill.length % 2 != 0) {
+            if (skill == null || skill.length == 0 || skill.length % 2 != 0) {
+                return -1;
+            }
+
+            int n = skill.length;
+            int totalSkill = 0;
+
+            int[] skillFrequencies = new int[1001];
+
+            for (int playerSkill : skill) {
+                totalSkill += playerSkill;
+                skillFrequencies[playerSkill]++;
+            }
+
+            int teamCount = n / 2;
+            if (totalSkill % teamCount != 0) {
+                return -1;
+            }
+
+            long currency = 0;
+            int teamSkill = totalSkill / teamCount;
+            for (int playerSkill : skill) {
+                int partnerSkill = teamSkill - playerSkill;
+
+                if (skillFrequencies[partnerSkill] == 0) {
+                    return -1;
+                }
+
+                skillFrequencies[partnerSkill]--;
+                currency += (playerSkill * partnerSkill);
+            }
+
+            return currency / 2;
+        }
+    }
+
+    class Solution_Correct_1 {
+        public long dividePlayers(int[] skill) {
+            if (skill == null || skill.length < 2 || skill.length % 2 != 0) {
                 return -1;
             }
 
@@ -19,11 +57,11 @@ public class DividePlayersIntoTeamsOfEqualSkill {
             int left = 1;
             int right = n - 2;
 
-            while(left < right) {
+            while (left < right) {
                 int p1 = skill[left++];
                 int p2 = skill[right--];
 
-                if(p1 + p2 != teamSkill) {
+                if (p1 + p2 != teamSkill) {
                     return -1;
                 }
 
