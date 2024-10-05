@@ -6,7 +6,53 @@ import java.util.List;
 public class PermutationInString {
     class Solution {
         public boolean checkInclusion(String s1, String s2) {
-            if(s1 == null || s1.length() == 0 || s2 == null || s2.length() < s1.length()) {
+            if (s1 == null || s2 == null || s1.length() == 0 || s2.length() < s1.length()) {
+                return false;
+            }
+
+            int n1 = s1.length();
+            int n2 = s2.length();
+
+            int[] frequencies1 = new int[26];
+            int[] frequencies2 = new int[26];
+
+            for (int i = 0; i < n1; i++) {
+                char c1 = s1.charAt(i);
+                frequencies1[c1 - 'a']++;
+
+                char c2 = s2.charAt(i);
+                frequencies2[c2 - 'a']++;
+            }
+
+            for (int i = 0; i < (n2 - n1); i++) {
+                if (areEqual(frequencies1, frequencies2)) {
+                    return true;
+                }
+
+                char c2 = s2.charAt(i);
+                char c2x = s2.charAt(i + n1);
+
+                frequencies2[c2 - 'a']--;
+                frequencies2[c2x - 'a']++;
+            }
+
+            return areEqual(frequencies1, frequencies2);
+        }
+
+        private boolean areEqual(int[] frequencies1, int[] frequencies2) {
+            for (int i = 0; i < 26; i++) {
+                if (frequencies1[i] != frequencies2[i]) {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+    }
+
+    class Solution_Correct_2 {
+        public boolean checkInclusion(String s1, String s2) {
+            if (s1 == null || s1.length() == 0 || s2 == null || s2.length() < s1.length()) {
                 return false;
             }
 
@@ -14,19 +60,19 @@ public class PermutationInString {
             int s2Length = s2.length();
 
             int[] s1Frequencies = new int[26];
-            for(int i = 0; i < s1Length; i++) {
+            for (int i = 0; i < s1Length; i++) {
                 s1Frequencies[s1.charAt(i) - 'a']++;
             }
 
-            for(int i = 0; i <= (s2Length - s1Length); i++) {
+            for (int i = 0; i <= (s2Length - s1Length); i++) {
                 int[] s2Frequencies = new int[26];
 
-                for(int j = i; j < i + s1Length; j++) {
+                for (int j = i; j < i + s1Length; j++) {
                     char c = s2.charAt(j);
                     s2Frequencies[c - 'a']++;
                 }
 
-                if(areEqual(s1Frequencies, s2Frequencies)) {
+                if (areEqual(s1Frequencies, s2Frequencies)) {
                     return true;
                 }
             }
@@ -35,8 +81,8 @@ public class PermutationInString {
         }
 
         private boolean areEqual(int[] arr1, int[] arr2) {
-            for(int i = 0; i < arr1.length; i++) {
-                if(arr1[i] != arr2[i]) {
+            for (int i = 0; i < arr1.length; i++) {
+                if (arr1[i] != arr2[i]) {
                     return false;
                 }
             }
@@ -47,7 +93,7 @@ public class PermutationInString {
 
     class Solution_Correct_1 {
         public boolean checkInclusion(String s1, String s2) {
-            if(s1 == null || s2 == null || s2.length() < s1.length()) {
+            if (s1 == null || s2 == null || s2.length() < s1.length()) {
                 return false;
             }
 
@@ -55,13 +101,13 @@ public class PermutationInString {
             int patternLength = s1.length();
 
             int[] counters = new int[26];
-            for(int i = 0; i < patternLength; i++) {
+            for (int i = 0; i < patternLength; i++) {
                 counters[s1.charAt(i) - 'a']++;
                 counters[s2.charAt(i) - 'a']--;
             }
 
-            for(int i = patternLength; i < stringLength; i++) {
-                if(isZeroArray(counters)) {
+            for (int i = patternLength; i < stringLength; i++) {
+                if (isZeroArray(counters)) {
                     return true;
                 }
 
@@ -70,7 +116,7 @@ public class PermutationInString {
                 counters[s2.charAt(i) - 'a']--;
             }
 
-            if(isZeroArray(counters)) {
+            if (isZeroArray(counters)) {
                 return true;
             }
 
@@ -78,8 +124,8 @@ public class PermutationInString {
         }
 
         private boolean isZeroArray(int[] arr) {
-            for(int n : arr) {
-                if(n != 0) {
+            for (int n : arr) {
+                if (n != 0) {
                     return false;
                 }
             }
@@ -90,7 +136,7 @@ public class PermutationInString {
 
     class Solution_Classic {
         public boolean checkInclusion(String s1, String s2) {
-            if(s1 == null || s2 == null || s2.length() < s1.length()) {
+            if (s1 == null || s2 == null || s2.length() < s1.length()) {
                 return false;
             }
 
@@ -100,10 +146,10 @@ public class PermutationInString {
             int[] patternFrequency = getCharacterFreqencies(s1, 0, patternLength - 1);
             int[] windowFrequency = getCharacterFreqencies(s2, 0, patternLength - 2);
 
-            for(int i = 0; i + patternLength <= stringLength; i++) {
+            for (int i = 0; i + patternLength <= stringLength; i++) {
                 int j = i + patternLength - 1;
-                windowFrequency[s2.charAt(j)- 'a']++;
-                if(areFrequenciesEqual(windowFrequency, patternFrequency)){
+                windowFrequency[s2.charAt(j) - 'a']++;
+                if (areFrequenciesEqual(windowFrequency, patternFrequency)) {
                     return true;
                 }
 
@@ -114,8 +160,8 @@ public class PermutationInString {
         }
 
         private boolean areFrequenciesEqual(int[] freq1, int[] freq2) {
-            for(int i = 0; i < freq1.length; i++) {
-                if(freq1[i] != freq2[i]) {
+            for (int i = 0; i < freq1.length; i++) {
+                if (freq1[i] != freq2[i]) {
                     return false;
                 }
             }
@@ -125,7 +171,7 @@ public class PermutationInString {
 
         private int[] getCharacterFreqencies(String s, int left, int right) {
             int[] frequency = new int[26];
-            for(int i = left; i <= right; i++) {
+            for (int i = left; i <= right; i++) {
                 char c = s.charAt(i);
                 frequency[c - 'a']++;
             }
@@ -136,13 +182,13 @@ public class PermutationInString {
 
     class Solution_Brute {
         public boolean checkInclusion(String s1, String s2) {
-            if(s1 == null || s2 == null || s1.length() == 0 || s2.length() == 0) {
+            if (s1 == null || s2 == null || s1.length() == 0 || s2.length() == 0) {
                 return false;
             }
 
             List<String> permutations = getAllPermutations(s1);
-            for(String p : permutations) {
-                if(s2.contains(p)) {
+            for (String p : permutations) {
+                if (s2.contains(p)) {
                     return true;
                 }
             }
@@ -158,12 +204,12 @@ public class PermutationInString {
         }
 
         private void generateAllPermutations(char[] sArray, int left, int right, List<String> permutations) {
-            if(left == right) {
+            if (left == right) {
                 permutations.add(new String(sArray));
                 return;
             }
 
-            for(int i = left; i <= right; i++) {
+            for (int i = left; i <= right; i++) {
                 swap(sArray, left, i);
                 generateAllPermutations(sArray, left + 1, right, permutations);
                 swap(sArray, left, i);
