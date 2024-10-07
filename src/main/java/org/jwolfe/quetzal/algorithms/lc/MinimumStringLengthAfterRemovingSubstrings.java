@@ -5,22 +5,49 @@ import java.util.Stack;
 public class MinimumStringLengthAfterRemovingSubstrings {
     class Solution {
         public int minLength(String s) {
-            if(s == null || s.length() == 0) {
+            if (s == null || s.length() == 0) {
+                return 0;
+            }
+
+            Stack<Character> stack = new Stack<>();
+            for (int i = 0; i < s.length(); i++) {
+                char c = s.charAt(i);
+
+                if (stack.isEmpty()) {
+                    stack.push(c);
+                } else {
+                    char pc = stack.peek();
+
+                    if ((pc == 'A' && c == 'B') || (pc == 'C' && c == 'D')) {
+                        stack.pop();
+                    } else {
+                        stack.push(c);
+                    }
+                }
+            }
+
+            return stack.size();
+        }
+    }
+
+    class Solution_Correct_1 {
+        public int minLength(String s) {
+            if (s == null || s.length() == 0) {
                 return 0;
             }
 
             int n = s.length();
             Stack<Character> stack = new Stack<>();
-            for(int i = 0; i < n; i++) {
+            for (int i = 0; i < n; i++) {
                 char cc = s.charAt(i);
 
-                if(stack.isEmpty()) {
+                if (stack.isEmpty()) {
                     stack.push(cc);
                 } else {
 
                     char pc = stack.peek();
 
-                    if((cc == 'B' && pc == 'A') || (cc == 'D' && pc == 'C')) {
+                    if ((cc == 'B' && pc == 'A') || (cc == 'D' && pc == 'C')) {
                         stack.pop();
                     } else {
                         stack.push(cc);
@@ -34,18 +61,18 @@ public class MinimumStringLengthAfterRemovingSubstrings {
 
     class Solution_Incorrect {
         public int minLength(String s) {
-            if(s == null || s.length() == 2) {
+            if (s == null || s.length() == 2) {
                 return 0;
             }
 
             int n = s.length();
             int pairs = 0;
             int i = 0;
-            while(i < n - 1) {
+            while (i < n - 1) {
                 char cc = s.charAt(i);
                 char nc = s.charAt(i + 1);
 
-                if((cc == 'A' && nc == 'B') || (cc == 'C' && nc == 'D')) {
+                if ((cc == 'A' && nc == 'B') || (cc == 'C' && nc == 'D')) {
                     pairs++;
                     i++;
                 }
