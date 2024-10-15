@@ -3,17 +3,39 @@ package org.jwolfe.quetzal.algorithms.lc;
 public class SeparateBlackAndWhiteBalls {
     class Solution {
         public long minimumSteps(String s) {
-            if(s == null || s.length() < 2) {
+            if (s == null || s.length() < 2) {
+                return 0;
+            }
+
+            int zeros = 0;
+            long swaps = 0;
+            for (int i = s.length() - 1; i >= 0; i--) {
+                char c = s.charAt(i);
+
+                if (c == '0') {
+                    zeros++;
+                } else {
+                    swaps += zeros;
+                }
+            }
+
+            return swaps;
+        }
+    }
+
+    class Solution_Correct_1 {
+        public long minimumSteps(String s) {
+            if (s == null || s.length() < 2) {
                 return 0;
             }
 
             int n = s.length();
             long swaps = 0;
             long zeros = 0;
-            for(int i = n - 1; i >= 0; i--) {
+            for (int i = n - 1; i >= 0; i--) {
                 char c = s.charAt(i);
 
-                if(c == '0') {
+                if (c == '0') {
                     zeros++;
                 } else {
                     swaps += zeros;
