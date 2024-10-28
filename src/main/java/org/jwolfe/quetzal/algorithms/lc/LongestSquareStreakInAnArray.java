@@ -7,24 +7,54 @@ import java.util.Set;
 public class LongestSquareStreakInAnArray {
     class Solution {
         public int longestSquareStreak(int[] nums) {
-            if(nums == null || nums.length < 2) {
+            if (nums == null || nums.length < 2) {
+                return 0;
+            }
+
+            Arrays.sort(nums);
+            Set<Integer> numbers = new HashSet<>();
+            for (int val : nums) {
+                numbers.add(val);
+            }
+
+            int longestStreak = 1;
+            for (int val : nums) {
+                numbers.remove(val);
+
+                int streak = 1;
+                while (numbers.contains(val * val)) {
+                    streak++;
+                    val *= val;
+                    numbers.remove(val);
+                }
+
+                longestStreak = Math.max(longestStreak, streak);
+            }
+
+            return longestStreak == 1 ? -1 : longestStreak;
+        }
+    }
+
+    class Solution_Correct_1 {
+        public int longestSquareStreak(int[] nums) {
+            if (nums == null || nums.length < 2) {
                 return 0;
             }
 
             Arrays.sort(nums);
 
             Set<Integer> set = new HashSet<>();
-            for(int a : nums) {
+            for (int a : nums) {
                 set.add(a);
             }
 
             int longestStreak = 1;
 
-            for(int a : nums) {
+            for (int a : nums) {
                 set.remove(a);
                 int streak = 1;
 
-                while(set.contains(a * a)) {
+                while (set.contains(a * a)) {
                     a = a * a;
                     set.remove(a);
                     streak++;
