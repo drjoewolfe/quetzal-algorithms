@@ -3,23 +3,47 @@ package org.jwolfe.quetzal.algorithms.lc;
 public class DeleteCharactersToMakeFancyString {
     class Solution {
         public String makeFancyString(String s) {
-            if(s == null || s.length() == 0) {
+            if (s == null || s.length() < 3) {
+                return s;
+            }
+
+            StringBuilder builder = new StringBuilder();
+            builder.append(s.charAt(0));
+            builder.append(s.charAt(1));
+
+            for (int i = 2; i < s.length(); i++) {
+                char c = s.charAt(i);
+                char pc1 = builder.charAt(builder.length() - 1);
+                char pc2 = builder.charAt(builder.length() - 2);
+
+                if (c != pc1 || c != pc2) {
+                    builder.append(c);
+                }
+            }
+
+            return builder.toString();
+        }
+    }
+
+    class Solution_Correct_1 {
+        public String makeFancyString(String s) {
+            if (s == null || s.length() == 0) {
                 return s;
             }
 
             StringBuilder builder = new StringBuilder();
             int i = 0;
             int n = s.length();
-            while(i < n) {
+            while (i < n) {
                 char c = s.charAt(i);
 
                 int j = i + 1;
-                while(j < n && c == s.charAt(j)) {
+                while (j < n && c == s.charAt(j)) {
                     j++;
                 }
 
                 builder.append(c);
-                if(j - i >= 2) {
+                if (j - i >= 2) {
                     builder.append(c);
                 }
 
