@@ -3,22 +3,49 @@ package org.jwolfe.quetzal.algorithms.lc;
 public class CircularSentence {
     class Solution {
         public boolean isCircularSentence(String sentence) {
-            if(sentence == null || sentence.length() == 0) {
+            if (sentence == null || sentence.length() == 0) {
                 return false;
             }
 
             int n = sentence.length();
-            for(int i = 1; i < n - 1; i++) {
+            for (int i = 0; i < n; i++) {
                 char c = sentence.charAt(i);
 
-                if(c == ' ') {
-                    if(sentence.charAt(i - 1) != sentence.charAt(i + 1)) {
+                if (c == ' ') {
+                    char pc = sentence.charAt(i - 1);
+                    char nc = sentence.charAt(i + 1);
+
+                    if (pc != nc) {
                         return false;
                     }
                 }
             }
 
-            if(sentence.charAt(0) != sentence.charAt(n - 1)) {
+            char fc = sentence.charAt(0);
+            char lc = sentence.charAt(n - 1);
+
+            return fc == lc;
+        }
+    }
+
+    class Solution_Correct_2 {
+        public boolean isCircularSentence(String sentence) {
+            if (sentence == null || sentence.length() == 0) {
+                return false;
+            }
+
+            int n = sentence.length();
+            for (int i = 1; i < n - 1; i++) {
+                char c = sentence.charAt(i);
+
+                if (c == ' ') {
+                    if (sentence.charAt(i - 1) != sentence.charAt(i + 1)) {
+                        return false;
+                    }
+                }
+            }
+
+            if (sentence.charAt(0) != sentence.charAt(n - 1)) {
                 return false;
             }
 
@@ -28,22 +55,22 @@ public class CircularSentence {
 
     class Solution_Correct_1 {
         public boolean isCircularSentence(String sentence) {
-            if(sentence == null || sentence.length() == 0) {
+            if (sentence == null || sentence.length() == 0) {
                 return false;
             }
 
             String[] words = sentence.split(" ");
 
             int n = words.length;
-            if(words[0].charAt(0) != words[n - 1].charAt(words[n - 1].length() - 1)) {
+            if (words[0].charAt(0) != words[n - 1].charAt(words[n - 1].length() - 1)) {
                 return false;
             }
 
-            for(int i = 1; i < n; i++) {
+            for (int i = 1; i < n; i++) {
                 String word = words[i];
                 String prevWord = words[i - 1];
 
-                if(word.charAt(0) != prevWord.charAt(prevWord.length() - 1)) {
+                if (word.charAt(0) != prevWord.charAt(prevWord.length() - 1)) {
                     return false;
                 }
             }
