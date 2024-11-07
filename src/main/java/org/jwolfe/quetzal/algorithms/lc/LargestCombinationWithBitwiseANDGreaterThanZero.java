@@ -6,16 +6,40 @@ import java.util.List;
 public class LargestCombinationWithBitwiseANDGreaterThanZero {
     class Solution {
         public int largestCombination(int[] candidates) {
-            if(candidates == null || candidates.length == 0) {
+            if (candidates == null || candidates.length == 0) {
+                return 0;
+            }
+
+
+            int maxCount = 0;
+            for (int i = 0; i < 24; i++) {
+                int count = 0;
+
+                for (int val : candidates) {
+                    if ((val & (1 << i)) > 0) {
+                        count++;
+                    }
+
+                    maxCount = Math.max(maxCount, count);
+                }
+            }
+
+            return maxCount;
+        }
+    }
+
+    class Solution_Correct_1 {
+        public int largestCombination(int[] candidates) {
+            if (candidates == null || candidates.length == 0) {
                 return 0;
             }
 
             int maxCount = 0;
-            for(int i = 0; i < 24; i++) {
+            for (int i = 0; i < 24; i++) {
                 int count = 0;
 
-                for(int candidate : candidates) {
-                    if((candidate & (1 << i)) > 0) {
+                for (int candidate : candidates) {
+                    if ((candidate & (1 << i)) > 0) {
                         count++;
                     }
                 }
@@ -29,7 +53,7 @@ public class LargestCombinationWithBitwiseANDGreaterThanZero {
 
     class Solution_Brute_TLE {
         public int largestCombination(int[] candidates) {
-            if(candidates == null || candidates.length == 0) {
+            if (candidates == null || candidates.length == 0) {
                 return 0;
             }
 
@@ -37,17 +61,17 @@ public class LargestCombinationWithBitwiseANDGreaterThanZero {
         }
 
         private int largestCombination(int[] candidates, int index, List<Integer> selection) {
-            if(index == candidates.length) {
-                if(selection.size() == 0) {
+            if (index == candidates.length) {
+                if (selection.size() == 0) {
                     return 0;
                 }
 
                 int result = selection.get(0);
-                for(int i = 1; i < selection.size(); i++) {
+                for (int i = 1; i < selection.size(); i++) {
                     result &= selection.get(i);
                 }
 
-                return result > 0  ? selection.size() : 0;
+                return result > 0 ? selection.size() : 0;
             }
 
             // include current
