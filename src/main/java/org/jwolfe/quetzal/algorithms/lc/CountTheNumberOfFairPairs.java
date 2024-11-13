@@ -5,18 +5,49 @@ import java.util.Arrays;
 public class CountTheNumberOfFairPairs {
     class Solution {
         public long countFairPairs(int[] nums, int lower, int upper) {
-            if(nums == null || nums.length < 2 || lower > upper) {
+            if (nums == null || nums.length < 2 || lower > upper) {
+                return 0;
+            }
+
+            Arrays.sort(nums);
+            return lowerBound(nums, upper + 1) - lowerBound(nums, lower);
+        }
+
+        private long lowerBound(int[] nums, int value) {
+            // return count of pairs whose sum < value
+            int left = 0;
+            int right = nums.length - 1;
+
+            long count = 0;
+            while (left < right) {
+                int sum = nums[left] + nums[right];
+
+                if (sum < value) {
+                    count += (right - left);
+                    left++;
+                } else {
+                    right--;
+                }
+            }
+
+            return count;
+        }
+    }
+
+    class Solution_Correct_1 {
+        public long countFairPairs(int[] nums, int lower, int upper) {
+            if (nums == null || nums.length < 2 || lower > upper) {
                 return 0;
             }
 
             long count = 0;
 
             Arrays.sort(nums);
-            for(int i = 0; i < nums.length - 1; i++) {
+            for (int i = 0; i < nums.length - 1; i++) {
                 int lowerBound = getLowerBound(nums, i, lower, upper);
                 int upperBound = getUpperBound(nums, i, lower, upper);
 
-                if(lowerBound == -1) {
+                if (lowerBound == -1) {
                     continue;
                 }
 
@@ -32,14 +63,14 @@ public class CountTheNumberOfFairPairs {
             int right = nums.length - 1;
             int index = -1;
 
-            while(left <= right) {
+            while (left <= right) {
                 int mid = left + (right - left) / 2;
                 int val = nums[start] + nums[mid];
 
-                if(val >= lower && val <= upper) {
+                if (val >= lower && val <= upper) {
                     index = mid;
                     right = mid - 1;
-                } else if(val < lower) {
+                } else if (val < lower) {
                     left = mid + 1;
                 } else {
                     right = mid - 1;
@@ -54,14 +85,14 @@ public class CountTheNumberOfFairPairs {
             int right = nums.length - 1;
             int index = -1;
 
-            while(left <= right) {
+            while (left <= right) {
                 int mid = left + (right - left) / 2;
                 int val = nums[start] + nums[mid];
 
-                if(val >= lower && val <= upper) {
+                if (val >= lower && val <= upper) {
                     index = mid;
                     left = mid + 1;
-                } else if(val < lower) {
+                } else if (val < lower) {
                     left = mid + 1;
                 } else {
                     right = mid - 1;
@@ -72,7 +103,7 @@ public class CountTheNumberOfFairPairs {
         }
 
         private void print(int[] arr) {
-            for(int a : arr) {
+            for (int a : arr) {
                 System.out.print(a + " ");
             }
 
