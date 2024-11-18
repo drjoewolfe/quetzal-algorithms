@@ -9,7 +9,7 @@ public class DefuseTheBomb {
 
             int n = code.length;
             int left = 1;
-            int right = k;s
+            int right = k;
 
             int[] results = new int[n];
             int sum = 0;
