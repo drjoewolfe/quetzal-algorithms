@@ -3,11 +3,59 @@ package org.jwolfe.quetzal.algorithms.lc;
 public class TakeKOfEachCharacterFromLeftAndRight {
     class Solution {
         public int takeCharacters(String s, int k) {
-            if(s == null || k < 0) {
+            if (s == null || k < 0) {
                 return -1;
             }
 
-            if(k == 0) {
+            int n = s.length();
+            int[] counts = new int[3];
+            for (int i = 0; i < n; i++) {
+                char c = s.charAt(i);
+                counts[c - 'a']++;
+            }
+
+            for (int i = 0; i < 3; i++) {
+                if (counts[i] < k) {
+                    return -1;
+                }
+            }
+
+            int[] window = new int[3];
+            int left = 0;
+            int right = 0;
+            int maxExclusionWindow = 0;
+
+            while (right < n) {
+                char cr = s.charAt(right);
+                window[cr - 'a']++;
+
+                while (
+                        (counts[0] - window[0] < k)
+                                || (counts[1] - window[1] < k)
+                                || (counts[2] - window[2] < k)
+                ) {
+                    char cl = s.charAt(left);
+                    window[cl - 'a']--;
+                    left++;
+                }
+
+                int exclusionWindow = right - left + 1;
+                maxExclusionWindow = Math.max(maxExclusionWindow, exclusionWindow);
+
+                right++;
+            }
+
+            return n - maxExclusionWindow;
+        }
+    }
+
+    class Solution_Correct_1 {
+        public int takeCharacters(String s, int k) {
+            if (s == null || k < 0) {
+                return -1;
+            }
+
+            if (k == 0) {
                 return 0;
             }
 
@@ -16,18 +64,18 @@ public class TakeKOfEachCharacterFromLeftAndRight {
             int c = 0;
             int n = s.length();
 
-            for(int i = 0; i < n; i++) {
+            for (int i = 0; i < n; i++) {
                 char ch = s.charAt(i);
-                if(ch == 'a') {
+                if (ch == 'a') {
                     a++;
-                } else if(ch == 'b') {
+                } else if (ch == 'b') {
                     b++;
                 } else {
                     c++;
                 }
             }
 
-            if(a < k || b < k || c < k) {
+            if (a < k || b < k || c < k) {
                 // Not possible
                 return -1;
             }
@@ -36,11 +84,11 @@ public class TakeKOfEachCharacterFromLeftAndRight {
             int j = n - 1;
             int minMinutes = Integer.MAX_VALUE;
 
-            while(i >= 0) {
+            while (i >= 0) {
                 char ch = s.charAt(i);
-                if(ch == 'a') {
+                if (ch == 'a') {
                     a--;
-                } else if(ch == 'b') {
+                } else if (ch == 'b') {
                     b--;
                 } else {
                     c--;
@@ -48,11 +96,11 @@ public class TakeKOfEachCharacterFromLeftAndRight {
 
                 i--;
 
-                while(a < k || b < k || c < k) {
+                while (a < k || b < k || c < k) {
                     ch = s.charAt(j);
-                    if(ch == 'a') {
+                    if (ch == 'a') {
                         a++;
-                    } else if(ch == 'b') {
+                    } else if (ch == 'b') {
                         b++;
                     } else {
                         c++;
@@ -71,11 +119,11 @@ public class TakeKOfEachCharacterFromLeftAndRight {
 
     class Solution_Correct_TLE {
         public int takeCharacters(String s, int k) {
-            if(s == null || k < 0) {
+            if (s == null || k < 0) {
                 return -1;
             }
 
-            if(k == 0) {
+            if (k == 0) {
                 return 0;
             }
 
@@ -84,58 +132,58 @@ public class TakeKOfEachCharacterFromLeftAndRight {
             int c = 0;
             int n = s.length();
 
-            for(int i = 0; i < n; i++) {
+            for (int i = 0; i < n; i++) {
                 char ch = s.charAt(i);
-                if(ch == 'a') {
+                if (ch == 'a') {
                     a++;
-                } else if(ch == 'b') {
+                } else if (ch == 'b') {
                     b++;
                 } else {
                     c++;
                 }
             }
 
-            if(a < k || b < k || c < k) {
+            if (a < k || b < k || c < k) {
                 // Not possible
                 return -1;
             }
 
             int minMinutes = Integer.MAX_VALUE;
-            for(int left = -1; left < n; left++) {
+            for (int left = -1; left < n; left++) {
                 a = 0;
                 b = 0;
                 c = 0;
 
                 int minutes = 0;
-                for(int i = 0; i <= left; i++) {
+                for (int i = 0; i <= left; i++) {
                     minutes++;
                     char ch = s.charAt(i);
-                    if(ch == 'a') {
+                    if (ch == 'a') {
                         a++;
-                    } else if(ch == 'b') {
+                    } else if (ch == 'b') {
                         b++;
                     } else {
                         c++;
                     }
                 }
 
-                if(a >= k && b >= k && c >= k) {
+                if (a >= k && b >= k && c >= k) {
                     minMinutes = Math.min(minMinutes, minutes);
                     break;
                 }
 
-                for(int j = n - 1; j > left; j--) {
+                for (int j = n - 1; j > left; j--) {
                     minutes++;
                     char ch = s.charAt(j);
-                    if(ch == 'a') {
+                    if (ch == 'a') {
                         a++;
-                    } else if(ch == 'b') {
+                    } else if (ch == 'b') {
                         b++;
                     } else {
                         c++;
                     }
 
-                    if(a >= k && b >= k && c >= k) {
+                    if (a >= k && b >= k && c >= k) {
                         minMinutes = Math.min(minMinutes, minutes);
                         break;
                     }
