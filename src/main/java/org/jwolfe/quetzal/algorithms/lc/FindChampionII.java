@@ -3,12 +3,12 @@ package org.jwolfe.quetzal.algorithms.lc;
 public class FindChampionII {
     class Solution {
         public int findChampion(int n, int[][] edges) {
-            if(n < 1) {
+            if (n < 1) {
                 return 0;
             }
 
             int[] indegrees = new int[n];
-            for(int[] edge : edges) {
+            for (int[] edge : edges) {
                 int u = edge[0];
                 int v = edge[1];
 
@@ -16,9 +16,38 @@ public class FindChampionII {
             }
 
             int champion = -1;
-            for(int i = 0; i < n; i++) {
-                if(indegrees[i] == 0) {
-                    if(champion == -1) {
+            for (int u = 0; u < n; u++) {
+                if (indegrees[u] == 0) {
+                    if (champion == -1) {
+                        champion = u;
+                    } else {
+                        return -1;
+                    }
+                }
+            }
+
+            return champion;
+        }
+    }
+
+    class Solution_Correct_1 {
+        public int findChampion(int n, int[][] edges) {
+            if (n < 1) {
+                return 0;
+            }
+
+            int[] indegrees = new int[n];
+            for (int[] edge : edges) {
+                int u = edge[0];
+                int v = edge[1];
+
+                indegrees[v]++;
+            }
+
+            int champion = -1;
+            for (int i = 0; i < n; i++) {
+                if (indegrees[i] == 0) {
+                    if (champion == -1) {
                         champion = i;
                     } else {
                         return -1;
