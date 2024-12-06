@@ -6,26 +6,56 @@ import java.util.Set;
 public class MaximumNumberOfIntegersToChooseFromARangeI {
     class Solution {
         public int maxCount(int[] banned, int n, int maxSum) {
-            if(n < 1) {
+            if (n < 1) {
+                return 0;
+            }
+
+            Set<Integer> set = new HashSet<>();
+            for (int val : banned) {
+                set.add(val);
+            }
+
+            int sum = 0;
+            int count = 0;
+            for (int val = 1; val <= n; val++) {
+                if (set.contains(val)) {
+                    continue;
+                }
+
+                if (sum + val > maxSum) {
+                    return count;
+                }
+
+                sum += val;
+                count++;
+            }
+
+            return count;
+        }
+    }
+
+    class Solution_Correct_1 {
+        public int maxCount(int[] banned, int n, int maxSum) {
+            if (n < 1) {
                 return 0;
             }
 
             Set<Integer> bannedSet = new HashSet<>();
-            for(int val : banned) {
-                if(val <= n) {
+            for (int val : banned) {
+                if (val <= n) {
                     bannedSet.add(val);
                 }
             }
 
             int sum = 0;
             int count = 0;
-            for(int i = 1; i <= n; i++) {
-                if(bannedSet.contains(i)) {
+            for (int i = 1; i <= n; i++) {
+                if (bannedSet.contains(i)) {
                     continue;
                 }
 
                 sum += i;
-                if(sum > maxSum) {
+                if (sum > maxSum) {
                     break;
                 }
 
