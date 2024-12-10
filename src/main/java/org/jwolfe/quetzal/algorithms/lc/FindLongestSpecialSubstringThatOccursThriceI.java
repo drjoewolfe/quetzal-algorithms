@@ -6,7 +6,40 @@ import java.util.Map;
 public class FindLongestSpecialSubstringThatOccursThriceI {
     class Solution {
         public int maximumLength(String s) {
-            if(s == null || s.length() < 3) {
+            if (s == null || s.length() < 3) {
+                return 0;
+            }
+
+            int n = s.length();
+            int maxLength = -1;
+
+            Map<String, Integer> map = new HashMap<>();
+            for (int i = 0; i < n; i++) {
+                char c = s.charAt(i);
+                StringBuilder builder = new StringBuilder();
+
+                for (int j = i; j < n; j++) {
+                    if (s.charAt(j) != c) {
+                        break;
+                    }
+
+                    builder.append(c);
+                    String subStr = builder.toString();
+                    map.put(subStr, map.getOrDefault(subStr, 0) + 1);
+
+                    if (map.get(subStr) >= 3) {
+                        maxLength = Math.max(maxLength, subStr.length());
+                    }
+                }
+            }
+
+            return maxLength;
+        }
+    }
+
+    class Solution_Correct_1 {
+        public int maximumLength(String s) {
+            if (s == null || s.length() < 3) {
                 return 0;
             }
 
@@ -14,17 +47,17 @@ public class FindLongestSpecialSubstringThatOccursThriceI {
 
             int maxLength = -1;
             Map<String, Integer> map = new HashMap<>();
-            for(int i = 0; i < n; i++) {
+            for (int i = 0; i < n; i++) {
                 char c = s.charAt(i);
-                for(int j = i; j < n; j++) {
-                    if(c != s.charAt(j)) {
+                for (int j = i; j < n; j++) {
+                    if (c != s.charAt(j)) {
                         break;
                     }
 
                     String str = s.substring(i, j + 1);
                     map.put(str, map.getOrDefault(str, 0) + 1);
 
-                    if(map.get(str) >= 3) {
+                    if (map.get(str) >= 3) {
                         maxLength = Math.max(maxLength, str.length());
                     }
                 }
