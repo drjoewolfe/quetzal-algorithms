@@ -5,23 +5,49 @@ import java.util.PriorityQueue;
 public class TakeGiftsFromTheRichestPile {
     class Solution {
         public long pickGifts(int[] gifts, int k) {
-            if(gifts == null || gifts.length == 0 || k < 0) {
+            if (gifts == null || gifts.length == 0 || k < 0) {
+                return 0;
+            }
+
+            PriorityQueue<Integer> heap = new PriorityQueue<>((a, b) -> b - a);
+            for (int gift : gifts) {
+                heap.offer(gift);
+            }
+
+            while (k > 0) {
+                int gift = heap.poll();
+                heap.offer((int) Math.floor(Math.sqrt(gift)));
+                k--;
+            }
+
+            long sum = 0;
+            while (!heap.isEmpty()) {
+                sum += heap.poll();
+            }
+
+            return sum;
+        }
+    }
+
+    class Solution_Correct_1 {
+        public long pickGifts(int[] gifts, int k) {
+            if (gifts == null || gifts.length == 0 || k < 0) {
                 return 0;
             }
 
             PriorityQueue<Integer> maxHeap = new PriorityQueue<>((a, b) -> b - a);
-            for(int gift : gifts) {
+            for (int gift : gifts) {
                 maxHeap.offer(gift);
             }
 
-            while(k > 0) {
+            while (k > 0) {
                 int val = maxHeap.poll();
                 maxHeap.offer((int) Math.floor(Math.sqrt(val)));
                 k--;
             }
 
             long result = 0;
-            while(!maxHeap.isEmpty()) {
+            while (!maxHeap.isEmpty()) {
                 result += maxHeap.poll();
             }
 
