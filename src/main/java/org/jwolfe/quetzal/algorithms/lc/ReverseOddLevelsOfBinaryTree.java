@@ -27,6 +27,32 @@ public class ReverseOddLevelsOfBinaryTree {
                 return root;
             }
 
+            traverse(root.left, root.right, 1);
+            return root;
+        }
+
+        private void traverse(TreeNode left, TreeNode right, int level) {
+            if (left == null || right == null) {
+                return;
+            }
+
+            if (level % 2 == 1) {
+                int temp = left.val;
+                left.val = right.val;
+                right.val = temp;
+            }
+
+            traverse(left.left, right.right, level + 1);
+            traverse(left.right, right.left, level + 1);
+        }
+    }
+
+    class Solution_Correct_1 {
+        public TreeNode reverseOddLevels(TreeNode root) {
+            if (root == null) {
+                return root;
+            }
+
             Queue<TreeNode> queue = new LinkedList<>();
             queue.offer(root);
 
