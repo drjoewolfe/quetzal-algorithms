@@ -7,19 +7,48 @@ import java.util.Set;
 public class MinimumCostForTickets {
     class Solution {
         public int mincostTickets(int[] days, int[] costs) {
-            if(days == null || days.length == 0 || costs == null || costs.length != 3) {
+            if (days == null || days.length == 0 || costs == null || costs.length != 3) {
                 return 0;
             }
 
             Set<Integer> daySet = new HashSet<>();
-            for(int d : days) {
+            for (int d : days) {
+                daySet.add(d);
+            }
+
+            int[] dp = new int[400];
+            for (int d = 365; d >= 0; d--) {
+                if (daySet.contains(d)) {
+                    int c1 = costs[0] + dp[d + 1];
+                    int c2 = costs[1] + dp[d + 7];
+                    int c3 = costs[2] + dp[d + 30];
+
+                    dp[d] = Math.min(c1,
+                            Math.min(c2, c3));
+                } else {
+                    dp[d] = dp[d + 1];
+                }
+            }
+
+            return dp[1];
+        }
+    }
+
+    class Solution_Correct_DP {
+        public int mincostTickets(int[] days, int[] costs) {
+            if (days == null || days.length == 0 || costs == null || costs.length != 3) {
+                return 0;
+            }
+
+            Set<Integer> daySet = new HashSet<>();
+            for (int d : days) {
                 daySet.add(d);
             }
 
             int[] dp = new int[400];
 
-            for(int d = 365; d > 0; d--) {
-                if(daySet.contains(d)) {
+            for (int d = 365; d > 0; d--) {
+                if (daySet.contains(d)) {
                     dp[d] = Math.min(
                             costs[0] + dp[d + 1],
                             Math.min(
@@ -38,7 +67,7 @@ public class MinimumCostForTickets {
 
     class Solution_Memo {
         public int mincostTickets(int[] days, int[] costs) {
-            if(days == null || days.length == 0 || costs == null || costs.length != 3) {
+            if (days == null || days.length == 0 || costs == null || costs.length != 3) {
                 return 0;
             }
 
@@ -50,15 +79,15 @@ public class MinimumCostForTickets {
         }
 
         private int mincostTickets(int[] days, int[] costs, int n, int dayIndex, int validTill, int[] memo) {
-            while(dayIndex < n && days[dayIndex] <= validTill) {
+            while (dayIndex < n && days[dayIndex] <= validTill) {
                 dayIndex++;
             }
 
-            if(dayIndex == n) {
+            if (dayIndex == n) {
                 return 0;
             }
 
-            if(memo[dayIndex] != -1) {
+            if (memo[dayIndex] != -1) {
                 return memo[dayIndex];
             }
 
@@ -76,7 +105,7 @@ public class MinimumCostForTickets {
 
     class Solution_Brute {
         public int mincostTickets(int[] days, int[] costs) {
-            if(days == null || days.length == 0 || costs == null || costs.length != 3) {
+            if (days == null || days.length == 0 || costs == null || costs.length != 3) {
                 return 0;
             }
 
@@ -84,11 +113,11 @@ public class MinimumCostForTickets {
         }
 
         private int mincostTickets(int[] days, int[] costs, int n, int dayIndex, int validTill, int runningCost) {
-            while(dayIndex < n && days[dayIndex] <= validTill) {
+            while (dayIndex < n && days[dayIndex] <= validTill) {
                 dayIndex++;
             }
 
-            if(dayIndex == n) {
+            if (dayIndex == n) {
                 return runningCost;
             }
 
