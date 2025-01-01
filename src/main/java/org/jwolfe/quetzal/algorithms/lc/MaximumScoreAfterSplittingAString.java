@@ -5,7 +5,38 @@ import java.util.Arrays;
 public class MaximumScoreAfterSplittingAString {
     class Solution {
         public int maxScore(String s) {
-            if(s == null || s.length() < 2) {
+            if (s == null || s.length() < 2) {
+                return 0;
+            }
+
+            int n = s.length();
+            int totalOnes = 0;
+            int leftZeros = 0;
+            int maxLeftZeroOneDiff = Integer.MIN_VALUE;
+
+            for (int i = 0; i < n - 1; i++) {
+                char c = s.charAt(i);
+                if (c == '1') {
+                    totalOnes++;
+                } else {
+                    leftZeros++;
+                }
+
+                int leftZeroOneDiff = leftZeros - totalOnes;
+                maxLeftZeroOneDiff = Math.max(maxLeftZeroOneDiff, leftZeroOneDiff);
+            }
+
+            if (s.charAt(n - 1) == '1') {
+                totalOnes++;
+            }
+
+            return maxLeftZeroOneDiff + totalOnes;
+        }
+    }
+
+    class Solution_Correct_2 {
+        public int maxScore(String s) {
+            if (s == null || s.length() < 2) {
                 return 0;
             }
 
@@ -14,9 +45,9 @@ public class MaximumScoreAfterSplittingAString {
             int n = s.length();
 
             int zeroOneDiff = Integer.MIN_VALUE;
-            for(int i = 0; i < n - 1; i++) {
+            for (int i = 0; i < n - 1; i++) {
                 char c = s.charAt(i);
-                if(c == '1') {
+                if (c == '1') {
                     ones++;
                 } else {
                     zeros++;
@@ -25,7 +56,7 @@ public class MaximumScoreAfterSplittingAString {
                 zeroOneDiff = Math.max(zeroOneDiff, zeros - ones);
             }
 
-            if(s.charAt(n - 1) == '1') {
+            if (s.charAt(n - 1) == '1') {
                 ones++;
             }
 
@@ -35,7 +66,7 @@ public class MaximumScoreAfterSplittingAString {
 
     class Solution_Correct_1 {
         public int maxScore(String s) {
-            if(s == null || s.length() == 0) {
+            if (s == null || s.length() == 0) {
                 return 0;
             }
 
@@ -46,7 +77,7 @@ public class MaximumScoreAfterSplittingAString {
             left[0] = s.charAt(0) == '0' ? 1 : 0;
             right[n - 1] = s.charAt(n - 1) == '1' ? 1 : 0;
 
-            for(int i = 1; i < n; i++) {
+            for (int i = 1; i < n; i++) {
                 char lc = s.charAt(i);
                 char rc = s.charAt(n - i - 1);
 
@@ -55,7 +86,7 @@ public class MaximumScoreAfterSplittingAString {
             }
 
             int maxScore = 0;
-            for(int i = 0; i < n - 1; i++) {
+            for (int i = 0; i < n - 1; i++) {
                 int leftZeros = left[i];
                 int rightOnes = right[i + 1];
 
