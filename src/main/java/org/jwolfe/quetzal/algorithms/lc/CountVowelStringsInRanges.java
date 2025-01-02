@@ -3,27 +3,70 @@ package org.jwolfe.quetzal.algorithms.lc;
 public class CountVowelStringsInRanges {
     class Solution {
         public int[] vowelStrings(String[] words, int[][] queries) {
-            if(words == null || words.length == 0 || queries == null || queries.length == 0) {
+            if (words == null || words.length == 0 || queries == null || queries.length == 0) {
+                return new int[0];
+            }
+
+            int n = words.length;
+
+            // At index i, stores number of words that start & end with a vowel, before index i.
+            int[] oddCounts = new int[n + 1];
+            for (int i = 0; i < n; i++) {
+                String word = words[i];
+                oddCounts[i + 1] = oddCounts[i];
+
+                char sc = word.charAt(0);
+                char ec = word.charAt(word.length() - 1);
+                if (isVowel(sc) && isVowel(ec)) {
+                    oddCounts[i + 1]++;
+                }
+            }
+
+            int m = queries.length;
+            int[] results = new int[m];
+            for (int i = 0; i < m; i++) {
+                int[] query = queries[i];
+                int start = query[0];
+                int end = query[1];
+
+                results[i] = oddCounts[end + 1] - oddCounts[start];
+            }
+
+            return results;
+        }
+
+        private boolean isVowel(char c) {
+            return (c == 'a')
+                    || (c == 'e')
+                    || (c == 'i')
+                    || (c == 'o')
+                    || (c == 'u');
+        }
+    }
+
+    class Solution_Correct_1 {
+        public int[] vowelStrings(String[] words, int[][] queries) {
+            if (words == null || words.length == 0 || queries == null || queries.length == 0) {
                 return new int[0];
             }
 
             int n = words.length;
             int[] prefixCounts = new int[n + 1];
 
-            for(int i = 0; i < n; i++) {
+            for (int i = 0; i < n; i++) {
                 String word = words[i];
                 char sc = word.charAt(0);
                 char ec = word.charAt(word.length() - 1);
 
                 prefixCounts[i + 1] = prefixCounts[i];
-                if(isVowel(sc) && isVowel(ec)) {
+                if (isVowel(sc) && isVowel(ec)) {
                     prefixCounts[i + 1]++;
                 }
             }
 
             int m = queries.length;
             int[] results = new int[m];
-            for(int i = 0; i < m; i++) {
+            for (int i = 0; i < m; i++) {
                 int[] query = queries[i];
 
                 int left = query[0];
@@ -35,7 +78,7 @@ public class CountVowelStringsInRanges {
             return results;
         }
 
-        private boolean isVowel(char c)  {
+        private boolean isVowel(char c) {
             return c == 'a'
                     || c == 'e'
                     || c == 'i'
