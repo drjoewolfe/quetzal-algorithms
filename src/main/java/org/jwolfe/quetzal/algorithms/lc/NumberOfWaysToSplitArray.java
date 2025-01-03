@@ -3,22 +3,51 @@ package org.jwolfe.quetzal.algorithms.lc;
 public class NumberOfWaysToSplitArray {
     class Solution {
         public int waysToSplitArray(int[] nums) {
-            if(nums == null || nums.length < 2) {
+            if (nums == null || nums.length < 2) {
+                return 0;
+            }
+
+            long totalSum = 0;
+            for (int val : nums) {
+                totalSum += val;
+            }
+
+            int n = nums.length;
+            long leftSum = 0;
+            int ways = 0;
+            for (int i = 0; i < n - 1; i++) {
+                int val = nums[i];
+
+                leftSum += val;
+                long rightSum = totalSum - leftSum;
+
+                if (leftSum >= rightSum) {
+                    ways++;
+                }
+            }
+
+            return ways;
+        }
+    }
+
+    class Solution_Correct_1 {
+        public int waysToSplitArray(int[] nums) {
+            if (nums == null || nums.length < 2) {
                 return 0;
             }
 
             long sum = 0;
-            for(int a : nums) {
+            for (int a : nums) {
                 sum += a;
             }
 
             int validSplits = 0;
             long left = 0;
-            for(int i = 0; i < nums.length - 1; i++) {
+            for (int i = 0; i < nums.length - 1; i++) {
                 left += nums[i];
                 long right = sum - left;
 
-                if(left >= right) {
+                if (left >= right) {
                     validSplits++;
                 }
             }
