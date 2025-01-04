@@ -5,14 +5,57 @@ import java.util.*;
 public class UniqueLength3PalindromicSubsequences {
     class Solution {
         public int countPalindromicSubsequence(String s) {
-            if(s == null || s.length() < 3) {
+            if (s == null || s.length() < 3) {
+                return 0;
+            }
+
+            int[] firstIndex = new int[26];
+            int[] lastIndex = new int[26];
+
+            Arrays.fill(firstIndex, -1);
+            Arrays.fill(lastIndex, -1);
+
+            for (int i = 0; i < s.length(); i++) {
+                char c = s.charAt(i);
+                int index = c - 'a';
+
+                if (firstIndex[index] == -1) {
+                    firstIndex[index] = i;
+                }
+
+                lastIndex[index] = i;
+            }
+
+            int count = 0;
+            for (int i = 0; i < 26; i++) {
+                int a = firstIndex[i];
+                if (a == -1) {
+                    continue;
+                }
+
+                int b = lastIndex[i];
+                Set<Character> seen = new HashSet<>();
+                for (int j = a + 1; j < b; j++) {
+                    seen.add(s.charAt(j));
+                }
+
+                count += seen.size();
+            }
+
+            return count;
+        }
+    }
+
+    class Solution_Correct_1 {
+        public int countPalindromicSubsequence(String s) {
+            if (s == null || s.length() < 3) {
                 return 0;
             }
 
             Map<Character, List<Integer>> map = new HashMap<>();
-            for(int i = 0; i < s.length(); i++) {
+            for (int i = 0; i < s.length(); i++) {
                 char c = s.charAt(i);
-                if(!map.containsKey(c)) {
+                if (!map.containsKey(c)) {
                     map.put(c, new ArrayList<>());
                 }
 
@@ -20,13 +63,13 @@ public class UniqueLength3PalindromicSubsequences {
             }
 
             int count = 0;
-            for(var entry : map.entrySet()) {
+            for (var entry : map.entrySet()) {
                 var list = entry.getValue();
 
                 int i = list.get(0);
                 int k = list.get(list.size() - 1);
                 Set<Character> seen = new HashSet<>();
-                for(int j = i + 1; j < k; j++) {
+                for (int j = i + 1; j < k; j++) {
                     seen.add(s.charAt(j));
                 }
 
@@ -39,14 +82,14 @@ public class UniqueLength3PalindromicSubsequences {
 
     class Solution_TLE {
         public int countPalindromicSubsequence(String s) {
-            if(s == null || s.length() < 3) {
+            if (s == null || s.length() < 3) {
                 return 0;
             }
 
             Map<Character, List<Integer>> map = new HashMap<>();
-            for(int i = 0; i < s.length(); i++) {
+            for (int i = 0; i < s.length(); i++) {
                 char c = s.charAt(i);
-                if(!map.containsKey(c)) {
+                if (!map.containsKey(c)) {
                     map.put(c, new ArrayList<>());
                 }
 
@@ -54,17 +97,17 @@ public class UniqueLength3PalindromicSubsequences {
             }
 
             int count = 0;
-            for(var entry : map.entrySet()) {
+            for (var entry : map.entrySet()) {
                 var list = entry.getValue();
 
                 Set<Character> seen = new HashSet<>();
-                for(int i = 0; i < list.size() - 1; i++) {
+                for (int i = 0; i < list.size() - 1; i++) {
                     int ii = list.get(i);
-                    for(int k = i + 1; k < list.size(); k++) {
+                    for (int k = i + 1; k < list.size(); k++) {
                         int kk = list.get(k);
-                        for(int jj = ii + 1; jj < kk; jj++) {
+                        for (int jj = ii + 1; jj < kk; jj++) {
                             char c = s.charAt(jj);
-                            if(!seen.contains(c)) {
+                            if (!seen.contains(c)) {
                                 count++;
                                 seen.add(c);
                             }
