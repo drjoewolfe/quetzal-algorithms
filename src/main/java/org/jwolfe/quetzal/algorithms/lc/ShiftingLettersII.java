@@ -3,18 +3,65 @@ package org.jwolfe.quetzal.algorithms.lc;
 public class ShiftingLettersII {
     class Solution {
         public String shiftingLetters(String s, int[][] shifts) {
-            if(s == null || s.length() == 0 || shifts == null || shifts.length == 0) {
+            if (s == null || s.length() == 0 || shifts == null || shifts.length == 0) {
+                return s;
+            }
+
+            int n = s.length();
+            int[] diffs = new int[n + 1];
+            for (int[] shift : shifts) {
+                int from = shift[0];
+                int to = shift[1];
+                int direction = shift[2];
+
+                if (direction == 1) {
+                    diffs[from]++;
+                    diffs[to + 1]--;
+                } else {
+                    diffs[from]--;
+                    diffs[to + 1]++;
+                }
+            }
+
+            for (int i = 1; i < n; i++) {
+                diffs[i] += diffs[i - 1];
+            }
+
+            StringBuilder result = new StringBuilder();
+            for (int i = 0; i < n; i++) {
+                char c = s.charAt(i);
+
+                int diff = diffs[i] % 26;
+                if (diff == 0) {
+                    result.append(c);
+                } else {
+                    if (diff < 0) {
+                        diff += 26;
+                    }
+
+                    char nc = (char) ('a' + (c - 'a' + diff) % 26);
+                    result.append(nc);
+                }
+            }
+
+            return result.toString();
+        }
+    }
+
+    class Solution_Correct_1 {
+        public String shiftingLetters(String s, int[][] shifts) {
+            if (s == null || s.length() == 0 || shifts == null || shifts.length == 0) {
                 return s;
             }
 
             int n = s.length();
             int[] line = new int[n + 1];
-            for(int[] shift : shifts) {
+            for (int[] shift : shifts) {
                 int start = shift[0];
                 int end = shift[1];
                 int direction = shift[2];
 
-                if(direction == 1) {
+                if (direction == 1) {
                     line[start]++;
                     line[end + 1]--;
                 } else {
@@ -23,21 +70,21 @@ public class ShiftingLettersII {
                 }
             }
 
-            for(int i = 1; i < n; i++) {
+            for (int i = 1; i < n; i++) {
                 line[i] += line[i - 1];
             }
 
             StringBuilder builder = new StringBuilder(s);
-            for(int i = 0; i < n; i++) {
+            for (int i = 0; i < n; i++) {
                 int shiftCount = line[i];
                 char c = s.charAt(i);
 
-                if(shiftCount == 0) {
+                if (shiftCount == 0) {
                     continue;
                 }
 
                 int nci = ((c - 'a') + shiftCount) % 26;
-                if(nci < 0) {
+                if (nci < 0) {
                     nci += 26;
                 }
 
@@ -51,19 +98,19 @@ public class ShiftingLettersII {
 
     class Solution_TLE {
         public String shiftingLetters(String s, int[][] shifts) {
-            if(s == null || s.length() == 0 || shifts == null || shifts.length == 0) {
+            if (s == null || s.length() == 0 || shifts == null || shifts.length == 0) {
                 return s;
             }
 
             int n = s.length();
             int[] cumulativeShifts = new int[n];
-            for(int[] shift : shifts) {
+            for (int[] shift : shifts) {
                 int start = shift[0];
                 int end = shift[1];
                 int direction = shift[2];
 
-                for(int i = start; i <= end; i++) {
-                    if(direction == 1) {
+                for (int i = start; i <= end; i++) {
+                    if (direction == 1) {
                         cumulativeShifts[i]++;
                     } else {
                         cumulativeShifts[i]--;
@@ -72,16 +119,16 @@ public class ShiftingLettersII {
             }
 
             StringBuilder builder = new StringBuilder(s);
-            for(int i = 0; i < n; i++) {
+            for (int i = 0; i < n; i++) {
                 int shiftCount = cumulativeShifts[i];
                 char c = s.charAt(i);
 
-                if(shiftCount == 0) {
+                if (shiftCount == 0) {
                     continue;
                 }
 
                 int nci = ((c - 'a') + shiftCount) % 26;
-                if(nci < 0) {
+                if (nci < 0) {
                     nci += 26;
                 }
 
@@ -93,7 +140,7 @@ public class ShiftingLettersII {
         }
 
         private void print(int[] arr) {
-            for(int c : arr) {
+            for (int c : arr) {
                 System.out.print(c + " ");
             }
 
