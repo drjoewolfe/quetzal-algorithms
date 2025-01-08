@@ -3,21 +3,45 @@ package org.jwolfe.quetzal.algorithms.lc;
 public class CountPrefixAndSuffixPairsI {
     class Solution {
         public int countPrefixSuffixPairs(String[] words) {
-            if(words == null || words.length == 0) {
+            if (words == null || words.length < 2) {
                 return 0;
             }
 
             int count = 0;
             int n = words.length;
-            for(int i = 0; i < n; i++) {
+            for (int i = 0; i < n - 1; i++) {
+                String word1 = words[i];
+
+                for (int j = i + 1; j < n; j++) {
+                    String word2 = words[j];
+
+                    if (word2.startsWith(word1) && word2.endsWith(word1)) {
+                        count++;
+                    }
+                }
+            }
+
+            return count;
+        }
+    }
+
+    class Solution_Correct_1 {
+        public int countPrefixSuffixPairs(String[] words) {
+            if (words == null || words.length == 0) {
+                return 0;
+            }
+
+            int count = 0;
+            int n = words.length;
+            for (int i = 0; i < n; i++) {
                 String str1 = words[i];
-                for(int j = i + 1; j < n; j++) {
+                for (int j = i + 1; j < n; j++) {
                     String str2 = words[j];
-                    if(str1.length() > str2.length()) {
+                    if (str1.length() > str2.length()) {
                         continue;
                     }
 
-                    if(isPrefixAndSuffix(str1, str2)) {
+                    if (isPrefixAndSuffix(str1, str2)) {
                         count++;
                     }
                 }
@@ -27,7 +51,7 @@ public class CountPrefixAndSuffixPairsI {
         }
 
         private boolean isPrefixAndSuffix(String str1, String str2) {
-            if(str2.startsWith(str1) && str2.endsWith(str1)) {
+            if (str2.startsWith(str1) && str2.endsWith(str1)) {
                 return true;
             }
 
