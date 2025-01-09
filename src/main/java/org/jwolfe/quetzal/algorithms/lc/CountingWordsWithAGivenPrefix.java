@@ -3,10 +3,27 @@ package org.jwolfe.quetzal.algorithms.lc;
 public class CountingWordsWithAGivenPrefix {
     class Solution {
         public int prefixCount(String[] words, String pref) {
+            if (words == null) {
+                return 0;
+            }
+
+            int count = 0;
+            for (String word : words) {
+                if (word.startsWith(pref)) {
+                    count++;
+                }
+            }
+
+            return count;
+        }
+    }
+
+    class Solution_Correct_1 {
+        public int prefixCount(String[] words, String pref) {
             int count = 0;
 
-            for(String word : words) {
-                if(word.startsWith(pref)) {
+            for (String word : words) {
+                if (word.startsWith(pref)) {
                     count++;
                 }
             }
