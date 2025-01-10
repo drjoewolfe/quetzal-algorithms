@@ -8,12 +8,64 @@ public class WordSubsets {
     class Solution {
         public List<String> wordSubsets(String[] A, String[] B) {
             List<String> universals = new ArrayList<>();
-            if(A == null || A.length == 0) {
+            if (A == null || A.length == 0) {
                 return universals;
             }
 
-            if(B == null || B.length == 0) {
-                for(String a : A) {
+            if (B == null || B.length == 0) {
+                for (String word : A) {
+                    universals.add(word);
+                }
+
+                return universals;
+            }
+
+            int[] bFrequencies = new int[26];
+            for (String word : B) {
+                int[] frequencies = countFrequencies(word);
+                for (int i = 0; i < 26; i++) {
+                    bFrequencies[i] = Math.max(bFrequencies[i], frequencies[i]);
+                }
+            }
+
+            for (String word : A) {
+                int[] frequencies = countFrequencies(word);
+                boolean isUniversal = true;
+                for (int i = 0; i < 26; i++) {
+                    if (frequencies[i] < bFrequencies[i]) {
+                        isUniversal = false;
+                        break;
+                    }
+                }
+
+                if (isUniversal) {
+                    universals.add(word);
+                }
+            }
+
+            return universals;
+        }
+
+        private int[] countFrequencies(String word) {
+            int[] frequencies = new int[26];
+            for (int i = 0; i < word.length(); i++) {
+                char c = word.charAt(i);
+                frequencies[c - 'a']++;
+            }
+
+            return frequencies;
+        }
+    }
+
+    class Solution_Correct_1 {
+        public List<String> wordSubsets(String[] A, String[] B) {
+            List<String> universals = new ArrayList<>();
+            if (A == null || A.length == 0) {
+                return universals;
+            }
+
+            if (B == null || B.length == 0) {
+                for (String a : A) {
                     universals.add(a);
                 }
 
@@ -21,33 +73,33 @@ public class WordSubsets {
             }
 
             int[] bFrequencies = new int[26];
-            for(String b : B) {
+            for (String b : B) {
                 int[] frequencies = new int[26];
-                for(int j = 0; j < b.length(); j++) {
+                for (int j = 0; j < b.length(); j++) {
                     frequencies[b.charAt(j) - 'a']++;
                 }
 
-                for(int j = 0; j < 26; j++) {
+                for (int j = 0; j < 26; j++) {
                     bFrequencies[j] = Math.max(bFrequencies[j], frequencies[j]);
                 }
             }
 
             int[] aFrequencies = new int[26];
-            for(String a : A) {
+            for (String a : A) {
                 Arrays.fill(aFrequencies, 0);
-                for(int i = 0; i < a.length(); i++) {
+                for (int i = 0; i < a.length(); i++) {
                     aFrequencies[a.charAt(i) - 'a']++;
                 }
 
                 boolean isUniversal = true;
-                for(int j = 0; j < 26; j++) {
-                    if(bFrequencies[j] > aFrequencies[j]) {
+                for (int j = 0; j < 26; j++) {
+                    if (bFrequencies[j] > aFrequencies[j]) {
                         isUniversal = false;
                         break;
                     }
                 }
 
-                if(isUniversal) {
+                if (isUniversal) {
                     universals.add(a);
                 }
             }
@@ -59,12 +111,12 @@ public class WordSubsets {
     class Solution_Classic {
         public List<String> wordSubsets(String[] A, String[] B) {
             List<String> universals = new ArrayList<>();
-            if(A == null || A.length == 0) {
+            if (A == null || A.length == 0) {
                 return universals;
             }
 
-            if(B == null || B.length == 0) {
-                for(String a : A) {
+            if (B == null || B.length == 0) {
+                for (String a : A) {
                     universals.add(a);
                 }
 
@@ -72,9 +124,9 @@ public class WordSubsets {
             }
 
             List<int[]> bFrequencyList = new ArrayList<>();
-            for(String b : B) {
+            for (String b : B) {
                 int[] bFrequencies = new int[26];
-                for(int j = 0; j < b.length(); j++) {
+                for (int j = 0; j < b.length(); j++) {
                     bFrequencies[b.charAt(j) - 'a']++;
                 }
 
@@ -82,27 +134,27 @@ public class WordSubsets {
             }
 
             int[] aFrequencies = new int[26];
-            for(String a : A) {
+            for (String a : A) {
                 Arrays.fill(aFrequencies, 0);
-                for(int i = 0; i < a.length(); i++) {
+                for (int i = 0; i < a.length(); i++) {
                     aFrequencies[a.charAt(i) - 'a']++;
                 }
 
                 boolean isUniversal = true;
-                for(int[] bFrequencies : bFrequencyList) {
-                    for(int j = 0; j < 26; j++) {
-                        if(bFrequencies[j] > aFrequencies[j]) {
+                for (int[] bFrequencies : bFrequencyList) {
+                    for (int j = 0; j < 26; j++) {
+                        if (bFrequencies[j] > aFrequencies[j]) {
                             isUniversal = false;
                             break;
                         }
                     }
 
-                    if(!isUniversal) {
+                    if (!isUniversal) {
                         break;
                     }
                 }
 
-                if(isUniversal) {
+                if (isUniversal) {
                     universals.add(a);
                 }
             }
