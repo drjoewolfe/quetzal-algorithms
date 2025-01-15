@@ -3,34 +3,80 @@ package org.jwolfe.quetzal.algorithms.lc;
 public class MinimizeXOR {
     class Solution {
         public int minimizeXor(int num1, int num2) {
+            int answer = num1;
+
+            int target = countBits(num2);
+            int current = countBits(num1);
+            int position = 0;
+
+            while (current < target) {
+                if (!isSet(answer, position)) {
+                    answer = setBit(answer, position);
+                    current++;
+                }
+
+                position++;
+            }
+
+            while (current > target) {
+                if (isSet(answer, position)) {
+                    answer = unSetBit(answer, position);
+                    current--;
+                }
+
+                position++;
+            }
+
+            return answer;
+        }
+
+        private int countBits(int num) {
+            return Integer.bitCount(num);
+        }
+
+        private boolean isSet(int num, int pos) {
+            return (num & (1 << pos)) > 0;
+        }
+
+        private int setBit(int num, int pos) {
+            return num | (1 << pos);
+        }
+
+        private int unSetBit(int num, int pos) {
+            return num & ~(1 << pos);
+        }
+    }
+
+    class Solution_Correct_1 {
+        public int minimizeXor(int num1, int num2) {
             int numBits2 = getNumSetBits(num2);
             int numBits1 = getNumSetBits(num1);
 
-            if(numBits1 < numBits2) {
+            if (numBits1 < numBits2) {
                 int delta = numBits2 - numBits1;
 
                 // set the delta least important bits of nums1
-                for(int i = 0; i < 32; i++) {
-                    if((num1 & (1 << i)) == 0) {
+                for (int i = 0; i < 32; i++) {
+                    if ((num1 & (1 << i)) == 0) {
                         num1 |= (1 << i);
                         delta--;
 
-                        if(delta == 0) {
+                        if (delta == 0) {
                             break;
                         }
                     }
                 }
 
-            } else if(numBits1 > numBits2) {
+            } else if (numBits1 > numBits2) {
                 int delta = numBits1 - numBits2;
 
                 // unset the delta least important bits of nums1
-                for(int i = 0; i < 32; i++) {
-                    if((num1 & (1 << i)) > 0) {
+                for (int i = 0; i < 32; i++) {
+                    if ((num1 & (1 << i)) > 0) {
                         num1 ^= (1 << i);
                         delta--;
 
-                        if(delta == 0) {
+                        if (delta == 0) {
                             break;
                         }
                     }
@@ -42,8 +88,8 @@ public class MinimizeXOR {
 
         private int getNumSetBits(int num) {
             int count = 0;
-            for(int i = 0; i < 32; i++) {
-                if((num & (1 << i)) > 0) {
+            for (int i = 0; i < 32; i++) {
+                if ((num & (1 << i)) > 0) {
                     count++;
                 }
             }
