@@ -3,7 +3,7 @@ package org.jwolfe.quetzal.algorithms.lc;
 public class BitwiseXOROfAllPairings {
     class Solution {
         public int xorAllNums(int[] nums1, int[] nums2) {
-            if(nums1 == null || nums2 == null || nums1.length == 0 || nums2.length == 0) {
+            if (nums1 == null || nums2 == null || nums1.length == 0 || nums2.length == 0) {
                 return 0;
             }
 
@@ -11,14 +11,40 @@ public class BitwiseXOROfAllPairings {
             int n = nums2.length;
 
             int result = 0;
-            if(n % 2 != 0) {
-                for(int i = 0; i < m; i++) {
+            if (n % 2 != 0) {
+                for (int i = 0; i < m; i++) {
                     result ^= nums1[i];
                 }
             }
 
-            if(m % 2 != 0) {
-                for(int i = 0; i < n; i++) {
+            if (m % 2 != 0) {
+                for (int i = 0; i < n; i++) {
+                    result ^= nums2[i];
+                }
+            }
+
+            return result;
+        }
+    }
+
+    class Solution_Correct_1 {
+        public int xorAllNums(int[] nums1, int[] nums2) {
+            if (nums1 == null || nums2 == null || nums1.length == 0 || nums2.length == 0) {
+                return 0;
+            }
+
+            int m = nums1.length;
+            int n = nums2.length;
+
+            int result = 0;
+            if (n % 2 != 0) {
+                for (int i = 0; i < m; i++) {
+                    result ^= nums1[i];
+                }
+            }
+
+            if (m % 2 != 0) {
+                for (int i = 0; i < n; i++) {
                     result ^= nums2[i];
                 }
             }
@@ -29,7 +55,7 @@ public class BitwiseXOROfAllPairings {
 
     class Solution_N2_TLE {
         public int xorAllNums(int[] nums1, int[] nums2) {
-            if(nums1 == null || nums2 == null || nums1.length == 0 || nums2.length == 0) {
+            if (nums1 == null || nums2 == null || nums1.length == 0 || nums2.length == 0) {
                 return 0;
             }
 
@@ -37,8 +63,8 @@ public class BitwiseXOROfAllPairings {
             int n = nums2.length;
 
             int result = 0;
-            for(int i = 0; i < m; i++) {
-                for(int j = 0; j < n; j++) {
+            for (int i = 0; i < m; i++) {
+                for (int j = 0; j < n; j++) {
                     int xor = nums1[i] ^ nums2[j];
                     result ^= xor;
                 }
