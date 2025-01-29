@@ -5,17 +5,81 @@ import java.util.*;
 public class RedundantConnection {
     class Solution {
         public int[] findRedundantConnection(int[][] edges) {
-            if(edges == null || edges.length == 0) {
+            if (edges == null || edges.length == 0) {
                 return new int[0];
             }
 
             int n = edges.length;
             DisjointSet set = new DisjointSet(n + 1);
-            for(int[] edge : edges) {
+
+            for (int[] edge : edges) {
                 int u = edge[0];
                 int v = edge[1];
 
-                if(set.find(u) == set.find(v)) {
+                if (set.find(u) == set.find(v)) {
+                    return edge;
+                }
+
+                set.union(u, v);
+            }
+
+            return new int[0];
+        }
+
+        private class DisjointSet {
+            int[] representative;
+            int[] rank;
+
+            public DisjointSet(int n) {
+                representative = new int[n];
+                rank = new int[n];
+
+                for (int u = 0; u < n; u++) {
+                    representative[u] = u;
+                }
+
+                Arrays.fill(rank, 1);
+            }
+
+            private int find(int u) {
+                int r = representative[u];
+                if (r != u) {
+                    r = find(r);
+                }
+
+                representative[u] = r;
+                return r;
+            }
+
+            private void union(int u, int v) {
+                int ur = find(u);
+                int vr = find(v);
+
+                if (rank[ur] > rank[vr]) {
+                    representative[vr] = ur;
+                } else if (rank[ur] < rank[vr]) {
+                    representative[ur] = vr;
+                } else {
+                    representative[vr] = ur;
+                    rank[ur]++;
+                }
+            }
+        }
+    }
+
+    class Solution_UnionFind_2 {
+        public int[] findRedundantConnection(int[][] edges) {
+            if (edges == null || edges.length == 0) {
+                return new int[0];
+            }
+
+            int n = edges.length;
+            DisjointSet set = new DisjointSet(n + 1);
+            for (int[] edge : edges) {
+                int u = edge[0];
+                int v = edge[1];
+
+                if (set.find(u) == set.find(v)) {
                     // Already a connection exists between u & v
                     return edge;
                 }
@@ -34,7 +98,7 @@ public class RedundantConnection {
                 parent = new int[n];
                 rank = new int[n];
 
-                for(int i = 0; i < n; i++) {
+                for (int i = 0; i < n; i++) {
                     parent[i] = i;
                 }
 
@@ -45,9 +109,9 @@ public class RedundantConnection {
                 int up = find(u);
                 int vp = find(v);
 
-                if(rank[up] > rank[vp]) {
+                if (rank[up] > rank[vp]) {
                     parent[vp] = up;
-                } else if(rank[up] < rank[vp]) {
+                } else if (rank[up] < rank[vp]) {
                     parent[up] = vp;
                 } else {
                     parent[up] = vp;
@@ -57,7 +121,7 @@ public class RedundantConnection {
 
             public int find(int u) {
                 int p = u;
-                if(parent[u] != u) {
+                if (parent[u] != u) {
                     p = find(parent[u]);
                 }
 
@@ -66,7 +130,7 @@ public class RedundantConnection {
             }
 
             private void print() {
-                for(int p : parent) {
+                for (int p : parent) {
                     System.out.print(p + " ");
                 }
 
@@ -77,17 +141,17 @@ public class RedundantConnection {
 
     class Solution_UnionFind {
         public int[] findRedundantConnection(int[][] edges) {
-            if(edges == null || edges.length == 0) {
+            if (edges == null || edges.length == 0) {
                 return new int[0];
             }
 
             int n = edges.length;
             DisjointSet set = new DisjointSet(n + 1);
-            for(int[] edge : edges) {
+            for (int[] edge : edges) {
                 int u = edge[0];
                 int v = edge[1];
 
-                if(set.find(u) == set.find(v)) {
+                if (set.find(u) == set.find(v)) {
                     // Already a connection exists between u & v
                     return edge;
                 }
@@ -104,7 +168,7 @@ public class RedundantConnection {
             public DisjointSet(int n) {
                 parent = new int[n];
 
-                for(int i = 0; i < n; i++) {
+                for (int i = 0; i < n; i++) {
                     parent[i] = i;
                 }
             }
@@ -117,7 +181,7 @@ public class RedundantConnection {
             }
 
             public int find(int u) {
-                if(parent[u] != u) {
+                if (parent[u] != u) {
                     return find(parent[u]);
                 }
 
@@ -128,25 +192,25 @@ public class RedundantConnection {
 
     class Solution_DFS {
         public int[] findRedundantConnection(int[][] edges) {
-            if(edges == null || edges.length == 0) {
+            if (edges == null || edges.length == 0) {
                 return new int[0];
             }
 
             Map<Integer, List<Integer>> graph = new HashMap<>();
-            for(int[] edge : edges) {
+            for (int[] edge : edges) {
                 int u = edge[0];
                 int v = edge[1];
 
-                if(canReach(graph, u, v)) {
+                if (canReach(graph, u, v)) {
                     // Already a connection exists between u & v
                     return edge;
                 }
 
-                if(!graph.containsKey(u)) {
+                if (!graph.containsKey(u)) {
                     graph.put(u, new ArrayList<>());
                 }
 
-                if(!graph.containsKey(v)) {
+                if (!graph.containsKey(v)) {
                     graph.put(v, new ArrayList<>());
                 }
 
@@ -163,18 +227,18 @@ public class RedundantConnection {
         }
 
         private boolean canReach(Map<Integer, List<Integer>> graph, int u, int destination, Set<Integer> visited) {
-            if(u == destination) {
+            if (u == destination) {
                 return true;
             }
 
-            if(visited.contains(u)) {
+            if (visited.contains(u)) {
                 return false;
             }
 
             visited.add(u);
-            if(graph.containsKey(u)) {
-                for(int v : graph.get(u)) {
-                    if(canReach(graph, v, destination, visited)) {
+            if (graph.containsKey(u)) {
+                for (int v : graph.get(u)) {
+                    if (canReach(graph, v, destination, visited)) {
                         return true;
                     }
                 }
