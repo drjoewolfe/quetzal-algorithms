@@ -3,7 +3,35 @@ package org.jwolfe.quetzal.algorithms.lc;
 public class CheckIfArrayIsSortedAndRotated {
     class Solution {
         public boolean check(int[] nums) {
-            if(nums == null || nums.length < 3) {
+            if (nums == null || nums.length < 3) {
+                return true;
+            }
+
+            int n = nums.length;
+            int inversions = 0;
+            for (int i = 1; i < n; i++) {
+                int curr = nums[i];
+                int prev = nums[i - 1];
+
+                if (prev > curr) {
+                    inversions++;
+                }
+            }
+
+            int first = nums[0];
+            int last = nums[n - 1];
+
+            if (first < last) {
+                inversions++;
+            }
+
+            return inversions < 2;
+        }
+    }
+
+    class Solution_Correct_1 {
+        public boolean check(int[] nums) {
+            if (nums == null || nums.length < 3) {
                 return true;
             }
 
@@ -11,9 +39,9 @@ public class CheckIfArrayIsSortedAndRotated {
             int index = binarySearchForLeast(nums);
 
             int prev = nums[index];
-            for(int i = 1; i < n; i++) {
+            for (int i = 1; i < n; i++) {
                 int curr = nums[(index + i) % n];
-                if(curr < prev) {
+                if (curr < prev) {
                     return false;
                 }
 
@@ -26,7 +54,7 @@ public class CheckIfArrayIsSortedAndRotated {
         private int binarySearchForLeast(int[] nums) {
             int n = nums.length;
 
-            if(nums[0] < nums[n - 1]) {
+            if (nums[0] < nums[n - 1]) {
                 return 0;
             }
 
@@ -34,12 +62,12 @@ public class CheckIfArrayIsSortedAndRotated {
             int right = n - 1;
             int end = n - 1;
 
-            while(left <= right) {
+            while (left <= right) {
                 int mid = left + (right - left) / 2;
 
-                if(mid != end && nums[mid] > nums[mid + 1]) {
+                if (mid != end && nums[mid] > nums[mid + 1]) {
                     return mid + 1;
-                } else if(nums[mid] >= nums[left]) {
+                } else if (nums[mid] >= nums[left]) {
                     left = mid + 1;
                 } else {
                     right = mid - 1;
@@ -52,7 +80,7 @@ public class CheckIfArrayIsSortedAndRotated {
 
     class Solution_Incorrect {
         public boolean check(int[] nums) {
-            if(nums == null || nums.length < 3) {
+            if (nums == null || nums.length < 3) {
                 return true;
             }
 
@@ -61,15 +89,15 @@ public class CheckIfArrayIsSortedAndRotated {
             int last = nums[n - 1];
             int falls = 0;
 
-            for(int i = 1; i < n; i++) {
+            for (int i = 1; i < n; i++) {
                 int curr = nums[i];
-                if(curr < prev) {
-                    if(prev < last) {
+                if (curr < prev) {
+                    if (prev < last) {
                         return false;
                     }
 
                     falls++;
-                    if(falls > 1) {
+                    if (falls > 1) {
                         return false;
                     }
                 }
