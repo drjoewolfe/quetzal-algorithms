@@ -3,7 +3,42 @@ package org.jwolfe.quetzal.algorithms.lc;
 public class LongestStrictlyIncreasingOrStrictlyDecreasingSubarray {
     class Solution {
         public int longestMonotonicSubarray(int[] nums) {
-            if(nums == null || nums.length == 0) {
+            if (nums == null || nums.length == 0) {
+                return 0;
+            }
+
+            int n = nums.length;
+
+            int maxLength = 1;
+            int incrLength = 1;
+            int decrLength = 1;
+
+            for (int i = 1; i < n; i++) {
+                int prev = nums[i - 1];
+                int curr = nums[i];
+
+                if (prev < curr) {
+                    incrLength++;
+                    decrLength = 1;
+                } else if (prev > curr) {
+                    incrLength = 1;
+                    decrLength++;
+                } else {
+                    incrLength = 1;
+                    decrLength = 1;
+                }
+
+                maxLength = Math.max(maxLength,
+                        Math.max(incrLength, decrLength));
+            }
+
+            return maxLength;
+        }
+    }
+
+    class Solution_Correct_1 {
+        public int longestMonotonicSubarray(int[] nums) {
+            if (nums == null || nums.length == 0) {
                 return 0;
             }
 
@@ -11,14 +46,14 @@ public class LongestStrictlyIncreasingOrStrictlyDecreasingSubarray {
             int incrLength = 1;
             int decrLength = 1;
 
-            for(int i = 1; i < nums.length; i++) {
+            for (int i = 1; i < nums.length; i++) {
                 int prev = nums[i - 1];
                 int curr = nums[i];
 
-                if(prev < curr) {
+                if (prev < curr) {
                     incrLength++;
                     decrLength = 1;
-                } else if(prev > curr) {
+                } else if (prev > curr) {
                     incrLength = 1;
                     decrLength++;
                 } else {
