@@ -3,7 +3,35 @@ package org.jwolfe.quetzal.algorithms.lc;
 public class MaximumAscendingSubarraySum {
     class Solution {
         public int maxAscendingSum(int[] nums) {
-            if(nums == null || nums.length == 0) {
+            if (nums == null || nums.length == 0) {
+                return 0;
+            }
+
+            int n = nums.length;
+            int maxSum = nums[0];
+            int currSum = nums[0];
+            int prev = nums[0];
+
+            for (int i = 1; i < n; i++) {
+                int curr = nums[i];
+
+                if (prev < curr) {
+                    currSum += curr;
+                } else {
+                    currSum = curr;
+                }
+
+                maxSum = Math.max(maxSum, currSum);
+                prev = curr;
+            }
+
+            return maxSum;
+        }
+    }
+
+    class Solution_Correct_1 {
+        public int maxAscendingSum(int[] nums) {
+            if (nums == null || nums.length == 0) {
                 return 0;
             }
 
@@ -11,9 +39,9 @@ public class MaximumAscendingSubarraySum {
             int runningSum = nums[0];
             int prev = nums[0];
 
-            for(int i = 1; i < nums.length; i++) {
+            for (int i = 1; i < nums.length; i++) {
                 int curr = nums[i];
-                if(curr <= prev) {
+                if (curr <= prev) {
                     runningSum = curr;
                 } else {
 
