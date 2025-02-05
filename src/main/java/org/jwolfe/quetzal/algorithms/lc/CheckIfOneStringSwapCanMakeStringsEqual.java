@@ -3,25 +3,34 @@ package org.jwolfe.quetzal.algorithms.lc;
 public class CheckIfOneStringSwapCanMakeStringsEqual {
     class Solution {
         public boolean areAlmostEqual(String s1, String s2) {
-            if(s1 == null || s2 == null || s1.length() != s2.length()) {
+            if (s1 == null && s2 == null) {
+                return true;
+            }
+
+            if (s1 == null || s2 == null) {
                 return false;
             }
 
+            if (s1.length() != s2.length()) {
+                return false;
+            }
+
+            int n = s1.length();
             int diffCount = 0;
             int index1 = -1;
             int index2 = -1;
-            for(int i = 0; i < s1.length(); i++) {
+
+            for (int i = 0; i < n; i++) {
                 char c1 = s1.charAt(i);
                 char c2 = s2.charAt(i);
 
-                if(c1 != c2) {
+                if (c1 != c2) {
                     diffCount++;
-
-                    if(diffCount > 2) {
+                    if (diffCount > 2) {
                         return false;
                     }
 
-                    if(index1 == -1) {
+                    if (index1 == -1) {
                         index1 = i;
                     } else {
                         index2 = i;
@@ -29,7 +38,43 @@ public class CheckIfOneStringSwapCanMakeStringsEqual {
                 }
             }
 
-            if(diffCount == 0) {
+            return
+                    (diffCount == 0)
+                            || (diffCount == 2
+                            && (s1.charAt(index1) == s2.charAt(index2))
+                            && (s1.charAt(index2) == s2.charAt(index1)));
+        }
+    }
+
+    class Solution_Correct_1 {
+        public boolean areAlmostEqual(String s1, String s2) {
+            if (s1 == null || s2 == null || s1.length() != s2.length()) {
+                return false;
+            }
+
+            int diffCount = 0;
+            int index1 = -1;
+            int index2 = -1;
+            for (int i = 0; i < s1.length(); i++) {
+                char c1 = s1.charAt(i);
+                char c2 = s2.charAt(i);
+
+                if (c1 != c2) {
+                    diffCount++;
+
+                    if (diffCount > 2) {
+                        return false;
+                    }
+
+                    if (index1 == -1) {
+                        index1 = i;
+                    } else {
+                        index2 = i;
+                    }
+                }
+            }
+
+            if (diffCount == 0) {
                 return true;
             }
 
