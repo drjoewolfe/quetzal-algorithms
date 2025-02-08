@@ -6,22 +6,65 @@ import java.util.TreeSet;
 
 public class DesignANumberContainerSystem {
     class NumberContainers {
+        Map<Integer, Integer> indexToNumber;
+        Map<Integer, TreeSet<Integer>> numberToIndices;
+
+        public NumberContainers() {
+            indexToNumber = new HashMap<>();
+            numberToIndices = new HashMap<>();
+        }
+
+        public void change(int index, int number) {
+            if (indexToNumber.containsKey(index)) {
+                int prevNumber = indexToNumber.get(index);
+                var set = numberToIndices.get(prevNumber);
+                if (set.size() == 1) {
+                    numberToIndices.remove(prevNumber);
+                } else {
+                    set.remove(index);
+                }
+
+                register(index, number);
+            } else {
+                register(index, number);
+            }
+        }
+
+        public int find(int number) {
+            if (!numberToIndices.containsKey(number)) {
+                return -1;
+            }
+
+            return numberToIndices.get(number).first();
+        }
+
+        private void register(int index, int number) {
+            indexToNumber.put(index, number);
+            if (!numberToIndices.containsKey(number)) {
+                numberToIndices.put(number, new TreeSet<>());
+            }
+
+            numberToIndices.get(number).add(index);
+        }
+    }
+
+    class NumberContainers_Correct_1 {
 
         Map<Integer, Integer> indexMap;
         Map<Integer, TreeSet<Integer>> numberIndices;
 
-        public NumberContainers() {
+        public NumberContainers_Correct_1() {
             indexMap = new HashMap<>();
             numberIndices = new HashMap<>();
         }
 
         public void change(int index, int number) {
-            if(indexMap.containsKey(index)) {
+            if (indexMap.containsKey(index)) {
                 int prevNumber = indexMap.get(index);
-                if(prevNumber != number) {
+                if (prevNumber != number) {
                     var prevNumberIndices = numberIndices.get(prevNumber);
                     prevNumberIndices.remove(index);
-                    if(prevNumberIndices.size() == 0) {
+                    if (prevNumberIndices.size() == 0) {
                         numberIndices.remove(prevNumber);
                     }
 
@@ -33,7 +76,7 @@ public class DesignANumberContainerSystem {
         }
 
         public int find(int number) {
-            if(!numberIndices.containsKey(number)) {
+            if (!numberIndices.containsKey(number)) {
                 return -1;
             }
 
@@ -42,7 +85,7 @@ public class DesignANumberContainerSystem {
 
         private void register(int index, int number) {
             indexMap.put(index, number);
-            if(!numberIndices.containsKey(number)) {
+            if (!numberIndices.containsKey(number)) {
                 numberIndices.put(number, new TreeSet<>());
             }
 
