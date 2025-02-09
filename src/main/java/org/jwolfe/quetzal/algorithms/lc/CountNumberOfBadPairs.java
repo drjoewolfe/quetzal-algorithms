@@ -6,7 +6,34 @@ import java.util.Map;
 public class CountNumberOfBadPairs {
     class Solution {
         public long countBadPairs(int[] nums) {
-            if(nums == null || nums.length < 2) {
+            if (nums == null || nums.length < 2) {
+                return 0;
+            }
+
+            int n = nums.length;
+            long totalPairs = 1L * n * (n - 1) / 2;
+            long goodPairs = 0;
+
+            Map<Integer, Integer> map = new HashMap<>();
+            for (int i = 0; i < n; i++) {
+                int val = nums[i];
+                int diff = i - val;
+
+                if (map.containsKey(diff)) {
+                    goodPairs += map.get(diff);
+                }
+
+                map.put(diff, map.getOrDefault(diff, 0) + 1);
+            }
+
+            long badPairs = totalPairs - goodPairs;
+            return badPairs;
+        }
+    }
+
+    class Solution_Correct_1 {
+        public long countBadPairs(int[] nums) {
+            if (nums == null || nums.length < 2) {
                 return 0;
             }
 
@@ -16,11 +43,11 @@ public class CountNumberOfBadPairs {
 
 
             // j - i = nums[j] - nums[i] => j - nums[j] = i - nums[i]
-            for(int i = 0; i < n; i++) {
+            for (int i = 0; i < n; i++) {
                 int val = nums[i];
 
                 int diff = i - val;
-                if(map.containsKey(diff)) {
+                if (map.containsKey(diff)) {
                     goodPairs += map.get(diff);
                 }
 
@@ -36,18 +63,18 @@ public class CountNumberOfBadPairs {
 
     class Solution_Brute {
         public long countBadPairs(int[] nums) {
-            if(nums == null || nums.length < 2) {
+            if (nums == null || nums.length < 2) {
                 return 0;
             }
 
             int badPairs = 0;
             int n = nums.length;
-            for(int i = 0; i < n - 1; i++) {
+            for (int i = 0; i < n - 1; i++) {
                 int a = nums[i];
 
-                for(int j = i + 1; j < n; j++) {
+                for (int j = i + 1; j < n; j++) {
                     int b = nums[j];
-                    if((j - i) != (b - a)) {
+                    if ((j - i) != (b - a)) {
                         badPairs++;
                     }
                 }
