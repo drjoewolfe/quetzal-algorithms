@@ -5,18 +5,43 @@ import java.util.Stack;
 public class ConstructSmallestNumberFromDIString {
     class Solution {
         public String smallestNumber(String pattern) {
-            if(pattern == null || pattern.length() == 0) {
+            if (pattern == null || pattern.length() == 0) {
                 return "";
             }
 
             int n = pattern.length();
             Stack<Integer> stack = new Stack<>();
             StringBuilder builder = new StringBuilder();
-            for(int i = 0; i <= n; i++) {
+
+            for (int i = 0; i <= n; i++) {
+                int num = i + 1;
+                stack.push(num);
+
+                if (i == n || pattern.charAt(i) == 'I') {
+                    while (!stack.isEmpty()) {
+                        builder.append(stack.pop());
+                    }
+                }
+            }
+
+            return builder.toString();
+        }
+    }
+
+    class Solution_Correct_1 {
+        public String smallestNumber(String pattern) {
+            if (pattern == null || pattern.length() == 0) {
+                return "";
+            }
+
+            int n = pattern.length();
+            Stack<Integer> stack = new Stack<>();
+            StringBuilder builder = new StringBuilder();
+            for (int i = 0; i <= n; i++) {
                 stack.push(i + 1);
 
-                if(i == n || pattern.charAt(i) == 'I') {
-                    while(!stack.isEmpty()) {
+                if (i == n || pattern.charAt(i) == 'I') {
+                    while (!stack.isEmpty()) {
                         Integer val = stack.pop();
                         builder.append(val.toString());
                     }
