@@ -6,21 +6,40 @@ import java.util.Set;
 public class FindUniqueBinaryString {
     class Solution {
         public String findDifferentBinaryString(String[] nums) {
-            if(nums == null || nums.length == 0) {
+            if (nums == null || nums.length == 0) {
+                return "";
+            }
+
+            int n = nums.length;
+            String ans = "";
+            for (int i = 0; i < n; i++) {
+                String str = nums[i];
+                char c = str.charAt(i);
+
+                ans += (c == '0') ? '1' : '0';
+            }
+
+            return ans;
+        }
+    }
+
+    class Solution_Correct_1 {
+        public String findDifferentBinaryString(String[] nums) {
+            if (nums == null || nums.length == 0) {
                 return "";
             }
 
             Set<Integer> set = new HashSet<>();
-            for(String str : nums) {
+            for (String str : nums) {
                 int val = Integer.parseInt(str, 2);
                 set.add(val);
             }
 
             int n = nums.length;
-            for(int val = 0; val <= n; val++) {
-                if(!set.contains(val)) {
+            for (int val = 0; val <= n; val++) {
+                if (!set.contains(val)) {
                     String ans = Integer.toBinaryString(val);
-                    while(ans.length() < n) {
+                    while (ans.length() < n) {
                         ans = "0" + ans;
                     }
 
