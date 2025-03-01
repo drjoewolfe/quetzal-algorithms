@@ -3,26 +3,59 @@ package org.jwolfe.quetzal.algorithms.lc;
 public class ApplyOperationsToAnArray {
     class Solution {
         public int[] applyOperations(int[] nums) {
-            if(nums == null || nums.length < 2) {
+            if (nums == null || nums.length < 2) {
                 return nums;
             }
 
             int n = nums.length;
-            for(int i = 0; i < n - 1; i++) {
-                if(nums[i] == nums[i + 1]) {
+            int prev = 0;
+            for (int i = 0; i < n; i++) {
+                if (i != n - 1) {
+                    if (nums[i] == nums[i + 1]
+                            && nums[i] != 0) {
+                        nums[i] *= 2;
+                        nums[i + 1] = 0;
+                    }
+                }
+
+                if (nums[i] != 0) {
+                    swap(nums, i, prev);
+                    prev++;
+                }
+            }
+
+            return nums;
+        }
+
+        private void swap(int[] arr, int i, int j) {
+            int temp = arr[i];
+            arr[i] = arr[j];
+            arr[j] = temp;
+        }
+    }
+
+    class Solution_Correct_2 {
+        public int[] applyOperations(int[] nums) {
+            if (nums == null || nums.length < 2) {
+                return nums;
+            }
+
+            int n = nums.length;
+            for (int i = 0; i < n - 1; i++) {
+                if (nums[i] == nums[i + 1]) {
                     nums[i] *= 2;
                     nums[i + 1] = 0;
                 }
             }
 
             int index = 0;
-            for(int a : nums) {
-                if(a != 0) {
+            for (int a : nums) {
+                if (a != 0) {
                     nums[index++] = a;
                 }
             }
 
-            while(index < n) {
+            while (index < n) {
                 nums[index++] = 0;
             }
 
@@ -32,13 +65,13 @@ public class ApplyOperationsToAnArray {
 
     class Solution_Correct_1 {
         public int[] applyOperations(int[] nums) {
-            if(nums == null || nums.length < 2) {
+            if (nums == null || nums.length < 2) {
                 return nums;
             }
 
             int n = nums.length;
-            for(int i = 0; i < n - 1; i++) {
-                if(nums[i] == nums[i + 1]) {
+            for (int i = 0; i < n - 1; i++) {
+                if (nums[i] == nums[i + 1]) {
                     nums[i] *= 2;
                     nums[i + 1] = 0;
                 }
@@ -46,17 +79,17 @@ public class ApplyOperationsToAnArray {
 
             int left = 0;
             int right = 0;
-            while(right < n) {
-                while(left < n && nums[left] != 0) {
+            while (right < n) {
+                while (left < n && nums[left] != 0) {
                     left++;
                 }
 
                 right = left + 1;
-                while(right < n && nums[right] == 0) {
+                while (right < n && nums[right] == 0) {
                     right++;
                 }
 
-                if(right < n) {
+                if (right < n) {
                     int temp = nums[left];
                     nums[left] = nums[right];
                     nums[right] = temp;
