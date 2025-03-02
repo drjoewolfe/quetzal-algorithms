@@ -1,28 +1,77 @@
 package org.jwolfe.quetzal.algorithms.lc;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
 public class MergeTwo2DArraysBySummingValues {
     class Solution {
         public int[][] mergeArrays(int[][] nums1, int[][] nums2) {
-            if(nums1 == null || nums1.length == 0) {
+            if (nums1 == null || nums1.length == 0) {
                 return nums2;
             }
 
-            if(nums2 == null || nums2.length == 0) {
+            if (nums2 == null || nums2.length == 0) {
+                return nums1;
+            }
+
+            List<int[]> merged = new ArrayList<>();
+            int i1 = 0;
+            int n1 = nums1.length;
+
+            int i2 = 0;
+            int n2 = nums2.length;
+
+            while (i1 < n1 && i2 < n2) {
+                if (nums1[i1][0] == nums2[i2][0]) {
+                    merged.add(new int[]{nums1[i1][0], nums1[i1][1] + nums2[i2][1]});
+                    i1++;
+                    i2++;
+                } else if (nums1[i1][0] < nums2[i2][0]) {
+                    merged.add(nums1[i1++]);
+                } else {
+                    merged.add(nums2[i2++]);
+                }
+            }
+
+            while (i1 < n1) {
+                merged.add(nums1[i1++]);
+            }
+
+            while (i2 < n2) {
+                merged.add(nums2[i2++]);
+            }
+
+            int n = merged.size();
+            int[][] results = new int[n][2];
+            for (int i = 0; i < n; i++) {
+                results[i] = merged.get(i);
+            }
+
+            return results;
+        }
+    }
+
+    class Solution_Correct_1 {
+        public int[][] mergeArrays(int[][] nums1, int[][] nums2) {
+            if (nums1 == null || nums1.length == 0) {
+                return nums2;
+            }
+
+            if (nums2 == null || nums2.length == 0) {
                 return nums1;
             }
 
             Map<Integer, Integer> map = new TreeMap<>();
-            for(int[] pair : nums1) {
+            for (int[] pair : nums1) {
                 map.put(pair[0], pair[1]);
             }
 
-            for(int[] pair : nums2) {
+            for (int[] pair : nums2) {
                 int id = pair[0];
 
-                if(map.containsKey(id)) {
+                if (map.containsKey(id)) {
                     map.put(id, map.get(id) + pair[1]);
                 } else {
                     map.put(id, pair[1]);
@@ -32,8 +81,8 @@ public class MergeTwo2DArraysBySummingValues {
             int n = map.size();
             int i = 0;
             int[][] results = new int[n][2];
-            for(var entry : map.entrySet()) {
-                results[i++] = new int[] {entry.getKey(), entry.getValue()};
+            for (var entry : map.entrySet()) {
+                results[i++] = new int[]{entry.getKey(), entry.getValue()};
             }
 
             return results;
