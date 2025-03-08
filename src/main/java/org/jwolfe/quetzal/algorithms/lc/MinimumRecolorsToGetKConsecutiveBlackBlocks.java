@@ -3,7 +3,41 @@ package org.jwolfe.quetzal.algorithms.lc;
 public class MinimumRecolorsToGetKConsecutiveBlackBlocks {
     class Solution {
         public int minimumRecolors(String blocks, int k) {
-            if(blocks == null || blocks.length() < k) {
+            if (blocks == null || k < 0 || blocks.length() < k) {
+                return -1;
+            }
+
+            int n = blocks.length();
+            int left = 0;
+            int minColorings = Integer.MAX_VALUE;
+            int whiteCount = 0;
+            for (int right = 0; right < n; right++) {
+                char c = blocks.charAt(right);
+
+                if (c == 'W') {
+                    whiteCount++;
+                }
+
+                int length = right - left + 1;
+
+                if (length == k) {
+                    minColorings = Math.min(minColorings, whiteCount);
+
+                    if (left < n && blocks.charAt(left) == 'W') {
+                        whiteCount--;
+                    }
+
+                    left++;
+                }
+            }
+
+            return minColorings;
+        }
+    }
+
+    class Solution_Correct_1 {
+        public int minimumRecolors(String blocks, int k) {
+            if (blocks == null || blocks.length() < k) {
                 return -1;
             }
 
@@ -11,18 +45,18 @@ public class MinimumRecolorsToGetKConsecutiveBlackBlocks {
             int whiteCount = 0;
 
             int minColorings = Integer.MAX_VALUE;
-            for(int right = 0; right < blocks.length(); right++) {
+            for (int right = 0; right < blocks.length(); right++) {
                 char c = blocks.charAt(right);
-                if(c == 'W') {
+                if (c == 'W') {
                     whiteCount++;
                 }
 
                 int length = right - left;
-                if(length == k) {
+                if (length == k) {
                     minColorings = Math.min(minColorings, whiteCount);
 
                     left++;
-                    if(blocks.charAt(left) == 'W') {
+                    if (blocks.charAt(left) == 'W') {
                         whiteCount--;
                     }
                 }
