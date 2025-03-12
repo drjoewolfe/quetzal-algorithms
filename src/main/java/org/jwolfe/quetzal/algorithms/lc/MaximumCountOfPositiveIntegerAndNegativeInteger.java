@@ -3,7 +3,62 @@ package org.jwolfe.quetzal.algorithms.lc;
 public class MaximumCountOfPositiveIntegerAndNegativeInteger {
     class Solution {
         public int maximumCount(int[] nums) {
-            if(nums == null || nums.length == 0) {
+            if (nums == null || nums.length == 0) {
+                return 0;
+            }
+
+            int n = nums.length;
+            int positiveStart = getPositiveStartIndex(nums);
+            int negativeEnd = getNegativeEndIndex(nums);
+
+            int positiveCount = (positiveStart != -1) ? n - positiveStart : 0;
+            int negativeCount = (negativeEnd != -1) ? negativeEnd + 1 : 0;
+
+            return Math.max(positiveCount, negativeCount);
+        }
+
+        private int getPositiveStartIndex(int[] nums) {
+            int start = 0;
+            int end = nums.length - 1;
+
+            int index = -1;
+            while (start <= end) {
+                int mid = start + (end - start) / 2;
+
+                if (nums[mid] > 0) {
+                    index = mid;
+                    end = mid - 1;
+                } else {
+                    start = mid + 1;
+                }
+            }
+
+            return index;
+        }
+
+        private int getNegativeEndIndex(int[] nums) {
+            int start = 0;
+            int end = nums.length - 1;
+
+            int index = -1;
+            while (start <= end) {
+                int mid = start + (end - start) / 2;
+
+                if (nums[mid] < 0) {
+                    index = mid;
+                    start = mid + 1;
+                } else {
+                    end = mid - 1;
+                }
+            }
+
+            return index;
+        }
+    }
+
+    class Solution_Correct_2 {
+        public int maximumCount(int[] nums) {
+            if (nums == null || nums.length == 0) {
                 return 0;
             }
 
@@ -21,10 +76,10 @@ public class MaximumCountOfPositiveIntegerAndNegativeInteger {
             int right = nums.length - 1;
 
             int index = -1;
-            while(left <= right) {
+            while (left <= right) {
                 int mid = left + (right - left) / 2;
 
-                if(nums[mid] > 0) {
+                if (nums[mid] > 0) {
                     index = mid;
                     right = mid - 1;
                 } else {
@@ -40,10 +95,10 @@ public class MaximumCountOfPositiveIntegerAndNegativeInteger {
             int right = nums.length - 1;
 
             int index = -1;
-            while(left <= right) {
+            while (left <= right) {
                 int mid = left + (right - left) / 2;
 
-                if(nums[mid] < 0) {
+                if (nums[mid] < 0) {
                     index = mid;
                     left = left + 1;
                 } else {
@@ -57,16 +112,16 @@ public class MaximumCountOfPositiveIntegerAndNegativeInteger {
 
     class Solution_Correct_1 {
         public int maximumCount(int[] nums) {
-            if(nums == null || nums.length == 0) {
+            if (nums == null || nums.length == 0) {
                 return 0;
             }
 
             int positiveCount = 0;
             int negativeCount = 0;
-            for(int a : nums) {
-                if(a > 0) {
+            for (int a : nums) {
+                if (a > 0) {
                     positiveCount++;
-                } else if(a < 0) {
+                } else if (a < 0) {
                     negativeCount++;
                 }
             }
