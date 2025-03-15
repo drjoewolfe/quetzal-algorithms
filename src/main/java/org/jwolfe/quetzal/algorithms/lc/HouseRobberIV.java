@@ -3,25 +3,64 @@ package org.jwolfe.quetzal.algorithms.lc;
 public class HouseRobberIV {
     class Solution {
         public int minCapability(int[] nums, int k) {
-            if(nums == null || nums.length == 0 || k == 0) {
+            if (nums == null || nums.length == 0 || k < 1) {
+                return 0;
+            }
+
+            int n = nums.length;
+            int min = Integer.MAX_VALUE;
+            int max = Integer.MIN_VALUE;
+
+            for (int i = 0; i < n; i++) {
+                int val = nums[i];
+                min = Math.min(min, val);
+                max = Math.max(max, val);
+            }
+
+            while (min < max) {
+                int mid = min + (max - min) / 2;
+
+                int count = 0;
+                for (int i = 0; i < n; i++) {
+                    int val = nums[i];
+                    if (val <= mid) {
+                        count++;
+                        i++;
+                    }
+                }
+
+                if (count >= k) {
+                    max = mid;
+                } else {
+                    min = mid + 1;
+                }
+            }
+
+            return min;
+        }
+    }
+
+    class Solution_Correct_1 {
+        public int minCapability(int[] nums, int k) {
+            if (nums == null || nums.length == 0 || k == 0) {
                 return 0;
             }
 
             int left = 0;
             int right = 1_000_000_000;
 
-            while(left < right) {
+            while (left < right) {
                 int mid = left + (right - left) / 2;
 
                 int count = 0;
-                for(int i = 0; i < nums.length; i++) {
-                    if(nums[i] <= mid) {
+                for (int i = 0; i < nums.length; i++) {
+                    if (nums[i] <= mid) {
                         count++;
                         i++;
                     }
                 }
 
-                if(count >= k) {
+                if (count >= k) {
                     right = mid;
                 } else {
                     left = mid + 1;
@@ -34,12 +73,12 @@ public class HouseRobberIV {
 
     class Solution_TLE {
         public int minCapability(int[] nums, int k) {
-            if(nums == null || nums.length == 0 || k == 0) {
+            if (nums == null || nums.length == 0 || k == 0) {
                 return 0;
             }
 
             int minCapability = Integer.MAX_VALUE;
-            for(int i = 0; i <= nums.length - k; i++) {
+            for (int i = 0; i <= nums.length - k; i++) {
                 minCapability = Math.min(minCapability,
                         getMinCapability(nums, k - 1, i, nums[i]));
             }
@@ -48,12 +87,12 @@ public class HouseRobberIV {
         }
 
         private int getMinCapability(int[] nums, int k, int index, int capability) {
-            if(k == 0) {
+            if (k == 0) {
                 return capability;
             }
 
             int minCapability = Integer.MAX_VALUE;
-            for(int i = index + 2; i < nums.length; i++) {
+            for (int i = index + 2; i < nums.length; i++) {
                 minCapability = Math.min(minCapability,
                         getMinCapability(nums, k - 1, i, Math.max(capability, nums[i])));
             }
