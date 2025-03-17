@@ -1,22 +1,25 @@
 package org.jwolfe.quetzal.algorithms.lc;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
 public class DivideArrayIntoEqualPairs {
     class Solution {
         public boolean divideArray(int[] nums) {
-            if(nums == null || nums.length % 2 != 0) {
+            if (nums == null || nums.length % 2 != 0) {
                 return false;
             }
 
-            int[] counts = new int[501];
-            for(int val : nums) {
-                counts[val]++;
+            boolean[] paired = new boolean[501];
+            Arrays.fill(paired, true);
+
+            for (int val : nums) {
+                paired[val] = !paired[val];
             }
 
-            for(int count : counts) {
-                if(count % 2 != 0) {
+            for (int i = 1; i < 501; i++) {
+                if (!paired[i]) {
                     return false;
                 }
             }
@@ -25,20 +28,40 @@ public class DivideArrayIntoEqualPairs {
         }
     }
 
+    class Solution_Correct_2 {
+        public boolean divideArray(int[] nums) {
+            if (nums == null || nums.length % 2 != 0) {
+                return false;
+            }
+
+            int[] counts = new int[501];
+            for (int val : nums) {
+                counts[val]++;
+            }
+
+            for (int count : counts) {
+                if (count % 2 != 0) {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+    }
 
     class Solution_Correct_1 {
         public boolean divideArray(int[] nums) {
-            if(nums == null || nums.length % 2 != 0) {
+            if (nums == null || nums.length % 2 != 0) {
                 return false;
             }
 
             Map<Integer, Integer> map = new HashMap<>();
-            for(int val : nums) {
+            for (int val : nums) {
                 map.put(val, map.getOrDefault(val, 0) + 1);
             }
 
-            for(Integer count : map.values()) {
-                if(count % 2 != 0) {
+            for (Integer count : map.values()) {
+                if (count % 2 != 0) {
                     return false;
                 }
             }
