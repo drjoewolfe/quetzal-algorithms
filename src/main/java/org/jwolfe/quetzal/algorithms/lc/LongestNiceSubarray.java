@@ -3,7 +3,31 @@ package org.jwolfe.quetzal.algorithms.lc;
 public class LongestNiceSubarray {
     class Solution {
         public int longestNiceSubarray(int[] nums) {
-            if(nums == null || nums.length == 0) {
+            if (nums == null || nums.length == 0) {
+                return 0;
+            }
+
+            int n = nums.length;
+            int maxLength = 0;
+
+            int mask = 0;
+            int left = 0;
+            for (int right = 0; right < n; right++) {
+                while ((mask & nums[right]) != 0) {
+                    mask ^= nums[left++];
+                }
+
+                mask |= nums[right];
+                maxLength = Math.max(maxLength, right - left + 1);
+            }
+
+            return maxLength;
+        }
+    }
+
+    class Solution_Correct_2 {
+        public int longestNiceSubarray(int[] nums) {
+            if (nums == null || nums.length == 0) {
                 return 0;
             }
 
@@ -12,9 +36,9 @@ public class LongestNiceSubarray {
 
             int niceMask = 0;
             int i = 0;
-            for(int j = 0; j < n; j++) {
+            for (int j = 0; j < n; j++) {
                 int val = nums[j];
-                while((niceMask & val) != 0) {
+                while ((niceMask & val) != 0) {
                     niceMask ^= nums[i];
                     i++;
                 }
@@ -29,21 +53,21 @@ public class LongestNiceSubarray {
 
     class Solution_Correct {
         public int longestNiceSubarray(int[] nums) {
-            if(nums == null || nums.length == 0) {
+            if (nums == null || nums.length == 0) {
                 return 0;
             }
 
             int n = nums.length;
             int maxLength = 1;
 
-            for(int i = 0; i < n; i++) {
+            for (int i = 0; i < n; i++) {
                 int a = nums[i];
                 int length = 1;
 
-                for(int j = i + 1; j < n; j++) {
+                for (int j = i + 1; j < n; j++) {
                     int b = nums[j];
 
-                    if((a & b) == 0) {
+                    if ((a & b) == 0) {
                         System.out.println(a + ", " + b);
                         length++;
                         maxLength = Math.max(maxLength, length);
