@@ -5,13 +5,38 @@ import java.util.Arrays;
 public class PutMarblesInBags {
     class Solution {
         public long putMarbles(int[] weights, int k) {
-            if(weights == null || k < 1 || weights.length < k) {
+            if (weights == null || k < 1 || weights.length < k) {
+                return 0;
+            }
+
+            int n = weights.length;
+            int[] pairWeights = new int[n - 1];
+            for (int i = 0; i < n - 1; i++) {
+                pairWeights[i] = weights[i] + weights[i + 1];
+            }
+
+            Arrays.sort(pairWeights);
+            long minScore = weights[0] + weights[n - 1];
+            long maxScore = weights[0] + weights[n - 1];
+
+            for (int i = 0; i < k - 1; i++) {
+                minScore += pairWeights[i];
+                maxScore += pairWeights[n - i - 2];
+            }
+
+            return maxScore - minScore;
+        }
+    }
+
+    class Solution_Correct_1 {
+        public long putMarbles(int[] weights, int k) {
+            if (weights == null || k < 1 || weights.length < k) {
                 return 0L;
             }
 
             int n = weights.length;
             int[] pairWeights = new int[n - 1];
-            for(int i = 0; i < n - 1; i++) {
+            for (int i = 0; i < n - 1; i++) {
                 pairWeights[i] = weights[i] + weights[i + 1];
             }
 
@@ -19,7 +44,7 @@ public class PutMarblesInBags {
             long maxScore = weights[0] + weights[n - 1];
             long minScore = weights[0] + weights[n - 1];
 
-            for(int i = 0; i < k - 1; i++) {
+            for (int i = 0; i < k - 1; i++) {
                 maxScore += pairWeights[n - 2 - i];
                 minScore += pairWeights[i];
             }
