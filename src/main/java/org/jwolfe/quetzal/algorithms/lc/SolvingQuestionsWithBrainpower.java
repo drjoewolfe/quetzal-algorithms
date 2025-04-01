@@ -3,13 +3,36 @@ package org.jwolfe.quetzal.algorithms.lc;
 public class SolvingQuestionsWithBrainpower {
     class Solution {
         public long mostPoints(int[][] questions) {
-            if(questions == null || questions.length == 0) {
+            if (questions == null || questions.length == 0) {
                 return 0;
             }
 
             int n = questions.length;
             long[] dp = new long[n + 1];
-            for(int i = n - 1; i >= 0; i--) {
+            for (int i = n - 1; i >= 0; i--) {
+                int[] question = questions[i];
+                int points = question[0];
+                int brainPower = question[1];
+                int nextSolvable = i + brainPower + 1;
+
+                dp[i] = Math.max(dp[i + 1],
+                        points + ((nextSolvable < n) ? dp[nextSolvable] : 0));
+
+            }
+
+            return dp[0];
+        }
+    }
+
+    class Solution_Correct_1 {
+        public long mostPoints(int[][] questions) {
+            if (questions == null || questions.length == 0) {
+                return 0;
+            }
+
+            int n = questions.length;
+            long[] dp = new long[n + 1];
+            for (int i = n - 1; i >= 0; i--) {
                 int points = questions[i][0];
                 int brainPower = questions[i][1];
                 int nextSolvable = i + brainPower + 1;
@@ -26,7 +49,7 @@ public class SolvingQuestionsWithBrainpower {
 
     class Solution_TLE {
         public long mostPoints(int[][] questions) {
-            if(questions == null || questions.length == 0) {
+            if (questions == null || questions.length == 0) {
                 return 0;
             }
 
@@ -34,7 +57,7 @@ public class SolvingQuestionsWithBrainpower {
         }
 
         private long mostPoints(int[][] questions, int index, long currentPoints) {
-            if(index >= questions.length) {
+            if (index >= questions.length) {
                 return currentPoints;
             }
 
