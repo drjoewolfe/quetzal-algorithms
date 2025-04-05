@@ -16,6 +16,22 @@ public class SumOfAllSubsetXORTotals {
                 result |= val;
             }
 
+            return result << (n - 1);
+        }
+    }
+
+    class Solution_Correct_3 {
+        public int subsetXORSum(int[] nums) {
+            if (nums == null || nums.length == 0) {
+                return 0;
+            }
+
+            int n = nums.length;
+            int result = 0;
+            for (int val : nums) {
+                result |= val;
+            }
+
             result <<= (n - 1);
             return result;
         }
