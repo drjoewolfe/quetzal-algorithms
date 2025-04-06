@@ -8,7 +8,47 @@ public class LargestDivisibleSubset {
     class Solution {
         public List<Integer> largestDivisibleSubset(int[] nums) {
             List<Integer> subset = new ArrayList<>();
-            if(nums == null || nums.length == 0) {
+
+            int n = nums.length;
+            int[] largestDivisibleCounts = new int[n];
+            int[] largestDivisibleIndexes = new int[n];
+            int largestDivisibleCountIndex = 0;
+
+            Arrays.fill(largestDivisibleIndexes, -1);
+
+            Arrays.sort(nums);
+
+            for (int i = 1; i < n; i++) {
+                int a = nums[i];
+                for (int j = 0; j < i; j++) {
+                    int b = nums[j];
+
+                    if (a % b == 0) {
+                        if (largestDivisibleCounts[j] + 1 > largestDivisibleCounts[i]) {
+                            largestDivisibleCounts[i] = largestDivisibleCounts[j] + 1;
+                            largestDivisibleIndexes[i] = j;
+
+                            if (largestDivisibleCounts[i] > largestDivisibleCounts[largestDivisibleCountIndex]) {
+                                largestDivisibleCountIndex = i;
+                            }
+                        }
+                    }
+                }
+            }
+
+            while (largestDivisibleCountIndex >= 0) {
+                subset.add(nums[largestDivisibleCountIndex]);
+                largestDivisibleCountIndex = largestDivisibleIndexes[largestDivisibleCountIndex];
+            }
+
+            return subset;
+        }
+    }
+
+    class Solution_Correct_2 {
+        public List<Integer> largestDivisibleSubset(int[] nums) {
+            List<Integer> subset = new ArrayList<>();
+            if (nums == null || nums.length == 0) {
                 return subset;
             }
 
@@ -21,18 +61,18 @@ public class LargestDivisibleSubset {
 
             Arrays.sort(nums);
 
-            for(int i = 1; i < n; i++) {
+            for (int i = 1; i < n; i++) {
                 int a = nums[i];
 
-                for(int j = 0; j < i; j++) {
+                for (int j = 0; j < i; j++) {
                     int b = nums[j];
 
-                    if(a % b == 0) {
-                        if(largestDivisibleCounts[i] < largestDivisibleCounts[j] + 1) {
+                    if (a % b == 0) {
+                        if (largestDivisibleCounts[i] < largestDivisibleCounts[j] + 1) {
                             largestDivisibleCounts[i] = largestDivisibleCounts[j] + 1;
                             largestDivisibleIndexes[i] = j;
 
-                            if(largestDivisibleCounts[largestDivisibleCountIndex] < largestDivisibleCounts[i]) {
+                            if (largestDivisibleCounts[largestDivisibleCountIndex] < largestDivisibleCounts[i]) {
                                 largestDivisibleCountIndex = i;
                             }
                         }
@@ -40,7 +80,7 @@ public class LargestDivisibleSubset {
                 }
             }
 
-            while(largestDivisibleCountIndex >= 0) {
+            while (largestDivisibleCountIndex >= 0) {
                 subset.add(nums[largestDivisibleCountIndex]);
                 largestDivisibleCountIndex = largestDivisibleIndexes[largestDivisibleCountIndex];
             }
@@ -52,7 +92,7 @@ public class LargestDivisibleSubset {
     class Solution_Correct_1 {
         public List<Integer> largestDivisibleSubset(int[] nums) {
             List<Integer> largestDivisibleSubset = new ArrayList<>();
-            if(nums == null || nums.length == 0) {
+            if (nums == null || nums.length == 0) {
                 return largestDivisibleSubset;
             }
 
@@ -65,16 +105,16 @@ public class LargestDivisibleSubset {
 
             Arrays.sort(nums);
 
-            for(int i = 1; i < n; i++) {
-                for(int j = 0; j < i; j++) {
+            for (int i = 1; i < n; i++) {
+                for (int j = 0; j < i; j++) {
                     int a = nums[i];
                     int b = nums[j];
 
-                    if(a % b != 0) {
+                    if (a % b != 0) {
                         continue;
                     }
 
-                    if(largestDivisibleCounts[i] < 1 + largestDivisibleCounts[j]) {
+                    if (largestDivisibleCounts[i] < 1 + largestDivisibleCounts[j]) {
                         largestDivisibleCounts[i] = 1 + largestDivisibleCounts[j];
                         largestFactorIndexes[i] = j;
                         largestDivisibleCountIndex = largestDivisibleCounts[i] > largestDivisibleCounts[largestDivisibleCountIndex] ? i : largestDivisibleCountIndex;
@@ -82,7 +122,7 @@ public class LargestDivisibleSubset {
                 }
             }
 
-            while(largestDivisibleCountIndex >= 0) {
+            while (largestDivisibleCountIndex >= 0) {
                 largestDivisibleSubset.add(nums[largestDivisibleCountIndex]);
                 largestDivisibleCountIndex = largestFactorIndexes[largestDivisibleCountIndex];
             }
