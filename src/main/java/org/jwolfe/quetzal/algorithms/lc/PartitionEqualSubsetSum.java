@@ -1,33 +1,78 @@
 package org.jwolfe.quetzal.algorithms.lc;
 
+import java.util.HashSet;
+import java.util.Set;
+
 public class PartitionEqualSubsetSum {
     class Solution {
         public boolean canPartition(int[] nums) {
-            if(nums == null || nums.length == 0) {
+            if (nums == null || nums.length == 0) {
                 return false;
             }
 
             int n = nums.length;
             int sum = 0;
-            for(int val : nums) {
+            for (int val : nums) {
                 sum += val;
             }
 
-            if(sum == 0 || sum % 2 != 0) {
+            if (sum % 2 != 0) {
+                return false;
+            }
+
+            int target = sum / 2;
+            System.out.println(target);
+
+            Set<Integer> set = new HashSet<>();
+            set.add(0);
+
+            for (int i = n - 1; i >= 0; i--) {
+                int val = nums[i];
+                Set<Integer> nextSet = new HashSet<>();
+                for (var existingSum : set) {
+                    int newSum = existingSum + val;
+                    if (newSum == target) {
+                        return true;
+                    }
+
+                    nextSet.add(existingSum);
+                    nextSet.add(newSum);
+                }
+
+                set = nextSet;
+            }
+
+            return false;
+        }
+    }
+
+    class Solution_Correct_1 {
+        public boolean canPartition(int[] nums) {
+            if (nums == null || nums.length == 0) {
+                return false;
+            }
+
+            int n = nums.length;
+            int sum = 0;
+            for (int val : nums) {
+                sum += val;
+            }
+
+            if (sum == 0 || sum % 2 != 0) {
                 return false;
             }
 
             int targetSum = sum / 2;
             boolean[][] dp = new boolean[n + 1][targetSum + 1];
-            for(int i = 0; i <= n; i++) {
+            for (int i = 0; i <= n; i++) {
                 dp[i][0] = true;
             }
 
-            for(int i = 1; i <= n; i++) {
-                for(int j = 1; j <= targetSum; j++) {
+            for (int i = 1; i <= n; i++) {
+                for (int j = 1; j <= targetSum; j++) {
                     int val = nums[i - 1];
 
-                    if(val > j) {
+                    if (val > j) {
                         dp[i][j] = dp[i - 1][j];
                     } else {
                         dp[i][j] = dp[i - 1][j] || dp[i - 1][j - val];
@@ -42,16 +87,16 @@ public class PartitionEqualSubsetSum {
 
     class Solution_Correct_DP_1 {
         public boolean canPartition(int[] nums) {
-            if(nums == null || nums.length < 2) {
+            if (nums == null || nums.length < 2) {
                 return false;
             }
 
             int sum = 0;
-            for(int a : nums) {
+            for (int a : nums) {
                 sum += a;
             }
 
-            if(sum == 0 || sum % 2 != 0) {
+            if (sum == 0 || sum % 2 != 0) {
                 return false;
             }
 
@@ -63,13 +108,13 @@ public class PartitionEqualSubsetSum {
             int n = nums.length;
             boolean[][] dp = new boolean[n + 1][sum + 1];
 
-            for(int i = 0; i <= n; i++) {
+            for (int i = 0; i <= n; i++) {
                 dp[i][0] = true;
             }
 
-            for(int i = 1; i <= n; i++) {
-                for(int j = 1; j <= sum; j++) {
-                    if(nums[i - 1] > j) {
+            for (int i = 1; i <= n; i++) {
+                for (int j = 1; j <= sum; j++) {
+                    if (nums[i - 1] > j) {
                         dp[i][j] = dp[i - 1][j];
                     } else {
                         dp[i][j] = dp[i - 1][j] || dp[i - 1][j - nums[i - 1]];
@@ -83,16 +128,16 @@ public class PartitionEqualSubsetSum {
 
     class Solution_Recursion {
         public boolean canPartition(int[] nums) {
-            if(nums == null || nums.length < 2) {
+            if (nums == null || nums.length < 2) {
                 return false;
             }
 
             int sum = 0;
-            for(int a : nums) {
+            for (int a : nums) {
                 sum += a;
             }
 
-            if(sum % 2 != 0) {
+            if (sum % 2 != 0) {
                 return false;
             }
 
@@ -107,8 +152,8 @@ public class PartitionEqualSubsetSum {
         }
 
         private boolean subsetSum(int[] nums, int index, int sum) {
-            if(index < 0) {
-                if(sum == 0) {
+            if (index < 0) {
+                if (sum == 0) {
                     return true;
                 } else {
                     return false;
