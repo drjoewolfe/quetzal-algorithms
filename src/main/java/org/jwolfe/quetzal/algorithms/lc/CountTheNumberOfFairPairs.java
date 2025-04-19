@@ -5,6 +5,36 @@ import java.util.Arrays;
 public class CountTheNumberOfFairPairs {
     class Solution {
         public long countFairPairs(int[] nums, int lower, int upper) {
+            if (nums == null || nums.length == 0 || lower > upper) {
+                return 0;
+            }
+
+            Arrays.sort(nums);
+            return countFairPairs(nums, upper + 1) - countFairPairs(nums, lower);
+        }
+
+        private long countFairPairs(int[] nums, int bound) {
+            // return count of pairs whose sum is less than bound
+            int left = 0;
+            int right = nums.length - 1;
+
+            long count = 0;
+            while (left < right) {
+                int sum = nums[left] + nums[right];
+                if (sum < bound) {
+                    count += (right - left);
+                    left++;
+                } else {
+                    right--;
+                }
+            }
+
+            return count;
+        }
+    }
+
+    class Solution_Correct_2 {
+        public long countFairPairs(int[] nums, int lower, int upper) {
             if (nums == null || nums.length < 2 || lower > upper) {
                 return 0;
             }
