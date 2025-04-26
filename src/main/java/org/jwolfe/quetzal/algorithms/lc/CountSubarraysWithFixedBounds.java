@@ -3,7 +3,47 @@ package org.jwolfe.quetzal.algorithms.lc;
 public class CountSubarraysWithFixedBounds {
     class Solution {
         public long countSubarrays(int[] nums, int minK, int maxK) {
-            if(nums == null || nums.length == 0) {
+            if (nums == null || nums.length == 0) {
+                return 0;
+            }
+
+            long count = 0;
+            int n = nums.length;
+
+            int leftBound = -1;
+            int minKIndex = -1;
+            int maxKIndex = -1;
+
+            for (int i = 0; i < n; i++) {
+                int val = nums[i];
+
+                if (val < minK || val > maxK) {
+                    leftBound = i;
+                    minKIndex = -1;
+                    maxKIndex = -1;
+                } else {
+                    if (val == minK) {
+                        minKIndex = i;
+                    }
+
+                    if (val == maxK) {
+                        maxKIndex = i;
+                    }
+                }
+
+                if (minKIndex != -1 && maxKIndex != -1) {
+                    long arrayCount = Math.min(minKIndex, maxKIndex) - leftBound;
+                    count += arrayCount;
+                }
+            }
+
+            return count;
+        }
+    }
+
+    class Solution_Correct_2 {
+        public long countSubarrays(int[] nums, int minK, int maxK) {
+            if (nums == null || nums.length == 0) {
                 return 0;
             }
 
@@ -14,24 +54,24 @@ public class CountSubarraysWithFixedBounds {
             int minIndex = -1;
             int maxIndex = -1;
 
-            for(int i = 0; i < n; i++) {
+            for (int i = 0; i < n; i++) {
                 int val = nums[i];
 
-                if(val < minK || val > maxK) {
+                if (val < minK || val > maxK) {
                     leftBound = i;
                     minIndex = -1;
                     maxIndex = -1;
                 } else {
-                    if(val == minK) {
+                    if (val == minK) {
                         minIndex = i;
                     }
 
-                    if(val == maxK) {
+                    if (val == maxK) {
                         maxIndex = i;
                     }
                 }
 
-                if(minIndex != -1 && maxIndex != -1) {
+                if (minIndex != -1 && maxIndex != -1) {
                     long arrayCount = Math.min(minIndex, maxIndex) - leftBound;
                     count += arrayCount;
                 }
@@ -43,7 +83,7 @@ public class CountSubarraysWithFixedBounds {
 
     class Solution_Correct_1 {
         public long countSubarrays(int[] nums, int minK, int maxK) {
-            if(nums == null || nums.length < 1 || minK > maxK) {
+            if (nums == null || nums.length < 1 || minK > maxK) {
                 return 0;
             }
 
@@ -52,17 +92,17 @@ public class CountSubarraysWithFixedBounds {
             int maxIndex = -1;
 
             long count = 0;
-            for(int i = 0; i < nums.length; i++) {
+            for (int i = 0; i < nums.length; i++) {
                 int val = nums[i];
 
-                if(val < minK || val > maxK) {
+                if (val < minK || val > maxK) {
                     leftBound = i;
                 } else {
-                    if(val == minK) {
+                    if (val == minK) {
                         minIndex = i;
                     }
 
-                    if(val == maxK) {
+                    if (val == maxK) {
                         maxIndex = i;
                     }
                 }
