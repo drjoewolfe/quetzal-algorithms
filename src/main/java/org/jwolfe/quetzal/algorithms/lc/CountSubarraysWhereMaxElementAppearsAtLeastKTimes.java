@@ -3,7 +3,44 @@ package org.jwolfe.quetzal.algorithms.lc;
 public class CountSubarraysWhereMaxElementAppearsAtLeastKTimes {
     class Solution {
         public long countSubarrays(int[] nums, int k) {
-            if(nums == null || nums.length < k || k < 1) {
+            if (nums == null || nums.length < k || k < 1) {
+                return 0;
+            }
+
+            long count = 0;
+            int n = nums.length;
+
+            int maxElement = Integer.MIN_VALUE;
+            for (int val : nums) {
+                maxElement = Math.max(maxElement, val);
+            }
+
+            int maxElementsInWindow = 0;
+            for (int left = 0, right = 0; right < n; right++) {
+                int element = nums[right];
+                if (element == maxElement) {
+                    maxElementsInWindow++;
+                }
+
+                while (maxElementsInWindow == k) {
+                    int leftElement = nums[left];
+                    if (leftElement == maxElement) {
+                        maxElementsInWindow--;
+                    }
+
+                    left++;
+                }
+
+                count += left;
+            }
+
+            return count;
+        }
+    }
+
+    class Solution_Correct_1 {
+        public long countSubarrays(int[] nums, int k) {
+            if (nums == null || nums.length < k || k < 1) {
                 return 0;
             }
 
@@ -11,7 +48,7 @@ public class CountSubarraysWhereMaxElementAppearsAtLeastKTimes {
             long count = 0;
 
             int maxElement = nums[0];
-            for(int i = 1; i < n; i++) {
+            for (int i = 1; i < n; i++) {
                 maxElement = Math.max(maxElement, nums[i]);
             }
 
@@ -19,16 +56,16 @@ public class CountSubarraysWhereMaxElementAppearsAtLeastKTimes {
             int right = 0;
             int maxElementsInWindow = 0;
 
-            for(; right < n; right++) {
+            for (; right < n; right++) {
                 int element = nums[right];
 
-                if(element == maxElement) {
+                if (element == maxElement) {
                     maxElementsInWindow++;
                 }
 
-                while(maxElementsInWindow == k) {
+                while (maxElementsInWindow == k) {
                     int leftElement = nums[left];
-                    if(leftElement == maxElement) {
+                    if (leftElement == maxElement) {
                         maxElementsInWindow--;
                     }
 
