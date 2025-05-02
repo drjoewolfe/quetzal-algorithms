@@ -13,6 +13,63 @@ public class PushDominoes {
             }
 
             int n = dominoes.length();
+            List<Integer> sentinels = new ArrayList<>();
+            List<Character> symbols = new ArrayList<>();
+
+            sentinels.add(-1);
+            symbols.add('L');
+
+            for(int i = 0; i < n; i++) {
+                char c = dominoes.charAt(i);
+                if(c != '.') {
+                    sentinels.add(i);
+                    symbols.add(c);
+                }
+            }
+
+            sentinels.add(n);
+            symbols.add('R');
+
+            char[] tiles = dominoes.toCharArray();
+
+            for(int index = 0; index < sentinels.size() - 1; index++) {
+                int i = sentinels.get(index);
+                int j = sentinels.get(index + 1);
+
+                char c1 = symbols.get(index);
+                char c2 = symbols.get(index + 1);
+
+                if(c1 == c2) {
+                    for(int k = i + 1; k < j; k++) {
+                        tiles[k] = c1;
+                    }
+                } else {
+                    if(c1 == 'R' && c2 == 'L') {
+                        int len = j - i - 1;
+                        int half = len / 2;
+
+                        for(int k = i + 1; k <= i + half; k++) {
+                            tiles[k] = 'R';
+                        }
+
+                        for(int k = j - 1; k >= j - half; k--) {
+                            tiles[k] = 'L';
+                        }
+                    }
+                }
+            }
+
+            return new String(tiles);
+        }
+    }
+
+    class Solution_Correct_2 {
+        public String pushDominoes(String dominoes) {
+            if(dominoes == null || dominoes.length() == 0) {
+                return dominoes;
+            }
+
+            int n = dominoes.length();
             List<DominoOrientation> orientations = new ArrayList<>();
             orientations.add(new DominoOrientation(-1, 'L'));
 
