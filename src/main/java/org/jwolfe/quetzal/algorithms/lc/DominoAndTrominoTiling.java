@@ -2,14 +2,102 @@ package org.jwolfe.quetzal.algorithms.lc;
 
 public class DominoAndTrominoTiling {
     class Solution {
-        int MOD = 1_000_000_007;
+        private int MOD = 1_000_000_007;
 
         public int numTilings(int n) {
-            if(n < 0) {
+            if (n < 0) {
                 return 0;
             }
 
-            if(n < 3) {
+            if (n < 3) {
+                return n;
+            }
+
+            Long[][] dp = new Long[n][4];
+
+            return (int) solve(n, 0, true, true, dp);
+        }
+
+        private long solve(int n, int i, boolean t1, boolean t2, Long[][] dp) {
+            if (i == n) {
+                return 1;
+            }
+
+            int state = getState(t1, t2);
+            if (dp[i][state] != null) {
+                return dp[i][state];
+            }
+
+            boolean t3 = ((i + 1) < n);
+            boolean t4 = ((i + 1) < n);
+
+            long count = 0;
+
+            // Trominos
+            if (t1 && t2 && t3) {
+                count += solve(n, i + 1, false, true, dp) % MOD;
+            }
+
+            if (t1 && t2 && t4) {
+                count += solve(n, i + 1, true, false, dp) % MOD;
+            }
+
+            if (t1 && !t2 && t3 && t4) {
+                count += solve(n, i + 1, false, false, dp) % MOD;
+            }
+
+            if (!t1 && t2 && t3 && t4) {
+                count += solve(n, i + 1, false, false, dp) % MOD;
+            }
+
+            // Dominoes
+            if (t1 && t2) {
+                count += solve(n, i + 1, true, true, dp) % MOD;
+            }
+
+            if (t1 && t2 && t3 && t4) {
+                count += solve(n, i + 1, false, false, dp) % MOD;
+            }
+
+            if (t1 & !t2 && t3) {
+                count += solve(n, i + 1, false, true, dp) % MOD;
+            }
+
+            if (!t1 && t2 && t4) {
+                count += solve(n, i + 1, true, false, dp) % MOD;
+            }
+
+            if (!t1 && !t2) {
+                count += solve(n, i + 1, true, true, dp) % MOD;
+            }
+
+            count %= MOD;
+            dp[i][state] = count;
+            return count;
+        }
+
+        private int getState(boolean t1, boolean t2) {
+            if (t1 && t2) {
+                return 0;
+            } else if (!t1 && t2) {
+                return 1;
+            } else if (t1 & !t2) {
+                return 2;
+            } else {
+                return 3;
+            }
+        }
+    }
+
+    class Solution_Correct_1 {
+        int MOD = 1_000_000_007;
+
+        public int numTilings(int n) {
+            if (n < 0) {
+                return 0;
+            }
+
+            if (n < 3) {
                 return n;
             }
 
@@ -19,7 +107,7 @@ public class DominoAndTrominoTiling {
             dp[2] = 2;
             dp[3] = 5;
 
-            for(int i = 4; i <= n; i++) {
+            for (int i = 4; i <= n; i++) {
                 dp[i] = 2 * dp[i - 1] + dp[i - 3];
                 dp[i] %= MOD;
             }
@@ -30,15 +118,15 @@ public class DominoAndTrominoTiling {
 
     class Solution_Incorrect {
         public int numTilings(int n) {
-            if(n <= 0) {
+            if (n <= 0) {
                 return 0;
             }
 
-            if(n < 3) {
+            if (n < 3) {
                 return n;
             }
 
-            if(n == 3) {
+            if (n == 3) {
                 return 5;
             }
 
