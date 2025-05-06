@@ -3,13 +3,29 @@ package org.jwolfe.quetzal.algorithms.lc;
 public class BuildArrayFromPermutation {
     class Solution {
         public int[] buildArray(int[] nums) {
-            if(nums == null || nums.length == 0) {
+            if (nums == null || nums.length == 0) {
                 return nums;
             }
 
             int n = nums.length;
             int[] ans = new int[n];
-            for(int i = 0; i < n; i++) {
+            for (int i = 0; i < n; i++) {
+                ans[i] = nums[nums[i]];
+            }
+
+            return ans;
+        }
+    }
+
+    class Solution_Correct_1 {
+        public int[] buildArray(int[] nums) {
+            if (nums == null || nums.length == 0) {
+                return nums;
+            }
+
+            int n = nums.length;
+            int[] ans = new int[n];
+            for (int i = 0; i < n; i++) {
                 ans[i] = nums[nums[i]];
             }
 
