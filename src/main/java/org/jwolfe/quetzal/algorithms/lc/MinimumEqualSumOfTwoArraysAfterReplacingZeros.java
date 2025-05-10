@@ -3,32 +3,68 @@ package org.jwolfe.quetzal.algorithms.lc;
 public class MinimumEqualSumOfTwoArraysAfterReplacingZeros {
     class Solution {
         public long minSum(int[] nums1, int[] nums2) {
-            if(nums1 == null || nums1.length == 0 || nums2 == null || nums2.length == 0) {
+            if (nums1 == null || nums1.length == 0 || nums2 == null || nums2.length == 0) {
+                return 0;
+            }
+
+            long sum1 = 0;
+            int zeros1 = 0;
+            for (int val : nums1) {
+                sum1 += val;
+
+                if (val == 0) {
+                    sum1++;
+                    zeros1++;
+                }
+            }
+
+            long sum2 = 0;
+            int zeros2 = 0;
+            for (int val : nums2) {
+                sum2 += val;
+
+                if (val == 0) {
+                    sum2++;
+                    zeros2++;
+                }
+            }
+
+            if ((sum1 > sum2 && zeros2 == 0) || (sum1 < sum2 && zeros1 == 0)) {
+                return -1;
+            }
+
+            return Math.max(sum1, sum2);
+        }
+    }
+
+    class Solution_Correct_1 {
+        public long minSum(int[] nums1, int[] nums2) {
+            if (nums1 == null || nums1.length == 0 || nums2 == null || nums2.length == 0) {
                 return 0;
             }
 
             long minSum1 = 0;
             int zeros1 = 0;
-            for(int val : nums1) {
+            for (int val : nums1) {
                 minSum1 += (val == 0) ? 1 : val;
                 zeros1 += (val == 0) ? 1 : 0;
             }
 
             long minSum2 = 0;
             int zeros2 = 0;
-            for(int val : nums2) {
+            for (int val : nums2) {
                 minSum2 += (val == 0) ? 1 : val;
                 zeros2 += (val == 0) ? 1 : 0;
             }
 
-            if(minSum1 > minSum2) {
-                if(zeros2 == 0) {
+            if (minSum1 > minSum2) {
+                if (zeros2 == 0) {
                     return -1;
                 }
 
                 return minSum1;
-            } else if(minSum1 < minSum2) {
-                if(zeros1 == 0) {
+            } else if (minSum1 < minSum2) {
+                if (zeros1 == 0) {
                     return -1;
                 }
 
@@ -41,20 +77,20 @@ public class MinimumEqualSumOfTwoArraysAfterReplacingZeros {
 
     class Solution_Incorrect {
         public long minSum(int[] nums1, int[] nums2) {
-            if(nums1 == null || nums1.length == 0 || nums2 == null || nums2.length == 0) {
+            if (nums1 == null || nums1.length == 0 || nums2 == null || nums2.length == 0) {
                 return 0;
             }
 
             long sum1 = 0;
             int zeros1 = 0;
-            for(int val : nums1) {
+            for (int val : nums1) {
                 sum1 += val;
                 zeros1 += (val == 0) ? 1 : 0;
             }
 
             long sum2 = 0;
             int zeros2 = 0;
-            for(int val : nums2) {
+            for (int val : nums2) {
                 sum2 += val;
                 zeros2 += (val == 0) ? 1 : 0;
             }
@@ -62,39 +98,39 @@ public class MinimumEqualSumOfTwoArraysAfterReplacingZeros {
             int maxZeros = Math.max(zeros1, zeros2);
             System.out.println(sum1 + ", " + zeros1 + " ; " + sum2 + ", " + zeros2);
 
-            if(sum1 > sum2) {
+            if (sum1 > sum2) {
                 // if(zeros1 == 0 || zeros2 == 0) {
                 //     return -1;
                 // }
 
-                if(zeros2 == 0) {
+                if (zeros2 == 0) {
                     return -1;
                 }
 
                 long diff = sum1 - sum2;
-                if(zeros1 == 0 && diff < zeros2) {
+                if (zeros1 == 0 && diff < zeros2) {
                     return -1;
                 }
 
                 return sum1 + maxZeros;
-            } else if(sum1 < sum2) {
+            } else if (sum1 < sum2) {
                 // if(zeros1 == 0  || zeros2 == 0) {
                 //     return -1;
                 // }
 
-                if(zeros1 == 0) {
+                if (zeros1 == 0) {
                     return -1;
                 }
 
                 long diff = sum2 - sum1;
-                if(zeros2 == 0 && diff < zeros1) {
+                if (zeros2 == 0 && diff < zeros1) {
                     return -1;
                 }
 
                 return sum2 + maxZeros;
             }
 
-            if((zeros1 == 0 && zeros2 != 0)
+            if ((zeros1 == 0 && zeros2 != 0)
                     || (zeros1 != 0 && zeros2 == 0)) {
                 return -1;
             }
