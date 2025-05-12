@@ -1,23 +1,67 @@
 package org.jwolfe.quetzal.algorithms.lc;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class Finding3DigitEvenNumbers {
     class Solution {
         public int[] findEvenNumbers(int[] digits) {
-            if(digits == null || digits.length < 3) {
+            if (digits == null || digits.length < 3) {
+                return new int[0];
+            }
+
+            int n = digits.length;
+            Set<Integer> set = new HashSet<>();
+
+            for (int i = 0; i < n; i++) {
+                int a = digits[i];
+
+                for (int j = 0; j < n; j++) {
+                    if (i == j) {
+                        continue;
+                    }
+
+                    int b = digits[j];
+
+                    for (int k = 0; k < n; k++) {
+                        if (j == k || i == k) {
+                            continue;
+                        }
+
+                        int c = digits[k];
+                        int val = 100 * a + 10 * b + c;
+                        if (val >= 100 && val % 2 == 0) {
+                            set.add(val);
+                        }
+                    }
+                }
+            }
+
+            List<Integer> results = new ArrayList<>(set);
+            Collections.sort(results);
+
+            int[] answer = new int[results.size()];
+            for (int i = 0; i < results.size(); i++) {
+                answer[i] = results.get(i);
+            }
+
+            return answer;
+        }
+    }
+
+    class Solution_Correct_1 {
+        public int[] findEvenNumbers(int[] digits) {
+            if (digits == null || digits.length < 3) {
                 return new int[0];
             }
 
             int[] counts = new int[10];
-            for(int i = 0; i < digits.length; i++) {
+            for (int i = 0; i < digits.length; i++) {
                 int val = digits[i];
                 counts[val]++;
             }
 
             List<Integer> list = new ArrayList<>();
-            for(int val = 100; val < 999; val += 2) {
+            for (int val = 100; val < 999; val += 2) {
                 int num = val;
                 int digit3 = num % 10;
                 num /= 10;
@@ -28,19 +72,19 @@ public class Finding3DigitEvenNumbers {
                 int digit1 = num;
 
                 int[] tempCounts = counts.clone();
-                if(tempCounts[digit1] > 0) {
+                if (tempCounts[digit1] > 0) {
                     tempCounts[digit1]--;
                 } else {
                     continue;
                 }
 
-                if(tempCounts[digit2] > 0) {
+                if (tempCounts[digit2] > 0) {
                     tempCounts[digit2]--;
                 } else {
                     continue;
                 }
 
-                if(tempCounts[digit3] == 0) {
+                if (tempCounts[digit3] == 0) {
                     continue;
                 }
 
@@ -48,7 +92,7 @@ public class Finding3DigitEvenNumbers {
             }
 
             int[] results = new int[list.size()];
-            for(int i = 0; i < list.size(); i++) {
+            for (int i = 0; i < list.size(); i++) {
                 results[i] = list.get(i);
             }
 
