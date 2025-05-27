@@ -3,6 +3,21 @@ package org.jwolfe.quetzal.algorithms.lc;
 public class DivisibleAndNonDivisibleSumsDifference {
     class Solution {
         public int differenceOfSums(int n, int m) {
+            int ans = 0;
+            for (int i = 1; i <= n; i++) {
+                if (i % m == 0) {
+                    ans -= i;
+                } else {
+                    ans += i;
+                }
+            }
+
+            return ans;
+        }
+    }
+
+    class Solution_Correct_2 {
+        public int differenceOfSums(int n, int m) {
             int sum = n * (n + 1) / 2;
             int count = n / m;
 
@@ -18,8 +33,8 @@ public class DivisibleAndNonDivisibleSumsDifference {
             int num1 = 0;
             int num2 = 0;
 
-            for(int a = 1; a <= n; a++) {
-                if(a % m == 0) {
+            for (int a = 1; a <= n; a++) {
+                if (a % m == 0) {
                     num2 += a;
                 } else {
                     num1 += a;
