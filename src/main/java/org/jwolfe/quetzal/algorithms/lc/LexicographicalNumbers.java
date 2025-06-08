@@ -12,6 +12,33 @@ public class LexicographicalNumbers {
             }
 
             List<Integer> results = new ArrayList<>();
+            int number = 1;
+
+            for (int i = 0; i < n; i++) {
+                results.add(number);
+
+                if (number * 10 <= n) {
+                    number *= 10;
+                } else {
+                    while (number >= n || number % 10 == 9) {
+                        number /= 10;
+                    }
+
+                    number++;
+                }
+            }
+
+            return results;
+        }
+    }
+
+    class Solution_Correct_2 {
+        public List<Integer> lexicalOrder(int n) {
+            if (n < 1) {
+                return null;
+            }
+
+            List<Integer> results = new ArrayList<>();
             computeLexicalOrder(n, results);
 
             return results;
