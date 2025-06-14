@@ -7,13 +7,39 @@ import java.util.List;
 public class MaximumDifferenceByRemappingADigit {
     class Solution {
         public int minMaxDifference(int num) {
+            String s = Integer.toString(num);
+
+            int index = 0;
+            int n = s.length();
+            while (index < n && s.charAt(index) == '9') {
+                index++;
+            }
+
+            String maxString = s;
+            if (index < n) {
+                char mc = s.charAt(index);
+                maxString = s.replace(mc, '9');
+            }
+
+            char sc = s.charAt(0);
+            String minString = s.replace(sc, '0');
+
+            int maxNum = Integer.parseInt(maxString);
+            int minNum = Integer.parseInt(minString);
+
+            return maxNum - minNum;
+        }
+    }
+
+    class Solution_Correct_1 {
+        public int minMaxDifference(int num) {
             List<Integer> digitList = getList(num);
 
             // Find first non-9 number
             int digitForMax = -1;
-            for(int i = 0; i < digitList.size(); i++) {
+            for (int i = 0; i < digitList.size(); i++) {
                 int digit = digitList.get(i);
-                if(digit != 9) {
+                if (digit != 9) {
                     digitForMax = digit;
                     break;
                 }
@@ -30,7 +56,7 @@ public class MaximumDifferenceByRemappingADigit {
         private List<Integer> getList(int num) {
             List<Integer> list = new ArrayList<>();
 
-            while(num > 0) {
+            while (num > 0) {
                 int digit = num % 10;
                 list.add(digit);
 
@@ -44,10 +70,10 @@ public class MaximumDifferenceByRemappingADigit {
         private int replaceAndGenerateNumber(List<Integer> list, int from, int to) {
             int number = 0;
 
-            for(int i = 0; i < list.size(); i++) {
+            for (int i = 0; i < list.size(); i++) {
                 int digit = list.get(i);
 
-                if(digit == from) {
+                if (digit == from) {
                     digit = to;
                 }
 
