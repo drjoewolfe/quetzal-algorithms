@@ -3,7 +3,28 @@ package org.jwolfe.quetzal.algorithms.lc;
 public class MaximumDifferenceBetweenIncreasingElements {
     class Solution {
         public int maximumDifference(int[] nums) {
-            if(nums == null || nums.length < 2) {
+            if (nums == null || nums.length < 2) {
+                return -1;
+            }
+
+            int maxDifference = -1;
+            int minFromLeft = nums[0];
+            for (int i = 1; i < nums.length; i++) {
+                int val = nums[i];
+                if (val > minFromLeft) {
+                    maxDifference = Math.max(maxDifference, val - minFromLeft);
+                }
+
+                minFromLeft = Math.min(minFromLeft, val);
+            }
+
+            return maxDifference;
+        }
+    }
+
+    class Solution_Correct_2 {
+        public int maximumDifference(int[] nums) {
+            if (nums == null || nums.length < 2) {
                 return -1;
             }
 
@@ -11,10 +32,10 @@ public class MaximumDifferenceBetweenIncreasingElements {
             int maxDifference = -1;
             int minFromLeft = nums[0];
 
-            for(int i = 1; i < n; i++) {
+            for (int i = 1; i < n; i++) {
                 int val = nums[i];
 
-                if(val > minFromLeft) {
+                if (val > minFromLeft) {
                     maxDifference = Math.max(maxDifference, val - minFromLeft);
                 } else {
                     minFromLeft = val;
@@ -27,7 +48,7 @@ public class MaximumDifferenceBetweenIncreasingElements {
 
     class Solution_Correct_1 {
         public int maximumDifference(int[] nums) {
-            if(nums == null || nums.length < 2) {
+            if (nums == null || nums.length < 2) {
                 return -1;
             }
 
@@ -35,15 +56,15 @@ public class MaximumDifferenceBetweenIncreasingElements {
             int[] largestFromRight = new int[n];
             largestFromRight[n - 1] = nums[n - 1];
 
-            for(int i = n - 2; i >= 0; i--) {
+            for (int i = n - 2; i >= 0; i--) {
                 largestFromRight[i] = Math.max(largestFromRight[i + 1], nums[i]);
             }
 
             int maxDifference = -1;
-            for(int i = 0; i < n - 1; i++) {
+            for (int i = 0; i < n - 1; i++) {
                 int val = nums[i];
 
-                if(largestFromRight[i + 1] > val) {
+                if (largestFromRight[i + 1] > val) {
                     maxDifference = Math.max(maxDifference, largestFromRight[i + 1] - val);
                 }
             }
