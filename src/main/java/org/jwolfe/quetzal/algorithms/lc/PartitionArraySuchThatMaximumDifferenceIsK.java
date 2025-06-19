@@ -6,7 +6,33 @@ import java.util.TreeSet;
 public class PartitionArraySuchThatMaximumDifferenceIsK {
     class Solution {
         public int partitionArray(int[] nums, int k) {
-            if(nums == null || nums.length == 0 || k < 0) {
+            if (nums == null || nums.length == 0 || k < 0) {
+                return 0;
+            }
+
+            Arrays.sort(nums);
+            int count = 0;
+
+            int n = nums.length;
+            int left = 0;
+            int right = 0;
+
+            while (right < n) {
+                while (right < n && nums[right] <= nums[left] + k) {
+                    right++;
+                }
+
+                count++;
+                left = right;
+            }
+
+            return count;
+        }
+    }
+
+    class Solution_Correct_1 {
+        public int partitionArray(int[] nums, int k) {
+            if (nums == null || nums.length == 0 || k < 0) {
                 return 0;
             }
 
@@ -17,8 +43,8 @@ public class PartitionArraySuchThatMaximumDifferenceIsK {
             int n = nums.length;
 
             int count = 0;
-            while(right < n) {
-                while(right < n && nums[right] <= nums[left] + k) {
+            while (right < n) {
+                while (right < n && nums[right] <= nums[left] + k) {
                     right++;
                 }
 
@@ -32,7 +58,7 @@ public class PartitionArraySuchThatMaximumDifferenceIsK {
 
     class Solution_BinarySearch {
         public int partitionArray(int[] nums, int k) {
-            if(nums == null || nums.length == 0 || k < 0) {
+            if (nums == null || nums.length == 0 || k < 0) {
                 return 0;
             }
 
@@ -42,7 +68,7 @@ public class PartitionArraySuchThatMaximumDifferenceIsK {
             int n = nums.length;
 
             int count = 0;
-            while(i < n) {
+            while (i < n) {
                 count++;
                 i = binarySearchForNextGreater(nums, nums[i] + k);
             }
@@ -55,11 +81,11 @@ public class PartitionArraySuchThatMaximumDifferenceIsK {
             int right = nums.length - 1;
             int index = nums.length;
 
-            while(left <= right) {
+            while (left <= right) {
                 int mid = left + (right - left) / 2;
                 int mval = nums[mid];
 
-                if(mval > val) {
+                if (mval > val) {
                     index = mid;
                     right = mid - 1;
                 } else {
@@ -73,17 +99,17 @@ public class PartitionArraySuchThatMaximumDifferenceIsK {
 
     class Solution_Correct_Set {
         public int partitionArray(int[] nums, int k) {
-            if(nums == null || nums.length == 0 || k < 0) {
+            if (nums == null || nums.length == 0 || k < 0) {
                 return 0;
             }
 
             Arrays.sort(nums);
             TreeSet<Integer> set = new TreeSet<>();
-            for(int a : nums) {
+            for (int a : nums) {
                 int b = a - k;
                 Integer c = set.ceiling(b);
 
-                if(c == null || c < b) {
+                if (c == null || c < b) {
                     set.add(a);
                 }
             }
