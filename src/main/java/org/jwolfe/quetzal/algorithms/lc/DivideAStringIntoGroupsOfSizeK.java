@@ -3,7 +3,42 @@ package org.jwolfe.quetzal.algorithms.lc;
 public class DivideAStringIntoGroupsOfSizeK {
     class Solution {
         public String[] divideString(String s, int k, char fill) {
-            if(s == null || s.length() == 0) {
+            if (s == null || s.length() == 0) {
+                return new String[0];
+            }
+
+            int n = s.length();
+            int groupCount = n / k + (n % k > 0 ? 1 : 0);
+
+            String[] groups = new String[groupCount];
+            int index = 0;
+            for (int i = 0; i < groupCount; i++) {
+                StringBuilder builder = new StringBuilder();
+
+                int j = index;
+                for (; j < index + k && j < n; j++) {
+                    char c = s.charAt(j);
+                    builder.append(c);
+                }
+
+                if (i == groupCount - 1) {
+                    while (j < index + k) {
+                        builder.append(fill);
+                        j++;
+                    }
+                }
+
+                groups[i] = builder.toString();
+                index += k;
+            }
+
+            return groups;
+        }
+    }
+
+    class Solution_Correct_1 {
+        public String[] divideString(String s, int k, char fill) {
+            if (s == null || s.length() == 0) {
                 return new String[0];
             }
 
@@ -13,18 +48,18 @@ public class DivideAStringIntoGroupsOfSizeK {
             String[] groups = new String[groupCount];
 
             int index = 0;
-            for(int i = 0; i < groupCount; i++) {
+            for (int i = 0; i < groupCount; i++) {
                 StringBuilder builder = new StringBuilder();
 
                 int j = index;
-                for(; j < index + k && j < n; j++) {
+                for (; j < index + k && j < n; j++) {
                     char c = s.charAt(j);
                     builder.append(c);
                 }
 
-                if(i == groupCount - 1) {
+                if (i == groupCount - 1) {
                     // last group
-                    while(j < index + k) {
+                    while (j < index + k) {
                         builder.append(fill);
                         j++;
                     }
