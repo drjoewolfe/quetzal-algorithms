@@ -9,6 +9,34 @@ public class NumberOfSubsequencesThatSatisfyTheGivenSumCondition {
         private int MOD = 1_000_000_007;
 
         public int numSubseq(int[] nums, int target) {
+            Arrays.sort(nums);
+
+            int[] power = new int[nums.length];
+            power[0] = 1;
+            for (int i = 1; i < nums.length; i++) {
+                power[i] = (power[i - 1] * 2) % MOD;
+            }
+
+            int left = 0, right = nums.length - 1;
+            int count = 0;
+
+            while (left <= right) {
+                if (nums[left] + nums[right] <= target) {
+                    count = (count + power[right - left]) % MOD;
+                    left++;
+                } else {
+                    right--;
+                }
+            }
+
+            return count;
+        }
+    }
+
+    class Solution_Correct_2 {
+        private int MOD = 1_000_000_007;
+
+        public int numSubseq(int[] nums, int target) {
             if(nums == null || nums.length == 0) {
                 return 0;
             }
