@@ -5,12 +5,65 @@ import java.util.Arrays;
 public class MaximumNumberOfEventsThatCanBeAttendedII {
     class Solution {
         public int maxValue(int[][] events, int k) {
-            if(events == null || events.length == 0 || k < 1) {
+            if (events == null || events.length == 0 || k < 1) {
+                return 0;
+            }
+
+            Arrays.sort(events, (a, b) -> a[0] - b[0]);
+
+            int n = events.length;
+            int[][] dp = new int[k + 1][n];
+            for (int[] row : dp) {
+                Arrays.fill(row, -1);
+            }
+
+            return maxValue(events, k, 0, dp);
+        }
+
+        private int maxValue(int[][] events, int k, int index, int[][] dp) {
+            if (k == 0 || index == events.length) {
+                return 0;
+            }
+
+            if (dp[k][index] != -1) {
+                return dp[k][index];
+            }
+
+            int valueIfLeft = maxValue(events, k, index + 1, dp);
+
+            int nextIndex = getNextIndex(events, events[index][1]);
+            int valueIfAttended = maxValue(events, k - 1, nextIndex, dp) + events[index][2];
+
+            int max = Math.max(valueIfLeft, valueIfAttended);
+            return dp[k][index] = max;
+        }
+
+        private int getNextIndex(int[][] events, int target) {
+            int left = 0;
+            int right = events.length;
+
+            while (left < right) {
+                int mid = left + (right - left) / 2;
+
+                if (events[mid][0] <= target) {
+                    left = mid + 1;
+                } else {
+                    right = mid;
+                }
+            }
+
+            return left;
+        }
+    }
+
+    class Solution_Correct_1 {
+        public int maxValue(int[][] events, int k) {
+            if (events == null || events.length == 0 || k < 1) {
                 return 0;
             }
 
             Arrays.sort(events, (a, b) -> {
-                if(a[0] == b[0]) {
+                if (a[0] == b[0]) {
                     return a[1] - b[1];
                 }
 
@@ -19,7 +72,7 @@ public class MaximumNumberOfEventsThatCanBeAttendedII {
 
             int n = events.length;
             int[][] memo = new int[n][k + 1];
-            for(int i = 0; i < n; i++) {
+            for (int i = 0; i < n; i++) {
                 Arrays.fill(memo[i], -1);
             }
 
@@ -27,11 +80,11 @@ public class MaximumNumberOfEventsThatCanBeAttendedII {
         }
 
         private int maxValue(int[][] events, int k, int index, int[][] memo) {
-            if(k == 0 || index == events.length) {
+            if (k == 0 || index == events.length) {
                 return 0;
             }
 
-            if(memo[index][k] != -1) {
+            if (memo[index][k] != -1) {
                 return memo[index][k];
             }
 
@@ -55,11 +108,11 @@ public class MaximumNumberOfEventsThatCanBeAttendedII {
             int left = 0;
             int right = events.length;
 
-            while(left < right) {
+            while (left < right) {
                 int mid = left + (right - left) / 2;
                 int start = events[mid][0];
 
-                if(start <= target) {
+                if (start <= target) {
                     left = mid + 1;
                 } else {
                     right = mid;
@@ -72,12 +125,12 @@ public class MaximumNumberOfEventsThatCanBeAttendedII {
 
     class Solution_Recursive_TLE {
         public int maxValue(int[][] events, int k) {
-            if(events == null || events.length == 0 || k < 1) {
+            if (events == null || events.length == 0 || k < 1) {
                 return 0;
             }
 
             Arrays.sort(events, (a, b) -> {
-                if(a[0] == b[0]) {
+                if (a[0] == b[0]) {
                     return a[1] - b[1];
                 }
 
@@ -88,7 +141,7 @@ public class MaximumNumberOfEventsThatCanBeAttendedII {
         }
 
         private int maxValue(int[][] events, int k, int index) {
-            if(k == 0 || index == events.length) {
+            if (k == 0 || index == events.length) {
                 return 0;
             }
 
@@ -111,11 +164,11 @@ public class MaximumNumberOfEventsThatCanBeAttendedII {
             int left = 0;
             int right = events.length - 1;
 
-            while(left < right) {
+            while (left < right) {
                 int mid = left + (right - left) / 2;
                 int start = events[mid][0];
 
-                if(start <= target) {
+                if (start <= target) {
                     left = mid + 1;
                 } else {
                     right = mid;
@@ -128,12 +181,12 @@ public class MaximumNumberOfEventsThatCanBeAttendedII {
 
     class Solution_TLE {
         public int maxValue(int[][] events, int k) {
-            if(events == null || events.length == 0 || k < 1) {
+            if (events == null || events.length == 0 || k < 1) {
                 return 0;
             }
 
             Arrays.sort(events, (a, b) -> {
-                if(a[0] == b[0]) {
+                if (a[0] == b[0]) {
                     return a[1] - b[1];
                 }
 
@@ -144,7 +197,7 @@ public class MaximumNumberOfEventsThatCanBeAttendedII {
         }
 
         private int maxValue(int[][] events, int k, int attended, int index, int currEnd, int currValue) {
-            if(attended == k || index == events.length) {
+            if (attended == k || index == events.length) {
                 return currValue;
             }
 
@@ -156,7 +209,7 @@ public class MaximumNumberOfEventsThatCanBeAttendedII {
             int value = event[2];
 
             // Attend current event
-            if(start > currEnd) {
+            if (start > currEnd) {
                 totalValue = maxValue(events, k, attended + 1, index + 1, end, currValue + value);
             }
 
