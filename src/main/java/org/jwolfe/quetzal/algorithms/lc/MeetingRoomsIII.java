@@ -12,6 +12,78 @@ public class MeetingRoomsIII {
                 return 0;
             }
 
+            int[] meetingsPerRoom = new int[n];
+            PriorityQueue<Integer> availableRooms = new PriorityQueue<>();
+            PriorityQueue<long[]> blockedRooms = new PriorityQueue<>((a, b) -> {
+                if(a[1] != b[1])
+                    return Long.compare(a[1], b[1]);
+
+                return Long.compare(a[0], b[0]);
+            });
+
+            for(int i = 0; i < n; i++) {
+                availableRooms.offer(i);
+            }
+
+            Arrays.sort(meetings, (a, b) -> a[0] - b[0]);
+
+            for(int[] meeting : meetings) {
+                int start = meeting[0];
+                int end = meeting[1];
+
+                while(!blockedRooms.isEmpty()
+                        && blockedRooms.peek()[1] <= start) {
+                    long[] roomInfo = blockedRooms.poll();
+                    int room = (int) roomInfo[0];
+                    availableRooms.offer(room);
+                }
+
+                if(!availableRooms.isEmpty()) {
+                    int room = availableRooms.poll();
+                    blockedRooms.offer(new long[] {room, end});
+
+                    meetingsPerRoom[room]++;
+                } else {
+                    long[] nextAvailableRoomInfo = blockedRooms.poll();
+                    int room = (int) nextAvailableRoomInfo[0];
+                    long nextAvailableTime = nextAvailableRoomInfo[1];
+                    int requiredDuration = end - start;
+
+                    blockedRooms.offer(new long[] {room, nextAvailableTime + requiredDuration});
+
+                    meetingsPerRoom[room]++;
+                }
+            }
+
+            int maxMeetings = 0;
+            int maxMeetingsRoom = 0;
+
+            for(int i = 0; i < n; i++) {
+                if(meetingsPerRoom[i] > maxMeetings) {
+                    maxMeetings = meetingsPerRoom[i];
+                    maxMeetingsRoom = i;
+                }
+            }
+
+            print(meetingsPerRoom);
+            return maxMeetingsRoom;
+        }
+
+        private void print(int[] arr) {
+            for(int val : arr) {
+                System.out.print(val + " ");
+            }
+
+            System.out.println();
+        }
+    }
+
+    class Solution_Correct_1 {
+        public int mostBooked(int n, int[][] meetings) {
+            if(n < 1 || meetings == null || meetings.length == 0) {
+                return 0;
+            }
+
             int[] roomMeetings = new int[n];
             Arrays.sort(meetings, (a, b) -> a[0] - b[0]);
 
