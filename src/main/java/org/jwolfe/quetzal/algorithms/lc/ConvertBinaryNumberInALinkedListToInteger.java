@@ -11,7 +11,21 @@ public class ConvertBinaryNumberInALinkedListToInteger {
      * ListNode(int val, ListNode next) { this.val = val; this.next = next; }
      * }
      */
+
     class Solution {
+        public int getDecimalValue(ListNode head) {
+            int number = 0;
+            while(head != null) {
+                number *= 2;
+                number += head.val;
+                head = head.next;
+            }
+
+            return number;
+        }
+    }
+
+    class Solution_Correct_2 {
         public int getDecimalValue(ListNode head) {
             if (head == null) {
                 return 0;
