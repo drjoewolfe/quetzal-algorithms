@@ -8,6 +8,36 @@ public class DeleteCharactersToMakeFancyString {
             }
 
             StringBuilder builder = new StringBuilder();
+            char prev = s.charAt(0);
+
+            builder.append(prev);
+            int count = 1;
+
+            for (int i = 1; i < s.length(); i++) {
+                char curr = s.charAt(i);
+                if (curr == prev) {
+                    count++;
+                } else {
+                    prev = curr;
+                    count = 1;
+                }
+
+                if (count < 3) {
+                    builder.append(curr);
+                }
+            }
+
+            return builder.toString();
+        }
+    }
+
+    class Solution_Correct_2 {
+        public String makeFancyString(String s) {
+            if (s == null || s.length() < 3) {
+                return s;
+            }
+
+            StringBuilder builder = new StringBuilder();
             builder.append(s.charAt(0));
             builder.append(s.charAt(1));
 
