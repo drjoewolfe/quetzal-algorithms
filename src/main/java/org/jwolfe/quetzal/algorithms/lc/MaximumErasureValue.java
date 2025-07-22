@@ -1,12 +1,51 @@
 package org.jwolfe.quetzal.algorithms.lc;
 
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 public class MaximumErasureValue {
     class Solution {
         public int maximumUniqueSubarray(int[] nums) {
-            if(nums == null || nums.length == 0) {
+            if (nums == null || nums.length == 0) {
+                return 0;
+            }
+
+            int n = nums.length;
+            int left = 0;
+            int right = 0;
+
+            int maxScore = 0;
+            int score = 0;
+            Map<Integer, Integer> map = new HashMap<>();
+
+            while (right < n) {
+                System.out.println(left + ", " + right + ", " + score);
+                int val = nums[right];
+                if (map.containsKey(val)) {
+                    int index = map.get(val);
+                    for (; left <= index; left++) {
+                        int leftVal = nums[left];
+                        score -= leftVal;
+                        map.remove(leftVal);
+                    }
+                }
+
+                map.put(val, right);
+                score += val;
+                maxScore = Math.max(maxScore, score);
+
+                right++;
+            }
+
+            return maxScore;
+        }
+    }
+
+    class Solution_Correct_1 {
+        public int maximumUniqueSubarray(int[] nums) {
+            if (nums == null || nums.length == 0) {
                 return 0;
             }
 
@@ -20,10 +59,10 @@ public class MaximumErasureValue {
             int score = nums[0];
             int maxScore = score;
 
-            while(right < n - 1) {
+            while (right < n - 1) {
                 right++;
                 int a = nums[right];
-                while(set.contains(a)) {
+                while (set.contains(a)) {
                     int b = nums[left];
                     score -= b;
                     set.remove(b);
