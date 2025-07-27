@@ -6,7 +6,38 @@ import java.util.List;
 public class CountHillsAndValleysInAnArray {
     class Solution {
         public int countHillValley(int[] nums) {
-            if(nums == null || nums.length < 3) {
+            if (nums == null || nums.length < 3) {
+                return 0;
+            }
+
+            int n = nums.length;
+            List<Integer> list = new ArrayList<>();
+            list.add(nums[0]);
+
+            for (int i = 1; i < n; i++) {
+                if (nums[i] != nums[i - 1]) {
+                    list.add(nums[i]);
+                }
+            }
+
+            int count = 0;
+            for (int i = 1; i < list.size() - 1; i++) {
+                int a = list.get(i - 1);
+                int b = list.get(i);
+                int c = list.get(i + 1);
+
+                if ((a > b && c > b) || (a < b && c < b)) {
+                    count++;
+                }
+            }
+
+            return count;
+        }
+    }
+
+    class Solution_Correct_2 {
+        public int countHillValley(int[] nums) {
+            if (nums == null || nums.length < 3) {
                 return 0;
             }
 
@@ -14,33 +45,33 @@ public class CountHillsAndValleysInAnArray {
             int n = nums.length;
 
             int first = 0;
-            while(first < n - 1 && nums[first] == nums[first + 1]) {
+            while (first < n - 1 && nums[first] == nums[first + 1]) {
                 first++;
             }
 
-            if(first == n - 1) {
+            if (first == n - 1) {
                 return 0;
             }
 
             int second = first + 1;
-            while(second < n - 1 && nums[second] == nums[second + 1]) {
+            while (second < n - 1 && nums[second] == nums[second + 1]) {
                 second++;
             }
 
-            if(second == n - 1) {
+            if (second == n - 1) {
                 return 0;
             }
 
             int third = second + 1;
-            while(third < n) {
-                while(third < n - 1 && nums[third] == nums[third + 1]) {
+            while (third < n) {
+                while (third < n - 1 && nums[third] == nums[third + 1]) {
                     third++;
                 }
 
-                if(nums[first] < nums[second] && nums[second] > nums[third]) {
+                if (nums[first] < nums[second] && nums[second] > nums[third]) {
                     // hill
                     count++;
-                } else if(nums[first] > nums[second] && nums[second] < nums[third]) {
+                } else if (nums[first] > nums[second] && nums[second] < nums[third]) {
                     // valley
                     count++;
                 }
@@ -56,28 +87,28 @@ public class CountHillsAndValleysInAnArray {
 
     class Solution_Correct_1 {
         public int countHillValley(int[] nums) {
-            if(nums == null || nums.length < 3) {
+            if (nums == null || nums.length < 3) {
                 return 0;
             }
 
             List<Integer> uniqueElements = new ArrayList<>();
             uniqueElements.add(nums[0]);
-            for(int i = 1; i < nums.length; i++) {
-                if(nums[i] != nums[i - 1]) {
+            for (int i = 1; i < nums.length; i++) {
+                if (nums[i] != nums[i - 1]) {
                     uniqueElements.add(nums[i]);
                 }
             }
 
             int count = 0;
-            for(int i = 1; i < uniqueElements.size() - 1; i++) {
+            for (int i = 1; i < uniqueElements.size() - 1; i++) {
                 int a = uniqueElements.get(i - 1);
                 int b = uniqueElements.get(i);
                 int c = uniqueElements.get(i + 1);
 
-                if(a < b && b > c) {
+                if (a < b && b > c) {
                     // hill
                     count++;
-                } else if(a > b && b < c) {
+                } else if (a > b && b < c) {
                     // valley
                     count++;
                 }
