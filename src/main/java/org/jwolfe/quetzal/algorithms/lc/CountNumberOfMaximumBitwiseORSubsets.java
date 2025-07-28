@@ -7,6 +7,39 @@ public class CountNumberOfMaximumBitwiseORSubsets {
                 return 0;
             }
 
+            int n = nums.length;
+
+            int maxOr = 0;
+            for (int val : nums) {
+                maxOr |= val;
+            }
+
+            Integer[][] memo = new Integer[n][maxOr + 1];
+            return countMaxOrSubsets(nums, 0, 0, maxOr, memo);
+        }
+
+        private int countMaxOrSubsets(int[] nums, int index, int currOr, int maxOr, Integer[][] memo) {
+            if (index == nums.length) {
+                return (currOr == maxOr) ? 1 : 0;
+            }
+
+            if (memo[index][currOr] != null) {
+                return memo[index][currOr];
+            }
+
+            int without = countMaxOrSubsets(nums, index + 1, currOr, maxOr, memo);
+            int with = countMaxOrSubsets(nums, index + 1, currOr | nums[index], maxOr, memo);
+
+            return memo[index][currOr] = without + with;
+        }
+    }
+
+    class Solution_Correct_1 {
+        public int countMaxOrSubsets(int[] nums) {
+            if (nums == null || nums.length == 0) {
+                return 0;
+            }
+
             int max_xor = 0;
             for (int val : nums) {
                 max_xor |= val;
