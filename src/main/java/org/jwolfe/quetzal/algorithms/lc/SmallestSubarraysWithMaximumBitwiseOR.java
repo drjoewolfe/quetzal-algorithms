@@ -1,9 +1,43 @@
 package org.jwolfe.quetzal.algorithms.lc;
 
+import java.util.Arrays;
+
 public class SmallestSubarraysWithMaximumBitwiseOR {
     class Solution {
         public int[] smallestSubarrays(int[] nums) {
-            if(nums == null || nums.length == 0) {
+            if (nums == null || nums.length == 0) {
+                return new int[0];
+            }
+
+            int n = nums.length;
+
+            int[] pos = new int[31];
+            Arrays.fill(pos, -1);
+
+            int[] results = new int[n];
+            for (int i = n - 1; i >= 0; i--) {
+                int j = i;
+
+                for (int bit = 0; bit < 31; bit++) {
+                    if ((nums[i] & (1 << bit)) == 0) {
+                        if (pos[bit] != -1) {
+                            j = Math.max(j, pos[bit]);
+                        }
+                    } else {
+                        pos[bit] = i;
+                    }
+                }
+
+                results[i] = j - i + 1;
+            }
+
+            return results;
+        }
+    }
+
+    class Solution_Correct_1 {
+        public int[] smallestSubarrays(int[] nums) {
+            if (nums == null || nums.length == 0) {
                 return new int[0];
             }
 
@@ -11,12 +45,12 @@ public class SmallestSubarraysWithMaximumBitwiseOR {
             int[] results = new int[n];
             int[] earliestIndexesForBit = new int[30];
 
-            for(int i = n - 1; i >= 0; i--) {
+            for (int i = n - 1; i >= 0; i--) {
                 int val = nums[i];
                 results[i] = 1;
 
-                for(int j = 0; j < 30; j++) {
-                    if((val & (1 << j)) > 0) {
+                for (int j = 0; j < 30; j++) {
+                    if ((val & (1 << j)) > 0) {
                         // bit set at j
                         earliestIndexesForBit[j] = i;
                     }
@@ -31,18 +65,18 @@ public class SmallestSubarraysWithMaximumBitwiseOR {
 
     class Solution_Brute_TLE {
         public int[] smallestSubarrays(int[] nums) {
-            if(nums == null || nums.length == 0) {
+            if (nums == null || nums.length == 0) {
                 return new int[0];
             }
 
             int n = nums.length;
             int[] results = new int[n];
-            for(int i = 0; i < n; i++) {
+            for (int i = 0; i < n; i++) {
                 int bor = 0;
                 int maxBor = -1;
-                for(int j = i; j < n; j++) {
+                for (int j = i; j < n; j++) {
                     bor |= nums[j];
-                    if(bor > maxBor) {
+                    if (bor > maxBor) {
                         maxBor = bor;
                         results[i] = j - i + 1;
                     }
