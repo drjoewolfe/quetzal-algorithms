@@ -3,6 +3,33 @@ package org.jwolfe.quetzal.algorithms.lc;
 public class LongestSubarrayWithMaximumBitwiseAND {
     class Solution {
         public int longestSubarray(int[] nums) {
+            if(nums == null || nums.length == 0) {
+                return 0;
+            }
+
+            int ans = 0;
+            int max = 0;
+            int streak = 0;
+            for(int val : nums) {
+                if(val > max) {
+                    max = val;
+                    streak = 1;
+                    ans = 1;
+                } else if(val == max) {
+                    streak++;
+                } else {
+                    streak = 0;
+                }
+
+                ans = Math.max(ans, streak);
+            }
+
+            return ans;
+        }
+    }
+
+    class Solution_Correct_2 {
+        public int longestSubarray(int[] nums) {
             if (nums == null || nums.length == 0) {
                 return 0;
             }
