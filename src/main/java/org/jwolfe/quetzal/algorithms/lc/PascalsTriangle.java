@@ -7,6 +7,39 @@ public class PascalsTriangle {
     class Solution {
         public List<List<Integer>> generate(int numRows) {
             List<List<Integer>> triangle = new ArrayList<>();
+            if (numRows < 1) {
+                return triangle;
+            }
+
+            List<Integer> currRow = new ArrayList<>();
+            currRow.add(1);
+            triangle.add(currRow);
+
+            for (int i = 2; i <= numRows; i++) {
+                List<Integer> prevRow = currRow;
+
+                currRow = new ArrayList<>();
+                currRow.add(1);
+
+                for (int j = 0; j < prevRow.size() - 1; j++) {
+                    int first = prevRow.get(j);
+                    ;
+                    int second = prevRow.get(j + 1);
+
+                    currRow.add(first + second);
+                }
+
+                currRow.add(1);
+                triangle.add(currRow);
+            }
+
+            return triangle;
+        }
+    }
+
+    class Solution_Correct_1 {
+        public List<List<Integer>> generate(int numRows) {
+            List<List<Integer>> triangle = new ArrayList<>();
 
             if(numRows < 1) {
                 return triangle;
