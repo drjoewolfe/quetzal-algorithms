@@ -5,13 +5,48 @@ import java.util.Map;
 
 public class FruitIntoBaskets {
     class Solution {
+        public int totalFruit(int[] fruits) {
+            if (fruits == null) {
+                return 0;
+            }
+
+            int n = fruits.length;
+            if (n < 3) {
+                return n;
+            }
+
+            int maxLength = 0;
+            Map<Integer, Integer> map = new HashMap<>();
+            for (int left = 0, right = 0; right < n; right++) {
+                int rightType = fruits[right];
+                map.put(rightType, map.getOrDefault(rightType, 0) + 1);
+
+                while (map.size() > 2) {
+                    int leftType = fruits[left];
+                    map.put(leftType, map.get(leftType) - 1);
+                    if (map.get(leftType) == 0) {
+                        map.remove(leftType);
+                    }
+
+                    left++;
+                }
+
+                int length = right - left + 1;
+                maxLength = Math.max(maxLength, length);
+            }
+
+            return maxLength;
+        }
+    }
+
+    class Solution_Correct_2 {
         public int totalFruit(int[] tree) {
-            if(tree == null || tree.length == 0) {
+            if (tree == null || tree.length == 0) {
                 return 0;
             }
 
             int n = tree.length;
-            if(n < 3) {
+            if (n < 3) {
                 return n;
             }
 
@@ -21,13 +56,13 @@ public class FruitIntoBaskets {
             int maxLength = 2;
 
             int left = 0;
-            for(int right = 1; right < n; right++) {
+            for (int right = 1; right < n; right++) {
                 int type = tree[right];
                 map.put(type, map.getOrDefault(type, 0) + 1);
 
-                while(map.size() > 2 && left < right) {
+                while (map.size() > 2 && left < right) {
                     int prevType = tree[left++];
-                    if(map.get(prevType) == 1) {
+                    if (map.get(prevType) == 1) {
                         map.remove(prevType);
                     } else {
                         map.put(prevType, map.get(prevType) - 1);
@@ -43,7 +78,7 @@ public class FruitIntoBaskets {
 
     class Solution_Correct_1 {
         public int totalFruit(int[] tree) {
-            if(tree == null) {
+            if (tree == null) {
                 return 0;
             }
 
@@ -52,28 +87,28 @@ public class FruitIntoBaskets {
             int leftAnchor = 0;
             int maxLength = 0;
 
-            for(int i = 0; i < tree.length; i++) {
+            for (int i = 0; i < tree.length; i++) {
                 int type = tree[i];
 
-                if(type == firstType || type == secondType) {
+                if (type == firstType || type == secondType) {
                     continue;
                 }
 
-                if(firstType == -1) {
+                if (firstType == -1) {
                     firstType = type;
-                } else if(secondType == -1) {
+                } else if (secondType == -1) {
                     secondType = type;
                 } else {
                     int length = i - leftAnchor;
                     maxLength = Math.max(maxLength, length);
-                    if(tree[i - 1] == firstType) {
+                    if (tree[i - 1] == firstType) {
                         secondType = type;
                     } else {
                         firstType = type;
                     }
 
                     int j = i;
-                    while(j > 0 && (tree[j - 1] == firstType || tree[j - 1] == secondType)) {
+                    while (j > 0 && (tree[j - 1] == firstType || tree[j - 1] == secondType)) {
                         j--;
                     }
 
