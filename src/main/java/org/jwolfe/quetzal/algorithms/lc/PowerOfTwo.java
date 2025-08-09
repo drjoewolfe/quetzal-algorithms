@@ -3,6 +3,16 @@ package org.jwolfe.quetzal.algorithms.lc;
 public class PowerOfTwo {
     class Solution {
         public boolean isPowerOfTwo(int n) {
+            if (n <= 0) {
+                return false;
+            }
+
+            return (n & (n - 1)) == 0;
+        }
+    }
+
+    class Solution_Correct_3 {
+        public boolean isPowerOfTwo(int n) {
             if(n <= 0) {
                 return false;
             }
