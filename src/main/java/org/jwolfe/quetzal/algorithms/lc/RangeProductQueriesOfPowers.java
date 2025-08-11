@@ -5,27 +5,62 @@ import java.util.List;
 
 public class RangeProductQueriesOfPowers {
     class Solution {
-        int MOD = 1_000_000_007;
+        private int MOD = 1_000_000_007;
 
         public int[] productQueries(int n, int[][] queries) {
-            if(n < 1 || queries.length == 0) {
+            if (n < 1 || queries == null || queries.length == 0) {
                 return new int[0];
             }
 
             List<Integer> powers = new ArrayList<>();
-            for(int i = 0; i < 32; i++) {
-                if((n & (1 << i)) > 0) {
+            for (int i = 0; i < 32; i++) {
+                int power = (1 << i);
+                if ((n & power) > 0) {
+                    powers.add(power);
+                }
+            }
+
+            int[] results = new int[queries.length];
+            for (int i = 0; i < queries.length; i++) {
+                int[] query = queries[i];
+                int left = query[0];
+                int right = query[1];
+
+                long product = 1;
+                for (int j = left; j <= right; j++) {
+                    product *= powers.get(j);
+                    product %= MOD;
+                }
+
+                results[i] = (int) product;
+            }
+
+            return results;
+        }
+    }
+
+    class Solution_Correct_1 {
+        int MOD = 1_000_000_007;
+
+        public int[] productQueries(int n, int[][] queries) {
+            if (n < 1 || queries.length == 0) {
+                return new int[0];
+            }
+
+            List<Integer> powers = new ArrayList<>();
+            for (int i = 0; i < 32; i++) {
+                if ((n & (1 << i)) > 0) {
                     powers.add(1 << i);
                 }
             }
 
             int[] results = new int[queries.length];
 
-            for(int j = 0; j < queries.length; j++) {
+            for (int j = 0; j < queries.length; j++) {
                 int[] query = queries[j];
 
                 long product = 1;
-                for(int i = query[0]; i <= query[1]; i++) {
+                for (int i = query[0]; i <= query[1]; i++) {
                     product *= powers.get(i);
                     product %= MOD;
                 }
