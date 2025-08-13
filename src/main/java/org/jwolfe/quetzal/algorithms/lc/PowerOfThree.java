@@ -3,11 +3,32 @@ package org.jwolfe.quetzal.algorithms.lc;
 public class PowerOfThree {
     class Solution {
         public boolean isPowerOfThree(int n) {
-            if(n <= 0) {
+            return n > 0 && Math.pow(3, 19) % n == 0;
+        }
+    }
+
+    class Solution_TLE {
+        public boolean isPowerOfThree(int n) {
+            int val = 1;
+            while (val <= n) {
+                if (val == n) {
+                    return true;
+                }
+
+                val *= 3;
+            }
+
+            return false;
+        }
+    }
+
+    class Solution_Correct_1 {
+        public boolean isPowerOfThree(int n) {
+            if (n <= 0) {
                 return false;
             }
 
-            while(n % 3 == 0) {
+            while (n % 3 == 0) {
                 n /= 3;
             }
 
