@@ -3,47 +3,74 @@ package org.jwolfe.quetzal.algorithms.lc;
 public class Largest3SameDigitNumberInString {
     class Solution {
         public String largestGoodInteger(String num) {
-            if(num == null || num.length() < 3) {
+            if (num == null || num.length() < 3) {
+                return "";
+            }
+
+            int n = num.length();
+            int maxGoodNumber = 0;
+            String maxGoodString = "";
+            for (int i = 0; i < n - 2; i++) {
+                int a = num.charAt(i) - '0';
+                int b = num.charAt(i + 1) - '0';
+                int c = num.charAt(i + 2) - '0';
+
+                if (a == b && b == c) {
+                    int number = a * 100 + b * 10 + c;
+                    if (number >= maxGoodNumber) {
+                        maxGoodNumber = number;
+                        maxGoodString = Integer.toString(a) + Integer.toString(a) + Integer.toString(a);
+                    }
+                }
+            }
+
+            return maxGoodString;
+        }
+    }
+
+    class Solution_Correct_2 {
+        public String largestGoodInteger(String num) {
+            if (num == null || num.length() < 3) {
                 return "";
             }
 
             int n = num.length();
             char mc = ' ';
-            for(int i = 2; i < n; i++) {
+            for (int i = 2; i < n; i++) {
                 char c1 = num.charAt(i - 2);
                 char c2 = num.charAt(i - 1);
                 char c3 = num.charAt(i);
 
-                if(c1 == c2 && c2 == c3) {
+                if (c1 == c2 && c2 == c3) {
                     // Good
 
-                    if(mc < c1) {
+                    if (mc < c1) {
                         mc = c1;
                     }
                 }
             }
 
-            return mc == ' ' ? "" : String.valueOf(new char[] {mc, mc, mc});
+            return mc == ' ' ? "" : String.valueOf(new char[]{mc, mc, mc});
         }
     }
 
     class Solution_Correct_1 {
         public String largestGoodInteger(String num) {
-            if(num == null || num.length() < 3) {
+            if (num == null || num.length() < 3) {
                 return "";
             }
 
             int largestGood = Integer.MIN_VALUE;
             char[] largestGoodChars = new char[3];
-            for(int i = 0; i <= num.length() - 3; i++) {
+            for (int i = 0; i <= num.length() - 3; i++) {
                 char c1 = num.charAt(i);
                 char c2 = num.charAt(i + 1);
                 char c3 = num.charAt(i + 2);
 
-                if(c1 == c2 && c2 == c3) {
+                if (c1 == c2 && c2 == c3) {
                     // Good
                     int good = (c1 - '0') * 100 + (c2 - '0') * 10 + (c3 - '0');
-                    if(largestGood < good) {
+                    if (largestGood < good) {
                         largestGood = good;
                         largestGoodChars[0] = c1;
                         largestGoodChars[1] = c2;
