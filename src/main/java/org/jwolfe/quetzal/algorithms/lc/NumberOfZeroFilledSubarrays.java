@@ -3,7 +3,29 @@ package org.jwolfe.quetzal.algorithms.lc;
 public class NumberOfZeroFilledSubarrays {
     class Solution {
         public long zeroFilledSubarray(int[] nums) {
-            if(nums == null || nums.length == 0) {
+            if (nums == null || nums.length == 0) {
+                return 0L;
+            }
+
+            long count = 0;
+            long streak = 0;
+            for (int val : nums) {
+                if (val == 0) {
+                    streak++;
+                } else {
+                    streak = 0;
+                }
+
+                count += streak;
+            }
+
+            return count;
+        }
+    }
+
+    class Solution_Correct_1 {
+        public long zeroFilledSubarray(int[] nums) {
+            if (nums == null || nums.length == 0) {
                 return 0;
             }
 
@@ -11,8 +33,8 @@ public class NumberOfZeroFilledSubarrays {
             long count = 0;
 
             int zeroPrefix = 0;
-            for(int i = 0; i < n; i++) {
-                if(nums[i] == 0) {
+            for (int i = 0; i < n; i++) {
+                if (nums[i] == 0) {
                     count += zeroPrefix + 1;
                     zeroPrefix++;
                 } else {
@@ -26,24 +48,24 @@ public class NumberOfZeroFilledSubarrays {
 
     class Solution_Brute {
         public long zeroFilledSubarray(int[] nums) {
-            if(nums == null || nums.length == 0) {
+            if (nums == null || nums.length == 0) {
                 return 0;
             }
 
             int n = nums.length;
             long count = 0;
-            for(int l = 1; l <= n; l++) {
-                for(int i = 0; i + l <= n; i++) {
+            for (int l = 1; l <= n; l++) {
+                for (int i = 0; i + l <= n; i++) {
                     int j = i + l - 1;
 
                     boolean zeroArray = true;
-                    for(int k = i; k <= j; k++) {
-                        if(nums[k] != 0) {
+                    for (int k = i; k <= j; k++) {
+                        if (nums[k] != 0) {
                             zeroArray = false;
                         }
                     }
 
-                    if(zeroArray) {
+                    if (zeroArray) {
                         count++;
                     }
                 }
