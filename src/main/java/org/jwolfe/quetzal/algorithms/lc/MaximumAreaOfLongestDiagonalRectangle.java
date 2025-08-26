@@ -3,22 +3,49 @@ package org.jwolfe.quetzal.algorithms.lc;
 public class MaximumAreaOfLongestDiagonalRectangle {
     class Solution {
         public int areaOfMaxDiagonal(int[][] dimensions) {
-            if(dimensions == null || dimensions.length == 0) {
+            if (dimensions == null || dimensions.length == 0) {
                 return 0;
             }
 
             int maxDiagonalSquare = 0;
-            int maxArea =  0;
-            for(int[] dim : dimensions) {
+            int maxArea = 0;
+            for (int[] dim : dimensions) {
+                int l = dim[0];
+                int b = dim[1];
+
+                int diagonalSquare = (l * l) + (b * b);
+                int area = l * b;
+
+                if (diagonalSquare > maxDiagonalSquare) {
+                    maxDiagonalSquare = diagonalSquare;
+                    maxArea = area;
+                } else if (diagonalSquare == maxDiagonalSquare) {
+                    maxArea = Math.max(maxArea, area);
+                }
+            }
+
+            return maxArea;
+        }
+    }
+
+    class Solution_Correct_1 {
+        public int areaOfMaxDiagonal(int[][] dimensions) {
+            if (dimensions == null || dimensions.length == 0) {
+                return 0;
+            }
+
+            int maxDiagonalSquare = 0;
+            int maxArea = 0;
+            for (int[] dim : dimensions) {
                 int length = dim[0];
                 int width = dim[1];
                 int area = length * width;
 
                 int diagonalSquare = (length * length) + (width * width);
-                if(diagonalSquare > maxDiagonalSquare) {
+                if (diagonalSquare > maxDiagonalSquare) {
                     maxDiagonalSquare = diagonalSquare;
                     maxArea = area;
-                } else if(diagonalSquare == maxDiagonalSquare) {
+                } else if (diagonalSquare == maxDiagonalSquare) {
                     maxArea = Math.max(maxArea, area);
                 }
             }
