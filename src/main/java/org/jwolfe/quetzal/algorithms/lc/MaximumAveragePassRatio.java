@@ -9,6 +9,48 @@ public class MaximumAveragePassRatio {
                 return 0d;
             }
 
+            int n = classes.length;
+            PriorityQueue<int[]> heap = new PriorityQueue<>((a, b) -> Double.compare(gain(b), gain(a)));
+
+
+            for (int[] item : classes) {
+                heap.offer(item);
+            }
+
+            while (extraStudents > 0) {
+                int[] item = heap.poll();
+                item[0]++;
+                item[1]++;
+
+                heap.offer(item);
+                extraStudents--;
+            }
+
+            double ratioSum = 0;
+            while (!heap.isEmpty()) {
+                int[] item = heap.poll();
+                double ratio = 1d * item[0] / item[1];
+                ratioSum += ratio;
+            }
+
+            double passRatio = ratioSum / n;
+            return passRatio;
+        }
+
+        private double gain(int[] item) {
+            double before = 1d * item[0] / item[1];
+            double after = 1d * (item[0] + 1) / (item[1] + 1);
+
+            return after - before;
+        }
+    }
+
+    class Solution_Correct_1 {
+        public double maxAverageRatio(int[][] classes, int extraStudents) {
+            if (classes == null || classes.length == 0) {
+                return 0d;
+            }
+
             PriorityQueue<Memento> maxHeap = new PriorityQueue<>((a, b) -> Double.compare(b.gain, a.gain));
             for (var cls : classes) {
                 maxHeap.offer(new Memento(computeGain(cls), cls[0], cls[1]));
