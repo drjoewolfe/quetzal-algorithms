@@ -1,12 +1,53 @@
 package org.jwolfe.quetzal.algorithms.lc;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Queue;
+import java.util.*;
 
 public class NumberOfPeopleAwareOfASecret {
     class Solution {
+        private int MOD = 1_000_000_007;
+
+        public int peopleAwareOfSecret(int n, int delay, int forget) {
+            if(n < 1) {
+                return 0;
+            }
+
+            Deque<int[]> know = new LinkedList<>();
+            Deque<int[]> share = new LinkedList<>();
+
+            know.add(new int[] {1, 1});
+
+            int knowCount = 1;
+            int shareCount = 0;
+
+            for(int day = 2; day <= n; day++) {
+                if(!know.isEmpty() && know.peekFirst()[0] == (day - delay)) {
+                    int[] matured = know.pollFirst();
+                    int count = matured[1];
+
+                    knowCount = (knowCount - count + MOD) % MOD;
+                    shareCount = (shareCount + count) % MOD;
+
+                    share.add(matured);
+                }
+
+                if(!share.isEmpty() && share.peekFirst()[0] == (day - forget)) {
+                    int[] expired = share.pollFirst();
+                    int count = expired[1];
+
+                    shareCount = (shareCount - count + MOD) % MOD;
+                }
+
+                if(!share.isEmpty()) {
+                    knowCount = (knowCount + shareCount) % MOD;
+                    know.add(new int[] {day, shareCount});
+                }
+            }
+
+            return (knowCount + shareCount) % MOD;
+        }
+    }
+
+    class Solution_Correct_1 {
         private int MOD = 1_000_000_007;
 
         public int peopleAwareOfSecret(int n, int delay, int forget) {
