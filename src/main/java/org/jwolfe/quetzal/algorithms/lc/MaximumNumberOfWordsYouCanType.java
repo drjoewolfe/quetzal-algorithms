@@ -6,24 +6,61 @@ import java.util.Set;
 public class MaximumNumberOfWordsYouCanType {
     class Solution {
         public int canBeTypedWords(String text, String brokenLetters) {
-            if(text == null || text.length() == 0) {
+            if (text == null || text.length() == 0) {
                 return 0;
             }
 
             String[] words = text.split(" ");
-            if(brokenLetters == null || brokenLetters.length() == 0) {
+
+            if (brokenLetters == null || brokenLetters.length() == 0) {
+                return words.length;
+            }
+
+            Set<Character> brokenCharacters = new HashSet<>();
+            for (int i = 0; i < brokenLetters.length(); i++) {
+                brokenCharacters.add(brokenLetters.charAt(i));
+            }
+
+            int count = 0;
+            for (String word : words) {
+                boolean canType = true;
+                for (int i = 0; i < word.length(); i++) {
+                    char c = word.charAt(i);
+                    if (brokenCharacters.contains(c)) {
+                        canType = false;
+                        break;
+                    }
+                }
+
+                if (canType) {
+                    count++;
+                }
+            }
+
+            return count;
+        }
+    }
+
+    class Solution_Correct_1 {
+        public int canBeTypedWords(String text, String brokenLetters) {
+            if (text == null || text.length() == 0) {
+                return 0;
+            }
+
+            String[] words = text.split(" ");
+            if (brokenLetters == null || brokenLetters.length() == 0) {
                 return words.length;
             }
 
             Set<Character> set = new HashSet<>();
-            for(int i = 0; i < brokenLetters.length(); i++) {
+            for (int i = 0; i < brokenLetters.length(); i++) {
                 set.add(brokenLetters.charAt(i));
             }
 
             int count = words.length;
-            for(String word : words) {
-                for(int j = 0; j < word.length(); j++) {
-                    if(set.contains(word.charAt(j))) {
+            for (String word : words) {
+                for (int j = 0; j < word.length(); j++) {
+                    if (set.contains(word.charAt(j))) {
                         count--;
                         break;
                     }
