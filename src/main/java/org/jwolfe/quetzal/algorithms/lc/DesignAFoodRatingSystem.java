@@ -6,18 +6,77 @@ import java.util.TreeSet;
 
 public class DesignAFoodRatingSystem {
     class FoodRatings {
+        Map<String, FoodInfo> foodMap;
+        Map<String, TreeSet<FoodInfo>> cuisineMap;
+
+        public FoodRatings(String[] foods, String[] cuisines, int[] ratings) {
+            foodMap = new HashMap<>();
+            cuisineMap = new HashMap<>();
+
+            for (int i = 0; i < foods.length; i++) {
+                String food = foods[i];
+                String cuisine = cuisines[i];
+                int rating = ratings[i];
+
+                FoodInfo foodInfo = new FoodInfo(food, cuisine, rating);
+                foodMap.put(food, foodInfo);
+
+                if (!cuisineMap.containsKey(cuisine)) {
+                    cuisineMap.put(cuisine, new TreeSet<>((a, b) -> {
+                        if (a.rating == b.rating) {
+                            return a.food.compareTo(b.food);
+                        }
+
+                        return b.rating - a.rating;
+                    }
+                    ));
+                }
+
+                cuisineMap.get(cuisine).add(foodInfo);
+            }
+        }
+
+        public void changeRating(String food, int newRating) {
+            var foodInfo = foodMap.get(food);
+
+            var cuisineFoods = cuisineMap.get(foodInfo.cuisine);
+            cuisineFoods.remove(foodInfo);
+
+            foodInfo.rating = newRating;
+            cuisineFoods.add(foodInfo);
+        }
+
+        public String highestRated(String cuisine) {
+            var cuisineFoods = cuisineMap.get(cuisine);
+            return cuisineFoods.first().food;
+        }
+
+        class FoodInfo {
+            String food;
+            String cuisine;
+            int rating;
+
+            public FoodInfo(String food, String cuisine, int rating) {
+                this.food = food;
+                this.cuisine = cuisine;
+                this.rating = rating;
+            }
+        }
+    }
+
+    class FoodRatings_Correct_2 {
         Map<String, FoodRating> foodRatingMap;
         Map<String, String> foodCuisineMap;
         Map<String, TreeSet<FoodRating>> cuisineFoodRatingMap;
 
-        public FoodRatings(String[] foods, String[] cuisines, int[] ratings) {
+        public FoodRatings_Correct_2(String[] foods, String[] cuisines, int[] ratings) {
             int n = foods.length;
 
             foodRatingMap = new HashMap<>();
             foodCuisineMap = new HashMap<>();
             cuisineFoodRatingMap = new HashMap<>();
 
-            for(int i = 0; i < n; i++) {
+            for (int i = 0; i < n; i++) {
                 String food = foods[i];
                 String cuisine = cuisines[i];
                 int rating = ratings[i];
@@ -26,7 +85,7 @@ public class DesignAFoodRatingSystem {
 
                 foodRatingMap.put(food, foodRating);
                 foodCuisineMap.put(food, cuisine);
-                if(!cuisineFoodRatingMap.containsKey(cuisine)) {
+                if (!cuisineFoodRatingMap.containsKey(cuisine)) {
                     cuisineFoodRatingMap.put(cuisine, new TreeSet<>());
                 }
 
@@ -59,7 +118,7 @@ public class DesignAFoodRatingSystem {
 
             @Override
             public int compareTo(FoodRating other) {
-                if(this.rating == other.rating) {
+                if (this.rating == other.rating) {
                     return other.food.compareTo(this.food);
                 }
 
@@ -83,7 +142,7 @@ public class DesignAFoodRatingSystem {
             foodCuisineMap = new HashMap<>();
             foodRatingMap = new HashMap<>();
 
-            for(int i = 0; i < foods.length; i++) {
+            for (int i = 0; i < foods.length; i++) {
                 String food = foods[i];
                 String cuisine = cuisines[i];
                 int rating = ratings[i];
@@ -91,7 +150,7 @@ public class DesignAFoodRatingSystem {
                 var foodRating = new FoodRating(food, rating);
                 foodCuisineMap.put(food, cuisine);
                 foodRatingMap.put(food, foodRating);
-                if(!cuisineMap.containsKey(cuisine)) {
+                if (!cuisineMap.containsKey(cuisine)) {
                     cuisineMap.put(cuisine, new TreeSet<>());
                 }
 
@@ -124,7 +183,7 @@ public class DesignAFoodRatingSystem {
 
             @Override
             public int compareTo(FoodRating other) {
-                if(this.rating == other.rating) {
+                if (this.rating == other.rating) {
                     return other.food.compareTo(this.food);
                 }
 
@@ -142,14 +201,14 @@ public class DesignAFoodRatingSystem {
             cuisineMap = new HashMap<>();
             foodCuisineMap = new HashMap<>();
 
-            for(int i = 0; i < foods.length; i++) {
+            for (int i = 0; i < foods.length; i++) {
                 String food = foods[i];
                 String cuisine = cuisines[i];
                 int rating = ratings[i];
 
                 var foodRating = new FoodRating(food, rating);
                 foodCuisineMap.put(food, cuisine);
-                if(!cuisineMap.containsKey(cuisine)) {
+                if (!cuisineMap.containsKey(cuisine)) {
                     cuisineMap.put(cuisine, new TreeSet<>());
                 }
 
@@ -161,8 +220,8 @@ public class DesignAFoodRatingSystem {
             String cuisine = foodCuisineMap.get(food);
             var set = cuisineMap.get(cuisine);
             FoodRating foodRating = null;
-            for(var entry : set) {
-                if(entry.food.equals(food)) {
+            for (var entry : set) {
+                if (entry.food.equals(food)) {
                     foodRating = entry;
                     break;
                 }
@@ -188,7 +247,7 @@ public class DesignAFoodRatingSystem {
 
             @Override
             public int compareTo(FoodRating other) {
-                if(this.rating == other.rating) {
+                if (this.rating == other.rating) {
                     return other.food.compareTo(this.food);
                 }
 
