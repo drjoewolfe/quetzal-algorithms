@@ -3,7 +3,42 @@ package org.jwolfe.quetzal.algorithms.lc;
 public class CompareVersionNumbers {
     class Solution {
         public int compareVersion(String version1, String version2) {
-            if(version1 == null || version2 == null || version1.length() == 0 || version2.length() == 0) {
+            if (version1 == null && version2 == null) {
+                return 0;
+            }
+
+            if (version1 == null) {
+                return -1;
+            }
+
+            if (version2 == null) {
+                return 1;
+            }
+
+            String[] v1Parts = version1.split("\\.");
+            String[] v2Parts = version2.split("\\.");
+
+            int size = Math.max(v1Parts.length, v2Parts.length);
+            for (int i = 0; i < size; i++) {
+                int v1Part = (i < v1Parts.length) ? Integer.valueOf(v1Parts[i]) : 0;
+                int v2Part = (i < v2Parts.length) ? Integer.valueOf(v2Parts[i]) : 0;
+
+                if (v1Part < v2Part) {
+                    return -1;
+                }
+
+                if (v1Part > v2Part) {
+                    return 1;
+                }
+            }
+
+            return 0;
+        }
+    }
+
+    class Solution_Correct_2 {
+        public int compareVersion(String version1, String version2) {
+            if (version1 == null || version2 == null || version1.length() == 0 || version2.length() == 0) {
                 return 0;
             }
 
@@ -14,21 +49,21 @@ public class CompareVersionNumbers {
             int v2Length = v2Parts.length;
 
             int i = 0;
-            while(i < v1Length || i < v2Length) {
+            while (i < v1Length || i < v2Length) {
                 int v1 = 0;
                 int v2 = 0;
 
-                if(i < v1Length) {
+                if (i < v1Length) {
                     v1 = Integer.valueOf(v1Parts[i]);
                 }
 
-                if(i < v2Length) {
+                if (i < v2Length) {
                     v2 = Integer.valueOf(v2Parts[i]);
                 }
 
-                if(v1 > v2) {
+                if (v1 > v2) {
                     return 1;
-                } else if(v1 < v2) {
+                } else if (v1 < v2) {
                     return -1;
                 }
 
@@ -41,7 +76,7 @@ public class CompareVersionNumbers {
 
     class Solution_Correct_1 {
         public int compareVersion(String version1, String version2) {
-            if(version1 == null || version1.length() == 0 || version2 == null || version2.length() == 0) {
+            if (version1 == null || version1.length() == 0 || version2 == null || version2.length() == 0) {
                 return 0;
             }
 
@@ -52,21 +87,21 @@ public class CompareVersionNumbers {
             int v1Length = version1Parts.length;
             int v2Length = version2Parts.length;
 
-            while(i < v1Length || i < v2Length) {
+            while (i < v1Length || i < v2Length) {
                 int v1 = 0;
                 int v2 = 0;
 
-                if(i < v1Length) {
+                if (i < v1Length) {
                     v1 = Integer.valueOf(version1Parts[i]);
                 }
 
-                if(i < v2Length) {
+                if (i < v2Length) {
                     v2 = Integer.valueOf(version2Parts[i]);
                 }
 
-                if(v1 > v2) {
+                if (v1 > v2) {
                     return 1;
-                } else if(v1 < v2) {
+                } else if (v1 < v2) {
                     return -1;
                 }
 
