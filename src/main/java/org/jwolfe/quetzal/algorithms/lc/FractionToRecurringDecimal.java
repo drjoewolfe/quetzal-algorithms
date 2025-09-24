@@ -6,12 +6,57 @@ import java.util.Map;
 public class FractionToRecurringDecimal {
     class Solution {
         public String fractionToDecimal(int numerator, int denominator) {
-            if(numerator == 0) {
+            if (numerator == 0) {
                 return "0";
             }
 
             StringBuilder answer = new StringBuilder();
-            if(numerator < 0 ^ denominator < 0) {
+            if (numerator < 0 ^ denominator < 0) {
+                answer.append("-");
+            }
+
+            long dividend = Math.abs(Long.valueOf(numerator));
+            long divisor = Math.abs(Long.valueOf(denominator));
+
+            long quotient = dividend / divisor;
+            long remainder = dividend % divisor;
+
+            answer.append(quotient);
+            if (remainder == 0) {
+                return answer.toString();
+            }
+
+            answer.append(".");
+            Map<Long, Integer> map = new HashMap<>();
+            while (remainder != 0) {
+                if (map.containsKey(remainder)) {
+                    int position = map.get(remainder);
+                    answer.insert(position, "(");
+                    answer.append(")");
+
+                    return answer.toString();
+                }
+
+                map.put(remainder, answer.length());
+                dividend = remainder * 10;
+                quotient = dividend / divisor;
+                remainder = dividend % divisor;
+
+                answer.append(quotient);
+            }
+
+            return answer.toString();
+        }
+    }
+
+    class Solution_Correct_1 {
+        public String fractionToDecimal(int numerator, int denominator) {
+            if (numerator == 0) {
+                return "0";
+            }
+
+            StringBuilder answer = new StringBuilder();
+            if (numerator < 0 ^ denominator < 0) {
                 answer.append("-");
             }
 
@@ -20,18 +65,18 @@ public class FractionToRecurringDecimal {
             answer.append(lnumerator / ldenominator);
 
             lnumerator %= ldenominator;
-            if(lnumerator == 0) {
+            if (lnumerator == 0) {
                 return answer.toString();
             }
 
             answer.append(".");
             Map<Long, Integer> map = new HashMap<>();
-            while(lnumerator != 0) {
+            while (lnumerator != 0) {
                 lnumerator *= 10;
                 answer.append(lnumerator / ldenominator);
                 lnumerator %= ldenominator;
 
-                if(map.containsKey(lnumerator)) {
+                if (map.containsKey(lnumerator)) {
                     int index = map.get(lnumerator);
                     answer.insert(index, "(");
                     answer.append(")");
