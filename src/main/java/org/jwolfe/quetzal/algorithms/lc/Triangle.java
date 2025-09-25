@@ -7,14 +7,54 @@ import java.util.List;
 public class Triangle {
     class Solution {
         public int minimumTotal(List<List<Integer>> triangle) {
-            if(triangle == null || triangle.size() == 0) {
+            if (triangle == null || triangle.size() == 0) {
+                return 0;
+            }
+
+            int m = triangle.size();
+            List<Integer> prevMinRow = null;
+            List<Integer> minRow = new ArrayList<>();
+
+            int firstCell = triangle.get(0).get(0);
+            minRow.add(firstCell);
+
+            for (int i = 1; i < m; i++) {
+                prevMinRow = minRow;
+                minRow = new ArrayList<>();
+
+                var row = triangle.get(i);
+                int n = row.size();
+
+                for (int j = 0; j < n; j++) {
+                    int cell = row.get(j);
+
+                    int prev1 = (j > 0) ? prevMinRow.get(j - 1) : Integer.MAX_VALUE;
+                    int prev2 = (j < (n - 1)) ? prevMinRow.get(j) : Integer.MAX_VALUE;
+
+                    int val = cell + Math.min(prev1, prev2);
+                    minRow.add(val);
+                }
+            }
+
+            int minPathSum = Integer.MAX_VALUE;
+            for (int i = 0; i < minRow.size(); i++) {
+                minPathSum = Math.min(minPathSum, minRow.get(i));
+            }
+
+            return minPathSum;
+        }
+    }
+
+    class Solution_Correct_3 {
+        public int minimumTotal(List<List<Integer>> triangle) {
+            if (triangle == null || triangle.size() == 0) {
                 return 0;
             }
 
             int m = triangle.size();
             int n = triangle.get(m - 1).size();
             int[][] memo = new int[m][n];
-            for(int[] row : memo) {
+            for (int[] row : memo) {
                 Arrays.fill(row, Integer.MAX_VALUE);
             }
 
@@ -22,16 +62,16 @@ public class Triangle {
         }
 
         private int minimumTotal(List<List<Integer>> triangle, int i, int j, int[][] memo) {
-            if(i == triangle.size()) {
+            if (i == triangle.size()) {
                 return 0;
             }
 
             var row = triangle.get(i);
-            if(j == row.size()) {
+            if (j == row.size()) {
                 return 0;
             }
 
-            if(memo[i][j] != Integer.MAX_VALUE) {
+            if (memo[i][j] != Integer.MAX_VALUE) {
                 return memo[i][j];
             }
 
@@ -49,19 +89,19 @@ public class Triangle {
         int minPathSum;
 
         public int minimumTotal(List<List<Integer>> triangle) {
-            if(triangle == null || triangle.size() == 0) {
+            if (triangle == null || triangle.size() == 0) {
                 return 0;
             }
 
             List<Integer> prevMinPathSumRow = null;
             List<Integer> minPathSumRow = new ArrayList<>();
             minPathSumRow.add(triangle.get(0).get(0));
-            for(int i = 1; i < triangle.size(); i++) {
+            for (int i = 1; i < triangle.size(); i++) {
                 prevMinPathSumRow = minPathSumRow;
                 minPathSumRow = new ArrayList<>();
 
                 List<Integer> row = triangle.get(i);
-                for(int j = 0; j < row.size(); j++) {
+                for (int j = 0; j < row.size(); j++) {
                     int prev1 = j > 0 ? prevMinPathSumRow.get(j - 1) : Integer.MAX_VALUE;
                     int prev2 = j < row.size() - 1 ? prevMinPathSumRow.get(j) : Integer.MAX_VALUE;
 
@@ -71,7 +111,7 @@ public class Triangle {
             }
 
             minPathSum = Integer.MAX_VALUE;
-            for(int i = 0; i < minPathSumRow.size(); i++) {
+            for (int i = 0; i < minPathSumRow.size(); i++) {
                 minPathSum = Math.min(minPathSum, minPathSumRow.get(i));
             }
 
@@ -81,7 +121,7 @@ public class Triangle {
 
     class Solution_Recursive {
         public int minimumTotal(List<List<Integer>> triangle) {
-            if(triangle == null || triangle.size() == 0) {
+            if (triangle == null || triangle.size() == 0) {
                 return 0;
             }
 
@@ -89,12 +129,12 @@ public class Triangle {
         }
 
         private int minimumTotal(List<List<Integer>> triangle, int i, int j) {
-            if(i == triangle.size()) {
+            if (i == triangle.size()) {
                 return 0;
             }
 
             var row = triangle.get(i);
-            if(j == row.size()) {
+            if (j == row.size()) {
                 return 0;
             }
 
@@ -110,7 +150,7 @@ public class Triangle {
         int minPathSum;
 
         public int minimumTotal(List<List<Integer>> triangle) {
-            if(triangle == null || triangle.size() == 0) {
+            if (triangle == null || triangle.size() == 0) {
                 return 0;
             }
 
@@ -121,7 +161,7 @@ public class Triangle {
         }
 
         private void minimumTotal(List<List<Integer>> triangle, int r, int c, int sum) {
-            if(r == triangle.size()) {
+            if (r == triangle.size()) {
                 minPathSum = Math.min(minPathSum, sum);
                 return;
             }
