@@ -3,6 +3,26 @@ package org.jwolfe.quetzal.algorithms.lc;
 public class WaterBottles {
     class Solution {
         public int numWaterBottles(int numBottles, int numExchange) {
+            if (numBottles < 1) {
+                return 0;
+            }
+
+            int drunkBottles = numBottles;
+            int emptyBottles = numBottles;
+
+            while (emptyBottles / numExchange > 0) {
+                int newBottles = emptyBottles / numExchange;
+                drunkBottles += newBottles;
+
+                emptyBottles = newBottles + (emptyBottles % numExchange);
+            }
+
+            return drunkBottles;
+        }
+    }
+
+    class Solution_Correct_2 {
+        public int numWaterBottles(int numBottles, int numExchange) {
             if (numBottles < 0) {
                 return 0;
             }
