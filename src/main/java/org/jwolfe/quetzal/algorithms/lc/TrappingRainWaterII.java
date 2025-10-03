@@ -4,6 +4,67 @@ import java.util.PriorityQueue;
 
 public class TrappingRainWaterII {
     class Solution {
+        int[][] directions = new int[][]{{0, 1}, {0, -1}, {1, 0}, {-1, 0}};
+
+        public int trapRainWater(int[][] heightMap) {
+            if (heightMap == null || heightMap.length == 0 || heightMap[0].length == 0) {
+                return 0;
+            }
+
+            int m = heightMap.length;
+            int n = heightMap[0].length;
+
+            boolean[][] visited = new boolean[m][n];
+
+            PriorityQueue<int[]> boundaryHeap = new PriorityQueue<>((a, b) -> a[0] - b[0]);
+
+            for (int r = 0; r < m; r++) {
+                boundaryHeap.offer(new int[]{heightMap[r][0], r, 0});
+                visited[r][0] = true;
+
+                boundaryHeap.offer(new int[]{heightMap[r][n - 1], r, n - 1});
+                visited[r][n - 1] = true;
+            }
+
+            for (int c = 0; c < n; c++) {
+                boundaryHeap.offer(new int[]{heightMap[0][c], 0, c});
+                visited[0][c] = true;
+
+                boundaryHeap.offer(new int[]{heightMap[m - 1][c], m - 1, c});
+                visited[m - 1][c] = true;
+            }
+
+            int trappedWater = 0;
+            while (!boundaryHeap.isEmpty()) {
+                int[] cell = boundaryHeap.poll();
+                int h = cell[0];
+                int r = cell[1];
+                int c = cell[2];
+
+                for (int[] direction : directions) {
+                    int nr = r + direction[0];
+                    int nc = c + direction[1];
+
+                    if (nr < 0 || nr == m || nc < 0 || nc == n || visited[nr][nc]) {
+                        continue;
+                    }
+
+                    int nh = heightMap[nr][nc];
+                    if (nh < h) {
+                        int water = h - nh;
+                        trappedWater += water;
+                    }
+
+                    boundaryHeap.offer(new int[]{Math.max(h, nh), nr, nc});
+                    visited[nr][nc] = true;
+                }
+            }
+
+            return trappedWater;
+        }
+    }
+
+    class Solution_Correct_1 {
         private final int[][] directions = {{0, -1}, {0, 1}, {-1, 0}, {1, 0}};
 
         public int trapRainWater(int[][] heightMap) {
