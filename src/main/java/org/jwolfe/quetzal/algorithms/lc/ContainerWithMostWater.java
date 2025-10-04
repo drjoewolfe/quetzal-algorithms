@@ -1,28 +1,60 @@
 package org.jwolfe.quetzal.algorithms.lc;
 
 public class ContainerWithMostWater {
-    public int maxArea(int[] height) {
-        if(height == null || height.length < 2) {
-            return 0;
-        }
-
-        int n = height.length;
-
-        int max = 0;
-        int left = 0;
-        int right = n - 1;
-        while(left < right) {
-            int area = Math.min(height[left], height[right]) * (right - left);
-            max = Math.max(max, area);
-
-            if(height[left] > height[right]) {
-                right--;
-            } else {
-                left++;
+    class Solution {
+        public int maxArea(int[] height) {
+            if (height == null || height.length < 2) {
+                return 0;
             }
-        }
 
-        return max;
+            int answer = 0;
+            int n = height.length;
+
+            int left = 0;
+            int right = n - 1;
+
+            while (left < right) {
+                int leftHeight = height[left];
+                int rightHeight = height[right];
+
+                int area = Math.min(leftHeight, rightHeight) * (right - left);
+                answer = Math.max(answer, area);
+
+                if (leftHeight > rightHeight) {
+                    right--;
+                } else {
+                    left++;
+                }
+            }
+
+            return answer;
+        }
+    }
+
+    public class Solution_1 {
+        public int maxArea(int[] height) {
+            if (height == null || height.length < 2) {
+                return 0;
+            }
+
+            int n = height.length;
+
+            int max = 0;
+            int left = 0;
+            int right = n - 1;
+            while (left < right) {
+                int area = Math.min(height[left], height[right]) * (right - left);
+                max = Math.max(max, area);
+
+                if (height[left] > height[right]) {
+                    right--;
+                } else {
+                    left++;
+                }
+            }
+
+            return max;
+        }
     }
 }
 
