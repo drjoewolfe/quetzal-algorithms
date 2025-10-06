@@ -1,14 +1,63 @@
 package org.jwolfe.quetzal.algorithms.lc;
 
 import java.util.HashSet;
+import java.util.PriorityQueue;
 import java.util.Set;
 
 public class SwimInRisingWater {
     class Solution {
-        private int[][] directions = new int[][] { {0, -1}, {0, 1}, {-1, 0}, {1, 0}};
+        private int[][] directions = new int[][]{{1, 0}, {-1, 0}, {0, 1}, {0, -1}};
 
         public int swimInWater(int[][] grid) {
-            if(grid == null || grid.length == 0 || grid[0].length != grid.length) {
+            if (grid == null || grid.length == 0 || grid[0].length == 0) {
+                return 0;
+            }
+
+            int n = grid.length;
+
+            boolean[][] visited = new boolean[n][n];
+
+            PriorityQueue<int[]> heap = new PriorityQueue<>((a, b) -> a[0] - b[0]);
+            heap.offer(new int[]{grid[0][0], 0, 0});
+
+            while (!heap.isEmpty()) {
+                int[] element = heap.poll();
+                int depth = element[0];
+                int r = element[1];
+                int c = element[2];
+
+                if (visited[r][c]) {
+                    continue;
+                }
+
+                visited[r][c] = true;
+
+                if (r == n - 1 && c == n - 1) {
+                    return depth;
+                }
+
+                for (int[] direction : directions) {
+                    int nr = r + direction[0];
+                    int nc = c + direction[1];
+
+                    if (nr < 0 || nr == n || nc < 0 || nc == n || visited[nr][nc]) {
+                        continue;
+                    }
+
+                    int newDepth = Math.max(depth, grid[nr][nc]);
+                    heap.offer(new int[]{newDepth, nr, nc});
+                }
+            }
+
+            return -1;
+        }
+    }
+
+    class Solution_Correct_1 {
+        private int[][] directions = new int[][]{{0, -1}, {0, 1}, {-1, 0}, {1, 0}};
+
+        public int swimInWater(int[][] grid) {
+            if (grid == null || grid.length == 0 || grid[0].length != grid.length) {
                 return 0;
             }
 
@@ -17,10 +66,10 @@ public class SwimInRisingWater {
             int left = Math.max(grid[0][0], grid[n - 1][n - 1]);
             int right = n * n - 1;
 
-            while(left <= right) {
+            while (left <= right) {
                 int mid = left + (right - left) / 2;
 
-                if(canSwimInWater(grid, n, 0, 0, mid, new HashSet<>())) {
+                if (canSwimInWater(grid, n, 0, 0, mid, new HashSet<>())) {
                     minTime = mid;
                     right = mid - 1;
                 } else {
@@ -32,32 +81,32 @@ public class SwimInRisingWater {
         }
 
         private boolean canSwimInWater(int[][] grid, int n, int row, int column, int max, Set<Integer> stack) {
-            if(row < 0 || row == n || column < 0 || column == n) {
+            if (row < 0 || row == n || column < 0 || column == n) {
                 return false;
             }
 
-            if(grid[row][column] > max) {
+            if (grid[row][column] > max) {
                 return false;
             }
 
             int cell = row * n + column;
-            if(stack.contains(cell)) {
+            if (stack.contains(cell)) {
                 return false;
             }
 
-            if(row == n - 1 && column == n - 1) {
+            if (row == n - 1 && column == n - 1) {
                 return true;
             }
 
             stack.add(cell);
 
-            for(int i = 0; i < directions.length; i++) {
+            for (int i = 0; i < directions.length; i++) {
                 int[] pointer = directions[i];
                 int r = row + pointer[0];
                 int c = column + pointer[1];
 
                 stack.add(cell);
-                if(canSwimInWater(grid, n, r, c, max, stack)) {
+                if (canSwimInWater(grid, n, r, c, max, stack)) {
                     return true;
                 }
             }
@@ -68,7 +117,7 @@ public class SwimInRisingWater {
 
     class Solution_Brute {
         public int swimInWater(int[][] grid) {
-            if(grid == null || grid.length == 0 || grid[0].length == 0) {
+            if (grid == null || grid.length == 0 || grid[0].length == 0) {
                 return 0;
             }
 
@@ -79,21 +128,21 @@ public class SwimInRisingWater {
         }
 
         private int swimInWater(int[][] grid, int m, int n, int row, int column, int largestWaterLevel, Set<Integer> stack) {
-            if(row == m - 1 && column == n - 1) {
+            if (row == m - 1 && column == n - 1) {
                 // Reached bottom right
                 return Math.max(largestWaterLevel, grid[row][column]);
             }
 
-            if(row < 0 || row == m || column < 0 || column == n) {
+            if (row < 0 || row == m || column < 0 || column == n) {
                 return Integer.MAX_VALUE;
             }
 
             int minWaterLevel = Integer.MAX_VALUE;
 
             // Left
-            if(column > 0) {
+            if (column > 0) {
                 int left = row * n + (column - 1);
-                if(!stack.contains(left)) {
+                if (!stack.contains(left)) {
                     stack.add(left);
                     minWaterLevel = Math.min(minWaterLevel,
                             swimInWater(grid, m, n, row, column - 1, Math.max(largestWaterLevel, grid[row][column]), stack));
@@ -102,9 +151,9 @@ public class SwimInRisingWater {
             }
 
             // Right
-            if(column < n - 1) {
+            if (column < n - 1) {
                 int right = row * n + (column + 1);
-                if(!stack.contains(right)) {
+                if (!stack.contains(right)) {
                     stack.add(right);
                     minWaterLevel = Math.min(minWaterLevel,
                             swimInWater(grid, m, n, row, column + 1, Math.max(largestWaterLevel, grid[row][column]), stack));
@@ -113,9 +162,9 @@ public class SwimInRisingWater {
             }
 
             // Top
-            if(row > 0) {
+            if (row > 0) {
                 int top = (row - 1) * n + column;
-                if(!stack.contains(top)) {
+                if (!stack.contains(top)) {
                     stack.add(top);
                     minWaterLevel = Math.min(minWaterLevel,
                             swimInWater(grid, m, n, row - 1, column, Math.max(largestWaterLevel, grid[row][column]), stack));
@@ -124,9 +173,9 @@ public class SwimInRisingWater {
             }
 
             // Bottom
-            if(row < m - 1) {
+            if (row < m - 1) {
                 int bottom = (row + 1) * n + column;
-                if(!stack.contains(bottom)) {
+                if (!stack.contains(bottom)) {
                     stack.add(bottom);
                     minWaterLevel = Math.min(minWaterLevel,
                             swimInWater(grid, m, n, row + 1, column, Math.max(largestWaterLevel, grid[row][column]), stack));
