@@ -3,9 +3,53 @@ package org.jwolfe.quetzal.algorithms.lc;
 import java.util.Arrays;
 
 public class SuccessfulPairsOfSpellsAndPotions {
-    class Solution {
+    class Solution_Correct_2 {
+        class Solution {
+            public int[] successfulPairs(int[] spells, int[] potions, long success) {
+                if (spells == null || spells.length == 0 || potions == null || potions.length == 0 || success < 1) {
+                    return new int[0];
+                }
+
+                Arrays.sort(potions);
+                int n = spells.length;
+                int m = potions.length;
+
+                int[] ans = new int[n];
+                for (int i = 0; i < n; i++) {
+                    int spell = spells[i];
+                    int potionIndex = getFirstPotionForSuccess(potions, spell, success);
+                    if (potionIndex > -1) {
+                        int potionCount = m - potionIndex;
+                        ans[i] = potionCount;
+                    }
+                }
+
+                return ans;
+            }
+
+            private int getFirstPotionForSuccess(int[] potions, int spell, long success) {
+                int index = -1;
+                int left = 0;
+                int right = potions.length - 1;
+
+                while (left <= right) {
+                    int mid = left + (right - left) / 2;
+                    int potion = potions[mid];
+                    long product = 1L * spell * potion;
+                    if (product >= success) {
+                        index = mid;
+                        right = mid - 1;
+                    } else {
+                        left = mid + 1;
+                    }
+                }
+
+                return index;
+            }
+        }
+
         public int[] successfulPairs(int[] spells, int[] potions, long success) {
-            if(spells == null || potions == null || spells.length == 0 || potions.length == 0 || success < 1) {
+            if (spells == null || potions == null || spells.length == 0 || potions.length == 0 || success < 1) {
                 return new int[0];
             }
 
@@ -13,7 +57,7 @@ public class SuccessfulPairsOfSpellsAndPotions {
             int[] pairs = new int[n];
 
             Arrays.sort(potions);
-            for(int i = 0; i < n; i++) {
+            for (int i = 0; i < n; i++) {
                 int count = binarySearch(potions, spells[i], success);
                 pairs[i] = count;
             }
@@ -27,13 +71,13 @@ public class SuccessfulPairsOfSpellsAndPotions {
             int left = 0;
             int right = n - 1;
 
-            while(left <= right) {
+            while (left <= right) {
                 int mid = left + (right - left) / 2;
 
                 int potion = potions[mid];
                 long product = 1L * spell * potion;
 
-                if(product >= success) {
+                if (product >= success) {
                     right = mid - 1;
                 } else {
                     left = mid + 1;
@@ -46,7 +90,7 @@ public class SuccessfulPairsOfSpellsAndPotions {
 
     class Solution_Correct_1 {
         public int[] successfulPairs(int[] spells, int[] potions, long success) {
-            if(spells == null || spells.length == 0 || potions == null || potions.length == 0 || success < 1) {
+            if (spells == null || spells.length == 0 || potions == null || potions.length == 0 || success < 1) {
                 return new int[0];
             }
 
@@ -57,7 +101,7 @@ public class SuccessfulPairsOfSpellsAndPotions {
 
             int[] results = new int[n];
 
-            for(int i = 0; i < n; i++) {
+            for (int i = 0; i < n; i++) {
                 double target = 1d * success / spells[i];
                 int index = binarySearchForEqualOrGreater(potions, target);
 
@@ -72,10 +116,10 @@ public class SuccessfulPairsOfSpellsAndPotions {
             int right = arr.length - 1;
 
             int index = arr.length;
-            while(left <= right) {
+            while (left <= right) {
                 int mid = left + (right - left) / 2;
 
-                if(arr[mid] >= target) {
+                if (arr[mid] >= target) {
                     index = mid;
                     right = mid - 1;
                 } else {
