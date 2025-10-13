@@ -7,14 +7,58 @@ public class FindResultantArrayAfterRemovingAnagrams {
     class Solution {
         public List<String> removeAnagrams(String[] words) {
             List<String> results = new ArrayList<>();
-            if(words == null || words.length == 0) {
+            if (words == null || words.length == 0) {
+                return results;
+            }
+
+            results.add(words[0]);
+
+            int n = words.length;
+            for (int i = 1; i < n; i++) {
+                String word1 = words[i - 1];
+                String word2 = words[i];
+
+                if (!areAnagrams(word1, word2)) {
+                    results.add(word2);
+                }
+            }
+
+            return results;
+        }
+
+        private boolean areAnagrams(String word1, String word2) {
+            int[] frequency = new int[26];
+            for (int i = 0; i < word1.length(); i++) {
+                char c = word1.charAt(i);
+                frequency[c - 'a']++;
+            }
+
+            for (int i = 0; i < word2.length(); i++) {
+                char c = word2.charAt(i);
+                frequency[c - 'a']--;
+            }
+
+            for (int i = 0; i < 26; i++) {
+                if (frequency[i] != 0) {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+    }
+
+    class Solution_Correct_1 {
+        public List<String> removeAnagrams(String[] words) {
+            List<String> results = new ArrayList<>();
+            if (words == null || words.length == 0) {
                 return results;
             }
 
             String startWord = words[0];
-            for(int i = 1; i < words.length; i++) {
+            for (int i = 1; i < words.length; i++) {
                 String word = words[i];
-                if(!areAnagrams(startWord, word)) {
+                if (!areAnagrams(startWord, word)) {
                     results.add(startWord);
                     startWord = word;
                 }
@@ -25,18 +69,18 @@ public class FindResultantArrayAfterRemovingAnagrams {
         }
 
         private boolean areAnagrams(String word1, String word2) {
-            if(word1.length() != word2.length()) {
+            if (word1.length() != word2.length()) {
                 return false;
             }
 
             int[] arr = new int[26];
-            for(int i = 0; i < word1.length(); i++) {
+            for (int i = 0; i < word1.length(); i++) {
                 arr[word1.charAt(i) - 'a']++;
                 arr[word2.charAt(i) - 'a']--;
             }
 
-            for(int i = 0; i < 26; i++) {
-                if(arr[i] != 0) {
+            for (int i = 0; i < 26; i++) {
+                if (arr[i] != 0) {
                     return false;
                 }
             }
