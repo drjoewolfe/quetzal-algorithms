@@ -3,13 +3,43 @@ package org.jwolfe.quetzal.algorithms.lc;
 public class FinalValueOfVariableAfterPerformingOperations {
     class Solution {
         public int finalValueAfterOperations(String[] operations) {
-            if(operations == null || operations.length == 0) {
+            if (operations == null || operations.length == 0) {
                 return 0;
             }
 
             int value = 0;
-            for(String operation : operations) {
-                if(operation.equals("X++") || operation.equals("++X")) {
+            for (var operation : operations) {
+                switch (operation) {
+                    case "--X":
+                        value--;
+                        break;
+                    case "X--":
+                        value--;
+                        break;
+                    case "++X":
+                        value++;
+                        break;
+                    case "X++":
+                        value++;
+                        break;
+                    default:
+                        break;
+                }
+            }
+
+            return value;
+        }
+    }
+
+    class Solution_Correct_1 {
+        public int finalValueAfterOperations(String[] operations) {
+            if (operations == null || operations.length == 0) {
+                return 0;
+            }
+
+            int value = 0;
+            for (String operation : operations) {
+                if (operation.equals("X++") || operation.equals("++X")) {
                     value++;
                 } else {
                     value--;
