@@ -3,7 +3,25 @@ package org.jwolfe.quetzal.algorithms.lc;
 public class CalculateMoneyInLeetcodeBank {
     class Solution {
         public int totalMoney(int n) {
-            if(n < 1) {
+            int weeks = n / 7;
+            int days = n % 7;
+
+            int weeksMoney = 28 * weeks + 7 * (weeks * (weeks - 1) / 2);
+
+            int daysStart = weeks + 1;
+            int daysEnd = weeks + days;
+
+            int daysMoney = (daysEnd * (daysEnd + 1)) / 2 - ((daysStart - 1) * daysStart) / 2;
+
+            int total = weeksMoney + daysMoney;
+
+            return total;
+        }
+    }
+
+    class Solution_Correct_2 {
+        public int totalMoney(int n) {
+            if (n < 1) {
                 return 0;
             }
 
@@ -11,11 +29,11 @@ public class CalculateMoneyInLeetcodeBank {
             int remainingDays = n % 7;
 
             int totalAmount = 0;
-            if(wholeWeeks > 0) {
+            if (wholeWeeks > 0) {
                 totalAmount += wholeWeeks * 28 + (int) ((1d * wholeWeeks / 2 * (wholeWeeks - 1) * 7));
             }
 
-            if(remainingDays > 0) {
+            if (remainingDays > 0) {
                 totalAmount += ((remainingDays) * (remainingDays - 1) / 2) + (wholeWeeks + 1) * remainingDays;
             }
 
@@ -25,7 +43,7 @@ public class CalculateMoneyInLeetcodeBank {
 
     class Solution_Correct_1 {
         public int totalMoney(int n) {
-            if(n < 1) {
+            if (n < 1) {
                 return 0;
             }
 
@@ -33,12 +51,12 @@ public class CalculateMoneyInLeetcodeBank {
 
             // In 1 week, 1+2+3+4+5+6+7 = 28
             int wholeWeeks = n / 7;
-            for(int w = 1; w <= wholeWeeks; w++) {
+            for (int w = 1; w <= wholeWeeks; w++) {
                 totalAmount += (28 + (w - 1) * 7);
             }
 
             int remainingDays = n % 7;
-            for(int d = 1; d <= remainingDays; d++) {
+            for (int d = 1; d <= remainingDays; d++) {
                 totalAmount += (d + wholeWeeks);
             }
 
@@ -49,15 +67,15 @@ public class CalculateMoneyInLeetcodeBank {
 
     class Solution_Approach_1 {
         public int totalMoney(int n) {
-            if(n < 1) {
+            if (n < 1) {
                 return 0;
             }
 
             int totalAmount = 0;
             int w = 1;
-            while(n > 0) {
+            while (n > 0) {
                 int amount = w;
-                for(int d = 1; d <= 7 && n > 0; d++) {
+                for (int d = 1; d <= 7 && n > 0; d++) {
                     totalAmount += amount;
                     amount++;
                     n--;
