@@ -3,24 +3,59 @@ package org.jwolfe.quetzal.algorithms.lc;
 public class NumberOfLaserBeamsInABank {
     class Solution {
         public int numberOfBeams(String[] bank) {
-            if(bank == null || bank.length < 2) {
+            if (bank == null || bank.length == 0 || bank[0].length() == 0) {
+                return 0;
+            }
+
+            int totalBeams = 0;
+            int m = bank.length;
+            int n = bank[0].length();
+
+            int prevDevices = 0;
+            for (int i = 0; i < m; i++) {
+                String s = bank[i];
+                int currDevices = 0;
+
+                for (int j = 0; j < n; j++) {
+                    char c = s.charAt(j);
+                    if (c == '1') {
+                        currDevices++;
+                    }
+                }
+
+                if (currDevices == 0) {
+                    continue;
+                }
+
+                int beams = prevDevices * currDevices;
+                totalBeams += beams;
+                prevDevices = currDevices;
+            }
+
+            return totalBeams;
+        }
+    }
+
+    class Solution_Correct_1 {
+        public int numberOfBeams(String[] bank) {
+            if (bank == null || bank.length < 2) {
                 return 0;
             }
 
             int laserBeams = 0;
             int previousRowDevices = 0;
-            for(String row : bank) {
+            for (String row : bank) {
 
                 int currentRowDevices = 0;
-                for(int i = 0; i < row.length(); i++) {
+                for (int i = 0; i < row.length(); i++) {
                     char c = row.charAt(i);
 
-                    if(c == '1') {
+                    if (c == '1') {
                         currentRowDevices++;
                     }
                 }
 
-                if(currentRowDevices > 0) {
+                if (currentRowDevices > 0) {
                     laserBeams += currentRowDevices * previousRowDevices;
                     previousRowDevices = currentRowDevices;
                 }
