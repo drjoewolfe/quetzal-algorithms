@@ -20,6 +20,36 @@ public class DeleteNodesFromLinkedListPresentInArray {
                 return head;
             }
 
+            ListNode anchor = new ListNode();
+
+            Set<Integer> set = new HashSet<>();
+            for (int val : nums) {
+                set.add(val);
+            }
+
+            ListNode prev = anchor;
+            ListNode curr = head;
+            while (curr != null) {
+                if (set.contains(curr.val)) {
+                    curr = curr.next;
+                } else {
+                    prev.next = curr;
+                    prev = curr;
+                    curr = curr.next;
+                }
+            }
+
+            prev.next = null;
+            return anchor.next;
+        }
+    }
+
+    class Solution_Correct_1 {
+        public ListNode modifiedList(int[] nums, ListNode head) {
+            if (nums == null || nums.length == 0 || head == null) {
+                return head;
+            }
+
             Set<Integer> set = new HashSet<>();
             for (int val : nums) {
                 set.add(val);
