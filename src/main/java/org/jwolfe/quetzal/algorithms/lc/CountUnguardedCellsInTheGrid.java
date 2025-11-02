@@ -1,37 +1,59 @@
 package org.jwolfe.quetzal.algorithms.lc;
 
+import java.util.LinkedList;
+import java.util.Queue;
+
 public class CountUnguardedCellsInTheGrid {
     class Solution {
-
-        private static final int UNGUARDED = 0;
-        private static final int GUARDED = 1;
-        private static final int GUARD = 2;
-        private static final int WALL = 3;
+        private static final int[][] directions = new int[][]{{0, 1}, {0, -1}, {1, 0}, {-1, 0}};
+        private static final int EMPTY = 0, GUARD = 1, WALL = 2, GUARDED = 3;
 
         public int countUnguarded(int m, int n, int[][] guards, int[][] walls) {
             if (m == 0 || n == 0) {
                 return 0;
             }
 
+            if (guards == null || guards.length == 0) {
+                return m * n;
+            }
+
             int[][] grid = new int[m][n];
+            for (int[] guard : guards) {
+                int r = guard[0];
+                int c = guard[1];
+
+                grid[r][c] = GUARD;
+            }
 
             for (int[] wall : walls) {
-                grid[wall[0]][wall[1]] = WALL;
+                int r = wall[0];
+                int c = wall[1];
+
+                grid[r][c] = WALL;
             }
 
             for (int[] guard : guards) {
-                grid[guard[0]][guard[1]] = GUARD;
-            }
+                int r = guard[0];
+                int c = guard[1];
 
-            for (int[] guard : guards) {
-                markGuarded(grid, guard[0], guard[1]);
+                for (int[] direction : directions) {
+                    int nr = r + direction[0];
+                    int nc = c + direction[1];
+
+                    while (nr >= 0 && nr < m && nc >= 0 && nc < n
+                            && grid[nr][nc] != GUARD
+                            && grid[nr][nc] != WALL) {
+                        grid[nr][nc] = GUARDED;
+                        nr = nr + direction[0];
+                        nc = nc + direction[1];
+                    }
+                }
             }
 
             int count = 0;
-            for (int i = 0; i < m; i++) {
-                for (int j = 0; j < n; j++) {
-                    int cell = grid[i][j];
-                    if (cell == UNGUARDED) {
+            for (int[] row : grid) {
+                for (int cell : row) {
+                    if (cell == EMPTY) {
                         count++;
                     }
                 }
@@ -39,99 +61,63 @@ public class CountUnguardedCellsInTheGrid {
 
             return count;
         }
-
-        private void markGuarded(int[][] grid, int row, int col) {
-            for (int r = row - 1; r >= 0; r--) {
-                if (grid[r][col] == WALL || grid[r][col] == GUARD) break;
-                grid[r][col] = GUARDED;
-            }
-
-            for (int r = row + 1; r < grid.length; r++) {
-                if (grid[r][col] == WALL || grid[r][col] == GUARD) break;
-                grid[r][col] = GUARDED;
-            }
-
-            for (int c = col - 1; c >= 0; c--) {
-                if (grid[row][c] == WALL || grid[row][c] == GUARD) break;
-                grid[row][c] = GUARDED;
-            }
-
-            for (int c = col + 1; c < grid[0].length; c++) {
-                if (grid[row][c] == WALL || grid[row][c] == GUARD) break;
-                grid[row][c] = GUARDED;
-            }
-        }
-
-        private void print(int[][] arr) {
-            for (int[] a : arr) {
-                System.out.print("[");
-                for (int b : a) {
-                    System.out.print(b + " ");
-                }
-                System.out.print("] ");
-            }
-
-            System.out.println();
-        }
     }
 
-    class Solution_TLE {
+    class Solution_Incorrect {
+        private int[][] directions = new int[][]{{0, 1}, {0, -1}, {1, 0}, {-1, 0}};
+
         public int countUnguarded(int m, int n, int[][] guards, int[][] walls) {
             if (m == 0 || n == 0) {
                 return 0;
             }
 
-            int[][] grid = new int[m][n];
-            for (int[] wall : walls) {
-                int i = wall[0];
-                int j = wall[1];
-
-                grid[i][j] = 2;
+            if (guards == null || guards.length == 0) {
+                return m * n;
             }
 
+            int[][] grid = new int[m][n];
+            boolean[][] visited = new boolean[m][n];
+
+            Queue<int[]> queue = new LinkedList<>();
             for (int[] guard : guards) {
-                int row = guard[0];
-                int col = guard[1];
+                int r = guard[0];
+                int c = guard[1];
 
-                grid[row][col] = 1;
+                grid[r][c] = 1;
+                queue.offer(guard);
+                visited[r][c] = true;
+            }
 
-                for (int j = col - 1; j >= 0; j--) {
-                    if (grid[row][j] == 2) {
-                        break;
+            for (int[] wall : walls) {
+                int r = wall[0];
+                int c = wall[1];
+
+                grid[r][c] = 2;
+                visited[r][c] = true;
+            }
+
+            while (!queue.isEmpty()) {
+                int[] cell = queue.poll();
+                int r = cell[0];
+                int c = cell[1];
+
+                for (int[] direction : directions) {
+                    int nr = r + direction[0];
+                    int nc = c + direction[1];
+
+                    if (nr < 0 || nr == m || nc < 0 || nc == n || visited[nr][nc]) {
+                        continue;
                     }
 
-                    grid[row][j] = 1;
-                }
-
-                for (int j = col + 1; j < n; j++) {
-                    if (grid[row][j] == 2) {
-                        break;
-                    }
-
-                    grid[row][j] = 1;
-                }
-
-                for (int i = row - 1; i >= 0; i--) {
-                    if (grid[i][col] == 2) {
-                        break;
-                    }
-
-                    grid[i][col] = 1;
-                }
-
-                for (int i = row + 1; i < m; i++) {
-                    if (grid[i][col] == 2) {
-                        break;
-                    }
-
-                    grid[i][col] = 1;
+                    visited[nr][nc] = true;
+                    queue.offer(new int[]{nr, nc});
                 }
             }
 
             int count = 0;
-            for (int i = 0; i < m; i++) {
-                for (int j = 0; j < n; j++) {
-                    if (grid[i][j] == 0) {
+            for (int[] row : grid) {
+                for (int cell : row) {
+                    if (cell == 0) {
                         count++;
                     }
                 }
@@ -139,26 +125,10 @@ public class CountUnguardedCellsInTheGrid {
 
             return count;
         }
-
-        private void print(int[][] arr) {
-            for (int[] a : arr) {
-                System.out.print("[");
-                for (int b : a) {
-                    System.out.print(b + " ");
-                }
-                System.out.print("] ");
-            }
-
-            System.out.println();
-        }
     }
-
-
-// [1 2 0 1 0 0 ] [1 1 1 1 2 0 ] [1 1 2 1 1 1 ] [1 1 0 1 0 0 ]
 }
 
 //    2257. Count Unguarded Cells in the Grid
-//    Solved
 //    Medium
 //    You are given two integers m and n representing a 0-indexed m x n grid. You are also given two 2D integer arrays guards and walls where guards[i] = [rowi, coli] and walls[j] = [rowj, colj] represent the positions of the ith guard and jth wall respectively.
 //
