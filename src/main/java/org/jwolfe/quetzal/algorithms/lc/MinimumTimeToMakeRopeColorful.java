@@ -4,8 +4,74 @@ import java.util.Arrays;
 
 public class MinimumTimeToMakeRopeColorful {
     class Solution {
+        public int minCost(String colors, int[] neededTime) {
+            if (colors == null || colors.length() == 0 || neededTime == null || neededTime.length == 0 || colors.length() != neededTime.length) {
+                return 0;
+            }
+
+            int minCost = 0;
+            int maxTime = neededTime[0];
+
+            for (int i = 1; i < colors.length(); i++) {
+                if (colors.charAt(i) == colors.charAt(i - 1)) {
+                    minCost += Math.min(maxTime, neededTime[i]);
+                    maxTime = Math.max(maxTime, neededTime[i]);
+                } else {
+                    maxTime = neededTime[i];
+                }
+            }
+
+            return minCost;
+        }
+    }
+
+    class Solution_Correct_4 {
+        public int minCost(String colors, int[] neededTime) {
+            if (colors == null || colors.length() == 0 || neededTime == null || neededTime.length == 0 || colors.length() != neededTime.length) {
+                return 0;
+            }
+
+            int n = colors.length();
+
+            int minCost = 0;
+
+            int runningCost = neededTime[0];
+            int maxElementTime = neededTime[0];
+
+            int left = 0;
+            int right = 1;
+            for (; right < n; right++) {
+                char curr = colors.charAt(right);
+                char prev = colors.charAt(right - 1);
+                int time = neededTime[right];
+
+                if (curr != prev) {
+                    if (right - left > 1) {
+                        int cost = runningCost - maxElementTime;
+                        minCost += cost;
+                    }
+
+                    left = right;
+                    maxElementTime = time;
+                    runningCost = time;
+                } else {
+                    runningCost += time;
+                    maxElementTime = Math.max(maxElementTime, time);
+                }
+            }
+
+            if (right - left > 1) {
+                int cost = runningCost - maxElementTime;
+                minCost += cost;
+            }
+
+            return minCost;
+        }
+    }
+
+    class Solution_Correct_3 {
         public int minCost(String s, int[] cost) {
-            if(s == null || s.length() < 2 || cost == null || cost.length != s.length()) {
+            if (s == null || s.length() < 2 || cost == null || cost.length != s.length()) {
                 return 0;
             }
 
@@ -17,11 +83,11 @@ public class MinimumTimeToMakeRopeColorful {
         }
 
         private int minCost(String s, int[] cost, int index, char prevColor, int prevTime, int[] memo) {
-            if(index < 0) {
+            if (index < 0) {
                 return 0;
             }
 
-            if(memo[index] != -1) {
+            if (memo[index] != -1) {
                 return memo[index];
             }
 
@@ -29,7 +95,7 @@ public class MinimumTimeToMakeRopeColorful {
             int time = cost[index];
             int netCost = -1;
 
-            if(color == prevColor) {
+            if (color == prevColor) {
                 netCost = Math.min(prevTime, time)
                         + minCost(s, cost, index - 1, color, Math.max(prevTime, time), memo);
             } else {
@@ -43,7 +109,7 @@ public class MinimumTimeToMakeRopeColorful {
 
     class Solution_Recursive {
         public int minCost(String s, int[] cost) {
-            if(s == null || s.length() < 2 || cost == null || cost.length != s.length()) {
+            if (s == null || s.length() < 2 || cost == null || cost.length != s.length()) {
                 return 0;
             }
 
@@ -53,14 +119,14 @@ public class MinimumTimeToMakeRopeColorful {
         }
 
         private int minCost(String s, int[] cost, int index, char prevColor, int prevTime) {
-            if(index < 0) {
+            if (index < 0) {
                 return 0;
             }
 
             char color = s.charAt(index);
             int time = cost[index];
 
-            if(color == prevColor) {
+            if (color == prevColor) {
                 return Math.min(prevTime, time)
                         + minCost(s, cost, index - 1, color, Math.max(prevTime, time));
             } else {
@@ -71,7 +137,7 @@ public class MinimumTimeToMakeRopeColorful {
 
     class Solution_Correct_2 {
         public int minCost(String s, int[] cost) {
-            if(s == null || s.length() == 0 || cost == null || cost.length != s.length()) {
+            if (s == null || s.length() == 0 || cost == null || cost.length != s.length()) {
                 return 0;
             }
 
@@ -82,10 +148,10 @@ public class MinimumTimeToMakeRopeColorful {
 
             minCost += currBalloonMaxCost;
 
-            for(int i = 1; i < s.length(); i++) {
+            for (int i = 1; i < s.length(); i++) {
                 char nextBalloon = s.charAt(i);
 
-                if(currBalloon == nextBalloon) {
+                if (currBalloon == nextBalloon) {
                     minCost += cost[i];
                     currBalloonMaxCost = Math.max(currBalloonMaxCost, cost[i]);
                 } else {
@@ -105,7 +171,7 @@ public class MinimumTimeToMakeRopeColorful {
 
     class Solution_Correct_1 {
         public int minCost(String s, int[] cost) {
-            if(s == null || s.length() == 0 || cost == null || cost.length != s.length()) {
+            if (s == null || s.length() == 0 || cost == null || cost.length != s.length()) {
                 return 0;
             }
 
@@ -115,10 +181,10 @@ public class MinimumTimeToMakeRopeColorful {
 
             char last = s.charAt(0);
             int maxItemCost = cost[0];
-            for(int i = 1; i < n; i++) {
+            for (int i = 1; i < n; i++) {
                 char curr = s.charAt(i);
 
-                if(curr != last) {
+                if (curr != last) {
                     minCost -= maxItemCost;
 
                     last = curr;
