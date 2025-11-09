@@ -3,13 +3,48 @@ package org.jwolfe.quetzal.algorithms.lc;
 public class CountOperationsToObtainZero {
     class Solution {
         public int countOperations(int num1, int num2) {
-            if(num1 == 0 || num2 == 0) {
+            int operations = 0;
+
+            while (num1 != 0 && num2 != 0) {
+                operations += (num1 / num2);
+                num1 %= num2;
+
+                int temp = num1;
+                num1 = num2;
+                num2 = temp;
+            }
+
+            return operations;
+        }
+    }
+
+    class Solution_Correct_2 {
+        public int countOperations(int num1, int num2) {
+            int operations = 0;
+
+            while (num1 != 0 && num2 != 0) {
+                if (num1 >= num2) {
+                    num1 -= num2;
+                } else {
+                    num2 -= num1;
+                }
+
+                operations++;
+            }
+
+            return operations;
+        }
+    }
+
+    class Solution_Correct_1 {
+        public int countOperations(int num1, int num2) {
+            if (num1 == 0 || num2 == 0) {
                 return 0;
             }
 
             int operations = 0;
-            while(num1 != 0 && num2 != 0) {
-                if(num1 >= num2) {
+            while (num1 != 0 && num2 != 0) {
+                if (num1 >= num2) {
                     num1 -= num2;
                 } else {
                     num2 -= num1;
