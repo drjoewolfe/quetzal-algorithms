@@ -3,25 +3,69 @@ package org.jwolfe.quetzal.algorithms.lc;
 public class OnesAndZeroes {
     class Solution {
         public int findMaxForm(String[] strs, int m, int n) {
-            if(strs == null || strs.length == 0 || m < 0 || n < 0) {
+            if (strs == null || strs.length == 0 || m < 0 || n < 0) {
+                return 0;
+            }
+
+            Integer[][][] memo = new Integer[strs.length][m + 1][n + 1];
+            return findMaxForm(strs, 0, m, n, memo);
+        }
+
+        private int findMaxForm(String[] strs, int index, int m, int n, Integer[][][] memo) {
+            if (index == strs.length) {
+                return 0;
+            }
+
+            if (memo[index][m][n] != null) {
+                return memo[index][m][n];
+            }
+
+            String s = strs[index];
+            int zeroCount = 0;
+            int oneCount = 0;
+            for (int i = 0; i < s.length(); i++) {
+                if (s.charAt(i) == '0') {
+                    zeroCount++;
+                } else {
+                    oneCount++;
+                }
+            }
+
+            // Exclude
+            int length = findMaxForm(strs, index + 1, m, n, memo);
+
+            // Include
+            if (zeroCount <= m && oneCount <= n) {
+                length = Math.max(length,
+                        1 + findMaxForm(strs, index + 1, m - zeroCount, n - oneCount, memo));
+            }
+
+            memo[index][m][n] = length;
+            return length;
+        }
+    }
+
+    class Solution_Correct_1 {
+        public int findMaxForm(String[] strs, int m, int n) {
+            if (strs == null || strs.length == 0 || m < 0 || n < 0) {
                 return 0;
             }
 
             int[][] dp = new int[m + 1][n + 1];
 
-            for(String s : strs) {
+            for (String s : strs) {
                 int zeros = 0;
                 int ones = 0;
-                for(int j = 0; j < s.length(); j++) {
-                    if(s.charAt(j) == '0') {
+                for (int j = 0; j < s.length(); j++) {
+                    if (s.charAt(j) == '0') {
                         zeros++;
                     } else {
                         ones++;
                     }
                 }
 
-                for(int i = m; i >= zeros; i--) {
-                    for(int j = n; j >= ones; j--) {
+                for (int i = m; i >= zeros; i--) {
+                    for (int j = n; j >= ones; j--) {
                         dp[i][j] = Math.max(dp[i][j], dp[i - zeros][j - ones] + 1);
                     }
                 }
@@ -31,8 +75,8 @@ public class OnesAndZeroes {
         }
 
         private void print(int[][] dp) {
-            for(int[] row : dp) {
-                for(int cell : row) {
+            for (int[] row : dp) {
+                for (int cell : row) {
                     System.out.print(cell + " ");
                 }
             }
@@ -45,16 +89,16 @@ public class OnesAndZeroes {
         int maxSubsetSize;
 
         public int findMaxForm(String[] strs, int m, int n) {
-            if(strs == null || strs.length == 0 || m <= 0 || n <= 0) {
+            if (strs == null || strs.length == 0 || m <= 0 || n <= 0) {
                 return 0;
             }
 
             int l = strs.length;
             int[][] frequencies = new int[l][2];
-            for(int i = 0; i < l; i++) {
+            for (int i = 0; i < l; i++) {
                 String s = strs[i];
-                for(int j = 0; j < s.length(); j++) {
-                    if(s.charAt(j) == '0') {
+                for (int j = 0; j < s.length(); j++) {
+                    if (s.charAt(j) == '0') {
                         frequencies[i][0]++;
                     } else {
                         frequencies[i][1]++;
@@ -69,11 +113,11 @@ public class OnesAndZeroes {
         }
 
         private void validateSubsets(int[][] frequencies, int index, int zeroCount, int oneCount, int m, int n, int size) {
-            if(zeroCount > m || oneCount > n) {
+            if (zeroCount > m || oneCount > n) {
                 return;
             }
 
-            if(index == frequencies.length) {
+            if (index == frequencies.length) {
                 maxSubsetSize = Math.max(maxSubsetSize, size);
                 return;
             }
