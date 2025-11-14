@@ -3,32 +3,68 @@ package org.jwolfe.quetzal.algorithms.lc;
 public class IncrementSubmatricesByOne {
     class Solution {
         public int[][] rangeAddQueries(int n, int[][] queries) {
-            if(n < 1) {
+            if (n < 1) {
+                return new int[0][0];
+            }
+
+            int[][] arr = new int[n][n];
+            if (queries == null || queries.length == 0) {
+                return arr;
+            }
+
+            for (int[] query : queries) {
+                int r1 = query[0];
+                int c1 = query[1];
+
+                int r2 = query[2];
+                int c2 = query[3];
+
+                for (int r = r1; r <= r2; r++) {
+                    arr[r][c1] += 1;
+                    if (c2 < n - 1) {
+                        arr[r][c2 + 1] -= 1;
+                    }
+                }
+            }
+
+            for (int r = 0; r < n; r++) {
+                for (int c = 0; c < n; c++) {
+                    arr[r][c] += (c > 0) ? arr[r][c - 1] : 0;
+                }
+            }
+
+            return arr;
+        }
+    }
+
+    class Solution_Correct_2 {
+        public int[][] rangeAddQueries(int n, int[][] queries) {
+            if (n < 1) {
                 return new int[0][0];
             }
 
             int[][] sums = new int[n][n + 1];
-            for(int[] query : queries) {
+            for (int[] query : queries) {
                 int top = query[0];
                 int left = query[1];
                 int bottom = query[2];
                 int right = query[3];
 
-                for(int i = top; i <= bottom; i++) {
+                for (int i = top; i <= bottom; i++) {
                     sums[i][left]++;
                     sums[i][right + 1]--;
                 }
             }
 
-            for(int i = 0; i < n; i++) {
-                for(int j = 1; j < n; j++) {
+            for (int i = 0; i < n; i++) {
+                for (int j = 1; j < n; j++) {
                     sums[i][j] += sums[i][j - 1];
                 }
             }
 
             int[][] matrix = new int[n][n];
-            for(int i = 0; i < n; i++) {
-                for(int j = 0; j < n; j++) {
+            for (int i = 0; i < n; i++) {
+                for (int j = 0; j < n; j++) {
                     matrix[i][j] = sums[i][j];
                 }
             }
@@ -39,19 +75,19 @@ public class IncrementSubmatricesByOne {
 
     class Solution_Correct_1 {
         public int[][] rangeAddQueries(int n, int[][] queries) {
-            if(n < 1) {
+            if (n < 1) {
                 return new int[0][0];
             }
 
             int[][] matrix = new int[n][n];
-            for(int[] query : queries) {
+            for (int[] query : queries) {
                 int top = query[0];
                 int left = query[1];
                 int bottom = query[2];
                 int right = query[3];
 
-                for(int i = top; i <= bottom; i++) {
-                    for(int j = left; j <= right; j++) {
+                for (int i = top; i <= bottom; i++) {
+                    for (int j = left; j <= right; j++) {
                         matrix[i][j]++;
                     }
                 }
