@@ -1,23 +1,78 @@
 package org.jwolfe.quetzal.algorithms.lc;
 
 public class CheckIfAll1sAreAtLeastLengthKPlacesAway {
-    public boolean kLengthApart(int[] nums, int k) {
-        if(nums == null || nums.length == 0 || k < 0) {
-            return false;
-        }
-
-        int prev = -1;
-        for(int i = 0; i < nums.length; i++) {
-            if(nums[i] == 1) {
-                if(prev != -1 && !((i - prev - 1) >= k)) {
-                    return false;
-                }
-
-                prev = i;
+    class Solution {
+        public boolean kLengthApart(int[] nums, int k) {
+            if (nums == null || nums.length == 0) {
+                return true;
             }
-        }
 
-        return true;
+            int prevOneIndex = -1;
+            for (int i = 0; i < nums.length; i++) {
+                if (nums[i] == 1) {
+                    if (prevOneIndex != -1) {
+                        int length = i - prevOneIndex - 1;
+                        if (length < k) {
+                            return false;
+                        }
+                    }
+
+                    prevOneIndex = i;
+                }
+            }
+
+            return true;
+        }
+    }
+
+    class Solution_Correct_2 {
+        public boolean kLengthApart(int[] nums, int k) {
+            if (nums == null || nums.length == 0) {
+                return true;
+            }
+
+            int i = 0;
+            while (i < nums.length && nums[i] != 1) {
+                i++;
+            }
+
+            i++;
+            int emptySlots = 0;
+            for (; i < nums.length; i++) {
+                if (nums[i] == 1) {
+                    if (emptySlots < k) {
+                        return false;
+                    }
+
+                    emptySlots = 0;
+                } else {
+                    emptySlots++;
+                }
+            }
+
+            return true;
+        }
+    }
+
+    class Solution_Correct_3 {
+        public boolean kLengthApart(int[] nums, int k) {
+            if (nums == null || nums.length == 0 || k < 0) {
+                return false;
+            }
+
+            int prev = -1;
+            for (int i = 0; i < nums.length; i++) {
+                if (nums[i] == 1) {
+                    if (prev != -1 && !((i - prev - 1) >= k)) {
+                        return false;
+                    }
+
+                    prev = i;
+                }
+            }
+
+            return true;
+        }
     }
 }
 
