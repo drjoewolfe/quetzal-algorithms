@@ -6,17 +6,37 @@ import java.util.Set;
 public class KeepMultiplyingFoundValuesByTwo {
     class Solution {
         public int findFinalValue(int[] nums, int original) {
-            if(nums == null || nums.length == 0) {
+            if (nums == null || nums.length == 0) {
+                return original;
+            }
+
+            Set<Integer> set = new HashSet<>();
+            for (int x : nums) {
+                set.add(x);
+            }
+
+            int lookup = original;
+            while (set.contains(lookup)) {
+                lookup *= 2;
+            }
+
+            return lookup;
+        }
+    }
+
+    class Solution_Correct_1 {
+        public int findFinalValue(int[] nums, int original) {
+            if (nums == null || nums.length == 0) {
                 return 0;
             }
 
             Set<Integer> set = new HashSet<>();
-            for(int val : nums) {
+            for (int val : nums) {
                 set.add(val);
             }
 
             int val = original;
-            while(set.contains(val)) {
+            while (set.contains(val)) {
                 val *= 2;
             }
 
