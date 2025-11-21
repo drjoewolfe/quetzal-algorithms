@@ -9,6 +9,48 @@ public class UniqueLength3PalindromicSubsequences {
                 return 0;
             }
 
+            int n = s.length();
+            int[] first = new int[26];
+            int[] last = new int[26];
+
+            Arrays.fill(first, -1);
+            Arrays.fill(last, -1);
+
+            for (int i = 0; i < n; i++) {
+                char c = s.charAt(i);
+                int index = c - 'a';
+
+                if (first[index] == -1) {
+                    first[index] = i;
+                } else {
+                    last[index] = i;
+                }
+            }
+
+            int count = 0;
+            for (int i = 0; i < 26; i++) {
+                if (first[i] == -1 || last[i] == -1 || last[i] - first[i] == 1) {
+                    continue;
+                }
+
+                Set<Character> set = new HashSet<>();
+                for (int j = first[i] + 1; j < last[i]; j++) {
+                    set.add(s.charAt(j));
+                }
+
+                count += set.size();
+            }
+
+            return count;
+        }
+    }
+
+    class Solution_Correct_2 {
+        public int countPalindromicSubsequence(String s) {
+            if (s == null || s.length() < 3) {
+                return 0;
+            }
+
             int[] firstIndex = new int[26];
             int[] lastIndex = new int[26];
 
