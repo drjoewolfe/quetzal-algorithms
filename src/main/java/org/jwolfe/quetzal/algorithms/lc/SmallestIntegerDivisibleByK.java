@@ -5,12 +5,26 @@ import java.util.Set;
 
 public class SmallestIntegerDivisibleByK {
     class Solution {
+        public int smallestRepunitDivByK(int k) {
+            int remainder = 0;
+            for (int length = 1; length <= k; length++) {
+                remainder = (remainder * 10 + 1) % k;
+                if (remainder == 0) {
+                    return length;
+                }
+            }
+
+            return -1;
+        }
+    }
+
+    class Solution_Correct_1 {
         public int smallestRepunitDivByK(int K) {
-            if(K < 1) {
+            if (K < 1) {
                 return 0;
             }
 
-            if(K % 2 == 0) {
+            if (K % 2 == 0) {
                 // sequence of 1-s not divisible by even number
                 return -1;
             }
@@ -19,12 +33,12 @@ public class SmallestIntegerDivisibleByK {
             int count = 1;
             Set<Integer> seen = new HashSet<>();
 
-            while(remainder % K != 0) {
+            while (remainder % K != 0) {
                 int number = remainder * 10;
                 number += 1;
 
                 remainder = number % K;
-                if(seen.contains(remainder)) {
+                if (seen.contains(remainder)) {
                     return -1;
                 } else {
                     seen.add(remainder);
