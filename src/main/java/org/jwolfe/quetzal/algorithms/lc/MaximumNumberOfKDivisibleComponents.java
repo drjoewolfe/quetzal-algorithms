@@ -7,6 +7,54 @@ import java.util.Set;
 
 public class MaximumNumberOfKDivisibleComponents {
     class Solution {
+        private int componentCount = 0;
+
+        public int maxKDivisibleComponents(int n, int[][] edges, int[] values, int k) {
+            if (n < 1) {
+                return 0;
+            }
+
+            Map<Integer, Set<Integer>> graph = new HashMap<>();
+            for (int u = 0; u < n; u++) {
+                graph.put(u, new HashSet<>());
+            }
+
+            for (int[] edge : edges) {
+                int u = edge[0];
+                int v = edge[1];
+
+                graph.get(u).add(v);
+                graph.get(v).add(u);
+            }
+
+            componentCount = 0;
+            dfs(graph, 0, -1, values, k);
+
+            return componentCount;
+        }
+
+        private int dfs(Map<Integer, Set<Integer>> graph, int node, int parent, int[] values, int k) {
+            int sum = values[node];
+            sum %= k;
+
+            for (var child : graph.get(node)) {
+                if (child == parent) {
+                    continue;
+                }
+
+                sum += dfs(graph, child, node, values, k);
+                sum %= k;
+            }
+
+            if (sum == 0) {
+                componentCount++;
+            }
+
+            return sum;
+        }
+    }
+
+    class Solution_Correct_1 {
         int componentCount;
 
         public int maxKDivisibleComponents(int n, int[][] edges, int[] values, int k) {
