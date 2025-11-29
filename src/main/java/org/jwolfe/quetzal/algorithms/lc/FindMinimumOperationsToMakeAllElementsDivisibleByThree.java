@@ -11,6 +11,24 @@ public class FindMinimumOperationsToMakeAllElementsDivisibleByThree {
             for (int x : nums) {
                 x = x % 3;
                 if (x != 0) {
+                    operations += Math.min(x, (3 - x));
+                }
+            }
+
+            return operations;
+        }
+    }
+
+    class Solution_Correct_1 {
+        public int minimumOperations(int[] nums) {
+            if (nums == null || nums.length == 0) {
+                return 0;
+            }
+
+            int operations = 0;
+            for (int x : nums) {
+                x = x % 3;
+                if (x != 0) {
                     operations += Math.min(x, 3 - x);
                 }
             }
