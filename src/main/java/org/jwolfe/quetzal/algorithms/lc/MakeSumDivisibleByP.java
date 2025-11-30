@@ -6,6 +6,47 @@ import java.util.Map;
 public class MakeSumDivisibleByP {
     class Solution {
         public int minSubarray(int[] nums, int p) {
+            if (nums == null || nums.length == 0) {
+                return 0;
+            }
+
+            int n = nums.length;
+            int sum = 0;
+            for (int i = 0; i < n; i++) {
+                sum = (sum + nums[i]) % p;
+            }
+
+            int target = sum % p;
+
+            if (target == 0) {
+                return 0;
+            }
+
+            Map<Integer, Integer> modMap = new HashMap<>();
+            modMap.put(0, -1);
+
+            int currentSum = 0;
+            int minLength = n;
+            for (int i = 0; i < n; i++) {
+                int x = nums[i];
+                currentSum += x;
+                currentSum %= p;
+
+                int requiredMod = (currentSum - target + p) % p;
+                if (modMap.containsKey(requiredMod)) {
+                    int length = i - modMap.get(requiredMod);
+                    minLength = Math.min(minLength, length);
+                }
+
+                modMap.put(currentSum, i);
+            }
+
+            return minLength == n ? -1 : minLength;
+        }
+    }
+
+    class Solution_Correct_1 {
+        public int minSubarray(int[] nums, int p) {
             if (nums == null || nums.length == 0 || p < 1) {
                 return 0;
             }
