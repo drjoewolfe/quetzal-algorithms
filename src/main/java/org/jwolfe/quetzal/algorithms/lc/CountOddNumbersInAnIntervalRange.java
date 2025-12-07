@@ -3,7 +3,21 @@ package org.jwolfe.quetzal.algorithms.lc;
 public class CountOddNumbersInAnIntervalRange {
     class Solution {
         public int countOdds(int low, int high) {
-            if(low % 2 == 0) {
+            if (low % 2 == 0) {
+                low++;
+            }
+
+            if (high % 2 == 0) {
+                high--;
+            }
+
+            return (high - low) / 2 + 1;
+        }
+    }
+
+    class Solution_Correct_2 {
+        public int countOdds(int low, int high) {
+            if (low % 2 == 0) {
                 low++;
             }
 
@@ -13,7 +27,7 @@ public class CountOddNumbersInAnIntervalRange {
 
     class Solution_Correct_1 {
         public int countOdds(int low, int high) {
-            int oddsTillHigh = (high / 2) + ((high % 2) != 0 ? 1: 0);
+            int oddsTillHigh = (high / 2) + ((high % 2) != 0 ? 1 : 0);
             int oddsTillLow = (low / 2) + ((low % 2) != 0 ? 1 : 0);
 
             return oddsTillHigh - oddsTillLow + ((low % 2 != 0) ? 1 : 0);
