@@ -3,17 +3,38 @@ package org.jwolfe.quetzal.algorithms.lc;
 public class CountSquareSumTriples {
     class Solution {
         public int countTriples(int n) {
-            if(n < 1) {
+            if (n < 3) {
                 return 0;
             }
 
             int count = 0;
-            for(int a = 1; a <= n; a++) {
-                for(int b = 1; b <= n; b++) {
-                    int cs = a*a + b*b;
+            for (int a = 1; a <= n; a++) {
+                for (int b = 1; b <= n; b++) {
+                    int square = a * a + b * b;
+                    int c = (int) Math.sqrt(square + 1L);
+                    if (c * c == square && c <= n) {
+                        count++;
+                    }
+                }
+            }
+
+            return count;
+        }
+    }
+
+    class Solution_Correct_1 {
+        public int countTriples(int n) {
+            if (n < 1) {
+                return 0;
+            }
+
+            int count = 0;
+            for (int a = 1; a <= n; a++) {
+                for (int b = 1; b <= n; b++) {
+                    int cs = a * a + b * b;
                     double c = Math.sqrt(cs);
 
-                    if(c % 1 == 0 && c <= n) {
+                    if (c % 1 == 0 && c <= n) {
                         count++;
                     }
                 }
