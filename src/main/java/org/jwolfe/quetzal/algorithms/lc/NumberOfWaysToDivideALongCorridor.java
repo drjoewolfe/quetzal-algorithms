@@ -10,6 +10,37 @@ public class NumberOfWaysToDivideALongCorridor {
             }
 
             int n = corridor.length();
+            int[][] dp = new int[n + 1][3];
+
+            dp[n][2] = 1;
+
+            for (int i = n - 1; i >= 0; i--) {
+                char c = corridor.charAt(i);
+
+                if (c == 'S') {
+                    dp[i][2] = dp[i + 1][1];
+                    dp[i][1] = dp[i + 1][2];
+                    dp[i][0] = dp[i + 1][1];
+                } else {
+                    dp[i][2] = (dp[i + 1][0] + dp[i + 1][2]) % MOD;
+                    dp[i][1] = dp[i + 1][1];
+                    dp[i][0] = dp[i + 1][0];
+                }
+            }
+
+            return dp[0][0];
+        }
+    }
+
+    class Solution_Memoized {
+        private final int MOD = 1_000_000_007;
+
+        public int numberOfWays(String corridor) {
+            if (corridor == null || corridor.length() < 2) {
+                return 0;
+            }
+
+            int n = corridor.length();
             Integer[][] memo = new Integer[n][3];
 
             return numberOfWays(corridor, 0, 0, memo);
