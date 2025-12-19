@@ -1,7 +1,5 @@
 package org.jwolfe.quetzal.algorithms.lc;
 
-import org.jwolfe.quetzal.library.general.Pair;
-
 import java.util.*;
 
 public class FindAllPeopleWithSecret {
@@ -166,6 +164,24 @@ public class FindAllPeopleWithSecret {
             }
 
             return peopleWithSecret;
+        }
+
+        private class Pair<K, V> {
+            K key;
+            V value;
+
+            public Pair(K key, V value) {
+                this.key = key;
+                this.value = value;
+            }
+
+            public K getKey() {
+                return this.key;
+            }
+
+            public V getValue() {
+                return this.value;
+            }
         }
     }
 
