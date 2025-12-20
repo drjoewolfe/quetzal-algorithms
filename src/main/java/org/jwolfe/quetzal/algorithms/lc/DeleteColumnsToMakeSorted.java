@@ -2,8 +2,37 @@ package org.jwolfe.quetzal.algorithms.lc;
 
 public class DeleteColumnsToMakeSorted {
     class Solution {
+        public int minDeletionSize(String[] strs) {
+            if (strs == null || strs.length == 0) {
+                return 0;
+            }
+
+            int m = strs.length;
+            int n = strs[0].length();
+
+            int count = 0;
+            for (int i = 0; i < n; i++) {
+                char pc = strs[0].charAt(i);
+
+                for (int j = 1; j < m; j++) {
+                    char nc = strs[j].charAt(i);
+
+                    if (nc < pc) {
+                        count++;
+                        break;
+                    }
+
+                    pc = nc;
+                }
+            }
+
+            return count;
+        }
+    }
+
+    class Solution_Correct_2 {
         public int minDeletionSize(String[] A) {
-            if(A == null || A.length < 2) {
+            if (A == null || A.length < 2) {
                 return 0;
             }
 
@@ -11,9 +40,9 @@ public class DeleteColumnsToMakeSorted {
             int n = A[0].length();
             int unsortedColumns = 0;
 
-            for(int i = 0; i < n; i++) {
-                for(int j = 1; j < m; j++) {
-                    if(A[j].charAt(i) < A[j - 1].charAt(i)) {
+            for (int i = 0; i < n; i++) {
+                for (int j = 1; j < m; j++) {
+                    if (A[j].charAt(i) < A[j - 1].charAt(i)) {
                         unsortedColumns++;
                         break;
                     }
@@ -26,30 +55,30 @@ public class DeleteColumnsToMakeSorted {
 
     class Solution_Correct_1 {
         public int minDeletionSize(String[] A) {
-            if(A == null || A.length < 2) {
+            if (A == null || A.length < 2) {
                 return 0;
             }
 
             int n = A.length;
             int l = A[0].length();
 
-            for(String word : A) {
-                if(word.length() != l) {
+            for (String word : A) {
+                if (word.length() != l) {
                     return 0;
                 }
             }
 
             int deletionCount = 0;
-            for(int i = 0; i < l; i++) {
+            for (int i = 0; i < l; i++) {
                 boolean increasing = true;
-                for(int j = 1; j < n; j++) {
-                    if(A[j].charAt(i) < A[j - 1].charAt(i)) {
+                for (int j = 1; j < n; j++) {
+                    if (A[j].charAt(i) < A[j - 1].charAt(i)) {
                         increasing = false;
                         break;
                     }
                 }
 
-                if(!increasing) {
+                if (!increasing) {
                     deletionCount++;
                 }
             }
