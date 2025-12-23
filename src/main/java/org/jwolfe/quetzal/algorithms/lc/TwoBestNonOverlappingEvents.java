@@ -9,6 +9,107 @@ public class TwoBestNonOverlappingEvents {
                 return 0;
             }
 
+            Arrays.sort(events, (a, b) -> a[0] - b[0]);
+            Integer[][] memo = new Integer[events.length][3];
+            return maxTwoEvents(events, 0, 0, memo);
+        }
+
+        private int maxTwoEvents(int[][] events, int index, int selectedCount, Integer[][] memo) {
+            if (selectedCount == 2 || index >= events.length) {
+                return 0;
+            }
+
+            if (memo[index][selectedCount] != null) {
+                return memo[index][selectedCount];
+            }
+
+            // Exclude this event
+            int excludedValue = maxTwoEvents(events, index + 1, selectedCount, memo);
+
+            // Include this event
+            int value = events[index][2];
+            int includedValue = value;
+            int nextIndex = findNextNonOverlappingInterval(events, index);
+            if (nextIndex >= 0 && nextIndex < events.length) {
+                includedValue += maxTwoEvents(events, nextIndex, selectedCount + 1, memo);
+            }
+
+            int maxValue = Math.max(excludedValue, includedValue);
+            return memo[index][selectedCount] = maxValue;
+        }
+
+        private int findNextNonOverlappingInterval(int[][] events, int index) {
+            int end = events[index][1];
+            int left = index + 1;
+            int right = events.length - 1;
+
+            while (left <= right) {
+                int mid = left + (right - left) / 2;
+                if (events[mid][0] > end) {
+                    right = mid - 1;
+                } else {
+                    left = mid + 1;
+                }
+            }
+
+            return left;
+        }
+    }
+
+    class Solution_TLE_3 {
+        public int maxTwoEvents(int[][] events) {
+            if (events == null || events.length == 0) {
+                return 0;
+            }
+
+            Arrays.sort(events, (a, b) -> a[0] - b[0]);
+            return maxTwoEvents(events, 0, 0);
+        }
+
+        private int maxTwoEvents(int[][] events, int index, int selectedCount) {
+            if (selectedCount == 2 || index >= events.length) {
+                return 0;
+            }
+
+            // Exclude this event
+            int excludedValue = maxTwoEvents(events, index + 1, selectedCount);
+
+            // Include this event
+            int value = events[index][2];
+            int includedValue = value;
+            int nextIndex = findNextNonOverlappingInterval(events, index);
+            if (nextIndex >= 0 && nextIndex < events.length) {
+                includedValue += maxTwoEvents(events, nextIndex, selectedCount + 1);
+            }
+
+            int maxValue = Math.max(excludedValue, includedValue);
+            return maxValue;
+        }
+
+        private int findNextNonOverlappingInterval(int[][] events, int index) {
+            int end = events[index][1];
+            int left = index + 1;
+            int right = events.length - 1;
+
+            while (left <= right) {
+                int mid = left + (right - left) / 2;
+                if (events[mid][0] > end) {
+                    right = mid - 1;
+                } else {
+                    left = mid + 1;
+                }
+            }
+
+            return left;
+        }
+    }
+
+    class Solution_Correct_1 {
+        public int maxTwoEvents(int[][] events) {
+            if (events == null || events.length == 0) {
+                return 0;
+            }
+
             int n = events.length;
             int[][] memo = new int[n][3];
             for (int[] row : memo) {
