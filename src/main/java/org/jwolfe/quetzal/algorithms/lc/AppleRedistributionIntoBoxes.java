@@ -5,12 +5,43 @@ import java.util.Arrays;
 public class AppleRedistributionIntoBoxes {
     class Solution {
         public int minimumBoxes(int[] apple, int[] capacity) {
-            if(apple == null || apple.length == 0 || capacity == null || capacity.length == 0) {
+            if (apple == null || apple.length == 0) {
+                return 0;
+            }
+
+            if (capacity == null || capacity.length == 0) {
+                return -1;
+            }
+
+            int apples = Arrays.stream(apple).sum();
+            int totalCapacity = Arrays.stream(capacity).sum();
+
+            if (apples > totalCapacity) {
+                return -1;
+            }
+
+            Arrays.sort(capacity);
+
+            int m = capacity.length;
+            int boxes = 0;
+            int index = m - 1;
+            while (apples > 0) {
+                apples -= capacity[index--];
+                boxes++;
+            }
+
+            return boxes;
+        }
+    }
+
+    class Solution_Correct_1 {
+        public int minimumBoxes(int[] apple, int[] capacity) {
+            if (apple == null || apple.length == 0 || capacity == null || capacity.length == 0) {
                 return -1;
             }
 
             int apples = 0;
-            for(int val : apple) {
+            for (int val : apple) {
                 apples += val;
             }
 
@@ -18,12 +49,12 @@ public class AppleRedistributionIntoBoxes {
             int m = capacity.length;
             int i = m - 1;
 
-            while(apples > 0 && i >= 0) {
+            while (apples > 0 && i >= 0) {
                 apples -= capacity[i];
                 i--;
             }
 
-            if(i < 0 && apples > 0) {
+            if (i < 0 && apples > 0) {
                 return -1;
             }
 
