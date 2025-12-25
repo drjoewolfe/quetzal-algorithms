@@ -1,23 +1,48 @@
 package org.jwolfe.quetzal.algorithms.lc;
 
+import java.util.Arrays;
 import java.util.PriorityQueue;
 
 public class MaximizeHappinessOfSelectedChildren {
     class Solution {
         public long maximumHappinessSum(int[] happiness, int k) {
-            if(happiness == null || happiness.length == 0 || k < 0 || k > happiness.length) {
+            if (happiness == null || happiness.length == 0 || k < 1) {
+                return 0;
+            }
+
+            Arrays.sort(happiness);
+            int n = happiness.length;
+            long totalHappiness = 0;
+            for (int i = n - 1; i >= n - k; i--) {
+                int round = n - i - 1;
+                long value = happiness[i] - round;
+
+                if (value <= 0) {
+                    break;
+                }
+
+                totalHappiness += value;
+            }
+
+            return totalHappiness;
+        }
+    }
+
+    class Solution_Correct_1 {
+        public long maximumHappinessSum(int[] happiness, int k) {
+            if (happiness == null || happiness.length == 0 || k < 0 || k > happiness.length) {
                 return 0;
             }
 
             int n = happiness.length;
             PriorityQueue<Integer> heap = new PriorityQueue<>((a, b) -> b - a);
 
-            for(int val : happiness) {
+            for (int val : happiness) {
                 heap.offer(val);
             }
 
             long maxHappiness = 0;
-            for(int i = 0; i < k; i++) {
+            for (int i = 0; i < k; i++) {
                 int val = heap.poll();
                 maxHappiness += Math.max((val - i), 0);
             }
