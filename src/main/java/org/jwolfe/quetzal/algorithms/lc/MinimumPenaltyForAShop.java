@@ -3,31 +3,69 @@ package org.jwolfe.quetzal.algorithms.lc;
 public class MinimumPenaltyForAShop {
     class Solution {
         public int bestClosingTime(String customers) {
-            if(customers == null || customers.length() == 0) {
+            if (customers == null || customers.length() == 0) {
+                return -1;
+            }
+
+            int n = customers.length();
+            int penality = 0;
+            for (int i = 0; i < n; i++) {
+                if (customers.charAt(i) == 'Y') {
+                    penality++;
+                }
+            }
+
+            int minPenality = penality;
+            int minPenalityIndex = 0;
+            for (int i = 0; i < n; i++) {
+                if (penality < minPenality) {
+                    minPenality = penality;
+                    minPenalityIndex = i;
+                }
+
+                if (customers.charAt(i) == 'N') {
+                    penality++;
+                } else {
+                    penality--;
+                }
+            }
+
+            if (penality < minPenality) {
+                minPenality = penality;
+                minPenalityIndex = n;
+            }
+
+            return minPenalityIndex;
+        }
+    }
+
+    class Solution_Correct_2 {
+        public int bestClosingTime(String customers) {
+            if (customers == null || customers.length() == 0) {
                 return 0;
             }
 
             int n = customers.length();
             int penality = 0;
-            for(int i = 0; i < n; i++) {
+            for (int i = 0; i < n; i++) {
                 char c = customers.charAt(i);
-                if(c == 'Y') {
+                if (c == 'Y') {
                     penality++;
                 }
             }
 
             int minPenality = penality;
             int hourToClose = 0;
-            for(int i = 0; i < n; i++) {
+            for (int i = 0; i < n; i++) {
                 char c = customers.charAt(i);
 
-                if(c == 'Y') {
+                if (c == 'Y') {
                     penality--;
                 } else {
                     penality++;
                 }
 
-                if(penality < minPenality) {
+                if (penality < minPenality) {
                     minPenality = penality;
                     hourToClose = i + 1;
                 }
@@ -39,33 +77,33 @@ public class MinimumPenaltyForAShop {
 
     class Solution_Correct_1 {
         public int bestClosingTime(String customers) {
-            if(customers == null || customers.length() == 0) {
+            if (customers == null || customers.length() == 0) {
                 return 0;
             }
 
             int penality = 0;
             int n = customers.length();
 
-            for(int i = 0; i < n; i++) {
+            for (int i = 0; i < n; i++) {
                 char c = customers.charAt(i);
 
-                if(c == 'Y') {
+                if (c == 'Y') {
                     penality++;
                 }
             }
 
             int minPenality = penality;
             int hourToCloseForMinPenality = 0;
-            for(int i = 0; i < n; i++) {
+            for (int i = 0; i < n; i++) {
                 char c = customers.charAt(i);
 
-                if(c == 'Y') {
+                if (c == 'Y') {
                     penality--;
                 } else {
                     penality++;
                 }
 
-                if(penality < minPenality) {
+                if (penality < minPenality) {
                     minPenality = penality;
                     hourToCloseForMinPenality = i + 1;
                 }
