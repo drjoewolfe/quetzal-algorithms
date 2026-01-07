@@ -16,12 +16,57 @@ public class MaximumProductOfSplittedBinaryTree {
      * }
      * }
      */
+
     class Solution {
+        private int MOD = 1_000_000_007;
+        private long maximumProduct = 0;
+
+        public int maxProduct(TreeNode root) {
+            long totalSum = sum(root);
+
+            maximumProduct = 0;
+            computeMaximumProduct(root, totalSum);
+
+            return (int) (maximumProduct % MOD);
+        }
+
+        private long computeMaximumProduct(TreeNode root, long totalSum) {
+            if (root == null) {
+                return 0;
+            }
+
+            if (root.left == null && root.right == null) {
+                // Leaf Node
+                return root.val;
+            }
+
+            long leftTreeSum = computeMaximumProduct(root.left, totalSum);
+            long rightTreeSum = computeMaximumProduct(root.right, totalSum);
+
+            long leftSpliceProduct = (totalSum - leftTreeSum) * leftTreeSum;
+            long rightSpliceProduct = (totalSum - rightTreeSum) * rightTreeSum;
+
+            maximumProduct = Math.max(maximumProduct, leftSpliceProduct);
+            maximumProduct = Math.max(maximumProduct, rightSpliceProduct);
+
+            return root.val + leftTreeSum + rightTreeSum;
+        }
+
+        private long sum(TreeNode root) {
+            if (root == null) {
+                return 0;
+            }
+
+            return root.val + sum(root.left) + sum(root.right);
+        }
+    }
+
+    class Solution_Correct_2 {
         long max;
         int MOD = 1_000_000_007;
 
         public int maxProduct(TreeNode root) {
-            if(root == null) {
+            if (root == null) {
                 return 0;
             }
 
@@ -33,7 +78,7 @@ public class MaximumProductOfSplittedBinaryTree {
         }
 
         private long computeMaxProduct(TreeNode root, int sum) {
-            if(root == null) {
+            if (root == null) {
                 return 0;
             }
 
@@ -50,7 +95,7 @@ public class MaximumProductOfSplittedBinaryTree {
         }
 
         private int getSum(TreeNode root) {
-            if(root == null) {
+            if (root == null) {
                 return 0;
             }
 
@@ -63,7 +108,7 @@ public class MaximumProductOfSplittedBinaryTree {
         int MOD = 1_000_000_007;
 
         public int maxProduct(TreeNode root) {
-            if(root == null) {
+            if (root == null) {
                 return 0;
             }
 
@@ -76,7 +121,7 @@ public class MaximumProductOfSplittedBinaryTree {
         }
 
         private long computeMaxProduct(TreeNode root, long sum) {
-            if(root == null) {
+            if (root == null) {
                 return 0;
             }
 
@@ -93,7 +138,7 @@ public class MaximumProductOfSplittedBinaryTree {
         }
 
         private long getSum(TreeNode root) {
-            if(root == null) {
+            if (root == null) {
                 return 0;
             }
 
