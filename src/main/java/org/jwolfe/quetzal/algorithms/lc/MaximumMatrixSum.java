@@ -3,6 +3,74 @@ package org.jwolfe.quetzal.algorithms.lc;
 public class MaximumMatrixSum {
     class Solution {
         public long maxMatrixSum(int[][] matrix) {
+            if(matrix == null || matrix.length == 0 || matrix[0].length == 0) {
+                return 0;
+            }
+
+            int m = matrix.length;
+            int n = matrix[0].length;
+
+            long totalSum = 0;
+            int minAbsVal = Integer.MAX_VALUE;
+            int negativeCount = 0;
+
+            for(int r = 0; r < m; r++) {
+                for(int c = 0; c < n; c++) {
+                    int val = matrix[r][c];
+                    totalSum += Math.abs(val);
+                    minAbsVal = Math.min(minAbsVal, Math.abs(val));
+
+                    if(val < 0) {
+                        negativeCount++;
+                    }
+                }
+            }
+
+            if(negativeCount % 2 != 0) {
+                totalSum -= (2 * minAbsVal);
+            }
+
+            return totalSum;
+        }
+    }
+
+    class Solution_Incorrect {
+        public long maxMatrixSum(int[][] matrix) {
+            if(matrix == null || matrix.length == 0 || matrix[0].length == 0) {
+                return 0;
+            }
+
+            int m = matrix.length;
+            int n = matrix[0].length;
+
+            int largestNegative = Integer.MIN_VALUE;
+            int negativeCount = 0;
+            int positiveSum = 0;
+            int negativeSum = 0;
+
+            for(int r = 0; r < m; r++) {
+                for(int c = 0; c < n; c++) {
+                    int val = matrix[r][c];
+                    if(val > 0) {
+                        positiveSum += val;
+                    } else {
+                        negativeCount++;
+                        negativeSum += val;
+                        largestNegative = Math.max(largestNegative, val);
+                    }
+                }
+            }
+
+            if(negativeCount % 2 == 0) {
+                return positiveSum - negativeSum;
+            } else {
+                return positiveSum - negativeSum + (2 * largestNegative);
+            }
+        }
+    }
+
+    class Solution_Correct_1 {
+        public long maxMatrixSum(int[][] matrix) {
             if (matrix == null || matrix.length == 0 || matrix[0].length == 0) {
                 return 0;
             }
