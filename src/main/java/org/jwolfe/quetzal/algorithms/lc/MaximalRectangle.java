@@ -5,7 +5,81 @@ import java.util.Stack;
 public class MaximalRectangle {
     class Solution {
         public int maximalRectangle(char[][] matrix) {
-            if(matrix == null || matrix.length == 0 || matrix[0].length == 0) {
+            if (matrix == null || matrix.length == 0 || matrix[0].length == 0) {
+                return 0;
+            }
+
+            int m = matrix.length;
+            int n = matrix[0].length;
+
+            int[][] mat = new int[m + 1][n];
+            for (int r = 1; r <= m; r++) {
+                for (int c = 0; c < n; c++) {
+                    mat[r][c] = matrix[r - 1][c] == '1' ? 1 : 0;
+                }
+            }
+
+            int[][] dp = new int[m + 1][n];
+            int maxArea = 0;
+
+            for (int r = 1; r <= m; r++) {
+                Stack<Integer> leftStack = new Stack<>();
+                int[] leftBounds = new int[n];
+                int leftLimit = -1;
+
+                for (int c = 0; c < n; c++) {
+                    if (mat[r][c] != 0) {
+                        mat[r][c] = mat[r - 1][c] + 1;
+
+                        while (!leftStack.isEmpty() && mat[r][leftStack.peek()] >= mat[r][c]) {
+                            leftStack.pop();
+                        }
+
+                        int val = leftLimit;
+                        if (!leftStack.isEmpty()) {
+                            val = Math.max(leftLimit, leftStack.peek());
+                        }
+
+                        leftBounds[c] = val;
+                    } else {
+                        leftLimit = c;
+                        leftBounds[c] = 0;
+                    }
+
+                    leftStack.push(c);
+                }
+
+                Stack<Integer> rightStack = new Stack<>();
+                int rightLimit = n;
+
+                for (int c = n - 1; c >= 0; c--) {
+                    if (mat[r][c] != 0) {
+                        while (!rightStack.isEmpty() && mat[r][rightStack.peek()] >= mat[r][c]) {
+                            rightStack.pop();
+                        }
+
+                        int val = rightLimit;
+                        if (!rightStack.isEmpty()) {
+                            val = Math.min(rightLimit, rightStack.peek());
+                        }
+
+                        dp[r][c] = mat[r][c] * ((val - 1) - (leftBounds[c] + 1) + 1);
+                        maxArea = Math.max(maxArea, dp[r][c]);
+                        rightStack.push(c);
+                    } else {
+                        dp[r][c] = 0;
+                        rightLimit = c;
+                    }
+                }
+            }
+
+            return maxArea;
+        }
+    }
+
+    class Solution_Correct_2 {
+        public int maximalRectangle(char[][] matrix) {
+            if (matrix == null || matrix.length == 0 || matrix[0].length == 0) {
                 return 0;
             }
 
@@ -15,11 +89,11 @@ public class MaximalRectangle {
             int n = matrix[0].length;
 
             int[] histogram = new int[n + 1];
-            for(int i = 0; i < m; i++) {
-                for(int j = 0; j < n; j++) {
+            for (int i = 0; i < m; i++) {
+                for (int j = 0; j < n; j++) {
                     char c = matrix[i][j];
 
-                    if(c == '0') {
+                    if (c == '0') {
                         histogram[j] = 0;
                     } else {
                         histogram[j]++;
@@ -37,10 +111,10 @@ public class MaximalRectangle {
             int maxArea = 0;
 
             Stack<Integer> stack = new Stack<>();
-            for(int i = 0; i < histogram.length; i++) {
+            for (int i = 0; i < histogram.length; i++) {
                 int currentHeight = histogram[i];
 
-                while(!stack.isEmpty()
+                while (!stack.isEmpty()
                         && histogram[stack.peek()] >= currentHeight) {
                     int j = stack.pop();
 
@@ -58,7 +132,7 @@ public class MaximalRectangle {
         }
 
         private void print(int[] arr) {
-            for(int i = 0; i < arr.length; i++) {
+            for (int i = 0; i < arr.length; i++) {
                 System.out.print(arr[i] + " ");
             }
 
@@ -68,7 +142,7 @@ public class MaximalRectangle {
 
     class Solution_Correct_1 {
         public int maximalRectangle(char[][] matrix) {
-            if(matrix == null || matrix.length == 0 || matrix[0].length == 0) {
+            if (matrix == null || matrix.length == 0 || matrix[0].length == 0) {
                 return 0;
             }
 
@@ -78,9 +152,9 @@ public class MaximalRectangle {
             int maxArea = 0;
 
             int[] histogram = new int[n];
-            for(int i = 0; i < m; i++) {
-                for(int j = 0; j < n; j++) {
-                    if(matrix[i][j] == '0') {
+            for (int i = 0; i < m; i++) {
+                for (int j = 0; j < n; j++) {
+                    if (matrix[i][j] == '0') {
                         histogram[j] = 0;
                     } else {
                         histogram[j] += 1;
@@ -100,13 +174,13 @@ public class MaximalRectangle {
             Stack<Integer> stack = new Stack<>();
 
             int[] leftMins = new int[n];
-            for(int i = 0; i < n; i++) {
-                while(!stack.isEmpty() && histogram[stack.peek()] >= histogram[i]) {
+            for (int i = 0; i < n; i++) {
+                while (!stack.isEmpty() && histogram[stack.peek()] >= histogram[i]) {
                     stack.pop();
                 }
 
                 int left = -1;
-                if(!stack.isEmpty()) {
+                if (!stack.isEmpty()) {
                     left = stack.peek();
                 }
 
@@ -117,13 +191,13 @@ public class MaximalRectangle {
 
             stack.clear();
             int[] rightMins = new int[n];
-            for(int i = n - 1; i >= 0; i--) {
-                while(!stack.isEmpty() && histogram[stack.peek()] >= histogram[i]) {
+            for (int i = n - 1; i >= 0; i--) {
+                while (!stack.isEmpty() && histogram[stack.peek()] >= histogram[i]) {
                     stack.pop();
                 }
 
                 int right = n;
-                if(!stack.isEmpty()) {
+                if (!stack.isEmpty()) {
                     right = stack.peek();
                 }
 
@@ -133,7 +207,7 @@ public class MaximalRectangle {
             }
 
             int maxArea = 0;
-            for(int i = 0; i < n; i++) {
+            for (int i = 0; i < n; i++) {
                 maxArea = Math.max(maxArea,
                         (rightMins[i] - leftMins[i] - 1) * histogram[i]);
             }
@@ -142,7 +216,7 @@ public class MaximalRectangle {
         }
 
         private void print(int[] arr) {
-            for(int i = 0; i < arr.length; i++) {
+            for (int i = 0; i < arr.length; i++) {
                 System.out.print(arr[i] + " ");
             }
 
