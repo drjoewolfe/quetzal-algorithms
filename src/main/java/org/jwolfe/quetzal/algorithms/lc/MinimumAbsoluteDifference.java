@@ -8,13 +8,46 @@ public class MinimumAbsoluteDifference {
     class Solution {
         public List<List<Integer>> minimumAbsDifference(int[] arr) {
             List<List<Integer>> results = new ArrayList<>();
-            if(arr == null || arr.length < 2) {
+            if (arr == null || arr.length < 2) {
+                return results;
+            }
+
+            int n = arr.length;
+            Arrays.sort(arr);
+            int minDiff = arr[n - 1] - arr[0];
+            for (int i = 0; i < n - 1; i++) {
+                int a = arr[i];
+                int b = arr[i + 1];
+
+                int diff = b - a;
+                minDiff = Math.min(minDiff, diff);
+            }
+
+            for (int i = 0; i < n - 1; i++) {
+                int a = arr[i];
+                int b = arr[i + 1];
+
+                int diff = b - a;
+                if (diff == minDiff) {
+                    List<Integer> pair = List.of(a, b);
+                    results.add(pair);
+                }
+            }
+
+            return results;
+        }
+    }
+
+    class Solution_Correct_2 {
+        public List<List<Integer>> minimumAbsDifference(int[] arr) {
+            List<List<Integer>> results = new ArrayList<>();
+            if (arr == null || arr.length < 2) {
                 return results;
             }
 
             Arrays.sort(arr);
             int minAbsDiff = arr[1] - arr[0];
-            for(int i = 2; i < arr.length; i++) {
+            for (int i = 2; i < arr.length; i++) {
                 int a = arr[i - 1];
                 int b = arr[i];
 
@@ -22,12 +55,12 @@ public class MinimumAbsoluteDifference {
                 minAbsDiff = Math.min(minAbsDiff, absDiff);
             }
 
-            for(int i = 1; i < arr.length; i++) {
+            for (int i = 1; i < arr.length; i++) {
                 int a = arr[i - 1];
                 int b = arr[i];
 
                 int absDiff = Math.abs(a - b);
-                if(absDiff == minAbsDiff) {
+                if (absDiff == minAbsDiff) {
                     List<Integer> pair = new ArrayList<>();
                     pair.add(a);
                     pair.add(b);
@@ -43,21 +76,21 @@ public class MinimumAbsoluteDifference {
     class Solution_Correct_1 {
         public List<List<Integer>> minimumAbsDifference(int[] arr) {
             List<List<Integer>> results = new ArrayList<>();
-            if(arr == null || arr.length < 2) {
+            if (arr == null || arr.length < 2) {
                 return results;
             }
 
             Arrays.sort(arr);
             int minDifference = arr[1] - arr[0];
-            for(int i = 1; i < arr.length - 1; i++) {
+            for (int i = 1; i < arr.length - 1; i++) {
                 int difference = arr[i + 1] - arr[i];
                 minDifference = Math.min(minDifference, difference);
             }
 
 
-            for(int i = 0; i < arr.length - 1; i++) {
+            for (int i = 0; i < arr.length - 1; i++) {
                 int difference = arr[i + 1] - arr[i];
-                if(difference == minDifference) {
+                if (difference == minDifference) {
                     List<Integer> pair = new ArrayList<>();
                     pair.add(arr[i]);
                     pair.add(arr[i + 1]);
