@@ -1,12 +1,86 @@
 package org.jwolfe.quetzal.algorithms.lc;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
+import javafx.util.Pair;
 
 public class MinimumCostToConvertStringI {
     class Solution {
+        public long minimumCost(String source, String target, char[] original, char[] changed, int[] cost) {
+            Map<Integer, Map<Integer, Integer>> graph = new HashMap<>();
+            for(int u = 0; u < 26; u++) {
+                graph.put(u, new HashMap<>());
+            }
+
+            int n = original.length;
+            for(int i = 0; i < n; i++) {
+                int u = original[i] - 'a';
+                int v = changed[i] - 'a';
+                int c = cost[i];
+
+                if(!graph.get(u).containsKey(v)
+                        || graph.get(u).get(v) > c) {
+                    graph.get(u).put(v, c);
+                }
+            }
+
+            long[][] minCosts = new long[26][26];
+            for(int u = 0; u < 26; u++) {
+                minCosts[u] = dijkstra(graph, u);
+            }
+
+            long totalCost = 0;
+            for(int i = 0; i < source.length(); i++) {
+                if(source.charAt(i) != target.charAt(i)) {
+                    int u = source.charAt(i) - 'a';
+                    int v = target.charAt(i) - 'a';
+
+                    long conversionCost = minCosts[u][v];
+                    if(conversionCost == -1) {
+                        return -1;
+                    }
+
+                    totalCost += conversionCost;
+                }
+            }
+
+            return totalCost;
+        }
+
+        private long[] dijkstra(Map<Integer, Map<Integer, Integer>> graph, int s) {
+            long[] minCost = new long[26];
+            Arrays.fill(minCost, -1L);
+            minCost[s] = 0;
+
+            PriorityQueue<Pair<Long, Integer>> minHeap = new PriorityQueue<>(Comparator.comparingLong(Pair::getKey));
+            minHeap.offer(new Pair<>(0L, s));
+
+            while(!minHeap.isEmpty()) {
+                var pair = minHeap.poll();
+                int u = pair.getValue();
+                long c = pair.getKey();
+
+                if(minCost[u] != -1L
+                        && minCost[u] < c) {
+                    continue;
+                }
+
+                for(var neighbourEntry : graph.get(u).entrySet()) {
+                    int v = neighbourEntry.getKey();
+                    int vc = neighbourEntry.getValue();
+
+                    long tc = c + vc;
+                    if (minCost[v] == -1 || minCost[v] > tc) {
+                        minCost[v] = tc;
+                        minHeap.offer(new Pair<>(tc, v));
+                    }
+                }
+            }
+
+            return minCost;
+        }
+    }
+
+    class Solution_Correct_1 {
         public long minimumCost(String source, String target, char[] original, char[] changed, int[] cost) {
             if (source == null || target == null || source.length() != target.length() || original == null || original.length == 0 || changed == null || original.length != changed.length || cost == null || original.length != cost.length) {
                 return -1;
