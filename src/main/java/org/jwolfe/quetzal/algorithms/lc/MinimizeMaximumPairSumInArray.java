@@ -5,7 +5,31 @@ import java.util.Arrays;
 public class MinimizeMaximumPairSumInArray {
     class Solution {
         public int minPairSum(int[] nums) {
-            if(nums == null || nums.length == 0 || nums.length % 2 != 0) {
+            if (nums == null || nums.length == 0 || nums.length % 2 != 0) {
+                return -1;
+            }
+
+            int n = nums.length;
+
+            Arrays.sort(nums);
+            int minSum = Integer.MIN_VALUE;
+
+            for (int i = 0; i < n / 2; i++) {
+                int a = nums[i];
+                int b = nums[n - i - 1];
+
+                System.out.println(a + ", " + b);
+                int sum = a + b;
+                minSum = Math.max(minSum, sum);
+            }
+
+            return minSum;
+        }
+    }
+
+    class Solution_Correct_2 {
+        public int minPairSum(int[] nums) {
+            if (nums == null || nums.length == 0 || nums.length % 2 != 0) {
                 return 0;
             }
 
@@ -13,7 +37,7 @@ public class MinimizeMaximumPairSumInArray {
 
             Arrays.sort(nums);
             int n = nums.length;
-            for(int i = 0; i < n / 2; i++) {
+            for (int i = 0; i < n / 2; i++) {
                 int j = n - i - 1;
                 int sum = nums[i] + nums[j];
 
@@ -26,14 +50,14 @@ public class MinimizeMaximumPairSumInArray {
 
     class Solution_Correct_1 {
         public int minPairSum(int[] nums) {
-            if(nums == null || nums.length == 0 || nums.length % 2 != 0) {
+            if (nums == null || nums.length == 0 || nums.length % 2 != 0) {
                 return 0;
             }
 
             int min = Integer.MAX_VALUE;
             int max = Integer.MIN_VALUE;
 
-            for(int val : nums) {
+            for (int val : nums) {
                 min = Math.min(min, val);
                 max = Math.max(max, val);
             }

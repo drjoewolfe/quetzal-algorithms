@@ -5,7 +5,28 @@ import java.util.Arrays;
 public class MinimumDifferenceBetweenHighestAndLowestOfKScores {
     class Solution {
         public int minimumDifference(int[] nums, int k) {
-            if(nums == null || nums.length < 2 || k < 1) {
+            if (nums == null || nums.length == 0 || k < 1) {
+                return 0;
+            }
+
+            Arrays.sort(nums);
+
+            int n = nums.length;
+            int minDiff = nums[n - 1] - nums[0];
+            for (int i = 0; i + k <= n; i++) {
+                int j = i + k - 1;
+
+                int diff = nums[j] - nums[i];
+                minDiff = Math.min(minDiff, diff);
+            }
+
+            return minDiff;
+        }
+    }
+
+    class Solution_Correct_1 {
+        public int minimumDifference(int[] nums, int k) {
+            if (nums == null || nums.length < 2 || k < 1) {
                 return 0;
             }
 
@@ -13,7 +34,7 @@ public class MinimumDifferenceBetweenHighestAndLowestOfKScores {
 
             Arrays.sort(nums);
             int minDifference = Integer.MAX_VALUE;
-            for(int i = 0; i + k <= n; i++) {
+            for (int i = 0; i + k <= n; i++) {
                 int j = i + k - 1;
 
                 minDifference = Math.min(minDifference, nums[j] - nums[i]);

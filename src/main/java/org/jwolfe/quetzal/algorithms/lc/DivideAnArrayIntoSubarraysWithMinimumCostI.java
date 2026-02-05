@@ -3,7 +3,51 @@ package org.jwolfe.quetzal.algorithms.lc;
 public class DivideAnArrayIntoSubarraysWithMinimumCostI {
     class Solution {
         public int minimumCost(int[] nums) {
-            if(nums == null || nums.length < 3) {
+            if (nums == null || nums.length < 3) {
+                return -1;
+            }
+
+            int n = nums.length;
+            int smallest = Integer.MAX_VALUE;
+            int secondSmallest = Integer.MAX_VALUE;
+
+            for (int i = 1; i < nums.length; i++) {
+                int val = nums[i];
+                if (smallest >= val) {
+                    secondSmallest = smallest;
+                    smallest = val;
+                } else if (secondSmallest >= val) {
+                    secondSmallest = val;
+                }
+            }
+
+            return nums[0] + smallest + secondSmallest;
+        }
+    }
+
+    class Solution_Correct_2 {
+        public int minimumCost(int[] nums) {
+            if (nums == null || nums.length < 3) {
+                return -1;
+            }
+
+            int n = nums.length;
+            int minSuffixCost = Integer.MAX_VALUE;
+            for (int i = 1; i < n - 1; i++) {
+                int a = nums[i];
+                for (int j = i + 1; j < n; j++) {
+                    int b = nums[j];
+                    minSuffixCost = Math.min(minSuffixCost, a + b);
+                }
+            }
+
+            return nums[0] + minSuffixCost;
+        }
+    }
+
+    class Solution_Correct_1 {
+        public int minimumCost(int[] nums) {
+            if (nums == null || nums.length < 3) {
                 return 0;
             }
 
@@ -11,10 +55,10 @@ public class DivideAnArrayIntoSubarraysWithMinimumCostI {
             int minSum = Integer.MAX_VALUE;
 
             int a = nums[0];
-            for(int j = 1; j < n - 1; j++) {
+            for (int j = 1; j < n - 1; j++) {
                 int b = nums[j];
 
-                for(int k = j + 1; k < n; k++) {
+                for (int k = j + 1; k < n; k++) {
                     int c = nums[k];
                     int sum = a + b + c;
 

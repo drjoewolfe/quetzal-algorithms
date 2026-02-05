@@ -22,7 +22,7 @@ public class FindXSumOfAllKLongSubarraysII {
             return ans;
         }
 
-        private static class Window {
+        private class Window {
             private final int x;
             private long xsum = 0;
             private final Map<Integer, Integer> counts = new HashMap<>();
@@ -95,7 +95,7 @@ public class FindXSumOfAllKLongSubarraysII {
             }
         }
 
-        private static class ValueFrequency implements Comparable<ValueFrequency> {
+        private class ValueFrequency implements Comparable<ValueFrequency> {
             int value;
             int frequency;
 

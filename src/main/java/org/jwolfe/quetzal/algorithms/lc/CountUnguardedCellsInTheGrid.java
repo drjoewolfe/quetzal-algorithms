@@ -5,8 +5,8 @@ import java.util.Queue;
 
 public class CountUnguardedCellsInTheGrid {
     class Solution {
-        private static final int[][] directions = new int[][]{{0, 1}, {0, -1}, {1, 0}, {-1, 0}};
-        private static final int EMPTY = 0, GUARD = 1, WALL = 2, GUARDED = 3;
+        private final int[][] directions = new int[][]{{0, 1}, {0, -1}, {1, 0}, {-1, 0}};
+        private final int EMPTY = 0, GUARD = 1, WALL = 2, GUARDED = 3;
 
         public int countUnguarded(int m, int n, int[][] guards, int[][] walls) {
             if (m == 0 || n == 0) {
