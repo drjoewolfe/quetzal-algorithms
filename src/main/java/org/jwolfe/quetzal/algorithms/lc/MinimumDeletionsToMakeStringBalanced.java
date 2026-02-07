@@ -9,6 +9,42 @@ public class MinimumDeletionsToMakeStringBalanced {
 
             int n = s.length();
 
+            int[] prefixBCounts = new int[n];
+            int bCount = 0;
+            for (int i = 0; i < n; i++) {
+                prefixBCounts[i] = bCount;
+
+                if (s.charAt(i) == 'b') {
+                    bCount++;
+                }
+            }
+
+            int[] suffixACounts = new int[n];
+            int aCount = 0;
+            for (int i = n - 1; i >= 0; i--) {
+                suffixACounts[i] = aCount;
+                if (s.charAt(i) == 'a') {
+                    aCount++;
+                }
+            }
+
+            int minDeletions = n;
+            for (int i = 0; i < n; i++) {
+                minDeletions = Math.min(minDeletions, suffixACounts[i] + prefixBCounts[i]);
+            }
+
+            return minDeletions;
+        }
+    }
+
+    class Solution_Correct_2 {
+        public int minimumDeletions(String s) {
+            if (s == null || s.length() < 2) {
+                return 0;
+            }
+
+            int n = s.length();
+
             int[] beforeBs = new int[n];
             int[] afterAs = new int[n];
 
