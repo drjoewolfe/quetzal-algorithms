@@ -19,7 +19,44 @@ public class BalanceABinarySearchTree {
      * }
      * }
      */
+
     class Solution {
+        public TreeNode balanceBST(TreeNode root) {
+            if (root == null) {
+                return root;
+            }
+
+            List<TreeNode> inorder = new ArrayList<>();
+            traverseInorder(root, inorder);
+
+            return constructTree(inorder, 0, inorder.size() - 1);
+        }
+
+        private TreeNode constructTree(List<TreeNode> inorder, int left, int right) {
+            if (left > right) {
+                return null;
+            }
+
+            int mid = left + (right - left) / 2;
+            TreeNode root = inorder.get(mid);
+            root.left = constructTree(inorder, left, mid - 1);
+            root.right = constructTree(inorder, mid + 1, right);
+
+            return root;
+        }
+
+        private void traverseInorder(TreeNode root, List<TreeNode> inorder) {
+            if (root == null) {
+                return;
+            }
+
+            traverseInorder(root.left, inorder);
+            inorder.add(root);
+            traverseInorder(root.right, inorder);
+        }
+    }
+
+    class Solution_Correct_2 {
         public TreeNode balanceBST(TreeNode root) {
             if (root == null) {
                 return root;
