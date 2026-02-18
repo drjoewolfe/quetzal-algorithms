@@ -3,11 +3,41 @@ package org.jwolfe.quetzal.algorithms.lc;
 public class AddBinary {
     class Solution {
         public String addBinary(String a, String b) {
-            if(a == null) {
+            int an = a.length();
+            int bn = b.length();
+
+            int ai = an - 1;
+            int bi = bn - 1;
+
+            StringBuilder result = new StringBuilder();
+            int carry = 0;
+            while (ai >= 0 || bi >= 0 || carry > 0) {
+                int sum = carry;
+                if (ai >= 0) {
+                    int av = a.charAt(ai--) - '0';
+                    sum += av;
+                }
+
+                if (bi >= 0) {
+                    int bv = b.charAt(bi--) - '0';
+                    sum += bv;
+                }
+
+                result.append(sum % 2);
+                carry = sum / 2;
+            }
+
+            return result.reverse().toString();
+        }
+    }
+
+    class Solution_Correct_2 {
+        public String addBinary(String a, String b) {
+            if (a == null) {
                 return b;
             }
 
-            if( b == null) {
+            if (b == null) {
                 return a;
             }
 
@@ -19,14 +49,14 @@ public class AddBinary {
 
             StringBuilder result = new StringBuilder();
             int carry = 0;
-            while(i >= 0 || j >= 0) {
+            while (i >= 0 || j >= 0) {
                 int sum = carry;
-                if(i >= 0) {
+                if (i >= 0) {
                     sum += (a.charAt(i) - '0');
                     i--;
                 }
 
-                if(j >= 0) {
+                if (j >= 0) {
                     sum += (b.charAt(j) - '0');
                     j--;
                 }
@@ -35,7 +65,7 @@ public class AddBinary {
                 carry = sum / 2;
             }
 
-            if(carry > 0) {
+            if (carry > 0) {
                 result.append(carry);
             }
 
@@ -45,7 +75,7 @@ public class AddBinary {
 
     class Solution_Correct_1 {
         public String addBinary(String a, String b) {
-            if(a == null || b == null) {
+            if (a == null || b == null) {
                 return null;
             }
 
@@ -55,31 +85,31 @@ public class AddBinary {
             int carry = 0;
             int sum = 0;
             StringBuilder builder = new StringBuilder();
-            while(aIndex >= 0 || bIndex >= 0) {
+            while (aIndex >= 0 || bIndex >= 0) {
                 sum = carry;
 
-                if(aIndex >= 0) {
+                if (aIndex >= 0) {
                     char ac = a.charAt(aIndex);
-                    if(ac == '1') {
+                    if (ac == '1') {
                         sum += 1;
                     }
 
                     aIndex--;
                 }
 
-                if(bIndex >= 0) {
+                if (bIndex >= 0) {
                     char bc = b.charAt(bIndex);
-                    if(bc == '1') {
+                    if (bc == '1') {
                         sum += 1;
                     }
 
                     bIndex--;
                 }
 
-                if(sum == 3) {
+                if (sum == 3) {
                     carry = 1;
                     builder.append('1');
-                } else if(sum == 2) {
+                } else if (sum == 2) {
                     carry = 1;
                     builder.append('0');
                 } else {
@@ -88,7 +118,7 @@ public class AddBinary {
                 }
             }
 
-            if(carry == 1) {
+            if (carry == 1) {
                 builder.append(carry);
             }
 

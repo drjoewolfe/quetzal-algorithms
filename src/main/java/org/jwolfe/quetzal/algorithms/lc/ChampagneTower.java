@@ -5,7 +5,32 @@ import java.util.Arrays;
 public class ChampagneTower {
     class Solution {
         public double champagneTower(int poured, int query_row, int query_glass) {
-            if(poured < 1) {
+            if (poured == 0 || query_row < 0 || query_row > 100 || query_glass < 0 || query_glass > 100) {
+                return 0d;
+            }
+
+            double[][] flows = new double[102][102];
+            flows[0][0] = 1d * poured;
+
+            for (int r = 0; r <= query_row; r++) {
+                for (int c = 0; c <= r; c++) {
+                    double overflow = flows[r][c] - 1.0;
+                    double part = overflow / 2.0;
+
+                    if (part > 0) {
+                        flows[r + 1][c] += part;
+                        flows[r + 1][c + 1] += part;
+                    }
+                }
+            }
+
+            return Math.min(1, flows[query_row][query_glass]);
+        }
+    }
+
+    class Solution_Correct_2 {
+        public double champagneTower(int poured, int query_row, int query_glass) {
+            if (poured < 1) {
                 return 0;
             }
 
@@ -14,13 +39,13 @@ public class ChampagneTower {
             double[] temp;
 
             curr[0] = poured;
-            for(int row = 0; row <= query_row; row++) {
+            for (int row = 0; row <= query_row; row++) {
                 Arrays.fill(next, 0);
-                for(int glass = 0; glass <= row; glass++) {
+                for (int glass = 0; glass <= row; glass++) {
                     double flow = curr[glass];
                     double halfSpill = (flow - 1) / 2.0;
 
-                    if(halfSpill <= 0) {
+                    if (halfSpill <= 0) {
                         continue;
                     }
 
@@ -37,7 +62,7 @@ public class ChampagneTower {
         }
 
         private void print(double[] arr) {
-            for(double glass : arr) {
+            for (double glass : arr) {
                 System.out.print(glass + " ");
             }
 
@@ -47,18 +72,18 @@ public class ChampagneTower {
 
     class Solution_Correct_1 {
         public double champagneTower(int poured, int query_row, int query_glass) {
-            if(poured < 1) {
+            if (poured < 1) {
                 return 0;
             }
 
             double[][] tower = new double[101][101];
             tower[0][0] = poured;
-            for(int row = 0; row <= query_row; row++) {
-                for(int glass = 0; glass <= row; glass++) {
+            for (int row = 0; row <= query_row; row++) {
+                for (int glass = 0; glass <= row; glass++) {
                     double flow = tower[row][glass];
                     double halfSpill = (flow - 1) / 2.0;
 
-                    if(halfSpill <= 0) {
+                    if (halfSpill <= 0) {
                         continue;
                     }
 
@@ -71,8 +96,8 @@ public class ChampagneTower {
         }
 
         private void print(double[][] tower) {
-            for(double[] row : tower) {
-                for(double glass : row) {
+            for (double[] row : tower) {
+                for (double glass : row) {
                     System.out.print(glass + " ");
                 }
 
