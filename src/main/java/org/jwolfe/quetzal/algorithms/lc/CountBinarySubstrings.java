@@ -6,18 +6,46 @@ import java.util.List;
 public class CountBinarySubstrings {
     class Solution {
         public int countBinarySubstrings(String s) {
-            if(s == null || s.length() < 2) {
+            if (s == null || s.length() < 2) {
+                return 0;
+            }
+
+            int n = s.length();
+
+            int[] groups = new int[n];
+            int groupIndex = 0;
+            groups[groupIndex] = 1;
+            for (int i = 1; i < n; i++) {
+                if (s.charAt(i - 1) != s.charAt(i)) {
+                    groupIndex++;
+                }
+
+                groups[groupIndex]++;
+            }
+
+            int count = 0;
+            for (int i = 1; i < n; i++) {
+                count += Math.min(groups[i - 1], groups[i]);
+            }
+
+            return count;
+        }
+    }
+
+    class Solution_Correct_1 {
+        public int countBinarySubstrings(String s) {
+            if (s == null || s.length() < 2) {
                 return 0;
             }
 
             int count = 0;
             int previousFrequency = 0;
             int currentFrequency = 1;
-            for(int i = 1; i < s.length(); i++) {
+            for (int i = 1; i < s.length(); i++) {
                 char c1 = s.charAt(i - 1);
                 char c2 = s.charAt(i);
 
-                if(c1 == c2) {
+                if (c1 == c2) {
                     currentFrequency++;
                 } else {
                     count += Math.min(previousFrequency, currentFrequency);
@@ -33,16 +61,16 @@ public class CountBinarySubstrings {
 
     class Solution_Standard {
         public int countBinarySubstrings(String s) {
-            if(s == null || s.length() < 2) {
+            if (s == null || s.length() < 2) {
                 return 0;
             }
 
             List<Integer> groups = new ArrayList<>();
             int frequency = 1;
-            for(int i = 1; i < s.length(); i++) {
+            for (int i = 1; i < s.length(); i++) {
                 char c = s.charAt(i);
                 char pc = s.charAt(i - 1);
-                if(c == pc) {
+                if (c == pc) {
                     frequency++;
                 } else {
                     groups.add(frequency);
@@ -53,7 +81,7 @@ public class CountBinarySubstrings {
             groups.add(frequency);
 
             int count = 0;
-            for(int i = 1; i < groups.size(); i++) {
+            for (int i = 1; i < groups.size(); i++) {
                 int f1 = groups.get(i - 1);
                 int f2 = groups.get(i);
 
