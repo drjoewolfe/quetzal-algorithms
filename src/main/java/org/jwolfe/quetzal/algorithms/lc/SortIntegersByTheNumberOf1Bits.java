@@ -5,7 +5,32 @@ import java.util.*;
 public class SortIntegersByTheNumberOf1Bits {
     class Solution {
         public int[] sortByBits(int[] arr) {
-            if(arr == null || arr.length < 2) {
+            int n = arr.length;
+            Integer[] nums = Arrays.stream(arr).boxed().toArray(Integer[]::new);
+            Comparator<Integer> comparator = new CustomComparator();
+            Arrays.sort(nums, comparator);
+
+            return Arrays.stream(nums).mapToInt(Integer::intValue).toArray();
+        }
+
+        class CustomComparator implements Comparator<Integer> {
+            @Override
+            public int compare(Integer a, Integer b) {
+                int bitA = Integer.bitCount(a);
+                int bitB = Integer.bitCount(b);
+
+                if (bitA == bitB) {
+                    return a - b;
+                }
+
+                return bitA - bitB;
+            }
+        }
+    }
+
+    class Solution_Correct_2 {
+        public int[] sortByBits(int[] arr) {
+            if (arr == null || arr.length < 2) {
                 return arr;
             }
 
@@ -20,7 +45,7 @@ public class SortIntegersByTheNumberOf1Bits {
                 int wa = getWeight(a);
                 int wb = getWeight(b);
 
-                if(wa == wb) {
+                if (wa == wb) {
                     return a - b;
                 }
 
@@ -42,12 +67,12 @@ public class SortIntegersByTheNumberOf1Bits {
 
     class Solution_Correct_1 {
         public int[] sortByBits(int[] arr) {
-            if(arr == null || arr.length == 0) {
+            if (arr == null || arr.length == 0) {
                 return arr;
             }
 
             Map<Integer, List<Integer>> map = new TreeMap<>();
-            for(int num : arr) {
+            for (int num : arr) {
                 int setBits = countSetBits(num);
 
                 List<Integer> chain = map.getOrDefault(setBits, new ArrayList<Integer>());
@@ -57,10 +82,10 @@ public class SortIntegersByTheNumberOf1Bits {
             }
 
             int index = 0;
-            for(Map.Entry<Integer, List<Integer>> entry : map.entrySet()) {
+            for (Map.Entry<Integer, List<Integer>> entry : map.entrySet()) {
                 List<Integer> values = entry.getValue();
                 Collections.sort(values);
-                for(int num : values) {
+                for (int num : values) {
                     arr[index++] = num;
                 }
             }
@@ -71,7 +96,7 @@ public class SortIntegersByTheNumberOf1Bits {
         private int countSetBits(int num) {
             int setBits = 0;
 
-            while(num > 0) {
+            while (num > 0) {
                 setBits += num & 1;
                 num >>= 1;
             }
