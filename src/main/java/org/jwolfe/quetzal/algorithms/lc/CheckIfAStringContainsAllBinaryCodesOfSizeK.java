@@ -6,6 +6,21 @@ import java.util.Set;
 public class CheckIfAStringContainsAllBinaryCodesOfSizeK {
     class Solution {
         public boolean hasAllCodes(String s, int k) {
+            int requiredCount = 1 << k;
+            Set<String> set = new HashSet<>();
+
+            int n = s.length();
+            for(int i = 0; i <= n - k; i++) {
+                String substr = s.substring(i, i + k);
+                set.add(substr);
+            }
+
+            return set.size() == requiredCount;
+        }
+    }
+
+    class Solution_Correct_1 {
+        public boolean hasAllCodes(String s, int k) {
             if(s == null || s.length() < k) {
                 return false;
             }

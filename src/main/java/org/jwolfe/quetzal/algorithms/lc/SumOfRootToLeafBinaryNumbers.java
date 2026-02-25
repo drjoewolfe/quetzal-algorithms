@@ -14,6 +14,44 @@ public class SumOfRootToLeafBinaryNumbers {
      * }
      */
     class Solution {
+        public int sumRootToLeaf(TreeNode root) {
+            List<TreeNode> path = new ArrayList<>();
+            return sumRootToLeaf(root, path);
+        }
+
+        private int sumRootToLeaf(TreeNode root, List<TreeNode> path) {
+            if (root == null) {
+                return 0;
+            }
+
+            path.add(root);
+            int value = 0;
+            if (root.left == null && root.right == null) {
+                // leaf node
+                value = getValue(path);
+            } else {
+                int leftValue = sumRootToLeaf(root.left, path);
+                int rightValue = sumRootToLeaf(root.right, path);
+
+                value = leftValue + rightValue;
+            }
+
+            path.remove(path.size() - 1);
+            return value;
+        }
+
+        private int getValue(List<TreeNode> path) {
+            int value = 0;
+            for (TreeNode node : path) {
+                value *= 2;
+                value += node.val;
+            }
+
+            return value;
+        }
+    }
+
+    class Solution_Cprrect_2 {
         int sum;
 
         public int sumRootToLeaf(TreeNode root) {
