@@ -7,6 +7,49 @@ public class NumberOfStepsToReduceANumberInBinaryRepresentationToOne {
                 return 0;
             }
 
+            StringBuilder builder = new StringBuilder(s);
+            int operations = 0;
+            while (builder.length() > 1) {
+                char lastChar = builder.charAt(builder.length() - 1);
+
+                if (lastChar == '0') {
+                    divideBy2(builder);
+                } else {
+                    addOne(builder);
+                }
+
+                operations++;
+            }
+
+            return operations;
+        }
+
+        private void divideBy2(StringBuilder builder) {
+            builder.deleteCharAt(builder.length() - 1);
+        }
+
+        private void addOne(StringBuilder builder) {
+            int i = builder.length() - 1;
+
+            while (i >= 0 && builder.charAt(i) == '1') {
+                builder.setCharAt(i, '0');
+                i--;
+            }
+
+            if (i < 0) {
+                builder.insert(0, '1');
+            } else {
+                builder.setCharAt(i, '1');
+            }
+        }
+    }
+
+    class Solution_Correct_2 {
+        public int numSteps(String s) {
+            if (s == null || s.length() == 0) {
+                return 0;
+            }
+
             int steps = 0;
             int n = s.length();
             StringBuilder sb = new StringBuilder(s);
