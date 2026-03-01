@@ -3,12 +3,23 @@ package org.jwolfe.quetzal.algorithms.lc;
 public class PartitioningIntoMinimumNumberOfDeciBinaryNumbers {
     class Solution {
         public int minPartitions(String n) {
-            if(n == null || n.length() == 0) {
+            int maxDigit = 0;
+            for (int i = 0; i < n.length(); i++) {
+                maxDigit = Math.max(maxDigit, n.charAt(i) - '0');
+            }
+
+            return maxDigit;
+        }
+    }
+
+    class Solution_Correct_1 {
+        public int minPartitions(String n) {
+            if (n == null || n.length() == 0) {
                 return 0;
             }
 
             int maxDigit = 0;
-            for(int i = 0; i < n.length(); i++) {
+            for (int i = 0; i < n.length(); i++) {
                 char c = n.charAt(i);
                 maxDigit = Math.max(maxDigit, c - '0');
             }
