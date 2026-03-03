@@ -4,6 +4,32 @@ public class FindKthBitInNthBinaryString {
     class Solution {
         public char findKthBit(int n, int k) {
             if (n < 1 || k < 1) {
+                return '0';
+            }
+
+            StringBuilder builder = new StringBuilder();
+            builder.append('0');
+            for (int i = 2; i <= n && k > builder.length(); i++) {
+                String prev = builder.toString();
+                builder.append('1');
+
+                for (int j = prev.length() - 1; j >= 0; j--) {
+                    char bit = prev.charAt(j);
+                    char invertedBit = (bit == '1') ? '0' : '1';
+
+                    builder.append(invertedBit);
+                }
+            }
+
+            System.out.println(builder.toString());
+
+            return builder.charAt(k - 1);
+        }
+    }
+
+    class Solution_Correct_2 {
+        public char findKthBit(int n, int k) {
+            if (n < 1 || k < 1) {
                 return ' ';
             }
 
