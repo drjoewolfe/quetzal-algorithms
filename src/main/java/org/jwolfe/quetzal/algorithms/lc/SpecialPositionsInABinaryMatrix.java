@@ -3,7 +3,43 @@ package org.jwolfe.quetzal.algorithms.lc;
 public class SpecialPositionsInABinaryMatrix {
     class Solution {
         public int numSpecial(int[][] mat) {
-            if(mat == null || mat.length == 0 || mat[0].length == 0) {
+            if (mat == null || mat.length == 0 || mat[0].length == 0) {
+                return 0;
+            }
+
+            int m = mat.length;
+            int n = mat[0].length;
+
+            int[] rowOnes = new int[m];
+            int[] colOnes = new int[n];
+
+            for (int r = 0; r < m; r++) {
+                for (int c = 0; c < n; c++) {
+                    if (mat[r][c] == 1) {
+                        rowOnes[r]++;
+                        colOnes[c]++;
+                    }
+                }
+            }
+
+            int count = 0;
+            for (int r = 0; r < m; r++) {
+                for (int c = 0; c < n; c++) {
+                    if (mat[r][c] == 1
+                            && rowOnes[r] == 1
+                            && colOnes[c] == 1) {
+                        count++;
+                    }
+                }
+            }
+
+            return count;
+        }
+    }
+
+    class Solution_Correct_2 {
+        public int numSpecial(int[][] mat) {
+            if (mat == null || mat.length == 0 || mat[0].length == 0) {
                 return 0;
             }
 
@@ -13,17 +49,17 @@ public class SpecialPositionsInABinaryMatrix {
             int[] rowSums = new int[m];
             int[] colSums = new int[n];
 
-            for(int i = 0; i < m; i++) {
-                for(int j = 0; j < n; j++) {
+            for (int i = 0; i < m; i++) {
+                for (int j = 0; j < n; j++) {
                     rowSums[i] += mat[i][j];
                     colSums[j] += mat[i][j];
                 }
             }
 
             int count = 0;
-            for(int i = 0; i < m; i++) {
-                for(int j = 0; j < n; j++) {
-                    if(mat[i][j] == 1
+            for (int i = 0; i < m; i++) {
+                for (int j = 0; j < n; j++) {
+                    if (mat[i][j] == 1
                             && rowSums[i] == 1
                             && colSums[j] == 1) {
                         count++;
@@ -37,7 +73,7 @@ public class SpecialPositionsInABinaryMatrix {
 
     class Solution_Correct_1 {
         public int numSpecial(int[][] mat) {
-            if(mat == null || mat.length == 0 || mat[0].length == 0) {
+            if (mat == null || mat.length == 0 || mat[0].length == 0) {
                 return 0;
             }
 
@@ -47,17 +83,17 @@ public class SpecialPositionsInABinaryMatrix {
             int[] rowSums = new int[m];
             int[] colSums = new int[n];
 
-            for(int r = 0; r < m; r++) {
-                for(int c = 0; c < n; c++) {
+            for (int r = 0; r < m; r++) {
+                for (int c = 0; c < n; c++) {
                     rowSums[r] += mat[r][c];
                     colSums[c] += mat[r][c];
                 }
             }
 
             int specialCount = 0;
-            for(int r = 0; r < m; r++) {
-                for(int c = 0; c < n; c++) {
-                    if(mat[r][c] == 1
+            for (int r = 0; r < m; r++) {
+                for (int c = 0; c < n; c++) {
+                    if (mat[r][c] == 1
                             && rowSums[r] == 1 && colSums[c] == 1) {
                         specialCount++;
                     }
