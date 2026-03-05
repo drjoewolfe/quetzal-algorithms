@@ -7,18 +7,38 @@ import java.util.Map;
 
 public class ConcatenationOfConsecutiveBinaryNumbers {
     class Solution {
+        public int concatenatedBinary(int n) {
+            long result = 0;
+
+            int digits = 0;
+            int MOD = 1_000_000_007;
+
+            for (int num = 1; num <= n; num++) {
+                if ((num & (num - 1)) == 0) {
+                    // Power of 2
+                    digits++;
+                }
+
+                result = (((result << digits) % MOD) + num) % MOD;
+            }
+
+            return (int) result;
+        }
+    }
+
+    class Solution_Correct_2 {
         private int MOD = 1_000_000_007;
 
         public int concatenatedBinary(int n) {
-            if(n < 1) {
+            if (n < 1) {
                 return 0;
             }
 
             long result = 1;
             int width = 1;
 
-            for(int i = 2; i <= n; i++) {
-                if((i & (i - 1)) == 0) {
+            for (int i = 2; i <= n; i++) {
+                if ((i & (i - 1)) == 0) {
                     width++;
                 }
 
@@ -36,14 +56,14 @@ public class ConcatenationOfConsecutiveBinaryNumbers {
         final int MOD = 1_000_000_007;
 
         public int concatenatedBinary(int n) {
-            if(n < 1) {
+            if (n < 1) {
                 return 0;
             }
 
             long result = 1;
             int width = 1;
-            for(int i = 2; i <= n; i++) {
-                if((i & (i - 1)) == 0) {
+            for (int i = 2; i <= n; i++) {
+                if ((i & (i - 1)) == 0) {
                     width++;
                 }
 
@@ -67,11 +87,11 @@ public class ConcatenationOfConsecutiveBinaryNumbers {
         }
 
         public int concatenatedBinaryHelper(int n, Map<Integer, List<Integer>> cache) {
-            if(n < 1) {
+            if (n < 1) {
                 return 0;
             }
 
-            if(n == 1) {
+            if (n == 1) {
                 return 1;
             }
 
@@ -79,17 +99,17 @@ public class ConcatenationOfConsecutiveBinaryNumbers {
 
             List<Integer> binary = new ArrayList<>();
             int j = n;
-            while(j > 0) {
+            while (j > 0) {
                 binary.add(j % 2);
                 j /= 2;
 
-                if(cache.containsKey(j)) {
+                if (cache.containsKey(j)) {
                     binary.addAll(cache.get(j));
                     break;
                 }
             }
 
-            for(int k = binary.size() - 1; k >= 0; k--) {
+            for (int k = binary.size() - 1; k >= 0; k--) {
                 result = result * 2 + binary.get(k);
                 result %= MOD;
             }
@@ -103,11 +123,11 @@ public class ConcatenationOfConsecutiveBinaryNumbers {
         final int MOD = 1_000_000_007;
 
         public int concatenatedBinary(int n) {
-            if(n < 1) {
+            if (n < 1) {
                 return 0;
             }
 
-            if(n == 1) {
+            if (n == 1) {
                 return 1;
             }
 
@@ -115,12 +135,12 @@ public class ConcatenationOfConsecutiveBinaryNumbers {
 
             List<Integer> binary = new ArrayList<>();
             int j = n;
-            while(j > 0) {
+            while (j > 0) {
                 binary.add(j % 2);
                 j /= 2;
             }
 
-            for(int k = binary.size() - 1; k >= 0; k--) {
+            for (int k = binary.size() - 1; k >= 0; k--) {
                 result = result * 2 + binary.get(k);
                 result %= MOD;
             }
@@ -131,23 +151,23 @@ public class ConcatenationOfConsecutiveBinaryNumbers {
 
     class Solution_Brute {
         public int concatenatedBinary(int n) {
-            if(n < 1) {
+            if (n < 1) {
                 return 0;
             }
 
             int mod = 1_000_000_007;
 
             int result = 0;
-            for(int i = 1; i <= n; i++) {
+            for (int i = 1; i <= n; i++) {
                 int j = i;
 
                 List<Integer> binary = new ArrayList<>();
-                while(j > 0) {
+                while (j > 0) {
                     binary.add(j % 2);
                     j /= 2;
                 }
 
-                for(int k = binary.size() - 1; k >= 0; k--) {
+                for (int k = binary.size() - 1; k >= 0; k--) {
                     result = result * 2 + binary.get(k);
                     result %= mod;
                 }
