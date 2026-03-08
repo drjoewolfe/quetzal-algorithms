@@ -6,6 +6,43 @@ import java.util.Set;
 public class FindUniqueBinaryString {
     class Solution {
         public String findDifferentBinaryString(String[] nums) {
+            int n = nums.length;
+
+            Set<String> set = new HashSet<>();
+            for(String num : nums) {
+                set.add(num);
+            }
+
+            return findDifferentBinaryString(new StringBuilder(), n, set);
+        }
+
+        private String findDifferentBinaryString(StringBuilder builder, int n, Set<String> set) {
+            if(builder.length() == n) {
+                String str = builder.toString();
+                if(!set.contains(str)) {
+                    return str;
+                }
+
+                return null;
+            }
+
+            builder.append("0");
+            String result = findDifferentBinaryString(builder, n, set);
+            if(result != null) {
+                return result;
+            }
+
+            builder.deleteCharAt(builder.length() - 1);
+            builder.append("1");
+            result = findDifferentBinaryString(builder, n, set);
+            builder.deleteCharAt(builder.length() - 1);
+
+            return result;
+        }
+    }
+
+    class Solution_Correct_2 {
+        public String findDifferentBinaryString(String[] nums) {
             if (nums == null || nums.length == 0) {
                 return "";
             }
