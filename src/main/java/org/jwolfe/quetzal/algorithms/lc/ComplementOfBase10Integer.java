@@ -2,9 +2,21 @@ package org.jwolfe.quetzal.algorithms.lc;
 
 public class ComplementOfBase10Integer {
     class Solution {
+        public int bitwiseComplement(int n) {
+            int mask = 1;
+            while (mask < n) {
+                mask <<= 1;
+                mask |= 1;
+            }
+
+            return n ^ mask;
+        }
+    }
+
+    class Solution_Correct_2 {
         public int bitwiseComplement(int N) {
             int c = 1;
-            while(c < N) {
+            while (c < N) {
                 c <<= 1;
                 c |= 1;
             }
@@ -16,7 +28,7 @@ public class ComplementOfBase10Integer {
     class Solution_Correct_1 {
         public int bitwiseComplement(int N) {
             int r = 1;
-            while(r < N) {
+            while (r < N) {
                 r <<= 1;
                 r |= 1;
             }

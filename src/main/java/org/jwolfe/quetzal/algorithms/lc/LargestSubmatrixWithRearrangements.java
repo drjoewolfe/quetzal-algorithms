@@ -5,7 +5,42 @@ import java.util.Arrays;
 public class LargestSubmatrixWithRearrangements {
     class Solution {
         public int largestSubmatrix(int[][] matrix) {
-            if(matrix == null || matrix.length == 0 || matrix[0].length == 0) {
+            if (matrix == null || matrix.length == 0 || matrix[0].length == 0) {
+                return 0;
+            }
+
+            int maxArea = 0;
+
+            int m = matrix.length;
+            int n = matrix[0].length;
+
+            int[] prevRow = new int[n];
+            for (int r = 0; r < m; r++) {
+                int[] currRow = matrix[r].clone();
+                for (int c = 0; c < n; c++) {
+                    if (currRow[c] != 0) {
+                        currRow[c] += prevRow[c];
+                    }
+                }
+
+                int[] sortedRow = currRow.clone();
+                Arrays.sort(sortedRow);
+
+                for (int c = 0; c < n; c++) {
+                    int area = sortedRow[c] * (n - c);
+                    maxArea = Math.max(maxArea, area);
+                }
+
+                prevRow = currRow;
+            }
+
+            return maxArea;
+        }
+    }
+
+    class Solution_Correct_1 {
+        public int largestSubmatrix(int[][] matrix) {
+            if (matrix == null || matrix.length == 0 || matrix[0].length == 0) {
                 return 0;
             }
 
@@ -15,17 +50,17 @@ public class LargestSubmatrixWithRearrangements {
             int[] prevRow = new int[n];
             int maxArea = 0;
 
-            for(int i = 0; i < m; i++) {
+            for (int i = 0; i < m; i++) {
                 int[] currRow = matrix[i].clone();
-                for(int j = 0; j < n; j++) {
-                    if(currRow[j] != 0) {
+                for (int j = 0; j < n; j++) {
+                    if (currRow[j] != 0) {
                         currRow[j] += prevRow[j];
                     }
                 }
 
                 int[] sortedCurrRow = currRow.clone();
                 Arrays.sort(sortedCurrRow);
-                for(int j = 0; j < n; j++) {
+                for (int j = 0; j < n; j++) {
                     maxArea = Math.max(maxArea, (n - j) * sortedCurrRow[j]);
                 }
 
@@ -36,7 +71,7 @@ public class LargestSubmatrixWithRearrangements {
         }
 
         private void print(int[] arr) {
-            for(int a : arr) {
+            for (int a : arr) {
                 System.out.print(a + " ");
             }
 

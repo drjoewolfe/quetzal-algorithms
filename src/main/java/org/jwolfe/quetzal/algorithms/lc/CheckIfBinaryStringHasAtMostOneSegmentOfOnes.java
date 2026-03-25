@@ -3,21 +3,46 @@ package org.jwolfe.quetzal.algorithms.lc;
 public class CheckIfBinaryStringHasAtMostOneSegmentOfOnes {
     class Solution {
         public boolean checkOnesSegment(String s) {
-            if(s == null || s.length() == 0) {
+            if (s == null || s.length() == 0) {
+                return false;
+            }
+
+            int n = s.length();
+            int i = 0;
+
+            while (i < n && s.charAt(i) == '1') {
+                i++;
+            }
+
+            while (i < n) {
+                if (s.charAt(i) == '1') {
+                    return false;
+                }
+
+                i++;
+            }
+
+            return true;
+        }
+    }
+
+    class Solution_Correct_1 {
+        public boolean checkOnesSegment(String s) {
+            if (s == null || s.length() == 0) {
                 return false;
             }
 
             int segmentCount = 0;
-            for(int i = 0; i < s.length(); i++) {
+            for (int i = 0; i < s.length(); i++) {
                 char c = s.charAt(i);
 
-                if(c == '1') {
-                    if(i > 0 && s.charAt(i - 1) == '1') {
+                if (c == '1') {
+                    if (i > 0 && s.charAt(i - 1) == '1') {
                         // current streak
                     } else {
                         segmentCount++;
 
-                        if(segmentCount > 1) {
+                        if (segmentCount > 1) {
                             return false;
                         }
                     }
