@@ -3,7 +3,30 @@ package org.jwolfe.quetzal.algorithms.lc;
 public class MatrixSimilarityAfterCyclicShifts {
     class Solution {
         public boolean areSimilar(int[][] mat, int k) {
-            if(mat == null || mat.length == 0 || mat[0].length == 0 || k < 1) {
+            if (mat == null || mat.length == 0 || mat[0].length == 0) {
+                return true;
+            }
+
+            int m = mat.length;
+            int n = mat[0].length;
+
+            k %= n;
+
+            for (int r = 0; r < m; r++) {
+                for (int c = 0; c < n; c++) {
+                    if (mat[r][c] != mat[r][(c + k) % n]) {
+                        return false;
+                    }
+                }
+            }
+
+            return true;
+        }
+    }
+
+    class Solution_Correct_1 {
+        public boolean areSimilar(int[][] mat, int k) {
+            if (mat == null || mat.length == 0 || mat[0].length == 0 || k < 1) {
                 return false;
             }
 
@@ -12,18 +35,18 @@ public class MatrixSimilarityAfterCyclicShifts {
 
             k %= n;
 
-            for(int r = 0; r < m; r++) {
-                if(r % 2 == 0) {
+            for (int r = 0; r < m; r++) {
+                if (r % 2 == 0) {
                     // Even row - Left shift
-                    for(int c = 0; c <= n / 2; c++) {
-                        if(mat[r][c] != mat[r][(c + k) % n]) {
+                    for (int c = 0; c <= n / 2; c++) {
+                        if (mat[r][c] != mat[r][(c + k) % n]) {
                             return false;
                         }
                     }
                 } else {
                     // Odd row - Right shift
-                    for(int c = 0; c <= n / 2; c++) {
-                        if(mat[r][c] != mat[r][(n - k + c) % n]) {
+                    for (int c = 0; c <= n / 2; c++) {
+                        if (mat[r][c] != mat[r][(n - k + c) % n]) {
                             return false;
                         }
                     }
