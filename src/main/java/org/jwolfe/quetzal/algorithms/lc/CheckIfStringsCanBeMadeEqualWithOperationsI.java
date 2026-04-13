@@ -3,7 +3,36 @@ package org.jwolfe.quetzal.algorithms.lc;
 public class CheckIfStringsCanBeMadeEqualWithOperationsI {
     class Solution {
         public boolean canBeEqual(String s1, String s2) {
-            if(s1 == null || s2 == null || s1.length() != 4 || s2.length() != 4) {
+            if (s1 == null || s2 == null || s1.length() != 4 || s2.length() != 4) {
+                return false;
+            }
+
+            int s1c1 = s1.charAt(0);
+            int s1c2 = s1.charAt(1);
+            int s1c3 = s1.charAt(2);
+            int s1c4 = s1.charAt(3);
+
+            int s2c1 = s2.charAt(0);
+            int s2c2 = s2.charAt(1);
+            int s2c3 = s2.charAt(2);
+            int s2c4 = s2.charAt(3);
+
+            if (((s1c1 == s2c1 && s1c3 == s2c3)
+                    || (s1c1 == s2c3 && s1c3 == s2c1))) {
+
+                if (((s1c2 == s2c2 && s1c4 == s2c4)
+                        || (s1c2 == s2c4 && s1c4 == s2c2))) {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+    }
+
+    class Solution_Correct_1 {
+        public boolean canBeEqual(String s1, String s2) {
+            if (s1 == null || s2 == null || s1.length() != 4 || s2.length() != 4) {
                 return false;
             }
 
@@ -19,7 +48,7 @@ public class CheckIfStringsCanBeMadeEqualWithOperationsI {
             char s2e1 = s2.charAt(1);
             char s2e2 = s2.charAt(3);
 
-            if(((s1o1 == s2o1 && s1o2 == s2o2) || (s1o1 == s2o2 && s1o2 == s2o1))
+            if (((s1o1 == s2o1 && s1o2 == s2o2) || (s1o1 == s2o2 && s1o2 == s2o1))
                     && ((s1e1 == s2e1 && s1e2 == s2e2) || (s1e1 == s2e2 && s1e2 == s2e1))) {
                 return true;
             }

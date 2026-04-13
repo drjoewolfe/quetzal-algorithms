@@ -6,6 +6,64 @@ import java.util.Set;
 public class WalkingRobotSimulation {
     class Solution {
         public int robotSim(int[] commands, int[][] obstacles) {
+            Set<Integer> obstacleSet = new HashSet<>();
+            for (int[] obstacle : obstacles) {
+                int x = obstacle[0];
+                int y = obstacle[1];
+
+                int hash = hashCoordinates(x, y);
+                obstacleSet.add(hash);
+            }
+
+            // Directions: 0 = North, 1 = East, 2 = South, 3 = West
+            int[][] directions = {{0, 1}, {1, 0}, {0, -1}, {-1, 0}};
+
+            int[] currentPosition = {0, 0};
+            int currentDirection = 0;
+            int maxDistanceSquared = 0;
+
+            for (int command : commands) {
+                if (command == -1) {
+                    // Turn right
+                    currentDirection = (currentDirection + 1) % 4;
+                } else if (command == -2) {
+                    // Turn left
+                    currentDirection = (currentDirection + 3) % 4;
+                } else {
+                    // Move forward
+                    int[] direction = directions[currentDirection];
+
+                    for (int step = 1; step <= command; step++) {
+                        int nx = currentPosition[0] + direction[0];
+                        int ny = currentPosition[1] + direction[1];
+
+                        int hash = hashCoordinates(nx, ny);
+                        if (obstacleSet.contains(hash)) {
+                            break;
+                        }
+
+                        currentPosition[0] = nx;
+                        currentPosition[1] = ny;
+                    }
+
+                    int x = currentPosition[0];
+                    int y = currentPosition[1];
+
+                    int distanceSquared = x * x + y * y;
+                    maxDistanceSquared = Math.max(maxDistanceSquared, distanceSquared);
+                }
+            }
+
+            return maxDistanceSquared;
+        }
+
+        private int hashCoordinates(int x, int y) {
+            return x * 1_00_000 + y;
+        }
+    }
+
+    class Solution_Correct_3 {
+        public int robotSim(int[] commands, int[][] obstacles) {
             if (commands == null || commands.length == 0) {
                 return 0;
             }
