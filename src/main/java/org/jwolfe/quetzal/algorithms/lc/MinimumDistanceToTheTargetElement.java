@@ -3,7 +3,22 @@ package org.jwolfe.quetzal.algorithms.lc;
 public class MinimumDistanceToTheTargetElement {
     class Solution {
         public int getMinDistance(int[] nums, int target, int start) {
-            if(nums == null || nums.length == 0) {
+            int minDistance = Integer.MAX_VALUE;
+
+            for (int i = 0; i < nums.length; i++) {
+                if (nums[i] == target) {
+                    int distance = Math.abs(i - start);
+                    minDistance = Math.min(minDistance, distance);
+                }
+            }
+
+            return minDistance;
+        }
+    }
+
+    class Solution_Correct_2 {
+        public int getMinDistance(int[] nums, int target, int start) {
+            if (nums == null || nums.length == 0) {
                 return 0;
             }
 
@@ -13,9 +28,9 @@ public class MinimumDistanceToTheTargetElement {
             int right = start;
             int minAbsDistance = Integer.MAX_VALUE;
 
-            while(left >= 0 || right < n) {
-                if(left >= 0) {
-                    if(nums[left] == target) {
+            while (left >= 0 || right < n) {
+                if (left >= 0) {
+                    if (nums[left] == target) {
                         minAbsDistance = start - left;
                         break;
                     }
@@ -23,8 +38,8 @@ public class MinimumDistanceToTheTargetElement {
                     left--;
                 }
 
-                if(right < n) {
-                    if(nums[right] == target) {
+                if (right < n) {
+                    if (nums[right] == target) {
                         minAbsDistance = right - start;
                         break;
                     }
@@ -39,13 +54,13 @@ public class MinimumDistanceToTheTargetElement {
 
     class Solution_Approach_1 {
         public int getMinDistance(int[] nums, int target, int start) {
-            if(nums == null || nums.length == 0) {
+            if (nums == null || nums.length == 0) {
                 return 0;
             }
 
             int minAbsDistance = Integer.MAX_VALUE;
-            for(int i = 0; i < nums.length; i++) {
-                if(nums[i] == target) {
+            for (int i = 0; i < nums.length; i++) {
+                if (nums[i] == target) {
                     minAbsDistance = Math.min(minAbsDistance, Math.abs(i - start));
                 }
             }
