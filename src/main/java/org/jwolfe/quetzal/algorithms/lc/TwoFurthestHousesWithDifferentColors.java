@@ -3,7 +3,38 @@ package org.jwolfe.quetzal.algorithms.lc;
 public class TwoFurthestHousesWithDifferentColors {
     class Solution {
         public int maxDistance(int[] colors) {
-            if(colors == null || colors.length == 0) {
+            if (colors == null || colors.length < 2) {
+                return 0;
+            }
+
+            int answer = 0;
+            int n = colors.length;
+
+            int fc = colors[0];
+            for (int i = 1; i < n; i++) {
+                int c = colors[i];
+
+                if (c != fc) {
+                    answer = i;
+                }
+            }
+
+            int lc = colors[n - 1];
+            for (int i = n - 2; i >= 0; i--) {
+                int c = colors[i];
+
+                if (c != fc) {
+                    answer = Math.max(answer, n - i - 1);
+                }
+            }
+
+            return answer;
+        }
+    }
+
+    class Solution_1 {
+        public int maxDistance(int[] colors) {
+            if (colors == null || colors.length == 0) {
                 return 0;
             }
 
@@ -16,14 +47,14 @@ public class TwoFurthestHousesWithDifferentColors {
             int maxDistanceFromLeft = 0;
             int maxDistanceFromRight = 0;
 
-            for(int i = 0; i < n; i++) {
+            for (int i = 0; i < n; i++) {
                 int color = colors[i];
 
-                if(leftMostColor != color) {
+                if (leftMostColor != color) {
                     maxDistanceFromLeft = Math.max(maxDistanceFromLeft, i - 0);
                 }
 
-                if(rightMostColor != color) {
+                if (rightMostColor != color) {
                     maxDistanceFromRight = Math.max(maxDistanceFromRight, n - 1 - i);
                 }
             }
@@ -34,17 +65,17 @@ public class TwoFurthestHousesWithDifferentColors {
 
     class Solution_Standard {
         public int maxDistance(int[] colors) {
-            if(colors == null || colors.length == 0) {
+            if (colors == null || colors.length == 0) {
                 return 0;
             }
 
             int maxDistance = 0;
-            for(int i = 0; i < colors.length; i++) {
+            for (int i = 0; i < colors.length; i++) {
                 int color1 = colors[i];
-                for(int j = i + 1; j < colors.length; j++) {
+                for (int j = i + 1; j < colors.length; j++) {
                     int color2 = colors[j];
 
-                    if(color1 != color2) {
+                    if (color1 != color2) {
                         int distance = j - i;
 
                         maxDistance = Math.max(maxDistance, distance);
