@@ -9,18 +9,56 @@ public class WordsWithinTwoEditsOfDictionary {
     class Solution {
         public List<String> twoEditWords(String[] queries, String[] dictionary) {
             List<String> results = new ArrayList<>();
+            if (queries == null || queries.length == 0 || dictionary == null || dictionary.length == 0) {
+                return results;
+            }
 
-            if(queries == null || queries.length == 0 || dictionary == null || dictionary.length == 0) {
+            for (String queryWord : queries) {
+                boolean canMorph = false;
+
+                for (String word : dictionary) {
+                    int edits = 0;
+                    for (int i = 0; i < word.length(); i++) {
+                        char qc = queryWord.charAt(i);
+                        char wc = word.charAt(i);
+
+                        if (qc != wc) {
+                            edits++;
+                            if (edits > 2) {
+                                break;
+                            }
+                        }
+                    }
+
+                    if (edits <= 2) {
+                        canMorph = true;
+                    }
+                }
+
+                if (canMorph) {
+                    results.add(queryWord);
+                }
+            }
+
+            return results;
+        }
+    }
+
+    class Solution_Correct_1 {
+        public List<String> twoEditWords(String[] queries, String[] dictionary) {
+            List<String> results = new ArrayList<>();
+
+            if (queries == null || queries.length == 0 || dictionary == null || dictionary.length == 0) {
                 return results;
             }
 
             Set<String> set = new HashSet<>();
-            for(String word : dictionary) {
+            for (String word : dictionary) {
                 set.add(word);
             }
 
-            for(String query : queries) {
-                if(isWithinTwoEdits(query, set)) {
+            for (String query : queries) {
+                if (isWithinTwoEdits(query, set)) {
                     results.add(query);
                 }
             }
@@ -29,23 +67,23 @@ public class WordsWithinTwoEditsOfDictionary {
         }
 
         private boolean isWithinTwoEdits(String query, Set<String> dictionary) {
-            if(dictionary.contains(query)) {
+            if (dictionary.contains(query)) {
                 return true;
             }
 
             int n = query.length();
-            for(String word : dictionary) {
+            for (String word : dictionary) {
                 int edits = 0;
-                for(int i = 0; i < n; i++) {
-                    if(word.charAt(i) != query.charAt(i)) {
+                for (int i = 0; i < n; i++) {
+                    if (word.charAt(i) != query.charAt(i)) {
                         edits++;
-                        if(edits > 2) {
+                        if (edits > 2) {
                             break;
                         }
                     }
                 }
 
-                if(edits <= 2) {
+                if (edits <= 2) {
                     return true;
                 }
             }
