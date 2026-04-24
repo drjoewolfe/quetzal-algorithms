@@ -3,7 +3,35 @@ package org.jwolfe.quetzal.algorithms.lc;
 public class FurthestPointFromOrigin {
     class Solution {
         public int furthestDistanceFromOrigin(String moves) {
-            if(moves == null || moves.length() == 0) {
+            if (moves == null || moves.length() == 0) {
+                return 0;
+            }
+
+            int n = moves.length();
+
+            int lc = 0;
+            int rc = 0;
+            int dc = 0;
+
+            for (int i = 0; i < n; i++) {
+                char c = moves.charAt(i);
+
+                if (c == 'L') {
+                    lc++;
+                } else if (c == 'R') {
+                    rc++;
+                } else {
+                    dc++;
+                }
+            }
+
+            return Math.abs(lc - rc) + dc;
+        }
+    }
+
+    class Solution_Correct_1 {
+        public int furthestDistanceFromOrigin(String moves) {
+            if (moves == null || moves.length() == 0) {
                 return 0;
             }
 
@@ -11,11 +39,11 @@ public class FurthestPointFromOrigin {
             int rc = 0;
             int dc = 0;
 
-            for(int i = 0; i < moves.length(); i++) {
+            for (int i = 0; i < moves.length(); i++) {
                 char c = moves.charAt(i);
-                if(c == 'L') {
+                if (c == 'L') {
                     lc++;
-                } else if(c == 'R') {
+                } else if (c == 'R') {
                     rc++;
                 } else {
                     dc++;
