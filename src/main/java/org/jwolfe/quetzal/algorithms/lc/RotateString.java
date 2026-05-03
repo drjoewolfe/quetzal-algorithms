@@ -2,6 +2,20 @@ package org.jwolfe.quetzal.algorithms.lc;
 
 public class RotateString {
     class Solution {
+        public boolean rotateString(String s, String goal) {
+            if (s == null && goal == null) {
+                return true;
+            }
+
+            if (s == null || goal == null || s.length() != goal.length()) {
+                return false;
+            }
+
+            return (s + s).indexOf(goal) >= 0;
+        }
+    }
+
+    class Solution_Correct_2 {
         public boolean rotateString(String A, String B) {
             if (A == null || B == null || A.length() != B.length()) {
                 return false;
