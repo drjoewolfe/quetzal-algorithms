@@ -2,6 +2,79 @@ package org.jwolfe.quetzal.algorithms.lc;
 
 public class RotatingTheBox {
     class Solution {
+        public char[][] rotateTheBox(char[][] boxGrid) {
+            if (boxGrid == null || boxGrid.length == 0 || boxGrid[0].length == 0) {
+                return boxGrid;
+            }
+
+            char[][] rotatedGrid = rotate90(boxGrid);
+            applyGravity(rotatedGrid);
+
+            return rotatedGrid;
+        }
+
+        private char[][] rotate90(char[][] grid) {
+            char[][] newGrid = transpose(grid);
+            reverseColumns(newGrid);
+
+            return newGrid;
+        }
+
+        private char[][] transpose(char[][] grid) {
+            int m = grid.length;
+            int n = grid[0].length;
+
+            char[][] transposedGrid = new char[n][m];
+            for (int r = 0; r < m; r++) {
+                for (int c = 0; c < n; c++) {
+                    transposedGrid[c][r] = grid[r][c];
+                }
+            }
+
+            return transposedGrid;
+        }
+
+        private void reverseColumns(char[][] grid) {
+            int n = grid[0].length;
+            for (char[] row : grid) {
+                for (int i = 0; i < n / 2; i++) {
+                    swap(row, i, n - i - 1);
+                }
+            }
+        }
+
+        private void swap(char[] arr, int left, int right) {
+            char temp = arr[left];
+            arr[left] = arr[right];
+            arr[right] = temp;
+        }
+
+        private void applyGravity(char[][] grid) {
+            int m = grid.length;
+            int n = grid[0].length;
+
+            for (int c = 0; c < n; c++) {
+                int lowestFreeRow = m - 1;
+                for (int r = m - 1; r >= 0; r--) {
+                    if (grid[r][c] == '#') {
+                        // Stone
+                        // Fall to lowest free cell
+                        if (lowestFreeRow != r) {
+                            grid[lowestFreeRow][c] = '#';
+                            grid[r][c] = '.';
+                        }
+
+                        lowestFreeRow--;
+                    } else if (grid[r][c] == '*') {
+                        // Obstacle
+                        lowestFreeRow = r - 1;
+                    }
+                }
+            }
+        }
+    }
+
+    class Solution_Correct_1 {
         public char[][] rotateTheBox(char[][] box) {
             if (box == null || box.length == 0 || box[0].length == 0) {
                 return new char[0][0];
