@@ -1,7 +1,57 @@
 package org.jwolfe.quetzal.algorithms.lc;
 
+import java.util.Arrays;
+
 public class CheckIfArrayIsGood {
     class Solution {
+        public boolean isGood(int[] nums) {
+            if(nums == null || nums.length < 2) {
+                return false;
+            }
+
+            int n = nums.length;
+            int[] count = new int[n];
+            for(int a : nums) {
+                if(a >= n) {
+                    return false;
+                }
+
+                if(a < n - 1 && count[a] == 1) {
+                    return false;
+                }
+
+                if(a == n - 1 && count[a] == 2) {
+                    return false;
+                }
+
+                count[a]++;
+            }
+
+            return true;
+        }
+    }
+
+    class Solution_Correct_2 {
+        public boolean isGood(int[] nums) {
+            if(nums == null || nums.length < 2) {
+                return false;
+            }
+
+            int n = nums.length;
+            int baseN = n - 1;
+
+            Arrays.sort(nums);
+            for(int i = 0; i < baseN; i++) {
+                if(nums[i] != i + 1) {
+                    return false;
+                }
+            }
+
+            return nums[n - 1] == baseN;
+        }
+    }
+
+    class Solution_Correct_1 {
         public boolean isGood(int[] nums) {
             if(nums == null || nums.length < 2) {
                 return false;
