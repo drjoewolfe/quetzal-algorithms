@@ -3,34 +3,58 @@ package org.jwolfe.quetzal.algorithms.lc;
 public class FindMinimumInRotatedSortedArray {
     class Solution {
         public int findMin(int[] nums) {
-            if(nums == null || nums.length == 0) {
+            if (nums == null || nums.length == 0) {
+                return -1;
+            }
+
+            int n = nums.length;
+
+            int left = 0;
+            int right = n - 1;
+
+            while (left < right) {
+                int mid = left + (right - left) / 2;
+                if (nums[mid] > nums[right]) {
+                    left = mid + 1;
+                } else {
+                    right = mid;
+                }
+            }
+
+            return nums[left];
+        }
+    }
+
+    class Solution_Correct_3 {
+        public int findMin(int[] nums) {
+            if (nums == null || nums.length == 0) {
                 return Integer.MAX_VALUE;
             }
 
             int n = nums.length;
-            if(n == 1) {
+            if (n == 1) {
                 return nums[0];
             }
 
             int left = 0;
             int right = n - 1;
 
-            if(nums[right] > nums[left]) {
+            if (nums[right] > nums[left]) {
                 return nums[left];
             }
 
-            while(left <= right) {
+            while (left <= right) {
                 int mid = left + (right - left) / 2;
 
-                if(nums[mid] > nums[mid + 1]) {
+                if (nums[mid] > nums[mid + 1]) {
                     return nums[mid + 1];
                 }
 
-                if(nums[mid - 1] > nums[mid]) {
+                if (nums[mid - 1] > nums[mid]) {
                     return nums[mid];
                 }
 
-                if(nums[mid] > nums[0]) {
+                if (nums[mid] > nums[0]) {
                     left = mid;
                 } else {
                     right = mid;
@@ -43,18 +67,18 @@ public class FindMinimumInRotatedSortedArray {
 
     class Solution_Standard {
         public int findMin(int[] nums) {
-            if(nums == null || nums.length == 0) {
+            if (nums == null || nums.length == 0) {
                 return Integer.MAX_VALUE;
             }
 
             int n = nums.length;
-            if(n == 1) {
+            if (n == 1) {
                 return nums[0];
             }
 
-            for(int i = 0; i < n - 1; i++) {
-                if(nums[i] > nums[i+1]) {
-                    return nums[i+1];
+            for (int i = 0; i < n - 1; i++) {
+                if (nums[i] > nums[i + 1]) {
+                    return nums[i + 1];
                 }
             }
 
@@ -64,7 +88,7 @@ public class FindMinimumInRotatedSortedArray {
 
     class Solution_Correct_2 {
         public int findMin(int[] nums) {
-            if(nums == null || nums.length == 0) {
+            if (nums == null || nums.length == 0) {
                 return 0;
             }
 
@@ -72,10 +96,10 @@ public class FindMinimumInRotatedSortedArray {
             int left = 0;
             int right = n - 1;
 
-            while(left < right) {
+            while (left < right) {
                 int mid = left + (right - left) / 2;
 
-                if(nums[mid] > nums[n - 1]) {
+                if (nums[mid] > nums[n - 1]) {
                     // Left array
                     left = mid + 1;
                 } else {
