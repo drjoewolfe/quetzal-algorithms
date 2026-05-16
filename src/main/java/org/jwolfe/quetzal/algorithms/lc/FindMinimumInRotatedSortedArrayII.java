@@ -3,7 +3,39 @@ package org.jwolfe.quetzal.algorithms.lc;
 public class FindMinimumInRotatedSortedArrayII {
     class Solution {
         public int findMin(int[] nums) {
-            if(nums == null || nums.length == 0) {
+            if (nums == null || nums.length == 0) {
+                return -1;
+            }
+
+            int n = nums.length;
+
+            int left = 0;
+            int right = n - 1;
+
+            while (left < right) {
+                while (left < right && nums[left] == nums[left + 1]) {
+                    left++;
+                }
+
+                while (left < right && nums[right] == nums[right - 1]) {
+                    right--;
+                }
+
+                int mid = left + (right - left) / 2;
+                if (nums[mid] > nums[right]) {
+                    left = mid + 1;
+                } else {
+                    right = mid;
+                }
+            }
+
+            return nums[left];
+        }
+    }
+
+    class Solution_Correct_1 {
+        public int findMin(int[] nums) {
+            if (nums == null || nums.length == 0) {
                 return -1;
             }
 
@@ -14,11 +46,11 @@ public class FindMinimumInRotatedSortedArrayII {
         }
 
         private int findMin(int[] nums, int left, int right) {
-            if(left == right) {
+            if (left == right) {
                 return nums[left];
             }
 
-            if(right - left == 1) {
+            if (right - left == 1) {
                 return Math.min(nums[left], nums[right]);
             }
 
@@ -28,9 +60,9 @@ public class FindMinimumInRotatedSortedArrayII {
             int c = nums[right];
             int b = nums[mid];
 
-            if(a < b && b <= c) {
+            if (a < b && b <= c) {
                 return findMin(nums, left, mid);
-            } else if(a >= b && b > c) {
+            } else if (a >= b && b > c) {
                 return findMin(nums, mid, right);
             } else {
                 return findMin(nums, left + 1, right);
