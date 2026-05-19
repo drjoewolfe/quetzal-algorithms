@@ -6,7 +6,93 @@ import java.util.Set;
 public class MinimumCommonValue {
     class Solution {
         public int getCommon(int[] nums1, int[] nums2) {
-            if(nums1 == null || nums2 == null || nums1.length == 0 || nums2.length == 0) {
+            if (nums1 == null || nums2 == null || nums1.length == 0 || nums2.length == 0) {
+                return -1;
+            }
+
+            int m = nums1.length;
+            int n = nums2.length;
+
+            int i = 0;
+            int j = 0;
+
+            while (i < m && j < n) {
+                if (nums1[i] == nums2[j]) {
+                    return nums1[i];
+                }
+
+                if (nums1[i] < nums2[j]) {
+                    i++;
+                } else {
+                    j++;
+                }
+            }
+
+            return -1;
+        }
+    }
+
+    class Solution_Correct_5 {
+        public int getCommon(int[] nums1, int[] nums2) {
+            if (nums1 == null || nums2 == null || nums1.length == 0 || nums2.length == 0) {
+                return -1;
+            }
+
+            Set<Integer> set = new HashSet<>();
+            for (int b : nums2) {
+                set.add(b);
+            }
+
+            for (int a : nums1) {
+                if (set.contains(a)) {
+                    return a;
+                }
+            }
+
+            return -1;
+        }
+    }
+
+    class Solution_Correct_4 {
+        public int getCommon(int[] nums1, int[] nums2) {
+            if (nums1 == null || nums2 == null || nums1.length == 0 || nums2.length == 0) {
+                return -1;
+            }
+
+            for (int a : nums1) {
+                if (exists(nums2, a)) {
+                    return a;
+                }
+            }
+
+            return -1;
+        }
+
+        private boolean exists(int[] arr, int val) {
+            int left = 0;
+            int right = arr.length - 1;
+
+            while (left <= right) {
+                int mid = left + (right - left) / 2;
+
+                if (arr[mid] == val) {
+                    return true;
+                }
+
+                if (arr[mid] < val) {
+                    left = mid + 1;
+                } else {
+                    right = mid - 1;
+                }
+            }
+
+            return false;
+        }
+    }
+
+    class Solution_Correct_3 {
+        public int getCommon(int[] nums1, int[] nums2) {
+            if (nums1 == null || nums2 == null || nums1.length == 0 || nums2.length == 0) {
                 return -1;
             }
 
@@ -16,12 +102,12 @@ public class MinimumCommonValue {
             int j = 0;
             int n2 = nums2.length;
 
-            while(i < n1 && j < n2) {
-                if(nums1[i] == nums2[j]) {
+            while (i < n1 && j < n2) {
+                if (nums1[i] == nums2[j]) {
                     return nums1[i];
                 }
 
-                if(nums1[i] > nums2[j]) {
+                if (nums1[i] > nums2[j]) {
                     j++;
                 } else {
                     i++;
@@ -35,17 +121,17 @@ public class MinimumCommonValue {
 
     class Solution_Correct_2 {
         public int getCommon(int[] nums1, int[] nums2) {
-            if(nums1 == null || nums2 == null || nums1.length == 0 || nums2.length == 0) {
+            if (nums1 == null || nums2 == null || nums1.length == 0 || nums2.length == 0) {
                 return -1;
             }
 
             int i = 0;
             int j = 0;
 
-            while(i < nums1.length && j < nums2.length) {
-                if(nums1[i] == nums2[j]) {
+            while (i < nums1.length && j < nums2.length) {
+                if (nums1[i] == nums2[j]) {
                     return nums1[i];
-                } else if(nums1[i] > nums2[j]) {
+                } else if (nums1[i] > nums2[j]) {
                     j++;
                 } else {
                     i++;
@@ -58,17 +144,17 @@ public class MinimumCommonValue {
 
     class Solution_Correct_1 {
         public int getCommon(int[] nums1, int[] nums2) {
-            if(nums1 == null || nums2 == null || nums1.length == 0 || nums2.length == 0) {
+            if (nums1 == null || nums2 == null || nums1.length == 0 || nums2.length == 0) {
                 return -1;
             }
 
             Set<Integer> set = new HashSet<>();
-            for(int val : nums1) {
+            for (int val : nums1) {
                 set.add(val);
             }
 
-            for(int val : nums2) {
-                if(set.contains(val)) {
+            for (int val : nums2) {
+                if (set.contains(val)) {
                     return val;
                 }
             }
