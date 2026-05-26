@@ -1,28 +1,55 @@
 package org.jwolfe.quetzal.algorithms.lc;
 
+import java.util.HashSet;
+import java.util.Set;
+
 public class CountTheNumberOfSpecialCharactersI {
     class Solution {
         public int numberOfSpecialChars(String word) {
-            if(word == null || word.length() < 2) {
+            if (word == null || word.length() < 2) {
+                return 0;
+            }
+
+            Set<Character> set = new HashSet<>();
+            for (int i = 0; i < word.length(); i++) {
+                char c = word.charAt(i);
+                set.add(c);
+            }
+
+            int count = 0;
+            for (char c = 'a'; c <= 'z'; c++) {
+                char uc = (char) ((c - 'a') + 'A');
+                if (set.contains(c) && set.contains(uc)) {
+                    count++;
+                }
+            }
+
+            return count;
+        }
+    }
+
+    class Solution_Correct_1 {
+        public int numberOfSpecialChars(String word) {
+            if (word == null || word.length() < 2) {
                 return 0;
             }
 
             int[] lowerCases = new int[26];
             int[] upperCases = new int[26];
 
-            for(int i = 0; i < word.length(); i++) {
+            for (int i = 0; i < word.length(); i++) {
                 char c = word.charAt(i);
 
-                if(c >= 'a' && c <= 'z') {
+                if (c >= 'a' && c <= 'z') {
                     lowerCases[c - 'a']++;
-                } else if(c >= 'A' && c <= 'Z') {
+                } else if (c >= 'A' && c <= 'Z') {
                     upperCases[c - 'A']++;
                 }
             }
 
             int count = 0;
-            for(int i = 0; i < 26; i++) {
-                if(lowerCases[i] > 0 && upperCases[i] > 0) {
+            for (int i = 0; i < 26; i++) {
+                if (lowerCases[i] > 0 && upperCases[i] > 0) {
                     count++;
                 }
             }
