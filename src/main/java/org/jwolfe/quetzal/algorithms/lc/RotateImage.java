@@ -4,8 +4,45 @@ import java.util.*;
 
 public class RotateImage {
     class Solution {
+        public void rotate(int[][] matrix) {
+            if (matrix == null || matrix.length == 0 || matrix[0].length == 0) {
+                return;
+            }
+
+            transpose(matrix);
+            reverse(matrix);
+        }
+
+        private void transpose(int[][] matrix) {
+            int n = matrix.length;
+
+            for (int r = 0; r < n; r++) {
+                for (int c = r; c < n; c++) {
+                    int temp = matrix[r][c];
+                    matrix[r][c] = matrix[c][r];
+                    matrix[c][r] = temp;
+                }
+            }
+        }
+
+        private void reverse(int[][] matrix) {
+            int n = matrix.length;
+
+            for (int r = 0; r < n; r++) {
+                for (int c = 0; c < n / 2; c++) {
+                    int cd = n - c - 1;
+
+                    int temp = matrix[r][c];
+                    matrix[r][c] = matrix[r][cd];
+                    matrix[r][cd] = temp;
+                }
+            }
+        }
+    }
+
+    class Solution_Correct_2 {
         public List<List<Integer>> pacificAtlantic(int[][] matrix) {
-            if(matrix == null || matrix.length == 0 || matrix[0].length == 0) {
+            if (matrix == null || matrix.length == 0 || matrix[0].length == 0) {
                 return null;
             }
 
@@ -15,20 +52,20 @@ public class RotateImage {
             boolean[][] pacific = new boolean[m][n];
             boolean[][] atlantic = new boolean[m][n];
 
-            for(int i = 0; i < m; i++) {
+            for (int i = 0; i < m; i++) {
                 markOceanAccess(matrix, i, 0, pacific);
                 markOceanAccess(matrix, i, n - 1, atlantic);
             }
 
-            for(int j = 0; j < n; j++) {
+            for (int j = 0; j < n; j++) {
                 markOceanAccess(matrix, 0, j, pacific);
                 markOceanAccess(matrix, m - 1, j, atlantic);
             }
 
             List<List<Integer>> results = new ArrayList<>();
-            for(int i = 0; i < m; i++) {
-                for(int j = 0; j < n; j++) {
-                    if(pacific[i][j] && atlantic[i][j]) {
+            for (int i = 0; i < m; i++) {
+                for (int j = 0; j < n; j++) {
+                    if (pacific[i][j] && atlantic[i][j]) {
                         List<Integer> cell = new ArrayList<>();
                         cell.add(i);
                         cell.add(j);
@@ -44,19 +81,19 @@ public class RotateImage {
         private void markOceanAccess(int[][] matrix, int row, int col, boolean[][] ocean) {
             ocean[row][col] = true;
 
-            if(row > 0 && !ocean[row - 1][col] && matrix[row][col] <= matrix[row - 1][col]) {
+            if (row > 0 && !ocean[row - 1][col] && matrix[row][col] <= matrix[row - 1][col]) {
                 markOceanAccess(matrix, row - 1, col, ocean);
             }
 
-            if(row < matrix.length - 1 && !ocean[row + 1][col] && matrix[row][col] <= matrix[row + 1][col]) {
+            if (row < matrix.length - 1 && !ocean[row + 1][col] && matrix[row][col] <= matrix[row + 1][col]) {
                 markOceanAccess(matrix, row + 1, col, ocean);
             }
 
-            if(col > 0 && !ocean[row][col - 1] && matrix[row][col] <= matrix[row][col - 1]) {
+            if (col > 0 && !ocean[row][col - 1] && matrix[row][col] <= matrix[row][col - 1]) {
                 markOceanAccess(matrix, row, col - 1, ocean);
             }
 
-            if(col < matrix[0].length - 1 && !ocean[row][col + 1] && matrix[row][col] <= matrix[row][col + 1]) {
+            if (col < matrix[0].length - 1 && !ocean[row][col + 1] && matrix[row][col] <= matrix[row][col + 1]) {
                 markOceanAccess(matrix, row, col + 1, ocean);
             }
         }
@@ -69,9 +106,9 @@ public class RotateImage {
             int m = matrix.length;
             int n = matrix[0].length;
 
-            for(int i = 0; i < m; i++) {
-                for(int j = 0; j < n; j++) {
-                    if(canReachBothOceans(matrix, i, j, m, n)) {
+            for (int i = 0; i < m; i++) {
+                for (int j = 0; j < n; j++) {
+                    if (canReachBothOceans(matrix, i, j, m, n)) {
                         List<Integer> cell = new ArrayList<>();
                         cell.add(i);
                         cell.add(j);
@@ -86,13 +123,13 @@ public class RotateImage {
 
         private boolean canReachBothOceans(int[][] matrix, int row, int col, int m, int n) {
             Queue<int[]> queue = new LinkedList<>();
-            queue.offer(new int[] {row, col});
+            queue.offer(new int[]{row, col});
 
             boolean canReachPacific = false;
             boolean canReachAtlantic = false;
 
             boolean[][] visited = new boolean[m][n];
-            while(!queue.isEmpty()) {
+            while (!queue.isEmpty()) {
                 int[] cell = queue.poll();
                 int i = cell[0];
                 int j = cell[1];
@@ -100,32 +137,32 @@ public class RotateImage {
 
                 visited[i][j] = true;
 
-                if(i == 0 || j == 0) {
+                if (i == 0 || j == 0) {
                     canReachPacific = true;
                 }
 
-                if(i == m - 1 || j == n - 1) {
+                if (i == m - 1 || j == n - 1) {
                     canReachAtlantic = true;
                 }
 
-                if(canReachPacific && canReachAtlantic) {
+                if (canReachPacific && canReachAtlantic) {
                     return true;
                 }
 
-                if(i > 0 && !visited[i - 1][j] && height >= matrix[i - 1][j]) {
-                    queue.offer(new int[] {i - 1, j});
+                if (i > 0 && !visited[i - 1][j] && height >= matrix[i - 1][j]) {
+                    queue.offer(new int[]{i - 1, j});
                 }
 
-                if(i < m - 1 && !visited[i + 1][j] && height >= matrix[i + 1][j]) {
-                    queue.offer(new int[] {i + 1, j});
+                if (i < m - 1 && !visited[i + 1][j] && height >= matrix[i + 1][j]) {
+                    queue.offer(new int[]{i + 1, j});
                 }
 
-                if(j > 0 && !visited[i][j - 1] && height >= matrix[i][j - 1]) {
-                    queue.offer(new int[] {i, j - 1});
+                if (j > 0 && !visited[i][j - 1] && height >= matrix[i][j - 1]) {
+                    queue.offer(new int[]{i, j - 1});
                 }
 
-                if(j < n - 1 && !visited[i][j + 1] && height >= matrix[i][j + 1]) {
-                    queue.offer(new int[] {i, j + 1});
+                if (j < n - 1 && !visited[i][j + 1] && height >= matrix[i][j + 1]) {
+                    queue.offer(new int[]{i, j + 1});
                 }
             }
 
@@ -136,7 +173,7 @@ public class RotateImage {
     class Solution_Correct_1 {
         public List<List<Integer>> pacificAtlantic(int[][] matrix) {
             List<List<Integer>> result = new ArrayList<>();
-            if(matrix == null || matrix.length == 0 || matrix[0].length == 0) {
+            if (matrix == null || matrix.length == 0 || matrix[0].length == 0) {
                 return result;
             }
 
@@ -147,28 +184,28 @@ public class RotateImage {
             boolean[][] atlantic = new boolean[m][n];
 
             // Pacific - row
-            for(int i = 0; i < m; i++) {
+            for (int i = 0; i < m; i++) {
                 dfs(matrix, m, n, i, 0, pacific, Integer.MIN_VALUE);
             }
 
             // Pacific - col
-            for(int j = 0; j < n; j++) {
+            for (int j = 0; j < n; j++) {
                 dfs(matrix, m, n, 0, j, pacific, Integer.MIN_VALUE);
             }
 
             // Atlantic - row
-            for(int i = m - 1; i >= 0; i--) {
+            for (int i = m - 1; i >= 0; i--) {
                 dfs(matrix, m, n, i, n - 1, atlantic, Integer.MIN_VALUE);
             }
 
             // Atlantic - col
-            for(int j = n - 1; j >= 0; j--) {
+            for (int j = n - 1; j >= 0; j--) {
                 dfs(matrix, m, n, m - 1, j, atlantic, Integer.MIN_VALUE);
             }
 
-            for(int i = 0; i < m; i++) {
-                for(int j = 0; j < n; j++) {
-                    if(pacific[i][j] && atlantic[i][j]) {
+            for (int i = 0; i < m; i++) {
+                for (int j = 0; j < n; j++) {
+                    if (pacific[i][j] && atlantic[i][j]) {
                         List<Integer> pair = new ArrayList<>();
                         pair.add(i);
                         pair.add(j);
@@ -181,11 +218,11 @@ public class RotateImage {
         }
 
         private void dfs(int[][] matrix, int m, int n, int i, int j, boolean[][] ocean, int previous) {
-            if(i < 0 || i > m - 1 || j < 0 || j > n - 1) {
+            if (i < 0 || i > m - 1 || j < 0 || j > n - 1) {
                 return;
             }
 
-            if(matrix[i][j] < previous || ocean[i][j]) {
+            if (matrix[i][j] < previous || ocean[i][j]) {
                 return;
             }
 
@@ -201,7 +238,7 @@ public class RotateImage {
     class Solution_Incorrect {
         public List<List<Integer>> pacificAtlantic(int[][] matrix) {
             List<List<Integer>> result = new ArrayList<>();
-            if(matrix == null || matrix.length == 0 || matrix[0].length == 0) {
+            if (matrix == null || matrix.length == 0 || matrix[0].length == 0) {
                 return result;
             }
 
@@ -211,12 +248,12 @@ public class RotateImage {
             boolean[][] pacific = new boolean[m][n];
             boolean[][] atlantic = new boolean[m][n];
 
-            for(int i = 0; i < m; i++) {
-                for(int j = 0; j < n; j++) {
-                    if(i == 0 || j == 0) {
+            for (int i = 0; i < m; i++) {
+                for (int j = 0; j < n; j++) {
+                    if (i == 0 || j == 0) {
                         pacific[i][j] = true;
                     } else {
-                        if((matrix[i][j] >= matrix[i - 1][j] && pacific[i - 1][j])
+                        if ((matrix[i][j] >= matrix[i - 1][j] && pacific[i - 1][j])
                                 || (matrix[i][j] >= matrix[i][j - 1] && pacific[i][j - 1])) {
                             pacific[i][j] = true;
                         }
@@ -224,12 +261,12 @@ public class RotateImage {
                 }
             }
 
-            for(int i = m - 1; i >= 0; i--) {
-                for(int j = n - 1; j >= 0; j--) {
-                    if(i == m - 1 || j == n - 1) {
+            for (int i = m - 1; i >= 0; i--) {
+                for (int j = n - 1; j >= 0; j--) {
+                    if (i == m - 1 || j == n - 1) {
                         atlantic[i][j] = true;
                     } else {
-                        if((matrix[i][j] >= matrix[i + 1][j] && atlantic[i + 1][j])
+                        if ((matrix[i][j] >= matrix[i + 1][j] && atlantic[i + 1][j])
                                 || (matrix[i][j] >= matrix[i][j + 1] && atlantic[i][j + 1])) {
                             atlantic[i][j] = true;
                         }
@@ -237,9 +274,9 @@ public class RotateImage {
                 }
             }
 
-            for(int i = 0; i < m; i++) {
-                for(int j = 0; j < n; j++) {
-                    if(pacific[i][j] && atlantic[i][j]) {
+            for (int i = 0; i < m; i++) {
+                for (int j = 0; j < n; j++) {
+                    if (pacific[i][j] && atlantic[i][j]) {
                         List<Integer> pair = new ArrayList<>();
                         pair.add(i);
                         pair.add(j);
@@ -257,16 +294,16 @@ public class RotateImage {
     class Solution_Classic {
         public List<List<Integer>> pacificAtlantic(int[][] matrix) {
             List<List<Integer>> result = new ArrayList<>();
-            if(matrix == null || matrix.length == 0 || matrix[0].length == 0) {
+            if (matrix == null || matrix.length == 0 || matrix[0].length == 0) {
                 return result;
             }
 
             int m = matrix.length;
             int n = matrix[0].length;
 
-            for(int i =0; i < m; i++) {
-                for(int j = 0; j < n; j++) {
-                    if(canReachPacificAndAtlantic(matrix, m, n, i, j)) {
+            for (int i = 0; i < m; i++) {
+                for (int j = 0; j < n; j++) {
+                    if (canReachPacificAndAtlantic(matrix, m, n, i, j)) {
                         List<Integer> pair = new ArrayList<>();
                         pair.add(i);
                         pair.add(j);
@@ -289,50 +326,50 @@ public class RotateImage {
 
             Set<Point> visited = new HashSet<>();
 
-            while(!queue.isEmpty()) {
+            while (!queue.isEmpty()) {
                 point = queue.poll();
                 visited.add(point);
 
                 int u = point.i;
                 int v = point.j;
 
-                if(u == 0 || v == 0) {
+                if (u == 0 || v == 0) {
                     reachPacific = true;
                 }
 
-                if(u == m - 1 || v == n - 1) {
+                if (u == m - 1 || v == n - 1) {
                     reachAtlantic = true;
                 }
 
-                if(reachPacific && reachAtlantic) {
+                if (reachPacific && reachAtlantic) {
                     return true;
                 }
 
-                if(u > 0) {
+                if (u > 0) {
                     Point top = new Point(u - 1, v);
-                    if(!visited.contains(top) && matrix[top.i][top.j] <= matrix[u][v]) {
+                    if (!visited.contains(top) && matrix[top.i][top.j] <= matrix[u][v]) {
                         queue.offer(top);
                     }
                 }
 
-                if(v > 0) {
+                if (v > 0) {
                     Point left = new Point(u, v - 1);
-                    if(!visited.contains(left) && matrix[left.i][left.j] <= matrix[u][v]) {
+                    if (!visited.contains(left) && matrix[left.i][left.j] <= matrix[u][v]) {
                         queue.offer(left);
                     }
                 }
 
-                if(u < m - 1) {
+                if (u < m - 1) {
                     Point bottom = new Point(u + 1, v);
-                    if(!visited.contains(bottom) && matrix[bottom.i][bottom.j] <= matrix[u][v]) {
+                    if (!visited.contains(bottom) && matrix[bottom.i][bottom.j] <= matrix[u][v]) {
                         queue.offer(bottom);
                     }
                 }
 
 
-                if(v < n - 1) {
+                if (v < n - 1) {
                     Point right = new Point(u, v + 1);
-                    if(!visited.contains(right) && matrix[right.i][right.j] <= matrix[u][v]) {
+                    if (!visited.contains(right) && matrix[right.i][right.j] <= matrix[u][v]) {
                         queue.offer(right);
                     }
                 }
@@ -352,7 +389,7 @@ public class RotateImage {
 
             @Override
             public boolean equals(Object o) {
-                if(o instanceof Point) {
+                if (o instanceof Point) {
                     Point other = (Point) o;
                     return this.i == other.i && this.j == other.j;
                 }

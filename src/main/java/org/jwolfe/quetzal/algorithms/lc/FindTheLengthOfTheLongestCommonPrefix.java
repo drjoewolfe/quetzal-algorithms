@@ -1,7 +1,51 @@
 package org.jwolfe.quetzal.algorithms.lc;
 
+import java.util.HashSet;
+import java.util.Set;
+
 public class FindTheLengthOfTheLongestCommonPrefix {
     class Solution {
+        public int longestCommonPrefix(int[] arr1, int[] arr2) {
+            if (arr1 == null || arr2 == null || arr1.length == 0 || arr2.length == 0) {
+                return 0;
+            }
+
+            Set<Integer> set = new HashSet<>();
+            for (int a : arr1) {
+                while (a > 0) {
+                    set.add(a);
+                    a /= 10;
+                }
+            }
+
+            int maxLength = 0;
+            for (int b : arr2) {
+                while (b > 0) {
+                    if (set.contains(b)) {
+                        int length = getLength(b);
+                        maxLength = Math.max(maxLength, length);
+                        break;
+                    }
+
+                    b /= 10;
+                }
+            }
+
+            return maxLength;
+        }
+
+        private int getLength(int x) {
+            int length = 0;
+            while (x > 0) {
+                length++;
+                x /= 10;
+            }
+
+            return length;
+        }
+    }
+
+    class Solution_Correct_1 {
         public int longestCommonPrefix(int[] arr1, int[] arr2) {
             if (arr1 == null || arr2 == null || arr1.length == 0 || arr2.length == 0) {
                 return 0;

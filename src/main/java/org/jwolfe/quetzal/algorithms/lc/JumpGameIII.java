@@ -8,7 +8,45 @@ import java.util.Set;
 public class JumpGameIII {
     class Solution {
         public boolean canReach(int[] arr, int start) {
-            if(arr == null || arr.length == 0) {
+            if (arr == null || arr.length == 0 || start < 0 || start >= arr.length) {
+                return false;
+            }
+
+            int n = arr.length;
+            boolean[] visited = new boolean[n];
+
+            return canReach(arr, start, visited);
+        }
+
+        public boolean canReach(int[] arr, int index, boolean[] visited) {
+            if (arr[index] == 0) {
+                return true;
+            }
+
+            visited[index] = true;
+
+            int prevIndex = index - arr[index];
+            int nextIndex = index + arr[index];
+
+            if (prevIndex >= 0) {
+                if (!visited[prevIndex] && canReach(arr, prevIndex, visited)) {
+                    return true;
+                }
+            }
+
+            if (nextIndex < arr.length) {
+                if (!visited[nextIndex] && canReach(arr, nextIndex, visited)) {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+    }
+
+    class Solution_Correct_2 {
+        public boolean canReach(int[] arr, int start) {
+            if (arr == null || arr.length == 0) {
                 return false;
             }
 
@@ -16,14 +54,14 @@ public class JumpGameIII {
         }
 
         private boolean canReachZero(int[] arr, int n, int index, Set<Integer> visitedIndexes) {
-            if(index < 0 || index >= n || visitedIndexes.contains(index)) {
+            if (index < 0 || index >= n || visitedIndexes.contains(index)) {
                 return false;
             }
 
             visitedIndexes.add(index);
             int val = arr[index];
 
-            if(val == 0) {
+            if (val == 0) {
                 return true;
             }
 
@@ -34,7 +72,7 @@ public class JumpGameIII {
 
     class Solution_Correct_1 {
         public boolean canReach(int[] arr, int start) {
-            if(arr == null || arr.length == 0 || start < 0 || start >= arr.length) {
+            if (arr == null || arr.length == 0 || start < 0 || start >= arr.length) {
                 return false;
             }
 
@@ -42,22 +80,22 @@ public class JumpGameIII {
             boolean[] visited = new boolean[n];
             Queue<Integer> queue = new LinkedList<>();
             queue.offer(start);
-            while(!queue.isEmpty()) {
+            while (!queue.isEmpty()) {
                 int index = queue.poll();
                 visited[index] = true;
 
                 int val = arr[index];
-                if(val == 0) {
+                if (val == 0) {
                     return true;
                 }
 
                 int left = index - val;
-                if(left >= 0 && !visited[left]) {
+                if (left >= 0 && !visited[left]) {
                     queue.offer(left);
                 }
 
                 int right = index + val;
-                if(right < n && !visited[right]) {
+                if (right < n && !visited[right]) {
                     queue.offer(right);
                 }
             }

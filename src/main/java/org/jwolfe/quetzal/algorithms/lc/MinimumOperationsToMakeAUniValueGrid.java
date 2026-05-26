@@ -1,9 +1,46 @@
 package org.jwolfe.quetzal.algorithms.lc;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 public class MinimumOperationsToMakeAUniValueGrid {
     class Solution {
+        public int minOperations(int[][] grid, int x) {
+            if (grid == null || grid.length == 0 || grid[0].length == 0) {
+                return 0;
+            }
+
+            int m = grid.length;
+            int n = grid[0].length;
+
+            List<Integer> list = new ArrayList<>();
+            for (int i = 0; i < m; i++) {
+                for (int j = 0; j < n; j++) {
+                    list.add(grid[i][j]);
+                }
+            }
+
+            Collections.sort(list);
+            int size = list.size();
+
+            int median = list.get(size / 2);
+
+            int operations = 0;
+            for (int val : list) {
+                if (val % x != median % x) {
+                    return -1;
+                }
+
+                operations += Math.abs(median - val) / x;
+            }
+
+            return operations;
+        }
+    }
+
+    class Solution_Correct_1 {
         public int minOperations(int[][] grid, int x) {
             if (grid == null || grid.length == 0) {
                 return 0;

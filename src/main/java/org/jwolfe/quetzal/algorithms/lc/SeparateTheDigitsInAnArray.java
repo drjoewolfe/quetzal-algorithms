@@ -6,15 +6,50 @@ import java.util.List;
 public class SeparateTheDigitsInAnArray {
     class Solution {
         public int[] separateDigits(int[] nums) {
-            if(nums == null || nums.length == 0) {
+            if (nums == null || nums.length == 0) {
+                return new int[0];
+            }
+
+            List<Integer> digits = new ArrayList<>();
+
+            int n = nums.length;
+            for (int i = n - 1; i >= 0; i--) {
+                int num = nums[i];
+
+                if (num == 0) {
+                    digits.add(0);
+                }
+
+                while (num > 0) {
+                    int d = num % 10;
+                    num /= 10;
+
+                    digits.add(d);
+                }
+            }
+
+            int size = digits.size();
+            int[] results = new int[size];
+            int index = size - 1;
+            for (int digit : digits) {
+                results[index--] = digit;
+            }
+
+            return results;
+        }
+    }
+
+    class Solution_Correct_1 {
+        public int[] separateDigits(int[] nums) {
+            if (nums == null || nums.length == 0) {
                 return nums;
             }
 
             List<Integer> list = new ArrayList<>();
 
-            for(int i = nums.length - 1; i >= 0; i--) {
+            for (int i = nums.length - 1; i >= 0; i--) {
                 int val = nums[i];
-                while(val > 0) {
+                while (val > 0) {
                     list.add(val % 10);
                     val /= 10;
                 }
@@ -22,7 +57,7 @@ public class SeparateTheDigitsInAnArray {
 
             int n = list.size();
             int[] results = new int[n];
-            for(int i = 0; i < n; i++) {
+            for (int i = 0; i < n; i++) {
                 results[i] = list.get(n - i - 1);
             }
 

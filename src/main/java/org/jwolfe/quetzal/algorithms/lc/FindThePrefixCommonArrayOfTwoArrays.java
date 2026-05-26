@@ -3,6 +3,67 @@ package org.jwolfe.quetzal.algorithms.lc;
 public class FindThePrefixCommonArrayOfTwoArrays {
     class Solution {
         public int[] findThePrefixCommonArray(int[] A, int[] B) {
+            if (A == null || B == null || A.length == 0 || A.length != B.length) {
+                return new int[0];
+            }
+
+            int n = A.length;
+            int[] C = new int[n];
+            int[] frequency = new int[n + 1];
+
+            int count = 0;
+            for (int i = 0; i < n; i++) {
+                int a = A[i];
+                frequency[a]++;
+                if (frequency[a] == 2) {
+                    count++;
+                }
+
+                int b = B[i];
+                frequency[b]++;
+                if (frequency[b] == 2) {
+                    count++;
+                }
+
+                C[i] = count;
+            }
+
+            return C;
+        }
+    }
+
+    class Solution_Correct_2 {
+        public int[] findThePrefixCommonArray(int[] A, int[] B) {
+            if (A == null || B == null || A.length == 0 || A.length != B.length) {
+                return new int[0];
+            }
+
+            int n = A.length;
+            int[] C = new int[n];
+
+            for (int i = 0; i < n; i++) {
+                int count = 0;
+
+                for (int j = i; j >= 0; j--) {
+                    int a = A[j];
+                    for (int k = i; k >= 0; k--) {
+                        int b = B[k];
+
+                        if (a == b) {
+                            count++;
+                        }
+                    }
+                }
+
+                C[i] = count;
+            }
+
+            return C;
+        }
+    }
+
+    class Solution_Correct_1 {
+        public int[] findThePrefixCommonArray(int[] A, int[] B) {
             if (A == null || A.length == 0 || B == null || B.length != A.length) {
                 return new int[0];
             }

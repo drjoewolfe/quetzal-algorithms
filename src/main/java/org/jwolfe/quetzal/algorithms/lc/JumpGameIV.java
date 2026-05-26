@@ -5,14 +5,74 @@ import java.util.*;
 public class JumpGameIV {
     class Solution {
         public int minJumps(int[] arr) {
-            if(arr == null || arr.length < 2) {
+            if (arr == null || arr.length < 2) {
+                return 0;
+            }
+
+            int n = arr.length;
+            Map<Integer, List<Integer>> elementIndicesMap = new HashMap<>();
+            for (int i = 0; i < n; i++) {
+                int val = arr[i];
+                if (!elementIndicesMap.containsKey(val)) {
+                    elementIndicesMap.put(val, new ArrayList<>());
+                }
+
+                elementIndicesMap.get(val).add(i);
+            }
+
+            Queue<Integer> queue = new LinkedList<>();
+            queue.offer(0);
+
+            boolean[] visited = new boolean[n];
+            visited[0] = true;
+
+            int steps = 0;
+            while (!queue.isEmpty()) {
+                int size = queue.size();
+
+                for (int i = 0; i < size; i++) {
+                    int index = queue.poll();
+
+                    if (index == n - 1) {
+                        return steps;
+                    }
+
+                    addToQueueIfValid(queue, n, visited, index - 1);
+                    addToQueueIfValid(queue, n, visited, index + 1);
+
+                    for (int jumpIndex : elementIndicesMap.get(arr[index])) {
+                        if (jumpIndex != index) {
+                            addToQueueIfValid(queue, n, visited, jumpIndex);
+                        }
+                    }
+
+                    elementIndicesMap.get(arr[index]).clear();
+                }
+
+                steps++;
+            }
+
+            return -1;
+        }
+
+        private void addToQueueIfValid(Queue<Integer> queue, int n, boolean[] visited, int index) {
+            if (index >= 0 && index < n && !visited[index]) {
+                queue.offer(index);
+                visited[index] = true;
+            }
+        }
+    }
+
+    class Solution_Correct_1 {
+        public int minJumps(int[] arr) {
+            if (arr == null || arr.length < 2) {
                 return 0;
             }
 
             int n = arr.length;
 
             Map<Integer, List<Integer>> map = new HashMap<>();
-            for(int i = 0; i < n; i++) {
+            for (int i = 0; i < n; i++) {
                 int val = arr[i];
                 map.computeIfAbsent(val, key -> new ArrayList<>()).add(i);
             }
@@ -24,18 +84,18 @@ public class JumpGameIV {
             visited.add(0);
 
             int distance = 0;
-            while(!currentLevel.isEmpty()) {
+            while (!currentLevel.isEmpty()) {
                 Queue<Integer> nextLevel = new LinkedList<>();
 
-                while(!currentLevel.isEmpty()) {
+                while (!currentLevel.isEmpty()) {
                     int u = currentLevel.poll();
-                    if(u == n - 1) {
+                    if (u == n - 1) {
                         return distance;
                     }
 
                     int val = arr[u];
-                    for(int v : map.get(val)) {
-                        if(visited.contains(v)) {
+                    for (int v : map.get(val)) {
+                        if (visited.contains(v)) {
                             continue;
                         }
 
@@ -45,12 +105,12 @@ public class JumpGameIV {
 
                     map.get(val).clear();
 
-                    if(u > 0 && !visited.contains(u - 1)) {
+                    if (u > 0 && !visited.contains(u - 1)) {
                         nextLevel.offer(u - 1);
                         visited.add(u - 1);
                     }
 
-                    if(u < n - 1 && !visited.contains(u + 1)) {
+                    if (u < n - 1 && !visited.contains(u + 1)) {
                         nextLevel.offer(u + 1);
                         visited.add(u + 1);
                     }
@@ -66,16 +126,16 @@ public class JumpGameIV {
 
     class Solution_MLE_1 {
         public int minJumps(int[] arr) {
-            if(arr == null || arr.length < 2) {
+            if (arr == null || arr.length < 2) {
                 return 0;
             }
 
             int n = arr.length;
 
             Map<Integer, List<Integer>> map = new HashMap<>();
-            for(int i = 0; i < n; i++) {
+            for (int i = 0; i < n; i++) {
                 int val = arr[i];
-                if(!map.containsKey(val)) {
+                if (!map.containsKey(val)) {
                     map.put(val, new ArrayList<>());
                 }
 
@@ -83,13 +143,13 @@ public class JumpGameIV {
             }
 
             Map<Integer, List<Integer>> graph = new HashMap<>();
-            for(int i = 0; i < n; i++) {
+            for (int i = 0; i < n; i++) {
                 List<Integer> list = new ArrayList<>();
-                if(i < n - 1) {
+                if (i < n - 1) {
                     list.add(i + 1);
                 }
 
-                if(i > 0) {
+                if (i > 0) {
                     list.add(i - 1);
                 }
 
@@ -106,17 +166,17 @@ public class JumpGameIV {
             visited.add(0);
 
             int distance = 1;
-            while(!queue.isEmpty()) {
+            while (!queue.isEmpty()) {
                 int size = queue.size();
-                for(int i = 0; i < size; i++) {
+                for (int i = 0; i < size; i++) {
                     int u = queue.poll();
 
-                    for(int v : graph.get(u)) {
-                        if(visited.contains(v)) {
+                    for (int v : graph.get(u)) {
+                        if (visited.contains(v)) {
                             continue;
                         }
 
-                        if(v == n - 1) {
+                        if (v == n - 1) {
                             return distance;
                         }
 
@@ -135,19 +195,19 @@ public class JumpGameIV {
 
     class Solution_TLE_1 {
         public int minJumps(int[] arr) {
-            if(arr == null || arr.length < 2) {
+            if (arr == null || arr.length < 2) {
                 return 0;
             }
 
             int n = arr.length;
-            if(n == 2) {
+            if (n == 2) {
                 return 1;
             }
 
             Map<Integer, List<Integer>> map = new HashMap<>();
-            for(int i = 0; i < n; i++) {
+            for (int i = 0; i < n; i++) {
                 int a = arr[i];
-                if(!map.containsKey(a)) {
+                if (!map.containsKey(a)) {
                     map.put(a, new ArrayList<>());
                 }
 
@@ -161,15 +221,15 @@ public class JumpGameIV {
         }
 
         private Integer computeMinJumps(int[] arr, int index, int currentJumps, Map<Integer, List<Integer>> map, Set<Integer> visited, Map<Integer, Integer> memo) {
-            if(index < 0 || index >= arr.length || visited.contains(index)) {
+            if (index < 0 || index >= arr.length || visited.contains(index)) {
                 return null;
             }
 
-            if(memo.containsKey(index)) {
+            if (memo.containsKey(index)) {
                 return memo.get(index);
             }
 
-            if(index == 0) {
+            if (index == 0) {
                 return 0;
             }
 
@@ -177,24 +237,24 @@ public class JumpGameIV {
 
             Integer minJumps = Integer.MAX_VALUE;
             Integer leftOne = computeMinJumps(arr, index - 1, currentJumps + 1, map, visited, memo);
-            if(leftOne != null) {
+            if (leftOne != null) {
                 minJumps = Math.min(minJumps, leftOne);
             }
 
             Integer rightOne = computeMinJumps(arr, index + 1, currentJumps + 1, map, visited, memo);
-            if(rightOne != null) {
+            if (rightOne != null) {
                 minJumps = Math.min(minJumps, rightOne);
             }
 
-            for(int nextIndex : map.get(arr[index])) {
+            for (int nextIndex : map.get(arr[index])) {
                 Integer pJump = computeMinJumps(arr, nextIndex, currentJumps + 1, map, visited, memo);
-                if(pJump != null) {
+                if (pJump != null) {
                     minJumps = Math.min(minJumps, pJump);
                 }
             }
 
             visited.remove(index);
-            if(minJumps != null) {
+            if (minJumps != null) {
                 minJumps++;
             }
 
@@ -203,9 +263,9 @@ public class JumpGameIV {
             return minJumps;
         }
 
-        private int min(int ...values) {
+        private int min(int... values) {
             int minVal = Integer.MAX_VALUE;
-            for(int val : values) {
+            for (int val : values) {
                 minVal = Math.min(minVal, val);
             }
 
@@ -222,7 +282,7 @@ public class JumpGameIV {
             }
 
             public boolean equals(Object o) {
-                if(o instanceof Pair) {
+                if (o instanceof Pair) {
                     Pair other = (Pair) o;
                     return this.x == other.x && this.y == other.y;
                 }
@@ -248,19 +308,19 @@ public class JumpGameIV {
         private int minimumJumps = Integer.MAX_VALUE;
 
         public int minJumps(int[] arr) {
-            if(arr == null || arr.length < 2) {
+            if (arr == null || arr.length < 2) {
                 return 0;
             }
 
             int n = arr.length;
-            if(n == 2) {
+            if (n == 2) {
                 return 1;
             }
 
             Map<Integer, List<Integer>> map = new HashMap<>();
-            for(int i = 0; i < n; i++) {
+            for (int i = 0; i < n; i++) {
                 int a = arr[i];
-                if(!map.containsKey(a)) {
+                if (!map.containsKey(a)) {
                     map.put(a, new ArrayList<>());
                 }
 
@@ -277,12 +337,12 @@ public class JumpGameIV {
         }
 
         private void computeMinJumps(int[] arr, int index, int currentJumps, Map<Integer, List<Integer>> map, Set<Integer> visited) {
-            if(index < 0 || index >= arr.length || visited.contains(index)) {
+            if (index < 0 || index >= arr.length || visited.contains(index)) {
                 return;
             }
 
             // System.out.println(index + " - " + currentJumps);
-            if(index == arr.length - 1) {
+            if (index == arr.length - 1) {
                 minimumJumps = Math.min(minimumJumps, currentJumps);
                 // System.out.println("Set min jumps: " + minimumJumps);
                 return;
@@ -291,7 +351,7 @@ public class JumpGameIV {
             visited.add(index);
             computeMinJumps(arr, index - 1, currentJumps + 1, map, visited);
             computeMinJumps(arr, index + 1, currentJumps + 1, map, visited);
-            for(int nextIndex : map.get(arr[index])) {
+            for (int nextIndex : map.get(arr[index])) {
                 computeMinJumps(arr, nextIndex, currentJumps + 1, map, visited);
             }
 
