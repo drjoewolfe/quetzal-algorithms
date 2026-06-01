@@ -5,15 +5,38 @@ import java.util.Arrays;
 public class MinimumCostOfBuyingCandiesWithDiscount {
     class Solution {
         public int minimumCost(int[] cost) {
-            if(cost == null || cost.length == 0) {
+            if (cost == null || cost.length == 0) {
+                return 0;
+            }
+
+            Arrays.sort(cost);
+            int n = cost.length;
+
+            int minCost = 0;
+            int index = n - 1;
+            while (index >= 0) {
+                int c1 = cost[index--];
+                int c2 = (index >= 0) ? cost[index--] : 0;
+
+                minCost += (c1 + c2);
+                index--;
+            }
+
+            return minCost;
+        }
+    }
+
+    class Solution_Correct_1 {
+        public int minimumCost(int[] cost) {
+            if (cost == null || cost.length == 0) {
                 return 0;
             }
 
             Arrays.sort(cost);
             int minCost = 0;
-            for(int i = cost.length - 1; i >= 0; i-= 3) {
+            for (int i = cost.length - 1; i >= 0; i -= 3) {
                 minCost += cost[i];
-                if(i > 0) {
+                if (i > 0) {
                     minCost += cost[i - 1];
                 }
             }
