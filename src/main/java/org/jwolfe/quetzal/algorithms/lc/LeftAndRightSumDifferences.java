@@ -3,19 +3,45 @@ package org.jwolfe.quetzal.algorithms.lc;
 public class LeftAndRightSumDifferences {
     class Solution {
         public int[] leftRightDifference(int[] nums) {
-            if(nums == null || nums.length == 0) {
+            if (nums == null || nums.length == 0) {
+                return new int[0];
+            }
+
+            int n = nums.length;
+            int[] ans = new int[n];
+
+            int totalSum = 0;
+            for (int val : nums) {
+                totalSum += val;
+            }
+
+            int leftSum = 0;
+            for (int i = 0; i < n; i++) {
+                int rightSum = totalSum - leftSum - nums[i];
+                ans[i] = Math.abs(leftSum - rightSum);
+
+                leftSum += nums[i];
+            }
+
+            return ans;
+        }
+    }
+
+    class Solution_Correct_1 {
+        public int[] leftRightDifference(int[] nums) {
+            if (nums == null || nums.length == 0) {
                 return new int[0];
             }
 
             int right = 0;
-            for(int val : nums) {
+            for (int val : nums) {
                 right += val;
             }
 
             int n = nums.length;
             int[] answer = new int[n];
             int left = 0;
-            for(int i = 0; i < n; i++) {
+            for (int i = 0; i < n; i++) {
                 int val = nums[i];
                 int diff = Math.abs(right - val - left);
                 answer[i] = diff;
