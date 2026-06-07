@@ -21,7 +21,67 @@ public class CreateBinaryTreeFromDescriptions {
      * }
      * }
      */
+    /**
+     * Definition for a binary tree node.
+     * public class TreeNode {
+     * int val;
+     * TreeNode left;
+     * TreeNode right;
+     * TreeNode() {}
+     * TreeNode(int val) { this.val = val; }
+     * TreeNode(int val, TreeNode left, TreeNode right) {
+     * this.val = val;
+     * this.left = left;
+     * this.right = right;
+     * }
+     * }
+     */
     class Solution {
+        public TreeNode createBinaryTree(int[][] descriptions) {
+            if (descriptions == null || descriptions.length == 0) {
+                return null;
+            }
+
+            Map<Integer, TreeNode> nodeMap = new HashMap<>();
+            Set<Integer> childNodes = new HashSet<>();
+
+            for (int[] description : descriptions) {
+                int parent = description[0];
+                int child = description[1];
+                boolean isLeft = (description[2] == 1);
+
+                TreeNode parentNode = getNode(parent, nodeMap);
+                TreeNode childNode = getNode(child, nodeMap);
+
+                if (isLeft) {
+                    parentNode.left = childNode;
+                } else {
+                    parentNode.right = childNode;
+                }
+
+                childNodes.add(child);
+            }
+
+            for (int key : nodeMap.keySet()) {
+                if (!childNodes.contains(key)) {
+                    return nodeMap.get(key);
+                }
+            }
+
+            return null;
+        }
+
+        private TreeNode getNode(int val, Map<Integer, TreeNode> nodeMap) {
+            if (!nodeMap.containsKey(val)) {
+                TreeNode node = new TreeNode(val);
+                nodeMap.put(val, node);
+            }
+
+            return nodeMap.get(val);
+        }
+    }
+
+    class Solution_Correct_1 {
         public TreeNode createBinaryTree(int[][] descriptions) {
             if (descriptions == null || descriptions.length == 0) {
                 return null;
