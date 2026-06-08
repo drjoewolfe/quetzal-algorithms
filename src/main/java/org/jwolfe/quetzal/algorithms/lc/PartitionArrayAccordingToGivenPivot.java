@@ -4,6 +4,36 @@ public class PartitionArrayAccordingToGivenPivot {
     class Solution {
         public int[] pivotArray(int[] nums, int pivot) {
             if (nums == null || nums.length == 0) {
+                return new int[0];
+            }
+
+            int n = nums.length;
+            int[] ans = new int[n];
+
+            int lessIndex = 0;
+            int greaterIndex = n - 1;
+
+            for (int i = 0, j = n - 1; i < n; i++, j--) {
+                if (nums[i] < pivot) {
+                    ans[lessIndex++] = nums[i];
+                }
+
+                if (nums[j] > pivot) {
+                    ans[greaterIndex--] = nums[j];
+                }
+            }
+
+            while (lessIndex <= greaterIndex) {
+                ans[lessIndex++] = pivot;
+            }
+
+            return ans;
+        }
+    }
+
+    class Solution_Correct_1 {
+        public int[] pivotArray(int[] nums, int pivot) {
+            if (nums == null || nums.length == 0) {
                 return null;
             }
 
