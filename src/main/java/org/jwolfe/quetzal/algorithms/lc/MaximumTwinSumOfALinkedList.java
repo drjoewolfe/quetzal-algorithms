@@ -11,7 +11,120 @@ public class MaximumTwinSumOfALinkedList {
      * ListNode(int val, ListNode next) { this.val = val; this.next = next; }
      * }
      */
+    /**
+     * Definition for singly-linked list.
+     * public class ListNode {
+     * int val;
+     * ListNode next;
+     * ListNode() {}
+     * ListNode(int val) { this.val = val; }
+     * ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+     * }
+     */
     class Solution {
+        public int pairSum(ListNode head) {
+            if (head == null) {
+                return 0;
+            }
+
+            ListNode secondHead = findMid(head);
+            secondHead = reverse(secondHead);
+
+            int maxSum = 0;
+            while (secondHead != null) {
+                int sum = head.val + secondHead.val;
+                maxSum = Math.max(maxSum, sum);
+
+                head = head.next;
+                secondHead = secondHead.next;
+            }
+
+            return maxSum;
+        }
+
+        private ListNode findMid(ListNode head) {
+            ListNode slow = head;
+            ListNode fast = head;
+
+            while (fast != null && fast.next != null) {
+                slow = slow.next;
+                fast = fast.next.next;
+            }
+
+            return slow;
+        }
+
+        private ListNode reverse(ListNode head) {
+            ListNode prev = null;
+            ListNode curr = head;
+
+            while (curr != null) {
+                ListNode next = curr.next;
+                curr.next = prev;
+
+                prev = curr;
+                curr = next;
+            }
+
+            return prev;
+        }
+    }
+
+    class Solution_Correct_2 {
+        public int pairSum(ListNode head) {
+            if (head == null) {
+                return 0;
+            }
+
+            int n = getLength(head);
+
+            ListNode secondHead = head;
+            for (int i = 0; i < n / 2; i++) {
+                secondHead = secondHead.next;
+            }
+
+            secondHead = reverse(secondHead);
+
+            int maxSum = 0;
+            for (int i = 0; i < n / 2; i++) {
+                int sum = head.val + secondHead.val;
+                maxSum = Math.max(maxSum, sum);
+
+                head = head.next;
+                secondHead = secondHead.next;
+            }
+
+            return maxSum;
+        }
+
+        private int getLength(ListNode head) {
+            int n = 0;
+
+            while (head != null) {
+                head = head.next;
+                n++;
+            }
+
+            return n;
+        }
+
+        private ListNode reverse(ListNode head) {
+            ListNode prev = null;
+            ListNode curr = head;
+
+            while (curr != null) {
+                ListNode next = curr.next;
+                curr.next = prev;
+
+                prev = curr;
+                curr = next;
+            }
+
+            return prev;
+        }
+    }
+
+    class Solution_Correct_1 {
         public int pairSum(ListNode head) {
             if (head == null) {
                 return 0;
