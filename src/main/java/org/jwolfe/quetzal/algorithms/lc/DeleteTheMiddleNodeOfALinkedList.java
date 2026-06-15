@@ -11,7 +11,61 @@ public class DeleteTheMiddleNodeOfALinkedList {
      * ListNode(int val, ListNode next) { this.val = val; this.next = next; }
      * }
      */
+
     class Solution {
+        public ListNode deleteMiddle(ListNode head) {
+            if (head == null || head.next == null) {
+                return null;
+            }
+
+            ListNode prev = null;
+            ListNode slow = head;
+            ListNode fast = head;
+
+            while (fast != null && fast.next != null) {
+                prev = slow;
+                slow = slow.next;
+                fast = fast.next.next;
+            }
+
+            prev.next = slow.next;
+            return head;
+        }
+    }
+
+    class Solution_Correct_2 {
+        public ListNode deleteMiddle(ListNode head) {
+            if (head == null) {
+                return head;
+            }
+
+            ListNode anchor = new ListNode();
+            anchor.next = head;
+
+            ListNode prev = null;
+            ListNode slow = head;
+            ListNode fast = head;
+
+            while (fast != null && fast.next != null) {
+                prev = slow;
+                slow = slow.next;
+                fast = fast.next.next;
+            }
+
+            ListNode mid = slow;
+            ListNode next = mid.next;
+
+            if (prev != null) {
+                prev.next = next;
+            } else {
+                return null;
+            }
+
+            return anchor.next;
+        }
+    }
+
+    class Solution_Correct_1 {
         public ListNode deleteMiddle(ListNode head) {
             if (head == null) {
                 return head;
