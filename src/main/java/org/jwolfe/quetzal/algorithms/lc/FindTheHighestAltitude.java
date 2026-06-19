@@ -3,13 +3,26 @@ package org.jwolfe.quetzal.algorithms.lc;
 public class FindTheHighestAltitude {
     class Solution {
         public int largestAltitude(int[] gain) {
-            if(gain == null || gain.length == 0) {
+            int highestAltitude = 0;
+            int altitude = 0;
+            for (int delta : gain) {
+                altitude += delta;
+                highestAltitude = Math.max(highestAltitude, altitude);
+            }
+
+            return highestAltitude;
+        }
+    }
+
+    class Solution_Correct_2 {
+        public int largestAltitude(int[] gain) {
+            if (gain == null || gain.length == 0) {
                 return 0;
             }
 
             int altitude = 0;
             int maxAltitude = 0;
-            for(int i = 0; i < gain.length; i++) {
+            for (int i = 0; i < gain.length; i++) {
                 altitude += gain[i];
                 maxAltitude = Math.max(maxAltitude, altitude);
             }
@@ -20,13 +33,13 @@ public class FindTheHighestAltitude {
 
     class Solution_Correct_1 {
         public int largestAltitude(int[] gain) {
-            if(gain == null || gain.length == 0) {
+            if (gain == null || gain.length == 0) {
                 return 0;
             }
 
             int altitude = 0;
             int maxAltitude = 0;
-            for(var val : gain) {
+            for (var val : gain) {
                 altitude += val;
                 maxAltitude = Math.max(maxAltitude, altitude);
             }
