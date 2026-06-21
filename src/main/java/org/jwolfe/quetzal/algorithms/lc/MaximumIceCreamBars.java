@@ -5,7 +5,77 @@ import java.util.Arrays;
 public class MaximumIceCreamBars {
     class Solution {
         public int maxIceCream(int[] costs, int coins) {
-            if(costs == null || costs.length == 0) {
+            if (costs == null || costs.length == 0 || coins < 1) {
+                return 0;
+            }
+
+            int n = costs.length;
+            costs = countingSort(costs);
+
+            int count = 0;
+            int index = 0;
+            while (index < n && costs[index] <= coins) {
+                count++;
+                coins -= costs[index++];
+            }
+
+            return count;
+        }
+
+        private int[] countingSort(int[] arr) {
+            int n = arr.length;
+
+            int max = arr[0];
+            for (int i = 1; i < n; i++) {
+                max = Math.max(max, arr[i]);
+            }
+
+            int[] count = new int[max + 1];
+            for (int i = 0; i < n; i++) {
+                int val = arr[i];
+                count[val]++;
+            }
+
+            int[] prefixSum = new int[max + 1];
+            prefixSum[0] = count[0];
+            for (int i = 1; i <= max; i++) {
+                prefixSum[i] = prefixSum[i - 1] + count[i];
+            }
+
+            int[] sortedArray = new int[n];
+            for (int i = n - 1; i >= 0; i--) {
+                int val = arr[i];
+                sortedArray[prefixSum[val] - 1] = val;
+                prefixSum[val]--;
+            }
+
+            return sortedArray;
+        }
+    }
+
+    class Solution_Correct_2 {
+        public int maxIceCream(int[] costs, int coins) {
+            if (costs == null || costs.length == 0 || coins < 1) {
+                return 0;
+            }
+
+            int n = costs.length;
+            Arrays.sort(costs);
+
+            int count = 0;
+            int index = 0;
+            while (index < n && costs[index] <= coins) {
+                count++;
+                coins -= costs[index++];
+            }
+
+            return count;
+        }
+    }
+
+    class Solution_Correct_1 {
+        public int maxIceCream(int[] costs, int coins) {
+            if (costs == null || costs.length == 0) {
                 return 0;
             }
 
@@ -14,10 +84,10 @@ public class MaximumIceCreamBars {
 
             int i = 0;
             int n = costs.length;
-            while(coins > 0
+            while (coins > 0
                     && i < n) {
                 coins -= costs[i++];
-                if(coins >= 0) {
+                if (coins >= 0) {
                     count++;
                 }
             }
