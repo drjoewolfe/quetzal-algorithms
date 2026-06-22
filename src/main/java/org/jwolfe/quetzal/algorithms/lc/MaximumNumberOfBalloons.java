@@ -6,22 +6,50 @@ import java.util.Map;
 public class MaximumNumberOfBalloons {
     class Solution {
         public int maxNumberOfBalloons(String text) {
-            if(text == null || text.length() < 6) {
+            if (text == null || text.length() < 7) {
+                return 0;
+            }
+
+            int[] count = new int[26];
+            for (int i = 0; i < text.length(); i++) {
+                count[text.charAt(i) - 'a']++;
+            }
+
+            // b = 2, a = 1, l = 2, o = 2, n = 1
+            int b = count['b' - 'a'];
+            int a = count['a' - 'a'];
+            int l = count['l' - 'a'];
+            int o = count['o' - 'a'];
+            int n = count['n' - 'a'];
+
+
+            int numberOfBalloons = Math.min(b,
+                    Math.min(a,
+                            Math.min(l / 2,
+                                    Math.min(o / 2, n))));
+
+            return numberOfBalloons;
+        }
+    }
+
+    class Solution_Correct_3 {
+        public int maxNumberOfBalloons(String text) {
+            if (text == null || text.length() < 6) {
                 return 0;
             }
 
             Map<Character, Integer> frequencies = new HashMap<>();
-            for(int i = 0; i < text.length(); i++) {
+            for (int i = 0; i < text.length(); i++) {
                 char c = text.charAt(i);
                 frequencies.put(c, frequencies.getOrDefault(c, 0) + 1);
             }
 
             int count = 0;
             String balloon = "balloon";
-            while(true) {
-                for(int i = 0; i < balloon.length(); i++) {
+            while (true) {
+                for (int i = 0; i < balloon.length(); i++) {
                     char c = balloon.charAt(i);
-                    if(!frequencies.containsKey(c)
+                    if (!frequencies.containsKey(c)
                             || frequencies.get(c) == 0) {
                         return count;
                     }
@@ -36,12 +64,12 @@ public class MaximumNumberOfBalloons {
 
     class Solution_Correct_2 {
         public int maxNumberOfBalloons(String text) {
-            if(text == null || text.length() < 7) {
+            if (text == null || text.length() < 7) {
                 return 0;
             }
 
             int[] frequencies = new int[26];
-            for(int i = 0; i < text.length(); i++) {
+            for (int i = 0; i < text.length(); i++) {
                 char c = text.charAt(i);
                 frequencies[c - 'a']++;
             }
@@ -56,7 +84,7 @@ public class MaximumNumberOfBalloons {
 
         private int min(int... nums) {
             int min = Integer.MAX_VALUE;
-            for(int a : nums) {
+            for (int a : nums) {
                 min = Math.min(min, a);
             }
 
