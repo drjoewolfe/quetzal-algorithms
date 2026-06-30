@@ -7,6 +7,60 @@ public class NumberOfSubstringsContainingAllThreeCharacters {
                 return 0;
             }
 
+            int n = s.length();
+
+            int a = 0;
+            int b = 0;
+            int c = 0;
+
+            int count = 0;
+
+            int left = 0;
+            for (int right = 0; right < s.length(); right++) {
+                char rc = s.charAt(right);
+
+                if (rc == 'a') {
+                    a++;
+                } else if (rc == 'b') {
+                    b++;
+                } else {
+                    c++;
+                }
+
+                if (a > 0 && b > 0 && c > 0) {
+                    count += (n - right);
+
+                    while (left < right
+                            && a > 0 && b > 0 && c > 0) {
+                        char lc = s.charAt(left);
+
+                        if (lc == 'a') {
+                            a--;
+                        } else if (lc == 'b') {
+                            b--;
+                        } else {
+                            c--;
+                        }
+
+                        if (a > 0 && b > 0 && c > 0) {
+                            count += (n - right);
+                        }
+
+                        left++;
+                    }
+                }
+            }
+
+            return count;
+        }
+    }
+
+    class Solution_Correct_2 {
+        public int numberOfSubstrings(String s) {
+            if (s == null || s.length() < 3) {
+                return 0;
+            }
+
             int count = 0;
 
             int ac = 0;
