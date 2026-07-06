@@ -5,12 +5,46 @@ import java.util.Arrays;
 public class RemoveCoveredIntervals {
     class Solution {
         public int removeCoveredIntervals(int[][] intervals) {
-            if(intervals == null || intervals.length == 0) {
+            if (intervals == null || intervals.length == 0) {
                 return 0;
             }
 
             Arrays.sort(intervals, (a, b) -> {
-                if(a[0] == b[0]) {
+                if (a[0] == b[0]) {
+                    return b[1] - a[1];
+                }
+
+                return a[0] - b[0];
+            });
+
+            int covered = 0;
+
+            int n = intervals.length;
+            int i = 0;
+
+            while (i < n) {
+                int[] curr = intervals[i++];
+
+                while (i < n &&
+                        (curr[0] <= intervals[i][0] && intervals[i][1] <= curr[1])) {
+                    covered++;
+                    i++;
+                }
+            }
+
+
+            return n - covered;
+        }
+    }
+
+    class Solution_Correct_2 {
+        public int removeCoveredIntervals(int[][] intervals) {
+            if (intervals == null || intervals.length == 0) {
+                return 0;
+            }
+
+            Arrays.sort(intervals, (a, b) -> {
+                if (a[0] == b[0]) {
                     return b[1] - a[1];
                 }
 
@@ -19,10 +53,10 @@ public class RemoveCoveredIntervals {
 
             int[] prev = intervals[0];
             int count = 1;
-            for(int i = 1; i < intervals.length; i++) {
+            for (int i = 1; i < intervals.length; i++) {
                 int[] curr = intervals[i];
 
-                if(!isCovered(curr, prev)) {
+                if (!isCovered(curr, prev)) {
                     count++;
                     prev = curr;
                 }
@@ -38,18 +72,18 @@ public class RemoveCoveredIntervals {
 
     class Solution_Correct_1 {
         public int removeCoveredIntervals(int[][] intervals) {
-            if(intervals == null || intervals.length == 0) {
+            if (intervals == null || intervals.length == 0) {
                 return 0;
             }
 
-            for(int i = 0; i < intervals.length; i++) {
-                if(intervals[i].length != 2) {
+            for (int i = 0; i < intervals.length; i++) {
+                if (intervals[i].length != 2) {
                     return 0;
                 }
             }
 
             Arrays.sort(intervals, (x, y) -> {
-                if(x[0] != y[0]) {
+                if (x[0] != y[0]) {
                     return x[0] - y[0];
                 }
                 return y[1] - x[1];
@@ -57,10 +91,10 @@ public class RemoveCoveredIntervals {
 
             int count = 0;
             int[] prev = intervals[0];
-            for(int i = 1; i < intervals.length; i++) {
+            for (int i = 1; i < intervals.length; i++) {
                 int[] curr = intervals[i];
 
-                if(prev[0] <= curr[0] && prev[1] >= curr[1]) {
+                if (prev[0] <= curr[0] && prev[1] >= curr[1]) {
                     // curr is a covered interval
                     continue;
                 } else {
