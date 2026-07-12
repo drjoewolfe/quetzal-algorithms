@@ -6,6 +6,35 @@ public class RankTransformOfAnArray {
     class Solution {
         public int[] arrayRankTransform(int[] arr) {
             if (arr == null || arr.length == 0) {
+                return new int[0];
+            }
+
+            int[] sortedArr = Arrays.copyOf(arr, arr.length);
+            Arrays.sort(sortedArr);
+
+            Map<Integer, Integer> rankMap = new HashMap<>();
+            int rank = 1;
+            rankMap.put(sortedArr[0], 1);
+
+            for (int i = 1; i < sortedArr.length; i++) {
+                if (sortedArr[i] != sortedArr[i - 1]) {
+                    rank++;
+                    rankMap.put(sortedArr[i], rank);
+                }
+            }
+
+            for (int i = 0; i < arr.length; i++) {
+                int val = arr[i];
+                arr[i] = rankMap.get(val);
+            }
+
+            return arr;
+        }
+    }
+
+    class Solution_Correct_2 {
+        public int[] arrayRankTransform(int[] arr) {
+            if (arr == null || arr.length == 0) {
                 return arr;
             }
 
