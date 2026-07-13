@@ -1,10 +1,45 @@
 package org.jwolfe.quetzal.algorithms.lc;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
 
 public class SequentialDigits {
     class Solution {
+        public List<Integer> sequentialDigits(int low, int high) {
+            List<Integer> results = new ArrayList<>();
+            if (low > high) {
+                return results;
+            }
+
+            Queue<Integer> queue = new LinkedList<>();
+            for (int i = 1; i < 10; i++) {
+                queue.offer(i);
+            }
+
+            while (!queue.isEmpty()) {
+                int num = queue.poll();
+                if (num > high) {
+                    continue;
+                }
+
+                if (num >= low && num <= high) {
+                    results.add(num);
+                }
+
+                int lastDigit = num % 10;
+                if (lastDigit < 9) {
+                    int nextNum = num * 10 + (lastDigit + 1);
+                    queue.offer(nextNum);
+                }
+            }
+
+            return results;
+        }
+    }
+
+    class Solution_Correct_2 {
         public List<Integer> sequentialDigits(int low, int high) {
             List<Integer> results = new ArrayList<>();
             if(low < 10 || high > 1_000_000_000 || low > high) {
