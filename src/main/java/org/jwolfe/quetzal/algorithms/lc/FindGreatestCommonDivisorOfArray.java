@@ -3,13 +3,41 @@ package org.jwolfe.quetzal.algorithms.lc;
 public class FindGreatestCommonDivisorOfArray {
     class Solution {
         public int findGCD(int[] nums) {
-            if(nums == null || nums.length == 0) {
+            if (nums == null || nums.length == 0) {
                 return 0;
             }
 
             int smallest = nums[0];
             int largest = nums[0];
-            for(int i = 1; i < nums.length; i++) {
+
+            for (int i = 1; i < nums.length; i++) {
+                smallest = Math.min(smallest, nums[i]);
+                largest = Math.max(largest, nums[i]);
+            }
+
+            return gcd(smallest, largest);
+        }
+
+        private int gcd(int a, int b) {
+            while (b != 0) {
+                int temp = a;
+                a = b;
+                b = temp % b;
+            }
+
+            return a;
+        }
+    }
+
+    class Solution_Correct_1 {
+        public int findGCD(int[] nums) {
+            if (nums == null || nums.length == 0) {
+                return 0;
+            }
+
+            int smallest = nums[0];
+            int largest = nums[0];
+            for (int i = 1; i < nums.length; i++) {
                 smallest = Math.min(smallest, nums[i]);
                 largest = Math.max(largest, nums[i]);
             }
@@ -24,7 +52,7 @@ public class FindGreatestCommonDivisorOfArray {
             int b = (x > y) ? y : x;
             int r = b;
 
-            while(a % b != 0) {
+            while (a % b != 0) {
                 r = a % b;
                 a = b;
                 b = r;
@@ -34,8 +62,8 @@ public class FindGreatestCommonDivisorOfArray {
         }
 
         private int gcd_2(int x, int y) {
-            while(x != y) {
-                if(x > y) {
+            while (x != y) {
+                if (x > y) {
                     x = x - y;
                 } else {
                     y = y - x;
@@ -47,8 +75,8 @@ public class FindGreatestCommonDivisorOfArray {
 
         private int gcd_1(int x, int y) {
             int r = 1;
-            for(int i = 2; i <= x && i <= y; i++) {
-                if(x % i == 0 && y % i == 0) {
+            for (int i = 2; i <= x && i <= y; i++) {
+                if (x % i == 0 && y % i == 0) {
                     r = i;
                 }
             }
