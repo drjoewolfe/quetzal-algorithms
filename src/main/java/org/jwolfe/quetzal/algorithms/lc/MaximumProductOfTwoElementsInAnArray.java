@@ -3,20 +3,40 @@ package org.jwolfe.quetzal.algorithms.lc;
 public class MaximumProductOfTwoElementsInAnArray {
     class Solution {
         public int maxProduct(int[] nums) {
-            if(nums == null || nums.length < 2) {
+            if (nums == null || nums.length < 2) {
                 return 0;
             }
 
             int largest = Integer.MIN_VALUE;
             int secondLargest = Integer.MIN_VALUE;
 
-            for(int i = 0; i < nums.length; i++) {
+            for (int val : nums) {
+                int prevLargest = largest;
+
+                largest = Math.max(largest, val);
+                secondLargest = Math.max(secondLargest, Math.min(prevLargest, val));
+            }
+
+            return (largest - 1) * (secondLargest - 1);
+        }
+    }
+
+    class Solution_Correct_2 {
+        public int maxProduct(int[] nums) {
+            if (nums == null || nums.length < 2) {
+                return 0;
+            }
+
+            int largest = Integer.MIN_VALUE;
+            int secondLargest = Integer.MIN_VALUE;
+
+            for (int i = 0; i < nums.length; i++) {
                 int val = nums[i];
 
-                if(val >= largest) {
+                if (val >= largest) {
                     secondLargest = largest;
                     largest = val;
-                } else if(val >= secondLargest) {
+                } else if (val >= secondLargest) {
                     secondLargest = val;
                 }
             }
@@ -27,18 +47,18 @@ public class MaximumProductOfTwoElementsInAnArray {
 
     class Solution_Correct_1 {
         public int maxProduct(int[] nums) {
-            if(nums == null || nums.length < 2) {
+            if (nums == null || nums.length < 2) {
                 return 0;
             }
 
             int largest = Integer.MIN_VALUE;
             int secondLargest = Integer.MIN_VALUE;
 
-            for(int a : nums) {
-                if(largest <= a) {
+            for (int a : nums) {
+                if (largest <= a) {
                     secondLargest = largest;
                     largest = a;
-                } else if(secondLargest <= a) {
+                } else if (secondLargest <= a) {
                     secondLargest = a;
                 }
             }
