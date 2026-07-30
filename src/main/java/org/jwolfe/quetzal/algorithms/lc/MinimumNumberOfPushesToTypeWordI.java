@@ -3,7 +3,25 @@ package org.jwolfe.quetzal.algorithms.lc;
 public class MinimumNumberOfPushesToTypeWordI {
     class Solution {
         public int minimumPushes(String word) {
-            if(word == null) {
+            int n = word.length();
+
+            int pushes = 0;
+            int keyPos = 1;
+            while (n > 0) {
+                int letters = (n >= 8) ? 8 : n;
+                pushes += (keyPos * letters);
+
+                n -= 8;
+                keyPos++;
+            }
+
+            return pushes;
+        }
+    }
+
+    class Solution_Correct_1 {
+        public int minimumPushes(String word) {
+            if (word == null) {
                 return 0;
             }
 
@@ -11,7 +29,7 @@ public class MinimumNumberOfPushesToTypeWordI {
             int count = word.length();
             int position = 1;
 
-            while(count > 0) {
+            while (count > 0) {
                 int letters = Math.min(count, 8);
                 count -= 8;
 
