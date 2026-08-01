@@ -4,18 +4,43 @@ import java.util.Arrays;
 
 public class PredictTheWinner {
     class Solution {
+        public boolean predictTheWinner(int[] nums) {
+            if (nums == null || nums.length < 2) {
+                return true;
+            }
+
+            return solve(nums, 0, nums.length - 1) >= 0;
+        }
+
+        private int solve(int[] nums, int i, int j) {
+            if (i > j) {
+                return 0;
+            }
+
+            if (i == j) {
+                return nums[i];
+            }
+
+            int takeI = nums[i] - solve(nums, i + 1, j);
+            int takeJ = nums[j] - solve(nums, i, j - 1);
+
+            return Math.max(takeI, takeJ);
+        }
+    }
+
+    class Solution_Correct_2 {
         public boolean PredictTheWinner(int[] nums) {
-            if(nums == null || nums.length == 0) {
+            if (nums == null || nums.length == 0) {
                 return false;
             }
 
             int n = nums.length;
-            if(n == 1) {
+            if (n == 1) {
                 return true;
             }
 
             int[][] memo = new int[n][n];
-            for(int[] row : memo) {
+            for (int[] row : memo) {
                 Arrays.fill(row, -1);
             }
 
@@ -23,11 +48,11 @@ public class PredictTheWinner {
         }
 
         private int maxDiff(int[] nums, int left, int right, int[][] memo) {
-            if(left == right) {
+            if (left == right) {
                 return nums[left];
             }
 
-            if(memo[left][right] != -1) {
+            if (memo[left][right] != -1) {
                 return memo[left][right];
             }
 
@@ -41,12 +66,12 @@ public class PredictTheWinner {
 
     class Solution_Recursive {
         public boolean PredictTheWinner(int[] nums) {
-            if(nums == null || nums.length == 0) {
+            if (nums == null || nums.length == 0) {
                 return false;
             }
 
             int n = nums.length;
-            if(n == 1) {
+            if (n == 1) {
                 return true;
             }
 
@@ -54,7 +79,7 @@ public class PredictTheWinner {
         }
 
         private int maxDiff(int[] nums, int left, int right) {
-            if(left == right) {
+            if (left == right) {
                 return nums[left];
             }
 
@@ -67,22 +92,22 @@ public class PredictTheWinner {
 
     class Solution_Correct_1 {
         public boolean PredictTheWinner(int[] nums) {
-            if(nums == null || nums.length == 0) {
+            if (nums == null || nums.length == 0) {
                 return false;
             }
 
             int n = nums.length;
-            if(n == 1){
+            if (n == 1) {
                 return true;
             }
 
             int[][] dp = new int[n][n];
-            for(int i = 0; i < n; i++) {
+            for (int i = 0; i < n; i++) {
                 dp[i][i] = nums[i];
             }
 
-            for(int l = 2; l <= n; l++) {
-                for(int i = 0; i + l <= n; i++) {
+            for (int l = 2; l <= n; l++) {
+                for (int i = 0; i + l <= n; i++) {
                     int j = i + l - 1;
                     dp[i][j] = Math.max(nums[i] - dp[i + 1][j],
                             nums[j] - dp[i][j - 1]);
@@ -93,8 +118,8 @@ public class PredictTheWinner {
         }
 
         private void print(int[][] arr) {
-            for(int[] row : arr) {
-                for(int cell : row) {
+            for (int[] row : arr) {
+                for (int cell : row) {
                     System.out.print(cell + " ");
                 }
 
@@ -111,12 +136,12 @@ public class PredictTheWinner {
         }
 
         private boolean canPlayer1Win(int[] nums, int left, int right, boolean turn1, int score1, int score2) {
-            if(left > right) {
+            if (left > right) {
                 System.out.println(left + ", " + right + ", " + score1 + ", " + score2);
                 return score1 >= score2;
             }
 
-            if(turn1) {
+            if (turn1) {
                 return canPlayer1Win(nums, left + 1, right, false, score1 + nums[left], score2)
                         || canPlayer1Win(nums, left, right - 1, false, score1 + nums[right], score2);
             } else {
