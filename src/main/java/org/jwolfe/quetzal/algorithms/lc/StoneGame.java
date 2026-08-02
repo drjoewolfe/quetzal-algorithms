@@ -5,18 +5,75 @@ import java.util.Arrays;
 public class StoneGame {
     class Solution {
         public boolean stoneGame(int[] piles) {
-            if(piles == null || piles.length == 0) {
+            if (piles == null || piles.length == 0) {
+                return false;
+            }
+
+            int n = piles.length;
+            Integer[][] memo = new Integer[n][n];
+
+            return solve(piles, 0, piles.length - 1, memo) > 0;
+        }
+
+        private int solve(int[] piles, int left, int right, Integer[][] memo) {
+            if (left > right) {
+                return 0;
+            }
+
+            if (left == right) {
+                return piles[left];
+            }
+
+            if (memo[left][right] != null) {
+                return memo[left][right];
+            }
+
+            int takeLeft = piles[left] - solve(piles, left + 1, right, memo);
+            int takeRight = piles[right] - solve(piles, left, right - 1, memo);
+
+            return memo[left][right] = Math.max(takeLeft, takeRight);
+        }
+    }
+
+    class Solution_TLE {
+        public boolean stoneGame(int[] piles) {
+            if (piles == null || piles.length == 0) {
+                return false;
+            }
+
+            return solve(piles, 0, piles.length - 1) > 0;
+        }
+
+        private int solve(int[] piles, int left, int right) {
+            if (left > right) {
+                return 0;
+            }
+
+            if (left == right) {
+                return piles[left];
+            }
+
+            int takeLeft = piles[left] - solve(piles, left + 1, right);
+            int takeRight = piles[right] - solve(piles, left, right - 1);
+
+            return Math.max(takeLeft, takeRight);
+        }
+    }
+
+    class Solution_Correct_3 {
+        public boolean stoneGame(int[] piles) {
+            if (piles == null || piles.length == 0) {
                 return false;
             }
 
             int n = piles.length;
             int[][] dp = new int[n][n];
-            for(int i = 0; i < n; i++) {
+            for (int i = 0; i < n; i++) {
                 dp[i][i] = piles[i];
             }
 
-            for(int l = 2; l <= n; l++) {
-                for(int left = 0; left <= n - l; left++) {
+            for (int l = 2; l <= n; l++) {
+                for (int left = 0; left <= n - l; left++) {
                     int right = left + l - 1;
                     dp[left][right] = Math.max(
                             piles[left] - dp[left + 1][right],
@@ -31,13 +88,13 @@ public class StoneGame {
 
     class Solution_Memoization {
         public boolean stoneGame(int[] piles) {
-            if(piles == null || piles.length == 0 || piles.length % 2 != 0) {
+            if (piles == null || piles.length == 0 || piles.length % 2 != 0) {
                 return false;
             }
 
             int n = piles.length;
             Integer[][] memo = new Integer[n][n];
-            for(Integer[] row : memo) {
+            for (Integer[] row : memo) {
                 Arrays.fill(row, null);
             }
 
@@ -46,11 +103,11 @@ public class StoneGame {
         }
 
         private int stoneGame(int[] piles, int left, int right, Integer[][] memo) {
-            if(left > right) {
+            if (left > right) {
                 return 0;
             }
 
-            if(memo[left][right] != null) {
+            if (memo[left][right] != null) {
                 return memo[left][right];
             }
 
@@ -64,7 +121,7 @@ public class StoneGame {
 
     class Solution_Recursive {
         public boolean stoneGame(int[] piles) {
-            if(piles == null || piles.length == 0 || piles.length % 2 != 0) {
+            if (piles == null || piles.length == 0 || piles.length % 2 != 0) {
                 return false;
             }
 
@@ -73,7 +130,7 @@ public class StoneGame {
         }
 
         private int stoneGame(int[] piles, int left, int right) {
-            if(left > right) {
+            if (left > right) {
                 return 0;
             }
 
@@ -85,7 +142,7 @@ public class StoneGame {
 
     class Solution_Recursive_Classic {
         public boolean stoneGame(int[] piles) {
-            if(piles == null || piles.length == 0 || piles.length % 2 != 0) {
+            if (piles == null || piles.length == 0 || piles.length % 2 != 0) {
                 return false;
             }
 
@@ -93,11 +150,11 @@ public class StoneGame {
         }
 
         private boolean canPlayer1WinStoneGame(int[] piles, int left, int right, int stones1, int stones2, boolean player1Turn) {
-            if(left >= right) {
+            if (left >= right) {
                 return stones1 > stones2;
             }
 
-            if(player1Turn) {
+            if (player1Turn) {
                 return
                         canPlayer1WinStoneGame(piles, left + 1, right, stones1 + piles[left], stones2, false)
                                 || canPlayer1WinStoneGame(piles, left, right - 1, stones1 + piles[right], stones2, false);
@@ -112,18 +169,18 @@ public class StoneGame {
 
     class Solution_Correct_2 {
         public boolean stoneGame(int[] piles) {
-            if(piles == null || piles.length == 0) {
+            if (piles == null || piles.length == 0) {
                 return false;
             }
 
             int n = piles.length;
             int[][] dp = new int[n][n];
-            for(int i = 0; i < n; i++) {
+            for (int i = 0; i < n; i++) {
                 dp[i][i] = piles[i];
             }
 
-            for(int l = 2; l <= n; l++) {
-                for(int left = 0; left <= n - l; left++) {
+            for (int l = 2; l <= n; l++) {
+                for (int left = 0; left <= n - l; left++) {
                     int right = left + l - 1;
                     dp[left][right] = Math.max(
                             piles[left] - dp[left + 1][right],
@@ -136,8 +193,8 @@ public class StoneGame {
         }
 
         private void print(int[][] dp) {
-            for(int[] row : dp) {
-                for(int cell : row) {
+            for (int[] row : dp) {
+                for (int cell : row) {
                     System.out.print(cell + " ");
                 }
 
@@ -150,7 +207,7 @@ public class StoneGame {
 
     class Solution_Memoized_2 {
         public boolean stoneGame(int[] piles) {
-            if(piles == null || piles.length == 0) {
+            if (piles == null || piles.length == 0) {
                 return false;
             }
 
@@ -159,11 +216,11 @@ public class StoneGame {
         }
 
         private int stoneGame(int[] piles, int left, int right, Integer[][] memo) {
-            if(left > right) {
+            if (left > right) {
                 return 0;
             }
 
-            if(memo[left][right] != null) {
+            if (memo[left][right] != null) {
                 return memo[left][right];
             }
 
@@ -178,7 +235,7 @@ public class StoneGame {
 
     class Solution_Recursive_2 {
         public boolean stoneGame(int[] piles) {
-            if(piles == null || piles.length == 0) {
+            if (piles == null || piles.length == 0) {
                 return false;
             }
 
@@ -187,7 +244,7 @@ public class StoneGame {
         }
 
         private int stoneGame(int[] piles, int left, int right) {
-            if(left > right) {
+            if (left > right) {
                 return 0;
             }
 
@@ -201,12 +258,12 @@ public class StoneGame {
 
     class Solution_Recursive_3 {
         public boolean stoneGame(int[] piles) {
-            if(piles == null || piles.length == 0) {
+            if (piles == null || piles.length == 0) {
                 return false;
             }
 
             int n = piles.length;
-            if(n == 1) {
+            if (n == 1) {
                 return true;
             }
 
@@ -214,12 +271,12 @@ public class StoneGame {
         }
 
         private boolean stoneGameP1Win(int[] piles, int left, int right, int c1, int c2, boolean p1) {
-            if(left > right) {
+            if (left > right) {
                 return (c1 - c2) > 0;
             }
 
             // Try left
-            if(stoneGameP1Win(piles, left + 1, right, p1 ? c1 + piles[left] : c1, !p1 ? c2 + piles[left] : c2, !p1)) {
+            if (stoneGameP1Win(piles, left + 1, right, p1 ? c1 + piles[left] : c1, !p1 ? c2 + piles[left] : c2, !p1)) {
                 return true;
             }
 
