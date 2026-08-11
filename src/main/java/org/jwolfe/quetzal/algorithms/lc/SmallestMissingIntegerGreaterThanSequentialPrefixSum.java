@@ -6,7 +6,35 @@ import java.util.Set;
 public class SmallestMissingIntegerGreaterThanSequentialPrefixSum {
     class Solution {
         public int missingInteger(int[] nums) {
-            if(nums == null || nums.length == 0) {
+            if (nums == null || nums.length == 0) {
+                return 0;
+            }
+
+            Set<Integer> set = new HashSet<>();
+            for (int val : nums) {
+                set.add(val);
+            }
+
+            int sum = nums[0];
+            for (int i = 1; i < nums.length; i++) {
+                if (nums[i] != nums[i - 1] + 1) {
+                    break;
+                }
+
+                sum += nums[i];
+            }
+
+            while (set.contains(sum)) {
+                sum++;
+            }
+
+            return sum;
+        }
+    }
+
+    class Solution_Correct_1 {
+        public int missingInteger(int[] nums) {
+            if (nums == null || nums.length == 0) {
                 return 0;
             }
 
@@ -14,8 +42,8 @@ public class SmallestMissingIntegerGreaterThanSequentialPrefixSum {
             int lps = nums[0];
             int sum = nums[0];
 
-            for(int i = 1; i < n; i++) {
-                if(nums[i] == nums[i - 1] + 1) {
+            for (int i = 1; i < n; i++) {
+                if (nums[i] == nums[i - 1] + 1) {
                     sum += nums[i];
                 } else {
                     lps = Math.max(lps, sum);
@@ -24,14 +52,14 @@ public class SmallestMissingIntegerGreaterThanSequentialPrefixSum {
             }
 
             Set<Integer> set = new HashSet<>();
-            for(int a : nums) {
+            for (int a : nums) {
                 set.add(a);
             }
 
             lps = Math.max(lps, sum);
 
             int result = lps;
-            while(set.contains(result)) {
+            while (set.contains(result)) {
                 result++;
             }
 
