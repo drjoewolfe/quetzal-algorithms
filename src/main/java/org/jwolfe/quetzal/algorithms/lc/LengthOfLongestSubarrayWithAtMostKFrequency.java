@@ -6,7 +6,72 @@ import java.util.Map;
 public class LengthOfLongestSubarrayWithAtMostKFrequency {
     class Solution {
         public int maxSubarrayLength(int[] nums, int k) {
-            if(nums == null || nums.length == 0 || k < 1) {
+            if (nums == null || nums.length == 0 || k < 1) {
+                return 0;
+            }
+
+            int n = nums.length;
+            int left = 0;
+
+            int maxLength = 0;
+            Map<Integer, Integer> frequencyMap = new HashMap<>();
+
+            for (int right = 0; right < n; right++) {
+                int val = nums[right];
+                frequencyMap.put(val, frequencyMap.getOrDefault(val, 0) + 1);
+
+                while (frequencyMap.get(val) > k) {
+                    int leftVal = nums[left];
+                    left++;
+
+                    frequencyMap.put(leftVal, frequencyMap.get(leftVal) - 1);
+                }
+
+                int length = right - left + 1;
+                maxLength = Math.max(maxLength, length);
+            }
+
+            return maxLength;
+        }
+    }
+
+    class Solution_InCorrect {
+        public int maxSubarrayLength(int[] nums, int k) {
+            if (nums == null || nums.length == 0 || k < 1) {
+                return 0;
+            }
+
+            int n = nums.length;
+            int left = 0;
+
+            int maxLength = 0;
+            int maxFrequency = 0;
+            Map<Integer, Integer> frequencyMap = new HashMap<>();
+
+            for (int right = 0; right < n; right++) {
+                int val = nums[right];
+                frequencyMap.put(val, frequencyMap.getOrDefault(val, 0) + 1);
+                maxFrequency = Math.max(maxFrequency, frequencyMap.get(val));
+
+                while (left < right && maxFrequency > k) {
+                    int leftVal = nums[left];
+                    left++;
+
+                    frequencyMap.put(leftVal, frequencyMap.get(leftVal) - 1);
+                    maxFrequency = Math.max(maxFrequency, frequencyMap.get(leftVal));
+                }
+
+                int length = right - left + 1;
+                maxLength = Math.max(maxLength, length);
+            }
+
+            return maxLength;
+        }
+    }
+
+    class Solution_Correct_1 {
+        public int maxSubarrayLength(int[] nums, int k) {
+            if (nums == null || nums.length == 0 || k < 1) {
                 return 0;
             }
 
@@ -17,11 +82,11 @@ public class LengthOfLongestSubarrayWithAtMostKFrequency {
             int maxLength = 1;
             Map<Integer, Integer> frequencies = new HashMap<>();
 
-            for(; right < n; right++) {
+            for (; right < n; right++) {
                 int a = nums[right];
                 frequencies.put(a, frequencies.getOrDefault(a, 0) + 1);
 
-                while(frequencies.get(a) > k) {
+                while (frequencies.get(a) > k) {
                     int b = nums[left];
                     frequencies.put(b, frequencies.get(b) - 1);
 
