@@ -3,7 +3,41 @@ package org.jwolfe.quetzal.algorithms.lc;
 public class MaximumLengthSubstringWithTwoOccurrences {
     class Solution {
         public int maximumLengthSubstring(String s) {
-            if(s == null || s.length() == 0) {
+            if (s == null || s.length() == 0) {
+                return 0;
+            }
+
+            int n = s.length();
+            int maxLength = 0;
+            int[] frequency = new int[26];
+
+            int left = 0;
+            int right = 0;
+            while (right < n) {
+                char rc = s.charAt(right);
+                int ri = rc - 'a';
+
+                frequency[ri]++;
+                while (frequency[ri] > 2) {
+                    char lc = s.charAt(left);
+                    int li = lc - 'a';
+                    frequency[li]--;
+                    left++;
+                }
+
+                int length = right - left + 1;
+                maxLength = Math.max(maxLength, length);
+
+                right++;
+            }
+
+            return maxLength;
+        }
+    }
+
+    class Solution_Correct_1 {
+        public int maximumLengthSubstring(String s) {
+            if (s == null || s.length() == 0) {
                 return 0;
             }
 
@@ -15,12 +49,12 @@ public class MaximumLengthSubstringWithTwoOccurrences {
             int left = 0;
             int right = 0;
 
-            for(; right < n; right++) {
+            for (; right < n; right++) {
                 char c = s.charAt(right);
                 int ci = c - 'a';
                 frequencies[ci]++;
 
-                while(frequencies[ci] > 2) {
+                while (frequencies[ci] > 2) {
                     char lc = s.charAt(left);
                     int lci = lc - 'a';
                     frequencies[lci]--;
