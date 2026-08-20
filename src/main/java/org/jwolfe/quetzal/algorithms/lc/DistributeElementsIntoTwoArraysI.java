@@ -6,7 +6,42 @@ import java.util.List;
 public class DistributeElementsIntoTwoArraysI {
     class Solution {
         public int[] resultArray(int[] nums) {
-            if(nums == null || nums.length < 2) {
+            if (nums == null || nums.length < 3) {
+                return nums;
+            }
+
+            int n = nums.length;
+            List<Integer> list1 = new ArrayList<>();
+            List<Integer> list2 = new ArrayList<>();
+
+            list1.add(nums[0]);
+            list2.add(nums[1]);
+
+            for (int i = 2; i < n; i++) {
+                if (list1.get(list1.size() - 1) > list2.get(list2.size() - 1)) {
+                    list1.add(nums[i]);
+                } else {
+                    list2.add(nums[i]);
+                }
+            }
+
+            int[] result = new int[n];
+            int index = 0;
+            for (int i = 0; i < list1.size(); i++) {
+                result[index++] = list1.get(i);
+            }
+
+            for (int i = 0; i < list2.size(); i++) {
+                result[index++] = list2.get(i);
+            }
+
+            return result;
+        }
+    }
+
+    class Solution_Correct_1 {
+        public int[] resultArray(int[] nums) {
+            if (nums == null || nums.length < 2) {
                 return nums;
             }
 
@@ -18,10 +53,10 @@ public class DistributeElementsIntoTwoArraysI {
             arr1.add(nums[0]);
             arr2.add(nums[1]);
 
-            for(int i = 2; i < n; i++) {
+            for (int i = 2; i < n; i++) {
                 int val = nums[i];
 
-                if(arr1.get(arr1.size() - 1) > arr2.get(arr2.size() - 1)) {
+                if (arr1.get(arr1.size() - 1) > arr2.get(arr2.size() - 1)) {
                     arr1.add(val);
                 } else {
                     arr2.add(val);
@@ -30,11 +65,11 @@ public class DistributeElementsIntoTwoArraysI {
 
             int[] results = new int[n];
             int index = 0;
-            for(int val : arr1) {
+            for (int val : arr1) {
                 results[index++] = val;
             }
 
-            for(int val : arr2) {
+            for (int val : arr2) {
                 results[index++] = val;
             }
 
@@ -44,7 +79,7 @@ public class DistributeElementsIntoTwoArraysI {
 
     class Solution_Incorrect {
         public int[] resultArray(int[] nums) {
-            if(nums == null || nums.length < 2) {
+            if (nums == null || nums.length < 2) {
                 return nums;
             }
 
@@ -53,15 +88,15 @@ public class DistributeElementsIntoTwoArraysI {
             List<Integer> arr1 = new ArrayList<>();
             List<Integer> arr2 = new ArrayList<>();
 
-            for(int i = 0; i < n - 1; i++) {
-                if(i % 2 == 0) {
+            for (int i = 0; i < n - 1; i++) {
+                if (i % 2 == 0) {
                     arr1.add(nums[i]);
                 } else {
                     arr2.add(nums[i]);
                 }
             }
 
-            if(arr1.get(arr1.size() - 1) > arr2.get(arr2.size() - 1)) {
+            if (arr1.get(arr1.size() - 1) > arr2.get(arr2.size() - 1)) {
                 arr1.add(nums[n - 1]);
             } else {
                 arr2.add(nums[n - 1]);
@@ -69,11 +104,11 @@ public class DistributeElementsIntoTwoArraysI {
 
             int[] results = new int[n];
             int index = 0;
-            for(int val : arr1) {
+            for (int val : arr1) {
                 results[index++] = val;
             }
 
-            for(int val : arr2) {
+            for (int val : arr2) {
                 results[index++] = val;
             }
 
