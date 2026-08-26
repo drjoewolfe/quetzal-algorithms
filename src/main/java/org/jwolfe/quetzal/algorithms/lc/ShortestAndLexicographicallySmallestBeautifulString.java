@@ -5,7 +5,49 @@ import java.util.PriorityQueue;
 public class ShortestAndLexicographicallySmallestBeautifulString {
     class Solution {
         public String shortestBeautifulSubstring(String s, int k) {
-            if(s == null || k < 1 || s.length() < k ) {
+            if (s == null || s.length() < k) {
+                return "";
+            }
+
+            int n = s.length();
+            int totalOneCount = 0;
+            for (int i = 0; i < n; i++) {
+                char c = s.charAt(i);
+                totalOneCount += (c - '0');
+            }
+
+            if (totalOneCount < k) {
+                return "";
+            }
+
+            String res = s;
+            int oneCount = 0;
+            int left = 0;
+            for (int right = 0; right < n; right++) {
+                char rc = s.charAt(right);
+                oneCount += (rc - '0');
+
+                while (oneCount > k || s.charAt(left) == '0') {
+                    oneCount -= (s.charAt(left) - '0');
+                    left++;
+                }
+
+                if (oneCount == k) {
+                    String t = s.substring(left, right + 1);
+                    if (t.length() < res.length()
+                            || (t.length() == res.length() && t.compareTo(res) < 0)) {
+                        res = t;
+                    }
+                }
+            }
+
+            return res;
+        }
+    }
+
+    class Solution_Correct_1 {
+        public String shortestBeautifulSubstring(String s, int k) {
+            if (s == null || k < 1 || s.length() < k) {
                 return "";
             }
 
@@ -13,12 +55,12 @@ public class ShortestAndLexicographicallySmallestBeautifulString {
                 int al = a.length();
                 int bl = b.length();
 
-                if(al == bl) {
-                    for(int i = 0; i < al; i++) {
+                if (al == bl) {
+                    for (int i = 0; i < al; i++) {
                         char ac = a.charAt(i);
                         char bc = b.charAt(i);
 
-                        if(ac != bc) {
+                        if (ac != bc) {
                             return ac - bc;
                         }
                     }
@@ -30,27 +72,27 @@ public class ShortestAndLexicographicallySmallestBeautifulString {
             });
 
             int n = s.length();
-            for(int i = 0; i <= n; i++) {
+            for (int i = 0; i <= n; i++) {
                 StringBuilder builder = new StringBuilder();
                 int oneCount = 0;
-                for(int j = i; j < n; j++) {
+                for (int j = i; j < n; j++) {
                     char c = s.charAt(j);
                     builder.append(c);
 
-                    if(c == '1') {
+                    if (c == '1') {
                         oneCount++;
                     }
 
-                    if(oneCount == k) {
+                    if (oneCount == k) {
                         // beautiful
                         heap.offer(builder.toString());
-                    } else if(oneCount > k) {
+                    } else if (oneCount > k) {
                         break;
                     }
                 }
             }
 
-            if(heap.isEmpty()) {
+            if (heap.isEmpty()) {
                 return "";
             }
 
