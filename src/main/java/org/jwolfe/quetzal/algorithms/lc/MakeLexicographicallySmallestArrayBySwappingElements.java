@@ -1,12 +1,53 @@
 package org.jwolfe.quetzal.algorithms.lc;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.Queue;
+import java.util.*;
 
 public class MakeLexicographicallySmallestArrayBySwappingElements {
     class Solution {
+        public int[] lexicographicallySmallestArray(int[] nums, int limit) {
+            if (nums == null || nums.length == 0) {
+                return nums;
+            }
+
+            int n = nums.length;
+            int[] sortedNums = new int[n];
+            for (int i = 0; i < nums.length; i++) {
+                sortedNums[i] = nums[i];
+            }
+
+            Arrays.sort(sortedNums);
+
+            Map<Integer, Integer> numToGroup = new HashMap<>();
+            Map<Integer, LinkedList<Integer>> groupToList = new HashMap<>();
+
+            int currentGroup = 0;
+            numToGroup.put(sortedNums[0], currentGroup);
+            groupToList.put(currentGroup, new LinkedList<Integer>(Arrays.asList(sortedNums[0])));
+
+            for (int i = 1; i < n; i++) {
+                if (Math.abs(sortedNums[i] - sortedNums[i - 1]) > limit) {
+                    currentGroup++;
+                }
+
+                numToGroup.put(sortedNums[i], currentGroup);
+                if (!groupToList.containsKey(currentGroup)) {
+                    groupToList.put(currentGroup, new LinkedList<Integer>(Arrays.asList(sortedNums[i])));
+                } else {
+                    groupToList.get(currentGroup).add(sortedNums[i]);
+                }
+            }
+
+            for (int i = 0; i < n; i++) {
+                int x = nums[i];
+                int group = numToGroup.get(x);
+                nums[i] = groupToList.get(group).pop();
+            }
+
+            return nums;
+        }
+    }
+
+    class Solution_Correct_1 {
         public int[] lexicographicallySmallestArray(int[] nums, int limit) {
             if (nums == null || nums.length == 0) {
                 return nums;
