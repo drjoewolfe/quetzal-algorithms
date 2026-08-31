@@ -1,5 +1,8 @@
 package org.jwolfe.quetzal.algorithms.lc;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class FindTheMinimumAndMaximumNumberOfNodesBetweenCriticalPoints {
     /**
      * Definition for singly-linked list.
@@ -12,6 +15,58 @@ public class FindTheMinimumAndMaximumNumberOfNodesBetweenCriticalPoints {
      * }
      */
     class Solution {
+        public int[] nodesBetweenCriticalPoints(ListNode head) {
+            if (head == null) {
+                return new int[]{-1, -1};
+            }
+
+            ListNode prev = head;
+            ListNode curr = head.next;
+
+            int index = 1;
+
+            List<Integer> criticalPoints = new ArrayList<>();
+
+            while (curr != null && curr.next != null) {
+                ListNode next = curr.next;
+
+                if (
+                        (prev.val < curr.val && curr.val > next.val)
+                                || (prev.val > curr.val && curr.val < next.val)) {
+                    // Critical point
+                    criticalPoints.add(index);
+                }
+
+                prev = curr;
+                curr = curr.next;
+                index++;
+            }
+
+            if (criticalPoints.size() < 2) {
+                return new int[]{-1, -1};
+            }
+
+            int n = criticalPoints.size();
+
+            int firstPoint = criticalPoints.get(0);
+            int lastPoint = criticalPoints.get(n - 1);
+
+            int maxNodeCount = lastPoint - firstPoint;
+            int minNodeCount = maxNodeCount;
+
+            for (int i = 1; i < n; i++) {
+                var prevPoint = criticalPoints.get(i - 1);
+                var currPoint = criticalPoints.get(i);
+
+                int nodeCount = currPoint - prevPoint;
+                minNodeCount = Math.min(minNodeCount, nodeCount);
+            }
+
+            return new int[]{minNodeCount, maxNodeCount};
+        }
+    }
+
+    class Solution_Correct_1 {
         public int[] nodesBetweenCriticalPoints(ListNode head) {
             if (head == null) {
                 return new int[]{-1, -1};
