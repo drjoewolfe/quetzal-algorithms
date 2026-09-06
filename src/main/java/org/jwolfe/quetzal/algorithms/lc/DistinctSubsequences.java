@@ -7,7 +7,110 @@ import java.util.Map;
 public class DistinctSubsequences {
     class Solution {
         public int numDistinct(String s, String t) {
-            if(s == null || t == null || s.length() < t.length()) {
+            if (s == null || s.length() == 0 || t == null || t.length() == 0) {
+                return 0;
+            }
+
+            int m = s.length();
+            int n = t.length();
+
+            int[][] dp = new int[m + 1][n + 1];
+
+            for (int i = 0; i <= m; i++) {
+                dp[i][0] = 1;
+            }
+
+            for (int i = 1; i <= m; i++) {
+                for (int j = 1; j <= n; j++) {
+                    char sc = s.charAt(i - 1);
+                    char tc = t.charAt(j - 1);
+
+                    if (sc == tc) {
+                        dp[i][j] += dp[i - 1][j - 1];
+                    }
+
+                    dp[i][j] += dp[i - 1][j];
+                }
+            }
+
+            return dp[m][n];
+        }
+    }
+
+    class Solution_Memoized {
+        public int numDistinct(String s, String t) {
+            if (s == null || s.length() == 0 || t == null || t.length() == 0) {
+                return 0;
+            }
+
+            int m = s.length();
+            int n = t.length();
+
+            Integer[][] memo = new Integer[m][n];
+
+            return numDistinct(s, 0, t, 0, memo);
+        }
+
+        private int numDistinct(String s, int si, String t, int ti, Integer[][] memo) {
+            if (ti == t.length()) {
+                return 1;
+            }
+
+            if (si == s.length()) {
+                return 0;
+            }
+
+            if (memo[si][ti] != null) {
+                return memo[si][ti];
+            }
+
+            char sc = s.charAt(si);
+            char tc = t.charAt(ti);
+
+            int count = 0;
+            if (sc == tc) {
+                count = numDistinct(s, si + 1, t, ti + 1, memo);
+            }
+
+            count += numDistinct(s, si + 1, t, ti, memo);
+            return memo[si][ti] = count;
+        }
+    }
+
+    class Solution_TLE {
+        public int numDistinct(String s, String t) {
+            if (s == null || s.length() == 0 || t == null || t.length() == 0) {
+                return 0;
+            }
+
+            return numDistinct(s, 0, t, 0);
+        }
+
+        private int numDistinct(String s, int si, String t, int ti) {
+            if (ti == t.length()) {
+                return 1;
+            }
+
+            if (si == s.length()) {
+                return 0;
+            }
+
+            char sc = s.charAt(si);
+            char tc = t.charAt(ti);
+
+            int count = 0;
+            if (sc == tc) {
+                count = numDistinct(s, si + 1, t, ti + 1);
+            }
+
+            count += numDistinct(s, si + 1, t, ti);
+            return count;
+        }
+    }
+
+    class Solution_Correct_1 {
+        public int numDistinct(String s, String t) {
+            if (s == null || t == null || s.length() < t.length()) {
                 return 0;
             }
 
@@ -17,13 +120,13 @@ public class DistinctSubsequences {
             int[] dp = new int[n + 1];
             dp[0] = 1;
 
-            for(int i = 1; i <= m; i++) {
+            for (int i = 1; i <= m; i++) {
                 char sc = s.charAt(i - 1);
 
-                for(int j = n; j > 0; j--) {
+                for (int j = n; j > 0; j--) {
                     char tc = t.charAt(j - 1);
 
-                    if(sc == tc) {
+                    if (sc == tc) {
                         dp[j] = dp[j - 1] + dp[j];
                     }
                 }
@@ -35,7 +138,7 @@ public class DistinctSubsequences {
 
     class Solution_DP_2 {
         public int numDistinct(String s, String t) {
-            if(s == null || t == null || s.length() < t.length()) {
+            if (s == null || t == null || s.length() < t.length()) {
                 return 0;
             }
 
@@ -47,13 +150,13 @@ public class DistinctSubsequences {
             prev[0] = 1;
             curr[0] = 1;
 
-            for(int i = 1; i <= m; i++) {
+            for (int i = 1; i <= m; i++) {
                 char sc = s.charAt(i - 1);
 
-                for(int j = 1; j <= n; j++) {
+                for (int j = 1; j <= n; j++) {
                     char tc = t.charAt(j - 1);
 
-                    if(sc == tc) {
+                    if (sc == tc) {
                         curr[j] = prev[j - 1] + prev[j];
                     } else {
                         curr[j] = prev[j];
@@ -69,7 +172,7 @@ public class DistinctSubsequences {
 
     class Solution_DP {
         public int numDistinct(String s, String t) {
-            if(s == null || t == null || s.length() < t.length()) {
+            if (s == null || t == null || s.length() < t.length()) {
                 return 0;
             }
 
@@ -77,17 +180,17 @@ public class DistinctSubsequences {
             int n = t.length();
             int[][] dp = new int[m + 1][n + 1];
 
-            for(int i = 0; i < m; i++) {
+            for (int i = 0; i < m; i++) {
                 dp[i][0] = 1;
             }
 
-            for(int i = 1; i <= m; i++) {
+            for (int i = 1; i <= m; i++) {
                 char sc = s.charAt(i - 1);
 
-                for(int j = 1; j <= n; j++) {
+                for (int j = 1; j <= n; j++) {
                     char tc = t.charAt(j - 1);
 
-                    if(sc == tc) {
+                    if (sc == tc) {
                         dp[i][j] = dp[i - 1][j - 1] + dp[i - 1][j];
                     } else {
                         dp[i][j] = dp[i - 1][j];
@@ -99,8 +202,8 @@ public class DistinctSubsequences {
         }
 
         private void print(int[][] arr) {
-            for(int i = 0; i < arr.length; i++) {
-                for(int j = 0; j < arr[0].length; j++) {
+            for (int i = 0; i < arr.length; i++) {
+                for (int j = 0; j < arr[0].length; j++) {
                     System.out.print(arr[i][j] + " ");
                 }
 
@@ -113,14 +216,14 @@ public class DistinctSubsequences {
 
     class Solution_Memo_3 {
         public int numDistinct(String s, String t) {
-            if(s == null || t == null || s.length() < t.length()) {
+            if (s == null || t == null || s.length() < t.length()) {
                 return 0;
             }
 
             int m = s.length();
             int n = t.length();
             int[][] dp = new int[m][n];
-            for(int i = 0; i < m; i++) {
+            for (int i = 0; i < m; i++) {
                 Arrays.fill(dp[i], -1);
             }
 
@@ -128,15 +231,15 @@ public class DistinctSubsequences {
         }
 
         private int countDistinctSubsequences(String s, String t, int si, int ti, int[][] dp) {
-            if(ti == t.length()) {
+            if (ti == t.length()) {
                 return 1;
             }
 
-            if(si == s.length()) {
+            if (si == s.length()) {
                 return 0;
             }
 
-            if(dp[si][ti] != -1) {
+            if (dp[si][ti] != -1) {
                 return dp[si][ti];
             }
 
@@ -144,7 +247,7 @@ public class DistinctSubsequences {
             char tc = t.charAt(ti);
 
             int count;
-            if(sc == tc) {
+            if (sc == tc) {
                 dp[si][ti] = countDistinctSubsequences(s, t, si + 1, ti + 1, dp)
                         + countDistinctSubsequences(s, t, si + 1, ti, dp);
             } else {
@@ -157,7 +260,7 @@ public class DistinctSubsequences {
 
     class Solution_Memo_2 {
         public int numDistinct(String s, String t) {
-            if(s == null || t == null || s.length() < t.length()) {
+            if (s == null || t == null || s.length() < t.length()) {
                 return 0;
             }
 
@@ -165,16 +268,16 @@ public class DistinctSubsequences {
         }
 
         private int countDistinctSubsequences(String s, String t, int si, int ti, Map<String, Integer> memo) {
-            if(ti == t.length()) {
+            if (ti == t.length()) {
                 return 1;
             }
 
-            if(si == s.length()) {
+            if (si == s.length()) {
                 return 0;
             }
 
             String memento = si + "-" + ti;
-            if(memo.containsKey(memento)) {
+            if (memo.containsKey(memento)) {
                 return memo.get(memento);
             }
 
@@ -182,7 +285,7 @@ public class DistinctSubsequences {
             char tc = t.charAt(ti);
 
             int count;
-            if(sc == tc) {
+            if (sc == tc) {
                 count = countDistinctSubsequences(s, t, si + 1, ti + 1, memo)
                         + countDistinctSubsequences(s, t, si + 1, ti, memo);
             } else {
@@ -196,7 +299,7 @@ public class DistinctSubsequences {
 
     class Solution_Memo_1 {
         public int numDistinct(String s, String t) {
-            if(s == null || t == null || s.length() < t.length()) {
+            if (s == null || t == null || s.length() < t.length()) {
                 return 0;
             }
 
@@ -204,16 +307,16 @@ public class DistinctSubsequences {
         }
 
         private int countDistinctSubsequences(String s, String t, int si, int ti, StringBuilder builder, Map<String, Integer> memo) {
-            if(builder.length() == t.length()) {
+            if (builder.length() == t.length()) {
                 return 1;
             }
 
-            if(si == s.length()) {
+            if (si == s.length()) {
                 return 0;
             }
 
             String memento = si + "-" + ti;
-            if(memo.containsKey(memento)) {
+            if (memo.containsKey(memento)) {
                 return memo.get(memento);
             }
 
@@ -221,7 +324,7 @@ public class DistinctSubsequences {
             char tc = t.charAt(ti);
 
             int count = 0;
-            if(sc == tc) {
+            if (sc == tc) {
                 builder.append(sc);
                 count += countDistinctSubsequences(s, t, si + 1, ti + 1, builder, memo);
                 builder.deleteCharAt(builder.length() - 1);
@@ -238,7 +341,7 @@ public class DistinctSubsequences {
 
     class Solution_Brute_3 {
         public int numDistinct(String s, String t) {
-            if(s == null || t == null || s.length() < t.length()) {
+            if (s == null || t == null || s.length() < t.length()) {
                 return 0;
             }
 
@@ -246,11 +349,11 @@ public class DistinctSubsequences {
         }
 
         private int countDistinctSubsequences(String s, String t, int si, int ti, StringBuilder builder) {
-            if(builder.length() == t.length()) {
+            if (builder.length() == t.length()) {
                 return 1;
             }
 
-            if(si == s.length()) {
+            if (si == s.length()) {
                 return 0;
             }
 
@@ -258,7 +361,7 @@ public class DistinctSubsequences {
             char tc = t.charAt(ti);
 
             int count = 0;
-            if(sc == tc) {
+            if (sc == tc) {
                 builder.append(sc);
                 count += countDistinctSubsequences(s, t, si + 1, ti + 1, builder);
                 builder.deleteCharAt(builder.length() - 1);
@@ -276,7 +379,7 @@ public class DistinctSubsequences {
         int count;
 
         public int numDistinct(String s, String t) {
-            if(s == null || t == null || s.length() < t.length()) {
+            if (s == null || t == null || s.length() < t.length()) {
                 return 0;
             }
 
@@ -287,19 +390,19 @@ public class DistinctSubsequences {
         }
 
         private void countDistinctSubsequences(String s, String t, int si, int ti, StringBuilder builder) {
-            if(builder.length() == t.length()) {
+            if (builder.length() == t.length()) {
                 count++;
                 return;
             }
 
-            if(si == s.length()) {
+            if (si == s.length()) {
                 return;
             }
 
             char sc = s.charAt(si);
             char tc = t.charAt(ti);
 
-            if(sc == tc) {
+            if (sc == tc) {
                 builder.append(sc);
                 countDistinctSubsequences(s, t, si + 1, ti + 1, builder);
                 builder.deleteCharAt(builder.length() - 1);
@@ -317,7 +420,7 @@ public class DistinctSubsequences {
         int count;
 
         public int numDistinct(String s, String t) {
-            if(s == null || t == null || s.length() < t.length()) {
+            if (s == null || t == null || s.length() < t.length()) {
                 return 0;
             }
 
@@ -328,15 +431,15 @@ public class DistinctSubsequences {
         }
 
         private void countDistinctSubsequences(String s, String t, int index, StringBuilder builder) {
-            if(builder.length() == t.length()) {
-                if(builder.toString().equals(t)) {
+            if (builder.length() == t.length()) {
+                if (builder.toString().equals(t)) {
                     count++;
                 }
 
                 return;
             }
 
-            if(index == s.length()) {
+            if (index == s.length()) {
                 return;
             }
 
