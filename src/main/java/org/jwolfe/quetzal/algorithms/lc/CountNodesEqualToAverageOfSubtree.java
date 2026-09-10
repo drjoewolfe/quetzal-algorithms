@@ -21,6 +21,37 @@ public class CountNodesEqualToAverageOfSubtree {
      */
     class Solution {
         public int averageOfSubtree(TreeNode root) {
+            // Memo structure - (sum of subtree, node count in subtrees, nodes equal to average in subtrees)
+            int[] memo = averageOfSubtreeHelper(root);
+            return memo[2];
+        }
+
+        public int[] averageOfSubtreeHelper(TreeNode root) {
+            if (root == null) {
+                return new int[]{0, 0, 0};
+            }
+
+            int[] leftMemo = averageOfSubtreeHelper(root.left);
+            int[] rightMemo = averageOfSubtreeHelper(root.right);
+
+            int sum = root.val + leftMemo[0] + rightMemo[0];
+            int count = 1 + leftMemo[1] + rightMemo[1];
+
+            int average = sum / count;
+            int averageEqualsCount = (average == root.val ? 1 : 0)
+                    + leftMemo[2]
+                    + rightMemo[2];
+
+            return new int[]{
+                    sum,
+                    count,
+                    averageEqualsCount
+            };
+        }
+    }
+
+    class Solution_Correct_1 {
+        public int averageOfSubtree(TreeNode root) {
             Map<TreeNode, Integer> averageMap = new HashMap<>();
             computeAverages(root, averageMap);
 
