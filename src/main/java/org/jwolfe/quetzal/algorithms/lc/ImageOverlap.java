@@ -7,8 +7,92 @@ import java.util.Map;
 
 public class ImageOverlap {
     class Solution {
+        public int largestOverlap(int[][] img1, int[][] img2) {
+            if (img1 == null || img2 == null || img1.length == 0 || img1.length != img2.length) {
+                return 0;
+            }
+
+            int maxOverlap = 0;
+            int n = img1.length;
+
+            int low = -1 * (n - 1);
+            int high = (n - 1);
+
+            for (int rowShift = low; rowShift <= high; rowShift++) {
+                for (int colShift = low; colShift <= high; colShift++) {
+                    int overlap = getOverlap(img1, img2, rowShift, colShift);
+
+                    maxOverlap = Math.max(maxOverlap, overlap);
+                }
+            }
+
+            return maxOverlap;
+        }
+
+        private int getOverlap(int[][] img1, int[][] img2, int rowShift, int colShift) {
+            int n = img1.length;
+            int overlap = 0;
+
+            for (int r = 0; r < n; r++) {
+                for (int c = 0; c < n; c++) {
+                    int targetR = r + rowShift;
+                    int targetC = c + colShift;
+
+                    if (targetR >= 0 && targetR < n && targetC >= 0 && targetC < n) {
+                        if (img1[r][c] == 1 && img2[targetR][targetC] == 1) {
+                            overlap++;
+                        }
+                    }
+                }
+            }
+
+            return overlap;
+        }
+    }
+
+    class Solution_Incorrect {
+        public int largestOverlap(int[][] img1, int[][] img2) {
+            if (img1 == null || img2 == null || img1.length == 0 || img1.length != img2.length) {
+                return 0;
+            }
+
+            int maxOverlap = 0;
+            int n = img1.length;
+
+            int low = -1 * (n - 1);
+            int high = (n - 1);
+
+            for (int rs = 0; rs <= high; rs++) {
+                for (int cs = 0; cs <= high; cs++) {
+                    int overlap1 = getOverlap(img1, img2, rs, cs);
+                    int overlap2 = getOverlap(img2, img1, rs, cs);
+
+                    maxOverlap = Math.max(maxOverlap, Math.max(overlap1, overlap2));
+                }
+            }
+
+            return maxOverlap;
+        }
+
+        private int getOverlap(int[][] img1, int[][] img2, int rs, int cs) {
+            int n = img1.length;
+
+            int overlap = 0;
+            for (int i1r = 0, i2r = rs; i1r < n && i2r < n; i1r++, i2r++) {
+                for (int i1c = 0, i2c = cs; i1c < n && i2c < n; i1c++, i2c++) {
+                    if (img1[i1r][i1c] == 1 && img2[i2r][i2c] == 1) {
+                        overlap++;
+                    }
+                }
+            }
+
+            return overlap;
+        }
+    }
+
+    class Solution_Correct_2 {
         public int largestOverlap(int[][] A, int[][] B) {
-            if(A == null || B == null || A.length != A[0].length || A.length == 0 || A.length != B.length || A[0].length != B[0].length) {
+            if (A == null || B == null || A.length != A[0].length || A.length == 0 || A.length != B.length || A[0].length != B[0].length) {
                 return 0;
             }
 
@@ -18,8 +102,8 @@ public class ImageOverlap {
 
             int maxOverlap = 0;
             Map<Coordinate, Integer> map = new HashMap<>();
-            for(var aOrdinate : aCoordinates) {
-                for(var bOrdinate: bCoordinates) {
+            for (var aOrdinate : aCoordinates) {
+                for (var bOrdinate : bCoordinates) {
                     int dx = aOrdinate.x - bOrdinate.x;
                     int dy = aOrdinate.y - bOrdinate.y;
 
@@ -36,10 +120,10 @@ public class ImageOverlap {
             List<Coordinate> coordinates = new ArrayList<>();
 
             int n = matrix.length;
-            for(int r = 0; r < n; r++) {
-                for(int c = 0; c < n; c++) {
+            for (int r = 0; r < n; r++) {
+                for (int c = 0; c < n; c++) {
                     int val = matrix[r][c];
-                    if(val == 1) {
+                    if (val == 1) {
                         coordinates.add(new Coordinate(r, c));
                     }
                 }
@@ -59,15 +143,15 @@ public class ImageOverlap {
 
             @Override
             public boolean equals(Object o) {
-                if(o == null) {
+                if (o == null) {
                     return false;
                 }
 
-                if(this == o) {
+                if (this == o) {
                     return true;
                 }
 
-                if(o instanceof Coordinate) {
+                if (o instanceof Coordinate) {
                     Coordinate other = (Coordinate) o;
                     return this.x == other.x && this.y == other.y;
                 }
@@ -92,7 +176,7 @@ public class ImageOverlap {
 
     class Solution_Correct_1 {
         public int largestOverlap(int[][] A, int[][] B) {
-            if(A == null || A.length == 0 || B == null || B.length != A.length) {
+            if (A == null || A.length == 0 || B == null || B.length != A.length) {
                 return 0;
             }
 
@@ -104,8 +188,8 @@ public class ImageOverlap {
 
             int maxOverlap = 0;
             Map<Coordinates, Integer> transformationCounts = new HashMap<>();
-            for(Coordinates ac : aCoordinates) {
-                for(Coordinates bc : bCoordinates) {
+            for (Coordinates ac : aCoordinates) {
+                for (Coordinates bc : bCoordinates) {
                     int dx = ac.x - bc.x;
                     int dy = ac.y - bc.y;
 
@@ -120,9 +204,9 @@ public class ImageOverlap {
 
         private List<Coordinates> getCoordinatesOfOnes(int[][] A) {
             List<Coordinates> coordinates = new ArrayList<>();
-            for(int i = 0; i < A.length; i++) {
-                for(int j = 0; j < A[i].length; j++) {
-                    if(A[i][j] == 1) {
+            for (int i = 0; i < A.length; i++) {
+                for (int j = 0; j < A[i].length; j++) {
+                    if (A[i][j] == 1) {
                         coordinates.add(new Coordinates(i, j));
                     }
                 }
@@ -142,16 +226,16 @@ public class ImageOverlap {
 
             @Override
             public boolean equals(Object o) {
-                if(this == o) {
+                if (this == o) {
                     return true;
                 }
 
-                if(o == null) {
+                if (o == null) {
                     return false;
                 }
 
 
-                if(o instanceof Coordinates) {
+                if (o instanceof Coordinates) {
                     Coordinates oc = (Coordinates) o;
                     return (this.x == oc.x) && (this.y == oc.y);
                 }
@@ -176,7 +260,7 @@ public class ImageOverlap {
 
     class Solution_Counting {
         public int largestOverlap(int[][] A, int[][] B) {
-            if(A == null || A.length == 0 || B == null || B.length != A.length) {
+            if (A == null || A.length == 0 || B == null || B.length != A.length) {
                 return 0;
             }
 
@@ -185,8 +269,8 @@ public class ImageOverlap {
 
             int maxOverlap = 0;
             int overlap = 0;
-            for(int i = 0; i < m; i++) {
-                for(int j = 0; j < n; j++) {
+            for (int i = 0; i < m; i++) {
+                for (int j = 0; j < n; j++) {
                     overlap = getOverlap(A, B, m, n, i, j);
                     maxOverlap = Math.max(maxOverlap, overlap);
 
@@ -200,12 +284,12 @@ public class ImageOverlap {
 
         private int getOverlap(int[][] A, int[][] B, int m, int n, int x, int y) {
             int overlap = 0;
-            for(int i = 0; i < m - x; i++) {
-                for(int j = 0; j < n - y; j++) {
+            for (int i = 0; i < m - x; i++) {
+                for (int j = 0; j < n - y; j++) {
                     int a = A[i][j];
                     int b = B[x + i][y + j];
 
-                    if(a == 1 && b == 1) {
+                    if (a == 1 && b == 1) {
                         overlap++;
                     }
                 }
@@ -217,7 +301,7 @@ public class ImageOverlap {
 
     class Solution_Attempt1 {
         public int largestOverlap(int[][] A, int[][] B) {
-            if(A == null || A.length == 0 || B == null || B.length != A.length) {
+            if (A == null || A.length == 0 || B == null || B.length != A.length) {
                 return 0;
             }
 
@@ -225,8 +309,8 @@ public class ImageOverlap {
             int n = A[0].length;
 
             int maxOverlap = 0;
-            for(int i = 0; i < m; i++) {
-                for(int j = 0; j < n; j++) {
+            for (int i = 0; i < m; i++) {
+                for (int j = 0; j < n; j++) {
                     int overlap = getOverlap(A, B, m, n, i, j);
                     maxOverlap = Math.max(maxOverlap, overlap);
                 }
@@ -237,7 +321,7 @@ public class ImageOverlap {
 
         private int[][] clone(int A[][], int m, int n) {
             int[][] AC = new int[m][];
-            for(int i = 0; i < n; i++) {
+            for (int i = 0; i < n; i++) {
                 AC[i] = A[i].clone();
             }
 
@@ -246,12 +330,12 @@ public class ImageOverlap {
 
         private int getOverlap(int[][] A, int[][] B, int m, int n, int x, int y) {
             int overlap = 0;
-            for(int i = 0; i < m - x; i++) {
-                for(int j = 0; j < n - y; j++) {
+            for (int i = 0; i < m - x; i++) {
+                for (int j = 0; j < n - y; j++) {
                     int a = A[i][j];
                     int b = B[x + i][y + j];
 
-                    if(a == 1 && b == 1) {
+                    if (a == 1 && b == 1) {
                         overlap++;
                     }
                 }
