@@ -11,14 +11,6 @@ public class AccountBalanceAfterRoundedPurchase {
 
 //    2806. Account Balance After Rounded Purchase
 //    Easy
-//
-//    164
-//
-//    37
-//
-//    Add to List
-//
-//    Share
 //    Initially, you have a bank account balance of 100 dollars.
 //
 //    You are given an integer purchaseAmount representing the amount you will spend on a purchase in dollars.
