@@ -45,6 +45,7 @@ public class MinimumNumberOfSecondsToMakeMountainHeightZero {
 
 //    3296. Minimum Number of Seconds to Make Mountain Height Zero
 //    Medium
+//
 //    You are given an integer mountainHeight denoting the height of a mountain.
 //
 //    You are also given an integer array workerTimes representing the work time of workers in seconds.
