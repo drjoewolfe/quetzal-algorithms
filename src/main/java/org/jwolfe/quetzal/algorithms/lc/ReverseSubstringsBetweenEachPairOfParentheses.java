@@ -5,6 +5,45 @@ import java.util.Stack;
 public class ReverseSubstringsBetweenEachPairOfParentheses {
     class Solution {
         public String reverseParentheses(String s) {
+            if (s == null) {
+                return s;
+            }
+
+            int n = s.length();
+            StringBuilder sb = new StringBuilder();
+            Stack<Integer> openIndices = new Stack<>();
+
+            for (int i = 0; i < n; i++) {
+                char c = s.charAt(i);
+
+                if (c == '(') {
+                    int size = sb.length();
+                    openIndices.push(size);
+                } else if (c == ')') {
+                    int left = openIndices.pop();
+                    reverse(sb, left, sb.length() - 1);
+                } else {
+                    sb.append(c);
+                }
+            }
+
+            return sb.toString();
+        }
+
+        private void reverse(StringBuilder builder, int left, int right) {
+            while (left < right) {
+                char temp = builder.charAt(left);
+                builder.setCharAt(left, builder.charAt(right));
+                builder.setCharAt(right, temp);
+
+                left++;
+                right--;
+            }
+        }
+    }
+
+    class Solution_Correct_2 {
+        public String reverseParentheses(String s) {
             if (s == null || s.length() == 0) {
                 return s;
             }
