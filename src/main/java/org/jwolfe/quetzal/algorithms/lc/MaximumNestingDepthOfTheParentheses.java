@@ -3,18 +3,39 @@ package org.jwolfe.quetzal.algorithms.lc;
 public class MaximumNestingDepthOfTheParentheses {
     class Solution {
         public int maxDepth(String s) {
-            if(s == null || s.length() == 0) {
+            int max = 0;
+            int depth = 0;
+
+            int n = s.length();
+            for (int i = 0; i < n; i++) {
+                char c = s.charAt(i);
+
+                if (c == '(') {
+                    depth++;
+                    max = Math.max(max, depth);
+                } else if (c == ')') {
+                    depth--;
+                }
+            }
+
+            return max;
+        }
+    }
+
+    class Solution_Correct_2 {
+        public int maxDepth(String s) {
+            if (s == null || s.length() == 0) {
                 return 0;
             }
 
             int maxDepth = 0;
             int curDepth = 0;
-            for(int i = 0; i < s.length(); i++) {
+            for (int i = 0; i < s.length(); i++) {
                 char c = s.charAt(i);
-                if(c == '(') {
+                if (c == '(') {
                     curDepth++;
                     maxDepth = Math.max(maxDepth, curDepth);
-                } else if(c == ')') {
+                } else if (c == ')') {
                     curDepth--;
                 }
             }
@@ -25,19 +46,19 @@ public class MaximumNestingDepthOfTheParentheses {
 
     class Solution_Correct_1 {
         public int maxDepth(String s) {
-            if(s == null || s.length() == 0) {
+            if (s == null || s.length() == 0) {
                 return 0;
             }
 
             int maxDepth = 0;
             int depth = 0;
-            for(int i = 0; i < s.length(); i++) {
+            for (int i = 0; i < s.length(); i++) {
                 char c = s.charAt(i);
 
-                if(c == '(') {
+                if (c == '(') {
                     depth++;
                     maxDepth = Math.max(maxDepth, depth);
-                } else if(c == ')') {
+                } else if (c == ')') {
                     depth--;
                 }
             }
