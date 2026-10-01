@@ -5,23 +5,57 @@ import java.util.Stack;
 public class ValidParentheses {
     class Solution {
         public boolean isValid(String s) {
-            if(s == null || s.length() == 0) {
+            if (s == null || s.length() % 2 != 0) {
+                return false;
+            }
+
+            Stack<Character> stack = new Stack<>();
+
+            int n = s.length();
+            for (int i = 0; i < n; i++) {
+                char c = s.charAt(i);
+
+                if (c == '{' || c == '(' || c == '[') {
+                    stack.push(c);
+                } else {
+                    if (stack.isEmpty()) {
+                        return false;
+                    }
+
+                    char sc = stack.peek();
+                    if ((sc == '{' && c == '}')
+                            || (sc == '(' && c == ')')
+                            || (sc == '[' && c == ']')) {
+                        stack.pop();
+                    } else {
+                        return false;
+                    }
+                }
+            }
+
+            return stack.size() == 0;
+        }
+    }
+
+    class Solution_Correct_2 {
+        public boolean isValid(String s) {
+            if (s == null || s.length() == 0) {
                 return true;
             }
 
             Stack<Character> stack = new Stack<>();
-            for(int i = 0; i < s.length(); i++) {
+            for (int i = 0; i < s.length(); i++) {
                 char c = s.charAt(i);
 
-                if(c == '(' || c == '[' || c == '{') {
+                if (c == '(' || c == '[' || c == '{') {
                     stack.push(c);
                 } else {
-                    if(stack.size() == 0) {
+                    if (stack.size() == 0) {
                         return false;
                     }
 
                     char oc = stack.pop();
-                    if(!((oc == '(' && c == ')')
+                    if (!((oc == '(' && c == ')')
                             || (oc == '[' && c == ']')
                             || (oc == '{' && c == '}'))) {
                         return false;
@@ -35,21 +69,21 @@ public class ValidParentheses {
 
     class Solution_Correct_1 {
         public boolean isValid(String s) {
-            if(s == null || s.length() == 0) {
+            if (s == null || s.length() == 0) {
                 return true;
             }
 
             Stack<Character> stack = new Stack<>();
-            for(int i = 0; i < s.length(); i++) {
+            for (int i = 0; i < s.length(); i++) {
                 char c = s.charAt(i);
 
-                if(c == ')' || c == '}' || c == ']') {
-                    if(stack.size() == 0) {
+                if (c == ')' || c == '}' || c == ']') {
+                    if (stack.size() == 0) {
                         return false;
                     }
 
                     char pc = stack.pop();
-                    if(!((pc == '(' && c == ')') || (pc == '{' && c == '}') || (pc == '[' && c == ']'))) {
+                    if (!((pc == '(' && c == ')') || (pc == '{' && c == '}') || (pc == '[' && c == ']'))) {
                         return false;
                     }
 
@@ -58,7 +92,7 @@ public class ValidParentheses {
                 }
             }
 
-            if(stack.size() != 0) {
+            if (stack.size() != 0) {
                 return false;
             }
 
