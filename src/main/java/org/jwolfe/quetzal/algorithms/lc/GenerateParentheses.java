@@ -6,8 +6,43 @@ import java.util.List;
 public class GenerateParentheses {
     class Solution {
         public List<String> generateParenthesis(int n) {
+            List<String> parenthesisStrings = new ArrayList<>();
+            if (n < 1) {
+                return parenthesisStrings;
+            }
+
+            StringBuilder builder = new StringBuilder();
+            generateParenthesis(n, 0, 0, builder, parenthesisStrings);
+
+            return parenthesisStrings;
+        }
+
+        private void generateParenthesis(int n, int openCount, int closeCount, StringBuilder current, List<String> parenthesisStrings) {
+            if (openCount == n && closeCount == n) {
+                parenthesisStrings.add(current.toString());
+                return;
+            }
+
+            // With Open
+            if (openCount < n) {
+                current.append("(");
+                generateParenthesis(n, openCount + 1, closeCount, current, parenthesisStrings);
+                current.deleteCharAt(current.length() - 1);
+            }
+
+            // With Close
+            if (closeCount < openCount) {
+                current.append(")");
+                generateParenthesis(n, openCount, closeCount + 1, current, parenthesisStrings);
+                current.deleteCharAt(current.length() - 1);
+            }
+        }
+    }
+
+    class Solution_Correct_3 {
+        public List<String> generateParenthesis(int n) {
             List<String> combinations = new ArrayList<>();
-            if(n < 1) {
+            if (n < 1) {
                 return combinations;
             }
 
@@ -16,20 +51,20 @@ public class GenerateParentheses {
         }
 
         private void generateParanthesisCombinations(int n, int openCount, int closeCount, StringBuilder builder, List<String> combinations) {
-            if(builder.length() == n * 2) {
+            if (builder.length() == n * 2) {
                 combinations.add(builder.toString());
                 return;
             }
 
-            if(openCount < n) {
+            if (openCount < n) {
                 builder.append("(");
-                generateParanthesisCombinations(n, openCount + 1, closeCount, builder,combinations);
+                generateParanthesisCombinations(n, openCount + 1, closeCount, builder, combinations);
                 builder.deleteCharAt(builder.length() - 1);
             }
 
-            if(closeCount < openCount) {
+            if (closeCount < openCount) {
                 builder.append(")");
-                generateParanthesisCombinations(n, openCount, closeCount + 1, builder,combinations);
+                generateParanthesisCombinations(n, openCount, closeCount + 1, builder, combinations);
                 builder.deleteCharAt(builder.length() - 1);
             }
         }
@@ -38,7 +73,7 @@ public class GenerateParentheses {
     class Solution_Correct_2 {
         public List<String> generateParenthesis(int n) {
             List<String> combinations = new ArrayList<>();
-            if(n <= 0) {
+            if (n <= 0) {
                 return combinations;
             }
 
@@ -47,13 +82,13 @@ public class GenerateParentheses {
         }
 
         private void generateParenthesis(StringBuilder builder, int n, int open, int close, List<String> combinations) {
-            if(builder.length() == 2 * n) {
+            if (builder.length() == 2 * n) {
                 combinations.add(builder.toString());
                 return;
             }
 
             // Open bracket
-            if(open < n) {
+            if (open < n) {
                 builder.append("(");
                 generateParenthesis(builder, n, open + 1, close, combinations);
 
@@ -61,7 +96,7 @@ public class GenerateParentheses {
             }
 
             // Close bracket
-            if(close < open) {
+            if (close < open) {
                 builder.append(")");
                 generateParenthesis(builder, n, open, close + 1, combinations);
 
