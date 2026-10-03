@@ -5,6 +5,58 @@ import java.util.Stack;
 public class LongestValidParentheses {
     class Solution {
         public int longestValidParentheses(String s) {
+            if(s == null) {
+                return 0;
+            }
+
+            int n = s.length();
+
+            int maxLength = 0;
+
+            // left to right
+            int open = 0;
+            int close = 0;
+            for(int i = 0; i < n; i++) {
+                char c = s.charAt(i);
+
+                if(c == '(') {
+                    open++;
+                } else {
+                    close++;
+                }
+
+                if(open == close) {
+                    maxLength = Math.max(maxLength, open + close);
+                } else if(close > open) {
+                    open = close = 0;
+                }
+            }
+
+            // right to left
+            open = 0;
+            close = 0;
+            for(int i = n - 1; i >= 0; i--) {
+                char c = s.charAt(i);
+
+                if(c == '(') {
+                    open++;
+                } else {
+                    close++;
+                }
+
+                if(open == close) {
+                    maxLength = Math.max(maxLength, open + close);
+                } else if(open > close) {
+                    open = close = 0;
+                }
+            }
+
+            return maxLength;
+        }
+    }
+
+    class Solution_Correct_1 {
+        public int longestValidParentheses(String s) {
             if(s == null || s.length() == 0) {
                 return 0;
             }
