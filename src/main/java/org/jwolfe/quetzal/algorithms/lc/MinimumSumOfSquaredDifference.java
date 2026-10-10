@@ -1,5 +1,6 @@
 package org.jwolfe.quetzal.algorithms.lc;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.PriorityQueue;
@@ -7,7 +8,67 @@ import java.util.PriorityQueue;
 public class MinimumSumOfSquaredDifference {
     class Solution {
         public long minSumSquareDiff(int[] nums1, int[] nums2, int k1, int k2) {
-            if(nums1 == null || nums2 == null || nums1.length != nums2.length || k1 < 0 || k2 < 0) {
+            int k = k1 + k2;
+            int n = nums1.length;
+
+            int max = 1_00_000;
+            int size = max + 1;
+            int[] diffCount = new int[size];
+
+            for (int i = 0; i < n; i++) {
+                int diff = Math.abs(nums1[i] - nums2[i]);
+                diffCount[diff]++;
+            }
+
+            for (int diff = max; diff > 0 && k > 0; diff--) {
+                int opsCount = Math.min(diffCount[diff], k);
+                diffCount[diff] -= opsCount;
+                diffCount[diff - 1] += opsCount;
+
+                k -= opsCount;
+            }
+
+
+            long result = 0;
+            for (int diff = max; diff > 0; diff--) {
+                result += (1L * diff * diff * diffCount[diff]);
+            }
+
+            return result;
+        }
+    }
+
+    class Solution_TLE_2 {
+        public long minSumSquareDiff(int[] nums1, int[] nums2, int k1, int k2) {
+            int k = k1 + k2;
+            int n = nums1.length;
+
+            PriorityQueue<Integer> heap = new PriorityQueue<>(Collections.reverseOrder());
+
+            for (int i = 0; i < n; i++) {
+                int diff = Math.abs(nums1[i] - nums2[i]);
+                heap.offer(diff);
+            }
+
+            while (k > 0 && heap.peek() > 0) {
+                int diff = heap.poll();
+                heap.offer(diff - 1);
+                k--;
+            }
+
+            long result = 0;
+            while (!heap.isEmpty()) {
+                int diff = heap.poll();
+                result += (diff * diff);
+            }
+
+            return result;
+        }
+    }
+
+    class Solution_Correct_1 {
+        public long minSumSquareDiff(int[] nums1, int[] nums2, int k1, int k2) {
+            if (nums1 == null || nums2 == null || nums1.length != nums2.length || k1 < 0 || k2 < 0) {
                 return 0;
             }
 
@@ -15,32 +76,32 @@ public class MinimumSumOfSquaredDifference {
             int sum = 0;
 
             Map<Integer, Integer> map = new HashMap<>();
-            for(int i = 0; i < n; i++) {
+            for (int i = 0; i < n; i++) {
                 int a = nums1[i];
                 int b = nums2[i];
 
                 int diff = Math.abs(a - b);
-                if(diff != 0) {
+                if (diff != 0) {
                     map.put(diff, map.getOrDefault(diff, 0) + 1);
                 }
             }
 
             PriorityQueue<Integer> maxHeap = new PriorityQueue<>((a, b) -> b - a);
-            for(var key : map.keySet()) {
+            for (var key : map.keySet()) {
                 maxHeap.offer(key);
             }
 
             int k = k1 + k2;
-            while(k > 0 && !maxHeap.isEmpty()) {
+            while (k > 0 && !maxHeap.isEmpty()) {
                 int diff = maxHeap.poll();
                 int count = map.get(diff);
 
-                if(count <= k) {
+                if (count <= k) {
                     map.remove(diff);
 
                     int newDiff = diff - 1;
-                    if(newDiff != 0) {
-                        if(!map.containsKey(newDiff)) {
+                    if (newDiff != 0) {
+                        if (!map.containsKey(newDiff)) {
                             maxHeap.offer(newDiff);
                         }
 
@@ -53,8 +114,8 @@ public class MinimumSumOfSquaredDifference {
                     maxHeap.offer(diff);
 
                     int newDiff = diff - 1;
-                    if(newDiff != 0) {
-                        if(!map.containsKey(newDiff)) {
+                    if (newDiff != 0) {
+                        if (!map.containsKey(newDiff)) {
                             maxHeap.offer(newDiff);
                         }
 
@@ -66,7 +127,7 @@ public class MinimumSumOfSquaredDifference {
             }
 
             long sumOfSquares = 0;
-            while(!maxHeap.isEmpty()) {
+            while (!maxHeap.isEmpty()) {
                 int a = maxHeap.poll();
                 int count = map.get(a);
                 sumOfSquares += (1l * a * a * count);
@@ -78,7 +139,7 @@ public class MinimumSumOfSquaredDifference {
 
     class Solution_TLE {
         public long minSumSquareDiff(int[] nums1, int[] nums2, int k1, int k2) {
-            if(nums1 == null || nums2 == null || nums1.length != nums2.length || k1 < 0 || k2 < 0) {
+            if (nums1 == null || nums2 == null || nums1.length != nums2.length || k1 < 0 || k2 < 0) {
                 return 0;
             }
 
@@ -86,7 +147,7 @@ public class MinimumSumOfSquaredDifference {
             int sum = 0;
 
             PriorityQueue<Integer> maxHeap = new PriorityQueue<>((a, b) -> b - a);
-            for(int i = 0; i < n; i++) {
+            for (int i = 0; i < n; i++) {
                 int a = nums1[i];
                 int b = nums2[i];
 
@@ -95,9 +156,9 @@ public class MinimumSumOfSquaredDifference {
             }
 
             int k = k1 + k2;
-            while(k > 0) {
+            while (k > 0) {
                 int a = maxHeap.poll();
-                if(a <= 0) {
+                if (a <= 0) {
                     break;
                 }
 
@@ -106,7 +167,7 @@ public class MinimumSumOfSquaredDifference {
             }
 
             long sumOfSquares = 0;
-            while(!maxHeap.isEmpty()) {
+            while (!maxHeap.isEmpty()) {
                 int a = maxHeap.poll();
                 sumOfSquares += (1l * a * a);
             }
