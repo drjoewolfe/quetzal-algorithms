@@ -7,17 +7,59 @@ import java.util.List;
 public class FindTargetIndicesAfterSortingArray {
     class Solution {
         public List<Integer> targetIndices(int[] nums, int target) {
+            List<Integer> indices = new ArrayList<>();
+
+            int countLessThanTarget = 0;
+            int targetCount = 0;
+
+            int n = nums.length;
+            for (int i = 0; i < n; i++) {
+                int x = nums[i];
+                if (x == target) {
+                    targetCount++;
+                } else if (x < target) {
+                    countLessThanTarget++;
+                }
+            }
+
+            for (int i = countLessThanTarget; i < countLessThanTarget + targetCount; i++) {
+                indices.add(i);
+            }
+
+            return indices;
+        }
+    }
+
+    class Solution_Correct_2 {
+        public List<Integer> targetIndices(int[] nums, int target) {
+            List<Integer> indices = new ArrayList<>();
+            Arrays.sort(nums);
+
+            int n = nums.length;
+            for (int i = 0; i < n; i++) {
+                int x = nums[i];
+                if (x == target) {
+                    indices.add(i);
+                }
+            }
+
+            return indices;
+        }
+    }
+
+    class Solution_Correct_1 {
+        public List<Integer> targetIndices(int[] nums, int target) {
             List<Integer> results = new ArrayList<>();
-            if(nums == null || nums.length == 0) {
+            if (nums == null || nums.length == 0) {
                 return results;
             }
 
             Arrays.sort(nums);
-            for(int i = 0; i < nums.length; i++) {
+            for (int i = 0; i < nums.length; i++) {
                 int val = nums[i];
-                if(val == target) {
+                if (val == target) {
                     results.add(i);
-                } else if(val > target) {
+                } else if (val > target) {
                     break;
                 }
             }
@@ -29,7 +71,7 @@ public class FindTargetIndicesAfterSortingArray {
     class Solution_BinarySearch {
         public List<Integer> targetIndices(int[] nums, int target) {
             List<Integer> results = new ArrayList<>();
-            if(nums == null || nums.length == 0) {
+            if (nums == null || nums.length == 0) {
                 return results;
             }
 
@@ -37,8 +79,8 @@ public class FindTargetIndicesAfterSortingArray {
             int start = binarySearchForStart(nums, target);
             int end = binarySearchForEnd(nums, target);
 
-            if(start != -1) {
-                for(int i = start; i <= end; i++) {
+            if (start != -1) {
+                for (int i = start; i <= end; i++) {
                     results.add(i);
                 }
             }
@@ -51,13 +93,13 @@ public class FindTargetIndicesAfterSortingArray {
             int right = nums.length - 1;
 
             int index = -1;
-            while(left <= right) {
+            while (left <= right) {
                 int mid = left + (right - left) / 2;
 
-                if(nums[mid] == target) {
+                if (nums[mid] == target) {
                     index = mid;
                     right = mid - 1;
-                } else if(nums[mid] < target) {
+                } else if (nums[mid] < target) {
                     left = mid + 1;
                 } else {
                     right = mid - 1;
@@ -72,13 +114,13 @@ public class FindTargetIndicesAfterSortingArray {
             int right = nums.length - 1;
 
             int index = -1;
-            while(left <= right) {
+            while (left <= right) {
                 int mid = left + (right - left) / 2;
 
-                if(nums[mid] == target) {
+                if (nums[mid] == target) {
                     index = mid;
                     left = mid + 1;
-                } else if(nums[mid] < target) {
+                } else if (nums[mid] < target) {
                     left = mid + 1;
                 } else {
                     right = mid - 1;
