@@ -3,7 +3,42 @@ package org.jwolfe.quetzal.algorithms.lc;
 public class CountDaysSpentTogether {
     class Solution {
         public int countDaysTogether(String arriveAlice, String leaveAlice, String arriveBob, String leaveBob) {
-            if(arriveAlice == null || leaveAlice == null || arriveBob == null || leaveBob == null || arriveAlice.length() != 5 || leaveAlice.length() != 5 || arriveBob.length() != 5 || leaveBob.length() != 5) {
+            int[] daysInMonth = new int[]{0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+
+            int[] cumulativeDaysByMonth = new int[13];
+            cumulativeDaysByMonth[1] = daysInMonth[1];
+            for (int i = 1; i <= 12; i++) {
+                cumulativeDaysByMonth[i] = cumulativeDaysByMonth[i - 1] + daysInMonth[i];
+            }
+
+            int aliceArriveMonth = Integer.parseInt(arriveAlice.substring(0, 2));
+            int aliceArriveDay = Integer.parseInt(arriveAlice.substring(3, 5));
+            int aliceLeaveMonth = Integer.parseInt(leaveAlice.substring(0, 2));
+            int aliceLeaveDay = Integer.parseInt(leaveAlice.substring(3, 5));
+            int bobArriveMonth = Integer.parseInt(arriveBob.substring(0, 2));
+            int bobArriveDay = Integer.parseInt(arriveBob.substring(3, 5));
+            int bobLeaveMonth = Integer.parseInt(leaveBob.substring(0, 2));
+            int bobLeaveDay = Integer.parseInt(leaveBob.substring(3, 5));
+
+            int aliceArriveDate = cumulativeDaysByMonth[aliceArriveMonth - 1] + aliceArriveDay;
+            int aliceLeaveDate = cumulativeDaysByMonth[aliceLeaveMonth - 1] + aliceLeaveDay;
+            int bobArriveDate = cumulativeDaysByMonth[bobArriveMonth - 1] + bobArriveDay;
+            int bobLeaveDate = cumulativeDaysByMonth[bobLeaveMonth - 1] + bobLeaveDay;
+
+            if (aliceLeaveDate < bobArriveDate || bobLeaveDate < aliceArriveDate) {
+                return 0;
+            }
+
+            int maxArrive = Math.max(aliceArriveDate, bobArriveDate);
+            int minLeave = Math.min(aliceLeaveDate, bobLeaveDate);
+
+            return minLeave - maxArrive + 1;
+        }
+    }
+
+    class Solution_Correct_1 {
+        public int countDaysTogether(String arriveAlice, String leaveAlice, String arriveBob, String leaveBob) {
+            if (arriveAlice == null || leaveAlice == null || arriveBob == null || leaveBob == null || arriveAlice.length() != 5 || leaveAlice.length() != 5 || arriveBob.length() != 5 || leaveBob.length() != 5) {
                 return -1;
             }
 
@@ -15,7 +50,7 @@ public class CountDaysSpentTogether {
             int[] latestArrival = getMax(arriveAliceDate, arriveBobDate);
             int[] earliestDeparture = getMin(leaveAliceDate, leaveBobDate);
 
-            if((latestArrival[0] > earliestDeparture[0])
+            if ((latestArrival[0] > earliestDeparture[0])
                     || ((latestArrival[0] == earliestDeparture[0]) && (latestArrival[1] > earliestDeparture[1]))) {
                 return 0;
             }
@@ -28,17 +63,17 @@ public class CountDaysSpentTogether {
             int month = Integer.parseInt(parts[0]);
             int day = Integer.parseInt(parts[1]);
 
-            return new int[] {month, day};
+            return new int[]{month, day};
         }
 
         private int[] getMax(int[] date1, int[] date2) {
-            if(date1[0] > date2[0]) {
+            if (date1[0] > date2[0]) {
                 return date1;
-            } else if(date1[0] < date2[0]) {
+            } else if (date1[0] < date2[0]) {
                 return date2;
             }
 
-            if(date1[1] > date2[1]) {
+            if (date1[1] > date2[1]) {
                 return date1;
             }
 
@@ -46,13 +81,13 @@ public class CountDaysSpentTogether {
         }
 
         private int[] getMin(int[] date1, int[] date2) {
-            if(date1[0] < date2[0]) {
+            if (date1[0] < date2[0]) {
                 return date1;
-            } else if(date1[0] > date2[0]) {
+            } else if (date1[0] > date2[0]) {
                 return date2;
             }
 
-            if(date1[1] < date2[1]) {
+            if (date1[1] < date2[1]) {
                 return date1;
             }
 
@@ -60,16 +95,16 @@ public class CountDaysSpentTogether {
         }
 
         private int getDiffDays(int[] date1, int[] date2) {
-            if(date1[0] == date2[0]) {
+            if (date1[0] == date2[0]) {
                 return date2[1] - date1[1] + 1;
             }
 
-            int[] daysInMonth = new int[] {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+            int[] daysInMonth = new int[]{31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
 
             int totalDays = daysInMonth[date1[0] - 1] - date1[1] + 1;
 
             // Months
-            for(int i = date1[0] + 1; i < date2[0]; i++) {
+            for (int i = date1[0] + 1; i < date2[0]; i++) {
                 totalDays += daysInMonth[i - 1];
             }
 
