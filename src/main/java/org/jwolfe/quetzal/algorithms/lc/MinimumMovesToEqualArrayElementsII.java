@@ -5,7 +5,26 @@ import java.util.Arrays;
 public class MinimumMovesToEqualArrayElementsII {
     class Solution {
         public int minMoves2(int[] nums) {
-            if(nums == null || nums.length < 2) {
+            if (nums == null || nums.length < 2) {
+                return 0;
+            }
+
+            Arrays.sort(nums);
+            int n = nums.length;
+            int median = nums[n / 2];
+
+            int moves = 0;
+            for (int x : nums) {
+                moves += Math.abs(median - x);
+            }
+
+            return moves;
+        }
+    }
+
+    class Solution_Correct_1 {
+        public int minMoves2(int[] nums) {
+            if (nums == null || nums.length < 2) {
                 return 0;
             }
 
@@ -14,7 +33,7 @@ public class MinimumMovesToEqualArrayElementsII {
 
             int median = nums[n / 2];
             int moves = 0;
-            for(int a : nums) {
+            for (int a : nums) {
                 moves += Math.abs(median - a);
             }
 
@@ -24,19 +43,19 @@ public class MinimumMovesToEqualArrayElementsII {
 
     class Solution_Incorrect {
         public int minMoves2(int[] nums) {
-            if(nums == null || nums.length < 2) {
+            if (nums == null || nums.length < 2) {
                 return 0;
             }
 
             int n = nums.length;
             int sum = 0;
-            for(int a : nums) {
+            for (int a : nums) {
                 sum += a;
             }
 
             int avg = sum / n;
             int moves = 0;
-            for(int a : nums) {
+            for (int a : nums) {
                 moves += Math.abs(avg - a);
             }
 
