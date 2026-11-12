@@ -10,6 +10,40 @@ public class LongestStrictlyIncreasingOrStrictlyDecreasingSubarray {
             int n = nums.length;
 
             int maxLength = 1;
+            int increasingLength = 1;
+            int decreasingLength = 1;
+
+            for (int i = 0; i < n - 1; i++) {
+                int curr = nums[i];
+                int next = nums[i + 1];
+
+                if (curr < next) {
+                    increasingLength++;
+                    decreasingLength = 1;
+                } else if (curr > next) {
+                    increasingLength = 1;
+                    decreasingLength++;
+                } else {
+                    increasingLength = 1;
+                    decreasingLength = 1;
+                }
+
+                maxLength = Math.max(maxLength, Math.max(increasingLength, decreasingLength));
+            }
+
+            return maxLength;
+        }
+    }
+
+    class Solution_Correct_2 {
+        public int longestMonotonicSubarray(int[] nums) {
+            if (nums == null || nums.length == 0) {
+                return 0;
+            }
+
+            int n = nums.length;
+
+            int maxLength = 1;
             int incrLength = 1;
             int decrLength = 1;
 
